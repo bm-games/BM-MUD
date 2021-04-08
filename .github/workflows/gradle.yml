@@ -41,13 +41,18 @@ jobs:
     - name: Generate API documentation
       if: ${{github.event_name == 'push'}}
       run: ./gradlew dokkaHtml
-    - name: Deploy API documentation to Github Pages
+    - name: Move docs and test reports
+      run: |
+        mkdir pages
+        mv build/dokka/html/ pages/docs 
+        mv build/reports/tests/test pages/tests
+    - name: Deploy KDocs and test reports to Github Pages
       if: ${{github.event_name == 'push'}}
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: docs
-        FOLDER: server/build/dokka/html
+        BRANCH: gh-pages
+        FOLDER: server/pages
     - name: Cleanup Gradle Cache
       # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
       # Restoring these files from a GitHub Actions cache might cause problems for future builds.
