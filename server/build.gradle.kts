@@ -4,9 +4,11 @@ val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
 val kotest_version: String by project
+val jacoco_version: String by project
 
 plugins {
     application
+    jacoco
     kotlin("jvm") version "1.4.32"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
     id("org.jetbrains.dokka") version "1.4.30"
@@ -43,7 +45,16 @@ dependencies {
     testImplementation ("io.kotest:kotest-property-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-assertions-ktor:$kotest_version")
 
+
 }
+
+tasks.withType<JacocoReport>{
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = false
+    }
+}
+
 
 tasks.withType<Test> {
     useJUnitPlatform()
