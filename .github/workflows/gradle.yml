@@ -50,7 +50,7 @@ jobs:
       run: chmod +x gradlew
           
     - name: Gradle Build and Sonarqube
-      run: ./gradlew build sonarqube --info
+      run: ./gradlew build
    
     - name: Codecov
       run: |
