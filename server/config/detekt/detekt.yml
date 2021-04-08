@@ -350,6 +350,7 @@ formatting:
 
 naming:
   active: true
+  excludes: ['**/*.gradle.kts']
   ClassNaming:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']

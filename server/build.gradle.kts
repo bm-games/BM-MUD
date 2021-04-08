@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.sonarqube.gradle.SonarQubeTask
 
 val ktor_version: String by project
 val kotlin_version: String by project
@@ -16,7 +15,6 @@ plugins {
     id("org.jetbrains.dokka") version "1.4.30"
     jacoco
     id("io.gitlab.arturbosch.detekt") version "1.16.0"
-    id("org.sonarqube") version "3.1.1"
 }
 
 group = "net.bmgames"
@@ -80,16 +78,6 @@ detekt {
         html.enabled = true
         xml.enabled = true
         txt.enabled = false
-    }
-}
-
-sonarqube {
-    properties {
-        property("sonar.projectKey", "bm-games_BM-MUD")
-        property("sonar.organization", "bm-games")
-        property("sonar.host.url", "https://sonarcloud.io")
-        property("detekt.sonar.kotlin.config.path", "$rootDir/config/detekt/detekt.yml")
-        property("sonar.kotlin.detekt.reportPaths", "$rootDir/build/reports/detekt/detekt.xml")
     }
 }
 
