@@ -1,6 +1,7 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:net.bmgames.plugins////PointingToDeclaration/server/net.bmgames.plugins/index.html
+$dokka.location:net.bmgames.plugins//PERIOD/#/PointingToDeclaration/server/net.bmgames.plugins/-p-e-r-i-o-d.html
 $dokka.location:net.bmgames.plugins//configureMonitoring/io.ktor.application.Application#/PointingToDeclaration/server/net.bmgames.plugins/configure-monitoring.html
 $dokka.location:net.bmgames.plugins//configureRouting/io.ktor.application.Application#/PointingToDeclaration/server/net.bmgames.plugins/configure-routing.html
 $dokka.location:net.bmgames.plugins//configureSecurity/io.ktor.application.Application#/PointingToDeclaration/server/net.bmgames.plugins/configure-security.html
