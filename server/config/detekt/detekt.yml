@@ -46,30 +46,6 @@ output-reports:
   # - 'XmlOutputReport'
   # - 'HtmlOutputReport'
 
-comments:
-  active: true
-  excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
-  AbsentOrWrongFileLicense:
-    active: false
-    licenseTemplateFile: 'license.template'
-    licenseTemplateIsRegex: false
-  CommentOverPrivateFunction:
-    active: false
-  CommentOverPrivateProperty:
-    active: false
-  EndOfSentenceFormat:
-    active: false
-    endOfSentenceFormat: '([.?!][ \t\n\r\f<])|([.?!:]$)'
-  UndocumentedPublicClass:
-    active: false
-    searchInNestedClass: true
-    searchInInnerClass: true
-    searchInInnerObject: true
-    searchInInnerInterface: true
-  UndocumentedPublicFunction:
-    active: false
-  UndocumentedPublicProperty:
-    active: false
 
 complexity:
   active: true
@@ -321,7 +297,7 @@ formatting:
     active: true
     autoCorrect: true
   NoWildcardImports:
-    active: true
+    active: false
   PackageName:
     active: true
     autoCorrect: true
@@ -731,6 +707,6 @@ style:
   VarCouldBeVal:
     active: true
   WildcardImport:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     excludeImports: ['java.util.*', 'kotlinx.android.synthetic.*']

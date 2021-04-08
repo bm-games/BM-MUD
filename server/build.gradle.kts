@@ -71,11 +71,25 @@ tasks.withType<JacocoReport> {
     }
 }
 
+detekt {
+    config = files("$rootDir/config/detekt/detekt.yml")
+    ignoreFailures = true
+    parallel = true
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        txt.enabled = false
+    }
+}
+
 sonarqube {
     properties {
-        property ("sonar.projectKey", "bm-games_BM-MUD")
-        property ("sonar.organization", "bm-games")
-        property ("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.projectKey", "bm-games_BM-MUD")
+        property("sonar.organization", "bm-games")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("detekt.sonar.kotlin.config.path", "$rootDir/config/detekt/detekt.yml")
+        property("sonar.kotlin.detekt.reportPaths", "$rootDir/build/reports/detekt/detekt.xml")
     }
 }
 
