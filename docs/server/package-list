@@ -1,0 +1,31 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:net.bmgames.plugins////PointingToDeclaration/server/net.bmgames.plugins/index.html
+$dokka.location:net.bmgames.plugins//configureMonitoring/io.ktor.application.Application#/PointingToDeclaration/server/net.bmgames.plugins/configure-monitoring.html
+$dokka.location:net.bmgames.plugins//configureRouting/io.ktor.application.Application#/PointingToDeclaration/server/net.bmgames.plugins/configure-routing.html
+$dokka.location:net.bmgames.plugins//configureSecurity/io.ktor.application.Application#/PointingToDeclaration/server/net.bmgames.plugins/configure-security.html
+$dokka.location:net.bmgames.plugins//configureSerialization/io.ktor.application.Application#/PointingToDeclaration/server/net.bmgames.plugins/configure-serialization.html
+$dokka.location:net.bmgames.plugins//configureSockets/io.ktor.application.Application#/PointingToDeclaration/server/net.bmgames.plugins/configure-sockets.html
+$dokka.location:net.bmgames.plugins/MyLocation///PointingToDeclaration/server/net.bmgames.plugins/-my-location/index.html
+$dokka.location:net.bmgames.plugins/MyLocation/MyLocation/#kotlin.String#kotlin.Int#kotlin.String/PointingToDeclaration/server/net.bmgames.plugins/-my-location/-my-location.html
+$dokka.location:net.bmgames.plugins/MyLocation/arg1/#/PointingToDeclaration/server/net.bmgames.plugins/-my-location/arg1.html
+$dokka.location:net.bmgames.plugins/MyLocation/arg2/#/PointingToDeclaration/server/net.bmgames.plugins/-my-location/arg2.html
+$dokka.location:net.bmgames.plugins/MyLocation/name/#/PointingToDeclaration/server/net.bmgames.plugins/-my-location/name.html
+$dokka.location:net.bmgames.plugins/MySession///PointingToDeclaration/server/net.bmgames.plugins/-my-session/index.html
+$dokka.location:net.bmgames.plugins/MySession/MySession/#kotlin.Int/PointingToDeclaration/server/net.bmgames.plugins/-my-session/-my-session.html
+$dokka.location:net.bmgames.plugins/MySession/count/#/PointingToDeclaration/server/net.bmgames.plugins/-my-session/count.html
+$dokka.location:net.bmgames.plugins/Type.Edit///PointingToDeclaration/server/net.bmgames.plugins/-type/-edit/index.html
+$dokka.location:net.bmgames.plugins/Type.Edit/Edit/#net.bmgames.plugins.Type/PointingToDeclaration/server/net.bmgames.plugins/-type/-edit/-edit.html
+$dokka.location:net.bmgames.plugins/Type.Edit/type/#/PointingToDeclaration/server/net.bmgames.plugins/-type/-edit/type.html
+$dokka.location:net.bmgames.plugins/Type.List///PointingToDeclaration/server/net.bmgames.plugins/-type/-list/index.html
+$dokka.location:net.bmgames.plugins/Type.List/List/#net.bmgames.plugins.Type#kotlin.Int/PointingToDeclaration/server/net.bmgames.plugins/-type/-list/-list.html
+$dokka.location:net.bmgames.plugins/Type.List/page/#/PointingToDeclaration/server/net.bmgames.plugins/-type/-list/page.html
+$dokka.location:net.bmgames.plugins/Type.List/type/#/PointingToDeclaration/server/net.bmgames.plugins/-type/-list/type.html
+$dokka.location:net.bmgames.plugins/Type///PointingToDeclaration/server/net.bmgames.plugins/-type/index.html
+$dokka.location:net.bmgames.plugins/Type/Type/#kotlin.String/PointingToDeclaration/server/net.bmgames.plugins/-type/-type.html
+$dokka.location:net.bmgames.plugins/Type/name/#/PointingToDeclaration/server/net.bmgames.plugins/-type/name.html
+$dokka.location:net.bmgames////PointingToDeclaration/server/net.bmgames/index.html
+$dokka.location:net.bmgames//main/#/PointingToDeclaration/server/net.bmgames/main.html
+net.bmgames
+net.bmgames.plugins
+
