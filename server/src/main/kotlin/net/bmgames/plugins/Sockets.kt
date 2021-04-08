@@ -8,10 +8,12 @@ import io.ktor.response.*
 import io.ktor.request.*
 import io.ktor.routing.*
 
+const val PERIOD: Long = 15
+
 fun Application.configureSockets() {
     install(WebSockets) {
-        pingPeriod = Duration.ofSeconds(15)
-        timeout = Duration.ofSeconds(15)
+        pingPeriod = Duration.ofSeconds(PERIOD)
+        timeout = Duration.ofSeconds(PERIOD)
         maxFrameSize = Long.MAX_VALUE
         masking = false
     }
