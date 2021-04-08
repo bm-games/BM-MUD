@@ -9,6 +9,7 @@ plugins {
     application
     kotlin("jvm") version "1.4.32"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
+    id("org.jetbrains.dokka") version "1.4.30"
 }
 
 group = "net.bmgames"
