@@ -2,6 +2,7 @@ package net.bmgames
 
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import net.bmgames.Communication.MailNotifier
 import net.bmgames.plugins.*
 
 fun main() {
