@@ -5,9 +5,8 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 class MailNotifier : Notifier {
-    override fun send(user: User?,message: String?, mailSubject: String?, messageType: String) {
+    override fun send(recipient: String?, message: String?, mailSubject: String?) {
         val emailFrom = "support@bm-games.net"
-        val emailTo = user.email
         val properties = System.getProperties()
         with(properties)
         {//load Config later on
@@ -24,11 +23,30 @@ class MailNotifier : Notifier {
         val mimeMessage = MimeMessage(session)
         with(mimeMessage){
             setFrom(InternetAddress(emailFrom))
-            addRecipient(Message.RecipientType.TO, InternetAddress(emailTo))
+            addRecipient(Message.RecipientType.TO, InternetAddress(recipient))
             subject = mailSubject
             setContent(message, "text/html; charset=utf-8")
         }
         Transport.send(mimeMessage)
+    }
+
+    fun sendMailReset(user: User?) {
+        val mailSubject: String = "Reset your password | BM-Games |  "
+        val recipient: String = user.email
+        val messageLink: String = "" //Methodenaufruf wenn implementiert
+        val message: String =   "<html><body><h1>Reset your password.</h1>" +
+                                "<p>Click the link below to reset your password</p><p href=$messageLink>Link</p></body></html>"
+
+        send(recipient, message, mailSubject)
+    }
+    fun sendMailRegister(user: User?) {
+        val mailSubject: String = "Registration confirmation | BM-Games | SWE-Project SUCK MA BALLS "
+        val recipient: String = user.email
+        val messageLink: String = "" //Methodenaufruf wenn implementiert
+        val message: String =   "<html><body><h1>Confirm your registration.</h1>" +
+                                "<p>Click the link below to confirm your registration</p><p href=$messageLink>Link</p></body></html>"
+
+        send(recipient, message, mailSubject)
     }
 
 
