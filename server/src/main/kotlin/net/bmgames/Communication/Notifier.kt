@@ -1,5 +1,5 @@
 package net.bmgames.Communication
 
 interface Notifier {
-    fun send(message: String?, mailSubject: String?)
+    fun send(user: User?,message: String?, mailSubject: String?, messageType: String)
 }
