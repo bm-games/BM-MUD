@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-configuration',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfigurationComponent implements OnInit {
 
-  constructor() { }
+  title = "BM-MUD: Configurator";
+
+  constructor(private titleService: Title) { }
 
   ngOnInit(): void {
+    this.setTitle(this.title);
+  }
+
+  public setTitle(newTitle: string){
+    this.titleService.setTitle(newTitle);
   }
 
 }

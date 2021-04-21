@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-auth-component',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthComponent implements OnInit {
 
-  constructor() { }
+  title = "BM-MUD: Authentication";
+
+  constructor(private titleService: Title) { }
 
   ngOnInit(): void {
+    this.setTitle(this.title);
   }
 
+  public setTitle(newTitle: string){
+    this.titleService.setTitle(newTitle);
+  }
 }
