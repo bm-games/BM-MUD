@@ -6,6 +6,7 @@ val kotlin_version: String by project
 val logback_version: String by project
 val kotest_version: String by project
 val jacoco_version: String by project
+val exposedVersion: String by project
 
 plugins {
     application
@@ -39,6 +40,7 @@ dependencies {
     implementation("io.ktor:ktor-webjars:$ktor_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("io.ktor:ktor-websockets:$ktor_version")
+    implementation("io.ktor:ktor-client-websockets:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
@@ -49,9 +51,15 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-property-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-assertions-ktor:$kotest_version")
+    implementation("org.openjdk.jmh:jmh-core:1.29")
+    implementation("org.openjdk.jmh:jmh-generator-annprocess:1.29")
 
-    detektPlugins("com.krossovochkin.detekt:umler-scanner:0.1.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
 
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("com.h2database:h2:1.4.199")
 }
 
 tasks.withType<KotlinCompile> {
@@ -72,7 +80,7 @@ tasks.withType<JacocoReport> {
     }
 }
 
-tasks.withType<Detekt>{
+tasks.withType<Detekt> {
     jvmTarget = "1.8"
 }
 
