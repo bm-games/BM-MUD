@@ -1,0 +1,22 @@
+.configArea{
+  height: 100%;
+  max-height: 800px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  display: flex;
+}
+.inputArea{
+  width: 50%;
+  height: 100%;
+  margin-bottom: 20px;
+  border: 2px solid #C0C0C0;
+  float: left;
+}
+.dataArea{
+  width: 50%;
+  height: 100%;
+  border-right: 2px solid #C0C0C0;
+  border-top: 2px solid #C0C0C0;
+  border-bottom: 2px solid #C0C0C0;
+  float: right;
+}

@@ -1,0 +1,95 @@
+.configArea{
+  height: 100%;
+  max-height: 800px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+// left box
+.inputArea{
+  width: 50%;
+  height: 100%;
+  margin-bottom: 20px;
+  border: 2px solid #C0C0C0;
+  float: left;
+  input {
+    font-size: 16pt;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+  }
+}
+
+.inputAreaHeader{
+  position: relative;
+  border-bottom: 1px solid #C0C0C0;
+  height: 100px;
+  width: 80%;
+  margin: auto auto 100px;
+  display: flex;
+  align-items: center;
+}
+
+.inputName{
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+
+.inputAreaBody{
+  width: 60%;
+  margin: auto auto 30px;
+  height: 70%;
+  div{
+    height: 100px;
+    label{
+      font-size: 16pt;
+      width: 50%;
+    }
+    input{
+      float: right;
+      width: 50%;
+    }
+    .slider{
+      float: right;
+      width: 50%;
+      color: black;
+    }
+    textarea{
+      float: right;
+      width: 50%;
+      height: 100px;
+      resize: none;
+      outline: none;
+      font-size: 12pt;
+    }
+  }
+  .divBtn{
+    position: relative;
+    button{
+      font-size: 16pt;
+      position: absolute;
+      top: 200%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      background-color: #DC3545;
+      border-radius: 5px;
+      color: white;
+      height: 35px;
+      border: none;
+    }
+  }
+}
+
+// right box
+.dataArea{
+  width: 50%;
+  height: 100%;
+  border-right: 2px solid #C0C0C0;
+  border-top: 2px solid #C0C0C0;
+  border-bottom: 2px solid #C0C0C0;
+  float: right;
+}

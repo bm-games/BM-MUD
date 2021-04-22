@@ -12,4 +12,8 @@ export class RaceComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  sliderValue(value: number) {
+    return value;
+  }
+
 }
