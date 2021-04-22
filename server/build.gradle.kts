@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktor_version: String by project
@@ -31,6 +32,7 @@ repositories {
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-auth:$ktor_version")
+    implementation("io.ktor:ktor-auth-jwt:$ktor_version")
     implementation("io.ktor:ktor-server-sessions:$ktor_version")
     implementation("io.ktor:ktor-locations:$ktor_version")
     implementation("io.ktor:ktor-server-host-common:$ktor_version")
@@ -48,6 +50,7 @@ dependencies {
     testImplementation("io.kotest:kotest-property-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-assertions-ktor:$kotest_version")
 
+    detektPlugins("com.krossovochkin.detekt:umler-scanner:0.1.1")
 
 }
 
@@ -69,6 +72,11 @@ tasks.withType<JacocoReport> {
     }
 }
 
+tasks.withType<Detekt>{
+    jvmTarget = "1.8"
+}
+
+
 detekt {
     config = files("$rootDir/config/detekt/detekt.yml")
     ignoreFailures = true
@@ -80,6 +88,7 @@ detekt {
         txt.enabled = false
     }
 }
+
 
 
 
