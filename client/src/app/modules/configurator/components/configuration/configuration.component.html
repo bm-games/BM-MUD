@@ -1,2 +1,15 @@
 <h2>Configurator</h2>
-<router-outlet></router-outlet>
+<div>
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="race">Rassen</a>
+    <a mat-tab-link routerLink="/dashboard">Klassen</a>
+    <a mat-tab-link routerLink="/dashboard">Räume</a>
+    <a mat-tab-link routerLink="/dashboard">NPCs</a>
+    <a mat-tab-link routerLink="/dashboard">Startequipment</a>
+    <a mat-tab-link routerLink="/dashboard">Befehle</a>
+  </nav>
+
+  <router-outlet></router-outlet>
+</div>
+
+
