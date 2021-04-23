@@ -39,8 +39,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         
-    - name: npm install and npm run build
+    - name: Install npm packages
+      run: npm i
+            
+    - name: Run Tests
+      run: npm run test:prod
+        
+    - name: Codecov
       run: |
-        npm i
-        npm run build:prod
-        npm run test:prod
+        bash <(curl -s https://codecov.io/bash)
+          
+    - name: Run E2E Tests
+      run: |
+        npm run e2e:prod
+   
