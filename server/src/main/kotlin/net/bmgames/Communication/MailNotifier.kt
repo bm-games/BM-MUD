@@ -1,11 +1,13 @@
 package net.bmgames.Communication
 
+import net.bmgames.authentication.AuthHelper
+import net.bmgames.authentication.User
 import javax.mail.*
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 class MailNotifier : Notifier {
-    override fun send(recipient: String?, message: String?, mailSubject: String?) {
+    override fun send(recipient: String, message: String, mailSubject: String) {
         val emailFrom = "support@bm-games.net"
         val properties = System.getProperties()
         with(properties)
@@ -30,24 +32,20 @@ class MailNotifier : Notifier {
         Transport.send(mimeMessage)
     }
 
-    fun sendMailReset(user: User?) {
-        val mailSubject: String = "Reset your password | BM-Games |  "
+    fun sendMailReset(user: User) {
+        val mailSubject = "Reset your password | BM-Games |  "
         val recipient: String = user.email
-        val messageLink: String = "" //Methodenaufruf wenn implementiert
         val message: String =   "<html><body><h1>Reset your password.</h1>" +
-                                "<p>Click the link below to reset your password</p><p href=$messageLink>Link</p></body></html>"
+                                "<p>Click the link below to reset your password</p><p>${AuthHelper.unhashPassword(user.passwordHash)}</p></body></html>"
 
         send(recipient, message, mailSubject)
     }
-    fun sendMailRegister(user: User?) {
-        val mailSubject: String = "Registration confirmation | BM-Games | SWE-Project SUCK MA BALLS "
+    fun sendMailRegister(user: User) {
+        val mailSubject = "Registration confirmation | BM-Games | SWE-Project  "
         val recipient: String = user.email
-        val messageLink: String = "" //Methodenaufruf wenn implementiert
         val message: String =   "<html><body><h1>Confirm your registration.</h1>" +
-                                "<p>Click the link below to confirm your registration</p><p href=$messageLink>Link</p></body></html>"
+                                "<p>Click the link below to confirm your registration</p><a>${user.registrationKey}</a></body></html>"
 
         send(recipient, message, mailSubject)
     }
-
-
 }

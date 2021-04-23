@@ -6,6 +6,7 @@ val kotlin_version: String by project
 val logback_version: String by project
 val kotest_version: String by project
 val jacoco_version: String by project
+val exposedVersion: String by project
 
 plugins {
     application
@@ -46,6 +47,10 @@ dependencies {
     implementation("com.sun.mail:javax.mail:1.6.2")
 
     implementation("org.webjars:jquery:3.2.1")
+
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")
