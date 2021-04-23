@@ -13,8 +13,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
 
     // Analysis & Reports
-    id("org.jetbrains.dokka") version "1.4.30"
     jacoco
+    id("org.jetbrains.dokka") version "1.4.32"
     id("io.gitlab.arturbosch.detekt") version "1.16.0"
 }
 
@@ -49,8 +49,6 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-property-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-assertions-ktor:$kotest_version")
-
-    detektPlugins("com.krossovochkin.detekt:umler-scanner:0.1.1")
 
 }
 
