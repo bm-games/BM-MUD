@@ -3,6 +3,7 @@
 package net.bmgames.configurator
 
 import io.ktor.application.*
+import io.ktor.http.*
 import io.ktor.locations.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -23,6 +24,7 @@ fun Application.installConfigEndpoint() {
         post<CreateConfig> {
             val config = call.receive<DungeonConfig>()
             println(config)
+            call.respond(HttpStatusCode.Accepted)
         }
     }
 }
