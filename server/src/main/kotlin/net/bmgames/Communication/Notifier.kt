@@ -1,5 +1,20 @@
 package net.bmgames.Communication
 
+/**
+ * Notifier
+ *
+ * @constructor Create empty Notifier
+ */
 interface Notifier {
-    fun send(recipient: String,message: String, mailSubject: String)
+    /**
+     * Interface to send Message
+     *
+     * @param recipient
+     * @param message
+     * @param mailSubject
+     */
+    fun send(
+        recipient: String,
+        message: String,
+        mailSubject: String)
 }

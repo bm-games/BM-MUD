@@ -8,6 +8,7 @@ import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 
 
+
 object usertable/*: IdTable<String>()*/ :Table() {
     val email = varchar("email", 100)
     val username = varchar("username", 100)
@@ -17,12 +18,18 @@ object usertable/*: IdTable<String>()*/ :Table() {
     override val primaryKey = PrimaryKey(username, name = "username")
     //override val id: Column<EntityID<String>> = username.entityId()
 }
+
 /**
- * @param email Identifies user uniquely.
- * @param username Identifies user uniquely.
- * @param passwordHash Hashed User Password.
- * @param mailVerified Boolean value which determines whether a user has confirmed his e-mail or not.
- * @param registrationKey Is only assigned when User maiLVerified is not true and value is used to verify this user.
+ * User Data class
+ *
+ * @property email Identifies user uniquely.
+ * @property username Identifies user uniquely.
+ * @property passwordHash Hashed User Password.
+ * @property mailVerified Boolean value which determines whether a user has confirmed his e-mail or not.
+ * @property registrationKey Is only assigned when User maiLVerified is not true and value is used to verify this user.
+ *
+ * @constructor is also the primary constructor of the class
+ *
  * */
 class User(
     val email: String,
