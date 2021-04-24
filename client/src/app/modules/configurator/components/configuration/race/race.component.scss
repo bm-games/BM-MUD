@@ -41,7 +41,7 @@
 .inputAreaBody{
   width: 60%;
   margin: auto auto 30px;
-  height: 70%;
+  height: 60%;
   div{
     height: 100px;
     label{
@@ -66,21 +66,23 @@
       font-size: 12pt;
     }
   }
-  .divBtn{
-    position: relative;
-    button{
-      font-size: 16pt;
-      position: absolute;
-      top: 200%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-      background-color: #DC3545;
-      border-radius: 5px;
-      color: white;
-      height: 35px;
-      border: none;
-    }
+}
+
+.divBtn{
+  position: relative;
+  margin-bottom: 50px;
+  button{
+    font-size: 16pt;
+    position: absolute;
+    //top: 200%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: #DC3545;
+    border-radius: 5px;
+    color: white;
+    height: 35px;
+    border: none;
   }
 }
 
