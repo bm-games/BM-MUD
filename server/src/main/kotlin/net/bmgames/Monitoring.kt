@@ -1,4 +1,4 @@
-package net.bmgames.plugins
+package net.bmgames
 
 import io.ktor.application.*
 import io.ktor.features.*

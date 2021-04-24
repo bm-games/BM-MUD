@@ -1,25 +1,31 @@
 @file:OptIn(KtorExperimentalLocationsAPI::class)
-package net.bmgames.plugins
+package net.bmgames
 
 import io.ktor.application.*
-import io.ktor.http.*
-import io.ktor.http.content.*
+import io.ktor.features.*
 import io.ktor.locations.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.serialization.*
 import io.ktor.webjars.*
+import net.bmgames.configurator.installConfigEndpoint
+import net.bmgames.game.installGameEndpoint
 import java.time.ZoneId
 
 fun Application.configureRouting() {
-    install(Locations) {
+    install(ContentNegotiation) {
+        json()
     }
+
+    install(Locations)
 
     install(Webjars) {
         path = "/webjars" //defaults to /webjars
         zone = ZoneId.systemDefault() //defaults to ZoneId.systemDefault()
     }
 
-    routing {
+    installConfigEndpoint()
+    installGameEndpoint()
+
+    /*routing {
         get("/") {
             call.respondText("Hello World!")
         }
@@ -40,16 +46,6 @@ fun Application.configureRouting() {
         get("/webjars") {
             call.respondText("<script src='/webjars/jquery/jquery.js'></script>", ContentType.Text.Html)
         }
-    }
+    }*/
 }
 
-@Location("/location/{name}")
-class MyLocation(val name: String, val arg1: Int = 42, val arg2: String = "default")
-@Location("/type/{name}")
-data class Type(val name: String) {
-    @Location("/edit")
-    data class Edit(val type: Type)
-
-    @Location("/list/{page}")
-    data class List(val type: Type, val page: Int)
-}
