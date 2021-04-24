@@ -20,7 +20,6 @@ public class UserHandler {
     }*/
 
         val mailNotifier: MailNotifier = MailNotifier()
-        var currentUser: User? = null
 
     /**
      * Gets the user from the database based on the username

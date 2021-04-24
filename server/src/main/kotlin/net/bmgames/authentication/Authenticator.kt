@@ -14,7 +14,6 @@ var currentUser: net.bmgames.authentication.User? = null;
 class Authenticator {
    companion object{
        val userHandler: UserHandler = UserHandler()
-       val mailNotifier: MailNotifier = MailNotifier()
    }
 
     /**
