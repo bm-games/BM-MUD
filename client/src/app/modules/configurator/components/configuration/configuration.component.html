@@ -1,2 +1,20 @@
-<h2>Configurator</h2>
-<router-outlet></router-outlet>
+<body>
+  <div class="mudNameHeader">
+    <input placeholder="MUD Name"/>
+    <button>Spiel speichern</button>
+  </div>
+  <div>
+    <nav mat-tab-nav-bar>
+      <a mat-tab-link routerLink="race">Rassen</a>
+      <a mat-tab-link routerLink="class">Klassen</a>
+      <a mat-tab-link routerLink="item">Items</a>
+      <a mat-tab-link routerLink="room">Räume</a>
+      <a mat-tab-link routerLink="NPC">NPCs</a>
+      <a mat-tab-link routerLink="startequipment">Startequipment</a>
+      <a mat-tab-link routerLink="command">Befehle</a>
+    </nav>
+  </div>
+  <router-outlet></router-outlet>
+</body>
+
+

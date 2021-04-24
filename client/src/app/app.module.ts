@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ClientConfig, CONFIG} from "./client-config";
@@ -17,7 +17,8 @@ const LOCAL_CONFIG: ClientConfig = {
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,   
+    BrowserAnimationsModule
     AppRoutingModule,
     ConfiguratorModule,
     GameModule

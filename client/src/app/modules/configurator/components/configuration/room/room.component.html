@@ -1,0 +1,43 @@
+<body>
+<div class="configArea">
+  <div class="inputArea">
+    <div class="inputAreaHeader">
+      <input class="inputName" placeholder="Name" [(ngModel)]="selectedRoomName"/>
+    </div>
+    <div class="inputAreaBody">
+      <div>
+        <label>Begrüßungstext:</label>
+        <textarea [(ngModel)]="selectedRoomMessage"></textarea>
+      </div>
+      <div>
+        <label>NPCs:</label>
+        <mat-selection-list [(ngModel)]="selectedRoomNPCs">
+          <mat-list-option *ngFor="let npc of allNPCs" [value]="npc">
+            {{npc}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <div>
+        <label>Items:</label>
+        <mat-selection-list [(ngModel)]="selectedRoomItems">
+          <mat-list-option *ngFor="let item of allItems" [value]="item">
+            {{item}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="divBtn">
+      <button (click)="addRoom()">Speichern</button>
+    </div>
+  </div>
+  <div class="dataArea">
+    <div class="gameGrid">
+      <mat-grid-list [cols]="mapColumns">
+        <mat-grid-tile *ngFor="let gridValue of grid" (click)="gridRoomSelected(gridValue)" [style.background]="gridValue.color">
+          {{gridValue.index}}
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>
+</body>
