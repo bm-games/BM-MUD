@@ -8,15 +8,18 @@ import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 
 
-
-object usertable/*: IdTable<String>()*/ :Table() {
+/**
+ * Represents the Database Table
+ * */
+object usertable : Table() {
     val email = varchar("email", 100)
     val username = varchar("username", 100)
     val passwordHash = varchar("passwordHash", 100)
     val mailVerified = bool("mailVerified")
 
     override val primaryKey = PrimaryKey(username, name = "username")
-    //override val id: Column<EntityID<String>> = username.entityId()
+
+    var currentUser : User? = null
 }
 
 /**
@@ -31,12 +34,10 @@ object usertable/*: IdTable<String>()*/ :Table() {
  * @constructor is also the primary constructor of the class
  *
  * */
-class User(
+data class User(
     val email: String,
     val username: String,
     val passwordHash: String,
     val mailVerified: Boolean,
     var registrationKey: String = ""
-) /*:Entity<String>(EntityID(username, UserTable))*/ {
-    /*companion object : EntityClass<String, User>(UserTable)*/
-}
+)
