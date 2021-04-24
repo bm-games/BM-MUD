@@ -2,6 +2,8 @@ package net.bmgames.authentication
 
 import net.bmgames.Communication.MailNotifier
 
+var currentUser: net.bmgames.authentication.User? = null;
+
 class Authenticator {
    companion object{
        val userHandler: UserHandler = UserHandler()
@@ -33,7 +35,7 @@ class Authenticator {
         {
             if(user.passwordHash == AuthHelper.hashPassword(password))
             {
-                userHandler.currentUser = user
+                currentUser = user
                 return null
             }
         }

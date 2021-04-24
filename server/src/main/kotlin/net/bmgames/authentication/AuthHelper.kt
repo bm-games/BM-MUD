@@ -14,8 +14,7 @@ class AuthHelper {
         fun generatePassword() : String {
             val chars = ('a'..'Z') + ('A'..'Z') + ('0'..'9')
             fun randomToken(): String = List(PASSWORD_LENGTH) { chars.random() }.joinToString("")
-            val password = randomToken()
-            return password
+            return randomToken()
         }
 
         fun hashPassword(password: String) : String {

@@ -49,6 +49,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 
+    implementation("org.postgresql:postgresql:42.2.5")
+
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("io.kotest:kotest-runner-junit5:$kotest_version")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotest_version")
