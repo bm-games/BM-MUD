@@ -17,8 +17,8 @@ const LOCAL_CONFIG: ClientConfig = {
     AppComponent
   ],
   imports: [
-    BrowserModule,   
-    BrowserAnimationsModule
+    BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     ConfiguratorModule,
     GameModule
