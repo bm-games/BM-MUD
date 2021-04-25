@@ -1,7 +1,22 @@
 <body>
 <div class="configArea">
   <div class="inputArea">
+    <div class="inputAreaHeader">
 
+    </div>
+    <div class="inputAreaBody">
+      <div>
+        <label>Startequipment:</label>
+        <mat-selection-list [(ngModel)]="selectedEquipment">
+          <mat-list-option *ngFor="let item of allEquipment" [value]="item">
+            {{item}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="divBtn">
+      <button>Hinzufügen</button>
+    </div>
   </div>
   <div class="dataArea">
 

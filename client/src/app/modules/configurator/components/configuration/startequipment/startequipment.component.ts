@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartequipmentComponent implements OnInit {
 
+  allEquipment: string[] = ['Helm', 'Schwert', 'Heiltrank', 'Apfel', 'Lampe'];
+  selectedEquipment: string[] = [];
+
   constructor() { }
 
   ngOnInit(): void {

@@ -1,7 +1,62 @@
 <body>
 <div class="configArea">
   <div class="inputArea">
-
+    <div class="inputAreaHeader">
+      <input class="inputName" placeholder="Name"/>
+    </div>
+    <div class="inputAreaBody">
+      <div>
+        <label>Typ:</label>
+        <mat-form-field class="dropDown">
+          <mat-select [(ngModel)]="selectedNPCType">
+            <mat-option *ngFor="let type of npcTypes" [value]="type" (click)="npcTypeChanged(type)">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="divWithList">
+        <label>Items:</label>
+        <mat-selection-list [(ngModel)]="selectedNPCEquipment">
+          <mat-list-option *ngFor="let item of allEquipment" [value]="item">
+            {{item}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <div class="divWithList">
+        <label>Loottable:</label>
+        <mat-selection-list [(ngModel)]="selectedNPCItemsLoottable">
+          <mat-list-option *ngFor="let item of allItemsLoottable" [value]="item">
+            {{item}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <div *ngIf="isHostile">
+        <label>Gesundheit:</label>
+        <mat-slider class="slider" min="1" max="100" step="1"></mat-slider>
+      </div>
+      <div *ngIf="isHostile">
+        <label>Schaden:</label>
+        <mat-slider class="slider" min="1" max="100" step="1"></mat-slider>
+      </div>
+      <div *ngIf="!isHostile">
+        <label>Interaktionscommand:</label>
+        <mat-form-field class="dropDown">
+          <mat-select [(ngModel)]="selectedCommandOnInteraction">
+            <mat-option *ngFor="let command of interactionCommands" [value]="command">
+              {{command}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="!isHostile">
+        <label>Nachricht:</label>
+        <textarea></textarea>
+      </div>
+    </div>
+    <div class="divBtn">
+      <button>Hinzufügen</button>
+    </div>
   </div>
   <div class="dataArea">
 

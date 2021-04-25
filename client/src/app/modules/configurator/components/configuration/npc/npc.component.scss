@@ -5,13 +5,95 @@
   margin-bottom: 20px;
   display: flex;
 }
+
+// left box
 .inputArea{
   width: 50%;
   height: 100%;
   margin-bottom: 20px;
   border: 2px solid #C0C0C0;
   float: left;
+  input {
+    font-size: 16pt;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+  }
 }
+
+.inputAreaHeader{
+  position: relative;
+  border-bottom: 1px solid #C0C0C0;
+  height: 100px;
+  width: 80%;
+  margin: auto auto 30px;
+  display: flex;
+  align-items: center;
+}
+
+.inputName{
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+
+.inputAreaBody{
+  width: 60%;
+  margin: auto auto 30px;
+  height: 60%;
+  .divWithList{
+    height: 190px;
+  }
+  div{
+    height: 50px;
+    label{
+      font-size: 16pt;
+      width: 50%;
+    }
+    .dropDown{
+      float: right;
+      width: 50%;
+    }
+    .slider{
+      float: right;
+      width: 50%;
+      color: black;
+    }
+    .mat-selection-list{
+      float: right;
+      width: 50%;
+      height: 150px;
+      border: 1px solid #C0C0C0;
+      overflow: scroll;
+      outline: none;
+    }
+    textarea{
+      float: right;
+      width: 50%;
+      resize: none;
+      outline: none;
+    }
+  }
+}
+.divBtn{
+  position: relative;
+  button{
+    font-size: 16pt;
+    margin-top: 100px;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: #DC3545;
+    border-radius: 5px;
+    color: white;
+    height: 35px;
+    border: none;
+  }
+}
+
+// right box
 .dataArea{
   width: 50%;
   height: 100%;

@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
+  },
+  {
+    path: 'avatarConfigurator',
+    loadChildren: () => import('./modules/avatarconfigurator/avatarconfigurator.module').then(m => m.ConfiguratorModule)
   }
 ];
 

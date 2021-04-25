@@ -32,6 +32,7 @@ export class RoomComponent implements OnInit {
         color: "#C0C0C0"
       }
     }
+    this.highlightSelectedValue(0);
   }
 
   gridRoomSelected(gridV: gridValue){
