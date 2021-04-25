@@ -111,6 +111,7 @@ jobs:
     if: ${{github.ref == 'refs/heads/master'}}
     env:
       APP_NAME: ${{ 'bm-server' }}
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
     steps:
     - uses: actions/checkout@v2
     - name: Get App Version
