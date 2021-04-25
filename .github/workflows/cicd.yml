@@ -5,9 +5,9 @@ name: Test, Build, Deploy
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ dev ]
+    branches: [ master ]
 
 jobs:  
   build-client:  
