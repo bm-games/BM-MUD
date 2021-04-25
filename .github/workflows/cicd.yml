@@ -44,8 +44,8 @@ jobs:
     - name: Codecov
       run: bash <(curl -s https://codecov.io/bash)
           
-    - name: Run E2E Tests
-      run: npm run e2e:prod
+  #  - name: Run E2E Tests
+  #    run: npm run e2e:prod
       
     - name: Build
       run: npm run build:prod
