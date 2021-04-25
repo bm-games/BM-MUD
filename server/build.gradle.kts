@@ -98,7 +98,7 @@ tasks.withType<JacocoReport> {
     }
 }
 
-tasks.withType<Detekt>{
+tasks.withType<Detekt> {
     jvmTarget = "1.8"
 }
 
