@@ -9,7 +9,6 @@
 ## Client: Angular
 
 
-
 ## Server
 * Sprache: Kotlin 1.4
 * Server-Framework: Ktor
