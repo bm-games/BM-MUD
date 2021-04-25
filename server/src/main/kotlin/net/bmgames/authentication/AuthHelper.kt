@@ -14,72 +14,77 @@ const val SECRET_KEY = "YYiSB7kY5Ed5mttaJRSkgHEPF43iLjTA"
  *
  * @Constructor Create empty Auth helper
  */
-class AuthHelper {
+internal object AuthHelper {
 
+    object ChCrypto {
+        fun aesEncrypt(v: String) = hashPassword(v)
+        fun aesDecrypt(v: String) = unhashPassword(v)
+    }
 
-    companion object{
-        object ChCrypto{
-            @JvmStatic fun aesEncrypt(v:String) = AuthHelper.hashPassword(v)
-            @JvmStatic fun aesDecrypt(v:String) = AuthHelper.unhashPassword(v)
-        }
-        /**
-         * HashingObject
-         *
-         * Assisting object to and unhash the passwords of the users.
-         */
-        public object HashingObject {
-            public val encorder = Base64.getEncoder()
-            public val decorder = Base64.getDecoder()
-            public fun cipher(opmode: Int, secretKey: String): Cipher {
-                if (secretKey.length != 32) throw RuntimeException("SecretKey length is not 32 chars")
-                val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
-                val sk = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8), "AES")
-                val iv = IvParameterSpec(secretKey.substring(0, 16).toByteArray(Charsets.UTF_8))
-                c.init(opmode, sk, iv)
-                return c
-            }
-        }
-        /**
-         * Generates a Token to verify the user
-         *
-         * @Param user user whose account shall be verified
-         */
-        fun generateVerificationToken(user: User) {
-            val chars = ('a'..'Z') + ('A'..'Z') + ('0'..'9')
-            fun randomToken(): String = List(KEY_LENGTH) { chars.random() }.joinToString("")
-            val token = randomToken()
-            user.registrationKey = token
-        }
-        /**
-         * Generates a new random password
-         *
-         *
-         */
-        fun generatePassword() : String {
-            val chars = ('a'..'Z') + ('A'..'Z') + ('0'..'9')
-            fun randomToken(): String = List(PASSWORD_LENGTH) { chars.random() }.joinToString("")
-            return randomToken()
-        }
-        /**
-         * Hashes the password of the user
-         *
-         * @Param password of the user
-         * @Return hashed version of the user's password
-         */
-        fun hashPassword(password: String) : String {
-            val encrypted = HashingObject.cipher(Cipher.ENCRYPT_MODE, SECRET_KEY).doFinal(password.toByteArray(Charsets.UTF_8))
-            return String(HashingObject.encorder.encode(encrypted))
-        }
-        /**
-         * Unhashes the password of the user
-         *
-         * @Param hashedpassword of the user
-         * @return unhashed version of the hashed password
-         */
-        fun unhashPassword(hashedpassword: String) : String {
-            val byteStr = HashingObject.decorder.decode(hashedpassword.toByteArray(Charsets.UTF_8))
-            return String(HashingObject.cipher(Cipher.DECRYPT_MODE, SECRET_KEY).doFinal(byteStr))
+    /**
+     * HashingObject
+     *
+     * Assisting object to and unhash the passwords of the users.
+     */
+    object HashingObject {
+        val encorder = Base64.getEncoder()
+        val decorder = Base64.getDecoder()
+        fun cipher(opmode: Int, secretKey: String): Cipher {
+            if (secretKey.length != 32) throw SecurityException("SecretKey length is not 32 chars")
+            val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
+            val sk = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8), "AES")
+            val iv = IvParameterSpec(secretKey.substring(0, 16).toByteArray(Charsets.UTF_8))
+            c.init(opmode, sk, iv)
+            return c
         }
     }
+
+    /**
+     * Generates a Token to verify the user
+     *
+     * @Param user user whose account shall be verified
+     */
+    fun generateVerificationToken(user: User) {
+        val chars = ('a'..'Z') + ('A'..'Z') + ('0'..'9')
+        fun randomToken(): String = List(KEY_LENGTH) { chars.random() }.joinToString("")
+        val token = randomToken()
+        user.registrationKey = token
+        TODO("Sollte der nicht auch in der DB gespeichert werden?")
+    }
+
+    /**
+     * Generates a new random password
+     *
+     *
+     */
+    fun generatePassword(): String {
+        val chars = ('a'..'Z') + ('A'..'Z') + ('0'..'9')
+        fun randomToken(): String = List(PASSWORD_LENGTH) { chars.random() }.joinToString("")
+        return randomToken()
+    }
+
+    /**
+     * Hashes the password of the user
+     *
+     * @Param password of the user
+     * @Return hashed version of the user's password
+     */
+    fun hashPassword(password: String): String {
+        val encrypted =
+            HashingObject.cipher(Cipher.ENCRYPT_MODE, SECRET_KEY).doFinal(password.toByteArray(Charsets.UTF_8))
+        return String(HashingObject.encorder.encode(encrypted))
+    }
+
+    /**
+     * Unhashes the password of the user
+     *
+     * @Param hashedpassword of the user
+     * @return unhashed version of the hashed password
+     */
+    fun unhashPassword(hashedpassword: String): String {
+        val byteStr = HashingObject.decorder.decode(hashedpassword.toByteArray(Charsets.UTF_8))
+        return String(HashingObject.cipher(Cipher.DECRYPT_MODE, SECRET_KEY).doFinal(byteStr))
+    }
+
 
 }
