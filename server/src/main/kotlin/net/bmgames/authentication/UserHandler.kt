@@ -1,25 +1,20 @@
 package net.bmgames.authentication
 
-import net.bmgames.Communication.MailNotifier
+import net.bmgames.communication.MailNotifier
+import net.bmgames.database.UserTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 /**
- * User handler
- *
- * @constructor Create empty User handler
- *
- * @property mailNotifier always gets instantiated with an object of the MailNotifier class to be able to send mails
- *
+ * @property mailNotifier Needed for sending registration / password reset mails
  */
-public class UserHandler {
+class UserHandler(private val mailNotifier: MailNotifier) {
 
 
     /* protected fun getUser(token: JWT): User?{
         return null
     }*/
 
-        val mailNotifier: MailNotifier = MailNotifier()
 
     /**
      * Gets the user from the database based on the username
@@ -28,22 +23,21 @@ public class UserHandler {
      * @return an object of the class User
      */
     fun getUserByName(username: String): User? {
-            var returnedUser: User? = null
-            transaction(/*später DB von bigBoyJohannes*/) {
-                usertable.select() {
-                    usertable.username eq username
-                }.forEach {
-                    returnedUser = User(
-                        email = it[usertable.email],
-                        username = it[usertable.username],
-                        passwordHash = it[usertable.passwordHash],
-                        mailVerified = it[usertable.mailVerified],
+        return transaction {
+            UserTable.select {
+                UserTable.username eq username
+            }.firstOrNull()
+                ?.let {
+                    User(
+                        email = it[UserTable.email],
+                        username = it[UserTable.username],
+                        passwordHash = it[UserTable.passwordHash],
+                        mailVerified = it[UserTable.mailVerified],
                         registrationKey = ""
                     )
                 }
-            }
-            return returnedUser
         }
+    }
 
     /**
      * Gets the user from the database based on the email
@@ -52,40 +46,39 @@ public class UserHandler {
      * @return an object of the class User
      */
     fun getUserByMail(mail: String): User? {
-            var returnedUser: User? = null
-            transaction(/*später DB von bigBoyJohannes*/) {
-                usertable.select() {
-                    usertable.email eq mail
-                }.forEach {
-                    returnedUser = User(
-                        email = it[usertable.email],
-                        username = it[usertable.username],
-                        passwordHash = it[usertable.passwordHash],
-                        mailVerified = it[usertable.mailVerified],
+        return transaction {
+            UserTable.select {
+                UserTable.email eq mail
+            }.firstOrNull()
+                ?.let {
+                    User(
+                        email = it[UserTable.email],
+                        username = it[UserTable.username],
+                        passwordHash = it[UserTable.passwordHash],
+                        mailVerified = it[UserTable.mailVerified],
                         registrationKey = ""
                     )
                 }
-            }
-            return returnedUser
         }
+    }
 
     /**
      * Creates a user on the database from an user object
      *
      * @param user
      */
-    public fun createUser(user: User) {
-            AuthHelper.generateVerificationToken(user)
-            transaction {
-                usertable.insert {
-                    it[email] = user.email
-                    it[username] = user.username
-                    it[passwordHash] = user.passwordHash
-                    it[mailVerified] = user.mailVerified
-                }
+    internal fun createUser(user: User) {
+        AuthHelper.generateVerificationToken(user)
+        transaction {
+            UserTable.insert {
+                it[email] = user.email
+                it[username] = user.username
+                it[passwordHash] = user.passwordHash
+                it[mailVerified] = user.mailVerified
             }
-            mailNotifier.sendMailRegister(user)
         }
+        mailNotifier.sendMailRegister(user)
+    }
 
 
     /**
@@ -93,15 +86,15 @@ public class UserHandler {
      *
      * @param mail
      */
-    fun resetPassword(mail: String) {
-            val userByMail = getUserByMail(mail)
-            if (userByMail != null) {
-                val password = AuthHelper.hashPassword(AuthHelper.generatePassword())
-                changePassword(mail, password)
-                mailNotifier.sendMailReset(userByMail)
-            }
-
+    internal fun resetPassword(mail: String) {
+        val userByMail = getUserByMail(mail)
+        if (userByMail != null) {
+            val password = AuthHelper.hashPassword(AuthHelper.generatePassword())
+            changePassword(mail, password)
+            mailNotifier.sendMailReset(userByMail)
         }
+
+    }
 
     /**
      * Changes the password of a user using the supplied password and mail
@@ -109,27 +102,27 @@ public class UserHandler {
      * @param mail mail of the account which password is to be changed
      * @param password new password for the user
      */
-    fun changePassword(mail: String, password: String) {
-            transaction {
-                usertable.update({usertable.email eq mail}){
-                    it[usertable.passwordHash] = password
-                }
+    internal fun changePassword(mail: String, password: String) {
+        transaction {
+            UserTable.update({ UserTable.email eq mail }) {
+                it[passwordHash] = password
             }
-
         }
+
+    }
 
     /**
      * Set mail approved
      *
      * @param mail mail-address of the user which gets approved
      */
-    public fun setMailApproved(mail: String) {
-            transaction {
-               usertable.update({usertable.email eq mail}) {
-                   it[usertable.mailVerified] = true
-               }
+    internal fun setMailApproved(mail: String) {
+        transaction {
+            UserTable.update({ UserTable.email eq mail }) {
+                it[mailVerified] = true
             }
         }
+    }
 
     /**
      * Checks based on the email-address and/or username if an user can be created with those values
@@ -138,11 +131,11 @@ public class UserHandler {
      * @param username username to check if there is a user with this username
      * @return
      */
-    public fun checkRegisterPossible(email: String, username: String): Boolean {
-            val userByMail = getUserByMail(email)
-            val userByName = getUserByName(username)
-            if (userByMail != null || userByName != null)
-                return true
-            return false
-        }
+    internal fun checkRegisterPossible(email: String, username: String): Boolean {
+        val userByMail = getUserByMail(email)
+        val userByName = getUserByName(username)
+        if (userByMail != null || userByName != null)
+            return true
+        return false
     }
+}

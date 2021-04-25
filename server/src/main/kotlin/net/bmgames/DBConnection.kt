@@ -1,24 +1,26 @@
-package net.bmgames.database
+package net.bmgames
 
-import net.bmgames.auth.User
-import net.bmgames.configurator.DungeonConfig
-import net.bmgames.game.state.Game
+import net.bmgames.database.UserTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
-private const val NAME_LENGTH = 200
-private const val PW_LENGTH = 500
-private const val MAIL_LENGTH = 200
 
-object Users : Table() {
-    val username: Column<String> = varchar("username", NAME_LENGTH)
-    val mail = varchar("mail", MAIL_LENGTH)
-    val passwordHash = varchar("passwordHash", PW_LENGTH)
-    val mailVerified: Column<Boolean> = bool("mailVerified")
-
-    override val primaryKey = PrimaryKey(username)
+/**
+ * Connects to Database and creates tables if they don't exist
+ * */
+internal fun ServerConfig.connectToDB() {
+    Database.connect(
+        driver = "org.postgresql.Driver",
+        url = "jdbc:postgresql/$dbHost:$dbPort/$dbName",
+        user = dbUser,
+        password = dbPassword
+    )
+    SchemaUtils.create(
+        UserTable
+    )
 }
 
+/*
 object Games : Table() {
     val config = varchar("config", NAME_LENGTH).references(DungeonConfigs.name)
     val game = varchar("game", NAME_LENGTH).references(GameStates.name)
@@ -48,9 +50,6 @@ object Players : Table() {
 
     override val primaryKey = PrimaryKey(name, game)
 }
-
-
-
 fun main() {
     Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver")
 
@@ -78,3 +77,4 @@ fun main() {
         SchemaUtils.drop (Users)
     }
 }
+*/

@@ -1,5 +1,6 @@
-package net.bmgames.Communication
+package net.bmgames.communication
 
+import net.bmgames.ServerConfig
 import net.bmgames.authentication.AuthHelper
 import net.bmgames.authentication.User
 import javax.mail.*
@@ -11,34 +12,33 @@ import javax.mail.internet.MimeMessage
  *
  * @constructor Create empty Mail notifier
  */
-class MailNotifier : Notifier {
+class MailNotifier(val config: ServerConfig) : Notifier {
     /**
      * Sends a mail to the user using the supplied parameters via smtp.
      *
-     * @param recipient EMail address of the receiver/recipient.
+     * @param recipient Recipient user
      * @param message Message in HTML format which will be sent to the recipient.
-     * @param mailSubject Self-explanatory
+     * @param subject Self-explanatory
      */
-    override fun send(recipient: String, message: String, mailSubject: String) {
-        val emailFrom = "support@bm-games.net"
+    override fun send(recipient: User, subject: String, message: String) {
+        val emailFrom = config.emailAddress
         val properties = System.getProperties()
-        with(properties)
-        {//load Config later on
-            put("mail.smtp.host", "mail.bm-games.net")
-            put("mail.smtp.port", "25")
+        with(properties) {
+            put("mail.smtp.host", config.smtpHost)
+            put("mail.smtp.port", config.smtpPort)
             put("mail.smtp.starttls.enable", "true")
             put("mail.smtp.auth", "true")
         }
-        val auth = object: Authenticator() {
+        val auth = object : Authenticator() {
             override fun getPasswordAuthentication(): PasswordAuthentication =
-                PasswordAuthentication(emailFrom, "G6!XT7YSzfMQRAsk")
+                PasswordAuthentication(emailFrom, config.emailPassword)
         }
         val session = Session.getDefaultInstance(properties, auth)
         val mimeMessage = MimeMessage(session)
-        with(mimeMessage){
+        with(mimeMessage) {
             setFrom(InternetAddress(emailFrom))
-            addRecipient(Message.RecipientType.TO, InternetAddress(recipient))
-            subject = mailSubject
+            addRecipient(Message.RecipientType.TO, InternetAddress(recipient.email))
+            setSubject(subject)
             setContent(message, "text/html; charset=utf-8")
         }
         Transport.send(mimeMessage)
@@ -51,11 +51,14 @@ class MailNotifier : Notifier {
      */
     fun sendMailReset(user: User) {
         val mailSubject = "Reset your password | BM-Games |  "
-        val recipient: String = user.email
-        val message: String =   "<html><body><h1>Reset your password.</h1>" +
-                                "<p>Click the link below to reset your password</p><p>${AuthHelper.unhashPassword(user.passwordHash)}</p></body></html>"
+        val message: String =
+            """<html lang="en"><body>            
+                <h1>Reset your password.</h1>
+                <p>Click the link below to reset your password</p>
+                <p>${AuthHelper.unhashPassword(user.passwordHash)}</p>
+                </body></html>"""
 
-        send(recipient, message, mailSubject)
+        send(user, mailSubject, message)
     }
 
     /**
@@ -65,10 +68,13 @@ class MailNotifier : Notifier {
      */
     fun sendMailRegister(user: User) {
         val mailSubject = "Registration confirmation | BM-Games | SWE-Project  "
-        val recipient: String = user.email
-        val message: String =   "<html><body><h1>Confirm your registration.</h1>" +
-                                "<p>Click the link below to confirm your registration</p><a>${user.registrationKey}</a></body></html>"
+        val message: String =
+            """<html><body>
+                <h1>Confirm your registration.</h1>
+                <p>Click the link below to confirm your registration</p>
+                <a>${user.registrationKey}</a>
+                </body></html>"""
 
-        send(recipient, message, mailSubject)
+        send(user, mailSubject, message)
     }
 }
