@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 jobs:  
-  build-client:  
+  build-client:    
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -57,7 +57,7 @@ jobs:
         
   build-server:
     runs-on: ubuntu-latest
-    needs: build-client
+    #needs: build-client
     defaults:
       run:
         working-directory: server
@@ -118,12 +118,12 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: client
-        path: dist
+        path: server/client
                   
     - name: Get App Version
       id: get_version
       run: |
-        echo "::set-env name=APP_VERSION::$(sed -e 's/"//g' <<< cat server/build.gradle.kts | grep 'version = ' | cut -d'=' -f2 | awk '{$1=$1};1')"
+        echo "::set-env name=APP_VERSION::$(sed -e 's/"//g' <<< cat build.gradle.kts | grep 'version = ' | cut -d'=' -f2 | awk '{$1=$1};1')"
         
     - name: Move artifacts
       run: |
@@ -131,7 +131,7 @@ jobs:
      
     - uses: papeloto/action-zip@v1
       with:
-        files: dist/ server.jar ../server.config.json ../run.sh ../README.md
+        files: client/ server.jar ../server.config.json ../run.sh ../README.md
         dest: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}
     
     - name: Release
