@@ -16,8 +16,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
 
     // Analysis & Reports
-    id("org.jetbrains.dokka") version "1.4.30"
     jacoco
+    id("org.jetbrains.dokka") version "1.4.32"
     id("io.gitlab.arturbosch.detekt") version "1.16.0"
 
     // FatJar
