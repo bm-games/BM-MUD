@@ -6,7 +6,6 @@ name: Test, Build, Deploy
 on:
   push:
     branches: 
-      - master
       - dev
   pull_request:
     branches: [ master ]
