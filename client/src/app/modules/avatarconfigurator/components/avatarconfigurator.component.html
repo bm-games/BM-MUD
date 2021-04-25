@@ -1,0 +1,37 @@
+<body>
+  <div class="avatarconfiguratorHeader">
+    <h1>Avatar-Konfigurator</h1>
+  </div>
+  <div class="configArea">
+    <div class="inputArea">
+      <div class="inputAreaHeader">
+        <input class="inputName" placeholder="Name"/>
+      </div>
+      <div class="inputAreaBody">
+        <div>
+          <label>Klasse:</label>
+          <mat-form-field class="dropDown">
+            <mat-select [(ngModel)]="selectedClass">
+              <mat-option *ngFor="let classType of classTypes" [value]="classType" (click)="classChanged(classType)">
+                {{classType}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+            <label>Rasse:</label>
+            <mat-form-field class="dropDown">
+              <mat-select [(ngModel)]="selectedRace">
+                <mat-option *ngFor="let race of raceTypes" [value]="race" (click)="raceChanged(race)">
+                  {{race}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="divBtn">
+            <button>Erstellen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
