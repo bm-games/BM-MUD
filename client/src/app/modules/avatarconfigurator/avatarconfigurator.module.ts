@@ -11,22 +11,24 @@ import {MatGridListModule} from '@angular/material/grid-list';
 
 import {FormsModule} from "@angular/forms";
 import {AvatarconfiguratorComponent} from "./components/avatarconfigurator.component";
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
   declarations: [
     AvatarconfiguratorComponent
   ],
-  imports: [
-    CommonModule,
-    AvatarConfigurationRoutingModule,
-    MatTabsModule,
-    MatSliderModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatListModule,
-    MatGridListModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        AvatarConfigurationRoutingModule,
+        MatTabsModule,
+        MatSliderModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatListModule,
+        MatGridListModule,
+        FormsModule,
+        MatCardModule
+    ]
 })
 export class ConfiguratorModule { }

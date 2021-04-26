@@ -2,7 +2,7 @@
 <div class="avatarconfiguratorHeader">
   <h1>Avatar-Konfigurator</h1>
 </div>
-<div class="configArea">
+<div class="Area">
   <div class="inputArea">
     <div class="inputAreaHeader">
       <input class="inputName" placeholder="Name"/>
@@ -28,8 +28,29 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="divBtn">
-        <button>Erstellen</button>
+    </div>
+    <div class="divBtn">
+      <button>Erstellen</button>
+    </div>
+  </div>
+  <div class="dataArea">
+    <div class="dataAreaHeader">
+      <label class="labelHeader">Avatar Eigenschaften</label>
+    </div>
+    <div class="outputArea">
+      <div>
+        <mat-card>
+          <mat-card-title>Gesundheit</mat-card-title>
+          <mat-card-content>
+            {{health}}
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Angriff</mat-card-title>
+          <mat-card-content>
+            {{damage}}
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
   </div>
