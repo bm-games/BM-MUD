@@ -1,0 +1,64 @@
+.gameArea{
+  height: 100%;
+  max-height: 800px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.gameAreaHeader{
+  position: relative;
+  border-bottom: 1px solid #C0C0C0;
+  height: 100px;
+  width: 80%;
+  margin: auto auto 100px;
+  display: flex;
+  align-items: center;
+}
+
+//left box
+.inputArea{
+  width: 50%;
+  height: 100%;
+  margin-bottom: 20px;
+  border: 2px solid #C0C0C0;
+  float: left;
+  input {
+    font-size: 16pt;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+  }
+}
+
+.chatArea{
+  width: 50%;
+  height: 50%;
+  border-right: 2px solid #C0C0C0;
+  border-top: 2px solid #C0C0C0;
+  border-bottom: 2px solid #C0C0C0;
+  float: right;
+  position: relative;
+}
+
+//bottomright box
+.mapArea{
+  width: 50%;
+  height: 50%;
+  border-right: 2px solid #C0C0C0;
+  border-top: 2px solid #C0C0C0;
+  border-bottom: 2px solid #C0C0C0;
+  float: right;
+  position: relative;
+  mat-grid-tile:focus-visible {
+    background: lightblue;
+  }
+  .gameGrid{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    margin: -25% 0 0 -25%;
+  }
+}

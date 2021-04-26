@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/avatarconfigurator/avatarconfigurator.module').then(m => m.ConfiguratorModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'game',
+    loadChildren: () => import('./modules/game/game.module').then(m => m.GameModule),
+    canActivate: [AuthGuard]
+  },
   {path: '', pathMatch: 'full', redirectTo: 'dashboard'}
 ];
 
