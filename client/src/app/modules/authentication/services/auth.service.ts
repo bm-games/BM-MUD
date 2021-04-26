@@ -15,22 +15,28 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient) {
-    this.login()
   }
 
   isLoggedIn(): boolean {
     return !!this.user$.value
   }
 
-  login(): Promise<void> {
+  login(credentials: { email: string, password: string }): void {
     this.user$.next({username: "Dummy"})
     //TODO login on server
-    return Promise.resolve()
   }
 
-  logout(): Promise<void> {
+  register(credentials: { email: string, username: string, password: string }): void {
+    this.user$.next({username: credentials.username})
+    //TODO register on server
+  }
+
+  logout(): void {
     this.user$.next(null)
     //TODO logout on server
-    return Promise.resolve()
+  }
+
+  resetPassword(email: string) {
+    //TODO
   }
 }

@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     this.auth.logout()
-      .then(() => this.router.navigateByUrl("/"));
+    this.router.navigateByUrl("/")
   }
 
   set searchedGameName(name: string) {
