@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Title} from "@angular/platform-browser";
+import {RaceConfig} from "../../models/RaceConfig";
 
 @Component({
   selector: 'app-configuration',
