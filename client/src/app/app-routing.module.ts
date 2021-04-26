@@ -22,11 +22,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/avatarconfigurator/avatarconfigurator.module').then(m => m.ConfiguratorModule),
     canActivate: [AuthGuard]
   },
-  {
-    path: '**',
-    // pathMatch: 'full',
-    redirectTo: 'auth'
-  }
+  {path: '', pathMatch: 'full', redirectTo: 'dashboard'}
 ];
 
 @NgModule({

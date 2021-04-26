@@ -15,6 +15,7 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient) {
+    this.user$.next({username: "Dummy"})
   }
 
   isLoggedIn(): boolean {
