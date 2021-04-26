@@ -6,10 +6,12 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bm-games_BM-MUD&metric=alert_status)](https://sonarcloud.io/dashboard?id=bm-games_BM-MUD)
 
 
-## Client: Angular
-
-
 ## Server
 * Sprache: Kotlin 1.4
 * Server-Framework: Ktor
 * Testing-Framework: Kotest
+* ORM-Framework: Exposed
+
+## Client: Angular
+* Unit Testing: Karma
+* E2E Testing: Protractor

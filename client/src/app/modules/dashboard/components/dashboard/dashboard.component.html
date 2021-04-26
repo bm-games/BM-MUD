@@ -1,0 +1,33 @@
+<p>
+  <mat-toolbar>
+    <span>Hallo {{user?.username}}</span>
+    <span class="spacer"></span>
+
+    <mat-form-field appearance="standard">
+      <input type="text"
+             placeholder="Suche nach verfügbaren Spielen"
+             matInput
+             [(ngModel)]="searchedGameName"
+             [matAutocomplete]="gameNames">
+      <mat-icon matSuffix>search</mat-icon>
+      <mat-autocomplete #gameNames="matAutocomplete">
+        <mat-option *ngFor="let game of games" [value]="game.config.name">{{game.config.name}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button mat-button routerLink="/configurator">MUD Erstellen</button>
+    <button mat-button (click)="logout()">
+      Logout
+      <mat-icon>logout</mat-icon>
+    </button>
+
+  </mat-toolbar>
+</p>
+
+<div class="games container">
+  <div class="game-overview" *ngFor="let game of filteredGames" >
+    <app-game-overview [game]="game"></app-game-overview>
+  </div>
+</div>
+
+

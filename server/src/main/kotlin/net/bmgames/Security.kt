@@ -1,14 +1,24 @@
-package net.bmgames.plugins
+package net.bmgames
 
 import io.ktor.auth.*
 import io.ktor.util.*
 import io.ktor.sessions.*
 import io.ktor.application.*
+import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.request.*
 import io.ktor.routing.*
 
 fun Application.configureSecurity() {
+    install(CORS){
+        anyHost()
+        allowCredentials = true
+        allowNonSimpleContentTypes = true
+        method(HttpMethod.Get)
+        method(HttpMethod.Options)
+        method(HttpMethod.Post)
+    }
 
     install(Sessions) {
         cookie<MySession>("MY_SESSION") {
