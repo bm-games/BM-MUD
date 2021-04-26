@@ -5,7 +5,7 @@ export class FriendlyNPCConfig extends NPCConfig{
   private _messageOnTalk: string;
 
   constructor(id: number, name: string, items: number[], loottable: number[], commandOnInteraction: string, messageOnTalk: string) {
-    super(id, name, 'Hostile', items, loottable);
+    super(id, name, 'Verbündet', items, loottable);
     this._commandOnInteraction = commandOnInteraction;
     this._messageOnTalk = messageOnTalk;
   }

@@ -17,29 +17,29 @@
       <div *ngIf="!isCustomCommand">
         <div class="standardCommand">
           <label>"pickup"</label>
-          <input placeholder="pickup"/>
+          <input placeholder="pickup" [(ngModel)]="pickupAlias"/>
         </div>
         <div class="standardCommand">
           <label>"consume"</label>
-          <input placeholder="consume"/>
+          <input placeholder="consume" [(ngModel)]="consumeAlias"/>
         </div>
         <div class="standardCommand">
           <label>"show inventory"</label>
-          <input placeholder="show inventory"/>
+          <input placeholder="show inventory" [(ngModel)]="showInventoryAlias"/>
         </div>
         <div class="standardCommand">
           <label>"go"</label>
-          <input placeholder="go"/>
+          <input placeholder="go" [(ngModel)]="goAlias"/>
         </div>
         <div class="standardCommand">
           <label>"look"</label>
-          <input placeholder="look"/>
+          <input placeholder="look" [(ngModel)]="lookAlias"/>
         </div>
       </div>
       <div *ngIf="isCustomCommand">
         <div>
           <label>Syntax definieren:</label>
-          <input placeholder="z.B. hit $player"/>
+          <input placeholder="z.B. hit $player" [(ngModel)]="commandSyntax"/>
         </div>
         <div>
           <label>Action auswählen:</label>
@@ -52,14 +52,32 @@
       </div>
     </div>
     <div class="divBtn" *ngIf="!isCustomCommand">
-      <button>Speichern</button>
+      <button (click)="addCommand()">Speichern</button>
     </div>
     <div class="divBtn" *ngIf="isCustomCommand">
-      <button>Hinzufügen</button>
+      <button (click)="addCommand()">Hinzufügen</button>
     </div>
   </div>
   <div class="dataArea">
-
+    <div class="dataAreaHeader">
+      <label class="labelHeader">Eigene Befehle</label>
+    </div>
+    <div>
+      <table>
+        <thead>
+        <tr>
+          <th>Command</th>
+          <th>Anzahl actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let command of customCommands">
+          <td>{{command.command}}</td>
+          <td>{{command.actions.length}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 </body>

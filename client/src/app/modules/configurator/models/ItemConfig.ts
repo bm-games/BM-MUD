@@ -3,20 +3,20 @@ import {BaseConfig} from "./BaseConfig";
 export class ItemConfig extends BaseConfig {
   private _name: string;
   private _isConsumable: boolean;
-  private _effect: string;
+  private _effect: string | undefined;
 
-  constructor(id: number, name: string, isConsumable: boolean, effect: string) {
+  constructor(id: number, name: string, isConsumable: boolean, effect: string | undefined) {
     super(id);
     this._name = name;
     this._isConsumable = isConsumable;
     this._effect = effect;
   }
 
-  get effect(): string {
+  get effect(): string | undefined {
     return this._effect;
   }
 
-  set effect(value: string) {
+  set effect(value: string | undefined) {
     this._effect = value;
   }
 

@@ -20,7 +20,7 @@ export class RaceComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.configuredRaces = DungeonConfig.allRaces;
+    this.configuredRaces = ConfigurationComponent.allRaces;
   }
 
   addRace(){
@@ -30,7 +30,7 @@ export class RaceComponent implements OnInit {
       this.health = undefined;
       this.damage = undefined;
       this.description = undefined;
-      DungeonConfig.allRaces = this.configuredRaces;
+      ConfigurationComponent.allRaces = this.configuredRaces;
     }else{
       window.alert("Es wurden nicht alle Werte eingegeben");
     }

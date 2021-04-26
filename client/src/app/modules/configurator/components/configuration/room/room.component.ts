@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {ConfigurationComponent} from "../configuration.component";
+import {NPCConfig} from "../../../models/NPCConfig";
+import {ItemConfig} from "../../../models/ItemConfig";
 
 @Component({
   selector: 'app-room',
@@ -7,8 +10,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RoomComponent implements OnInit {
 
-  allNPCs: string[] = ['GeOrk', 'Drache', 'Händler'];
-  allItems: string[] = ['Lampe', 'Stein', 'Apfel'];
+  allNPCs: NPCConfig[] = [];
+  allItems: ItemConfig[] = [];
 
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
@@ -33,6 +36,9 @@ export class RoomComponent implements OnInit {
       }
     }
     this.highlightSelectedValue(0);
+
+    this.allNPCs = ConfigurationComponent.allNPCs;
+    this.allItems = ConfigurationComponent.allItems;
   }
 
   gridRoomSelected(gridV: gridValue){

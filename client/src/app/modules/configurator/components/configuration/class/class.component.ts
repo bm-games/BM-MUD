@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RaceConfig} from "../../../models/RaceConfig";
 import {ClassConfig} from "../../../models/ClassConfig";
 import {DungeonConfig} from "../../../models/DungeonConfig";
+import {ConfigurationComponent} from "../configuration.component";
 
 @Component({
   selector: 'app-class',
@@ -21,7 +22,7 @@ export class ClassComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.configuredClasses = DungeonConfig.allClasses;
+    this.configuredClasses = ConfigurationComponent.allClasses;
   }
 
   addClass(){
@@ -36,7 +37,7 @@ export class ClassComponent implements OnInit {
       this.healthMultiplier = undefined;
       this.damage = undefined;
       this.description = undefined;
-      DungeonConfig.allClasses = this.configuredClasses;
+      ConfigurationComponent.allClasses = this.configuredClasses;
     }else{
       window.alert("Es wurden nicht alle Werte eingegeben");
     }

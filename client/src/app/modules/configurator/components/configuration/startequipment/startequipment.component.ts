@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ConfigurationComponent} from "../configuration.component";
+import {ItemConfig} from "../../../models/ItemConfig";
 
 @Component({
   selector: 'app-startequipment',
@@ -7,12 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartequipmentComponent implements OnInit {
 
-  allEquipment: string[] = ['Helm', 'Schwert', 'Heiltrank', 'Apfel', 'Lampe'];
+  allEquipment: ItemConfig[] = [];
   selectedEquipment: string[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+
+    this.allEquipment = ConfigurationComponent.allItems;
   }
 
 }

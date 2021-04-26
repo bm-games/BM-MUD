@@ -13,7 +13,7 @@
         <label>NPCs:</label>
         <mat-selection-list [(ngModel)]="selectedRoomNPCs">
           <mat-list-option *ngFor="let npc of allNPCs" [value]="npc">
-            {{npc}}
+            {{npc.name}}
           </mat-list-option>
         </mat-selection-list>
       </div>
@@ -21,7 +21,7 @@
         <label>Items:</label>
         <mat-selection-list [(ngModel)]="selectedRoomItems">
           <mat-list-option *ngFor="let item of allItems" [value]="item">
-            {{item}}
+            {{item.name}}
           </mat-list-option>
         </mat-selection-list>
       </div>

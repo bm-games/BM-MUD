@@ -2,7 +2,7 @@
 <div class="configArea">
   <div class="inputArea">
     <div class="inputAreaHeader">
-      <input class="inputName" placeholder="Name"/>
+      <input class="inputName" placeholder="Name" [(ngModel)]="name"/>
     </div>
     <div class="inputAreaBody">
       <div>
@@ -19,7 +19,7 @@
         <label>Items:</label>
         <mat-selection-list [(ngModel)]="selectedNPCEquipment">
           <mat-list-option *ngFor="let item of allEquipment" [value]="item">
-            {{item}}
+            {{item.name}}
           </mat-list-option>
         </mat-selection-list>
       </div>
@@ -27,17 +27,17 @@
         <label>Loottable:</label>
         <mat-selection-list [(ngModel)]="selectedNPCItemsLoottable">
           <mat-list-option *ngFor="let item of allItemsLoottable" [value]="item">
-            {{item}}
+            {{item.name}}
           </mat-list-option>
         </mat-selection-list>
       </div>
       <div *ngIf="isHostile">
         <label>Gesundheit:</label>
-        <mat-slider class="slider" min="1" max="100" step="1" thumbLabel [displayWith]="sliderValue"></mat-slider>
+        <mat-slider class="slider" min="1" max="100" step="1" thumbLabel [displayWith]="sliderValue" [(ngModel)]="health"></mat-slider>
       </div>
       <div *ngIf="isHostile">
         <label>Schaden:</label>
-        <mat-slider class="slider" min="1" max="100" step="1" thumbLabel [displayWith]="sliderValue"></mat-slider>
+        <mat-slider class="slider" min="1" max="100" step="1" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damage" el></mat-slider>
       </div>
       <div *ngIf="!isHostile">
         <label>Interaktionscommand:</label>
@@ -51,15 +51,37 @@
       </div>
       <div *ngIf="!isHostile">
         <label>Nachricht:</label>
-        <textarea></textarea>
+        <textarea [(ngModel)]="messageOnTalk"></textarea>
       </div>
     </div>
     <div class="divBtn">
-      <button>Hinzufügen</button>
+      <button (click)="addNPC()">Hinzufügen</button>
     </div>
   </div>
   <div class="dataArea">
-
+    <div class="dataAreaHeader">
+      <label class="labelHeader">NPCs</label>
+    </div>
+    <div>
+      <table>
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Typ</th>
+          <th>Items</th>
+          <th>Loottable</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let npc of configuredNPCs">
+          <td>{{npc.name}}</td>
+          <td>{{npc.type}}</td>
+          <td>{{npc.items.length}}</td>
+          <td>{{npc.loottable.length}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 </body>

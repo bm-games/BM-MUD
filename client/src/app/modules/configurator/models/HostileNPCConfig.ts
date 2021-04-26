@@ -5,7 +5,7 @@ export class HostileNPCConfig extends NPCConfig{
   private _damage: number;
 
   constructor(id: number, name: string, items: number[], loottable: number[], health: number, damage: number) {
-    super(id, name, 'Hostile', items, loottable);
+    super(id, name, 'Feindlich', items, loottable);
     this._health = health;
     this._damage = damage;
   }
