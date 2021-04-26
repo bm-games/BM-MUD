@@ -75,7 +75,7 @@ export class AvatarconfiguratorComponent implements OnInit {
       case 'Bogenschütze':
         this.isArcher = true;
         this.isBerserker = false;
-        this.healthMultiplier = 1;
+        this.healthMultiplier = 0.8;
         this.damageMultiplier = 1.6;
         // @ts-ignore
         this.damage = this.rawdamage * this.damageMultiplier;
