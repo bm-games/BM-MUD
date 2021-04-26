@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ConfigService } from './config.service';
-import {CONFIG} from "../../../client-config";
-import {LOCAL_CONFIG} from "../../../app.module";
+import {CONFIG} from "../../client-config";
+import {LOCAL_CONFIG} from "../../app.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('ConfigService', () => {

@@ -4,8 +4,8 @@ import {DashboardComponent} from './dashboard.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {CONFIG} from "../../../../client-config";
-import {LOCAL_CONFIG} from "../../../../app.module";
+import {CONFIG} from "../../../client-config";
+import {LOCAL_CONFIG} from "../../../app.module";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 describe('DashboardComponent', () => {

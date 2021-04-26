@@ -1,8 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
-import {ClientConfig, CONFIG} from "../../../client-config";
+import {ClientConfig, CONFIG} from "../../client-config";
 import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {GameOverview} from "../../game/model/game-overview";
 import {DungeonConfig} from "../model/dungeon-config";
 import {catchError} from "rxjs/operators";
 

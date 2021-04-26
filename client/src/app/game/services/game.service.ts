@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {GameOverview} from "../model/game-overview";
-import {ClientConfig, CONFIG} from "../../../client-config";
+import {ClientConfig, CONFIG} from "../../client-config";
 
 @Injectable({
   providedIn: 'root'
