@@ -1,7 +1,62 @@
 <body>
 <div class="configArea">
   <div class="inputArea">
-
+    <div class="inputAreaHeader">
+    </div>
+    <div class="inputAreaBody">
+      <div>
+        <label>Typ:</label>
+        <mat-form-field class="dropDown">
+          <mat-select [(ngModel)]="selectedCommandType">
+            <mat-option *ngFor="let type of commandTypes" [value]="type" (click)="commandTypeChanged(type)">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="!isCustomCommand">
+        <div class="standardCommand">
+          <label>"pickup"</label>
+          <input placeholder="pickup"/>
+        </div>
+        <div class="standardCommand">
+          <label>"consume"</label>
+          <input placeholder="consume"/>
+        </div>
+        <div class="standardCommand">
+          <label>"show inventory"</label>
+          <input placeholder="show inventory"/>
+        </div>
+        <div class="standardCommand">
+          <label>"go"</label>
+          <input placeholder="go"/>
+        </div>
+        <div class="standardCommand">
+          <label>"look"</label>
+          <input placeholder="look"/>
+        </div>
+      </div>
+      <div *ngIf="isCustomCommand">
+        <div>
+          <label>Syntax definieren:</label>
+          <input placeholder="z.B. hit $player"/>
+        </div>
+        <div>
+          <label>Action auswählen:</label>
+          <mat-selection-list [(ngModel)]="selectedActions">
+            <mat-list-option *ngFor="let action of allActions" [value]="action">
+              {{action}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+    </div>
+    <div class="divBtn" *ngIf="!isCustomCommand">
+      <button>Speichern</button>
+    </div>
+    <div class="divBtn" *ngIf="isCustomCommand">
+      <button>Hinzufügen</button>
+    </div>
   </div>
   <div class="dataArea">
 

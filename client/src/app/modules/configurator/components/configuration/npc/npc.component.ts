@@ -32,4 +32,8 @@ export class NPCComponent implements OnInit {
         break;
     }
   }
+
+  sliderValue(value: number) {
+    return value;
+  }
 }

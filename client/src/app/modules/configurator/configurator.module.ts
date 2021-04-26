@@ -10,6 +10,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTableModule} from '@angular/material/table';
 import { ClassComponent } from './components/configuration/class/class.component';
 import { RoomComponent } from './components/configuration/room/room.component';
 import { NPCComponent } from './components/configuration/npc/npc.component';
@@ -40,6 +41,7 @@ import {FormsModule} from "@angular/forms";
     MatCheckboxModule,
     MatListModule,
     MatGridListModule,
+    MatTableModule,
     FormsModule
   ],
   providers: [
