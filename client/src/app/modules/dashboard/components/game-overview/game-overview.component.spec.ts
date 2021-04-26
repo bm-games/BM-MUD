@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GameOverviewComponent } from './game-overview.component';
+import {GameOverviewComponent} from './game-overview.component';
 
 describe('GameOverviewComponent', () => {
   let component: GameOverviewComponent;
@@ -8,14 +8,21 @@ describe('GameOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GameOverviewComponent ]
+      declarations: [GameOverviewComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GameOverviewComponent);
     component = fixture.componentInstance;
+    component.game = {
+      config: {name: "test"},
+      userPermitted: true,
+      avatarCount: 2,
+      masterOnline: false,
+      onlinePlayers: 2
+    }
     fixture.detectChanges();
   });
 

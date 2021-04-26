@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { AvatarConfigurationRoutingModule, routingComponents } from "./avatarconfigurator-routing.module";
+import {AvatarConfigurationRoutingModule} from "./avatarconfigurator-routing.module";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatSelectModule} from '@angular/material/select';
@@ -15,8 +15,7 @@ import {AvatarconfiguratorComponent} from "./components/avatarconfigurator.compo
 
 @NgModule({
   declarations: [
-    AvatarconfiguratorComponent,
-    routingComponents
+    AvatarconfiguratorComponent
   ],
   imports: [
     CommonModule,

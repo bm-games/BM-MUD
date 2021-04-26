@@ -10,7 +10,7 @@ import {DashboardModule} from "./modules/dashboard/dashboard.module";
 import {AuthenticationModule} from "./modules/authentication/authentication.module";
 import {AuthService} from "./modules/authentication/services/auth.service";
 
-const LOCAL_CONFIG: ClientConfig = {
+export const LOCAL_CONFIG: ClientConfig = {
   endpoint: "http://localhost:8080",
   websocketEndpoint: "ws://localhost/game",
 };

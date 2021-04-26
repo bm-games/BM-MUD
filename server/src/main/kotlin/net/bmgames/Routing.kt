@@ -1,9 +1,13 @@
 @file:OptIn(KtorExperimentalLocationsAPI::class)
+
 package net.bmgames
 
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.http.content.*
 import io.ktor.locations.*
+import io.ktor.response.*
+import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.webjars.*
 import net.bmgames.configurator.installConfigEndpoint
@@ -17,9 +21,14 @@ fun Application.configureRouting() {
 
     install(Locations)
 
-    install(Webjars) {
-        path = "/webjars" //defaults to /webjars
-        zone = ZoneId.systemDefault() //defaults to ZoneId.systemDefault()
+    routing {
+        static("") {
+            files("client")
+        }
+
+        get("/"){
+            call.respondRedirect("/index.html")
+        }
     }
 
     installConfigEndpoint()

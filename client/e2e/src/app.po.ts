@@ -6,6 +6,6 @@ export class AppPage {
   }
 
   async getTitleText(): Promise<string> {
-    return element(by.tagName('h2')).getText();
+    return browser.getTitle();
   }
 }
