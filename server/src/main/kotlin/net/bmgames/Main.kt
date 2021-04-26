@@ -2,13 +2,10 @@ package net.bmgames
 
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import io.ktor.utils.io.*
 import net.bmgames.ServerConfig.Companion.initializeConfig
-import net.bmgames.authentication.User
 import net.bmgames.authentication.UserHandler
 import net.bmgames.communication.MailNotifier
 import net.bmgames.communication.Notifier
-import net.bmgames.plugins.*
 
 object Main {
     lateinit var config: ServerConfig
@@ -35,8 +32,6 @@ suspend fun main(args: Array<String>) {
         configureRouting()
         configureSecurity()
         configureMonitoring()
-        configureSerialization()
-        configureSockets()
     }.start(wait = true)
 
 }

@@ -7,13 +7,12 @@ import io.ktor.http.*
 import io.ktor.server.testing.*
 
 
-class ApplicationTest : FunSpec({
+class MainTest : FunSpec({
 
-    test("Root url should display 'Hello World'" ){
+    test("Root url should redirect to index.html" ){
         withTestApplication({ configureRouting() }) {
             handleRequest(HttpMethod.Get, "/").apply {
-                response shouldHaveStatus HttpStatusCode.OK
-                response shouldHaveContent "Hello World!"
+                response shouldHaveStatus 302
             }
         }
     }

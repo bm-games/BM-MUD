@@ -17,7 +17,11 @@ import {FormsModule} from "@angular/forms";
     ConsoleComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    AngularSplitModule,
+    MatToolbarModule,
+    MatGridListModule
   ],
   providers: [
     GameService,
