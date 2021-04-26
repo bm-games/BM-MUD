@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 import { ConfigurationRoutingModule, routingComponents } from "./configurator-routing.module";
+import {ConfigService} from "./services/config.service";
+import {HttpClientModule} from "@angular/common/http";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatSelectModule} from '@angular/material/select';
@@ -31,6 +33,7 @@ import {FormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     ConfigurationRoutingModule,
+    HttpClientModule,
     MatTabsModule,
     MatSliderModule,
     MatSelectModule,
@@ -38,6 +41,9 @@ import {FormsModule} from "@angular/forms";
     MatListModule,
     MatGridListModule,
     FormsModule
+  ],
+  providers: [
+    ConfigService
   ]
 })
 export class ConfiguratorModule { }

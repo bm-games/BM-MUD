@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {GameService} from "./modules/game/services/game.service";
+import {ConfigService} from "./modules/configurator/services/config.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Client';
+
+  constructor(
+    public gameService: GameService,
+    public configService: ConfigService
+  ) {
+  }
+
+  ngOnInit() {
+    this.gameService.getAvailableGames().subscribe(console.log)
+    this.configService.getDungeonConfig("Test").subscribe(console.log)
+    this.configService.createDungeon({name: "Test"}).subscribe(console.log)
+  }
 }
