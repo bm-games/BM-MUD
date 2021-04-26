@@ -1,0 +1,81 @@
+<body>
+<div class="configArea">
+  <div class="inputArea">
+    <div class="inputAreaHeader">
+      <input class="inputName" placeholder="Name" [(ngModel)]="name"/>
+    </div>
+    <div class="inputAreaBody">
+      <div>
+        <label>Typ:</label>
+        <mat-form-field class="dropDown">
+          <mat-select [(ngModel)]="selectedItemType">
+            <mat-option *ngFor="let item of itemTypes" [value]="item" (click)="itemTypeChanged(item)">
+              {{item}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isConsumable">
+        <label>Effekt:</label>
+        <mat-form-field class="dropDown">
+          <mat-select>
+            <mat-option *ngFor="let item of itemCommands" [value]="item" (click)="itemEffectChanged(item)">
+              {{item}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isEquipment">
+        <div>
+          <label>Gesundheitsmultiplikator:</label>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="health" min="1" max="10" step="0.5"></mat-slider>
+        </div>
+        <div>
+          <label>Slot:</label>
+          <mat-form-field class="dropDown">
+            <mat-select>
+              <mat-option *ngFor="let slot of equipmentSlots" [value]="slot" (click)="equipmentSlotChanged(slot)">
+                {{slot}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isWeapon">
+        <div>
+          <label>Schaden:</label>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damage" min="1" max="100" step="1"></mat-slider>
+        </div>
+        <div>
+          <label>Multiplikator:</label>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damageMultiplier" min="1" max="10" step="0.5"></mat-slider>
+        </div>
+      </div>
+    </div>
+    <div class="divBtn">
+      <button (click)="addItem()">Hinzufügen</button>
+    </div>
+  </div>
+  <div class="dataArea">
+    <div class="dataAreaHeader">
+      <label class="labelHeader">Items</label>
+    </div>
+    <div>
+      <table>
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Konsumierbar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of configuredItems">
+          <td>{{item.name}}</td>
+          <td>{{item.isConsumable}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
