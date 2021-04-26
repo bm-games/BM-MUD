@@ -11,8 +11,8 @@ import {AuthenticationModule} from "./modules/authentication/authentication.modu
 import {AuthService} from "./modules/authentication/services/auth.service";
 
 export const LOCAL_CONFIG: ClientConfig = {
-  endpoint: "http://localhost:8080",
-  websocketEndpoint: "ws://localhost/game",
+  endpoint: "http://play.bmgames.net",
+  websocketEndpoint: "ws://play.bmgames.net/game",
 };
 
 @NgModule({

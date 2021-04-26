@@ -28,7 +28,7 @@ suspend fun main(args: Array<String>) {
         config.connectToDB()
     }
 
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+    embeddedServer(Netty, port = 80, host = "0.0.0.0") {
         configureRouting()
         configureSecurity()
         configureMonitoring()
