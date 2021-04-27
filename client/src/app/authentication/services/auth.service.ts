@@ -15,7 +15,7 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient) {
-    this.user$.next({username: "Dummy"})
+    // this.user$.next({username: "Dummy"})
   }
 
   isLoggedIn(): boolean {
@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   login(credentials: { email: string, password: string }): void {
-    this.user$.next({username: "Dummy"})
+    this.user$.next({username: credentials.email})
     //TODO login on server
   }
 

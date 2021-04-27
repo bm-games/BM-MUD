@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {ClientConfig, CONFIG} from "../../../client-config";
+import {ClientConfig, CONFIG} from "../../client-config";
 import {Observable, Subject} from "rxjs";
 import {webSocket} from 'rxjs/webSocket';
 import {Message} from "../model/message";

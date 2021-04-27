@@ -11,7 +11,7 @@
     </mat-chip-list>
   </mat-card-header>
   <mat-card-actions>
-    <button *ngIf="game.userPermitted" [routerLink]="'/game/' + game.config.name" mat-raised-button>Beitreten</button>
+    <button *ngIf="game.userPermitted" routerLink="/avatarConfigurator" mat-raised-button>Beitreten</button>
     <button *ngIf="!game.userPermitted" mat-raised-button >Beitrittsanfrage senden</button>
   </mat-card-actions>
 </mat-card>

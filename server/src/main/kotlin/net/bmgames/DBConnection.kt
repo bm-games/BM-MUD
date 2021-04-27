@@ -11,13 +11,15 @@ import org.jetbrains.exposed.sql.transactions.transaction
 internal fun ServerConfig.connectToDB() {
     Database.connect(
         driver = "org.postgresql.Driver",
-        url = "jdbc:postgresql/$dbHost:$dbPort/$dbName",
+        url = "jdbc:postgresql://$dbHost:$dbPort/$dbName",
         user = dbUser,
         password = dbPassword
     )
-    SchemaUtils.create(
-        UserTable
-    )
+    transaction {
+        SchemaUtils.create(
+            UserTable
+        )
+    }
 }
 
 /*

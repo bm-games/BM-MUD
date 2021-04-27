@@ -25,10 +25,10 @@ plugins {
 }
 
 group = "net.bmgames"
-version = "0.1.1"
+version = "0.1.2"
 application {
-    mainClassName = "net.bmgames.Main"
-    mainClass.set("net.bmgames.Main")
+    mainClassName = "net.bmgames.MainKt"
+    mainClass.set("net.bmgames.MainKt")
 }
 
 repositories {
@@ -120,7 +120,7 @@ tasks.withType<ShadowJar> {
     manifest {
         attributes["Implementation-Title"] = "Black Mamba Games MUD"
         attributes["Implementation-Version"] = version
-        attributes["Main-Class"] = application.mainClassName
+        attributes["Main-Class"] = application.mainClass.get()
     }
 
 }
