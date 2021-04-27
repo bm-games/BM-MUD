@@ -76,7 +76,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: client
-        path: client/dist/client        
+        path: client/dist        
     
   test-server:
     runs-on: ubuntu-latest
@@ -172,10 +172,13 @@ jobs:
         name: docs
         path: server/build/dokka/html
     
+    - name: Rename artifact
+      run: mv server/build/libs/server-${{ env.APP_VERSION }}-all.jar server.jar
+    
     - uses: actions/upload-artifact@v2
       with:
-        name: server.jar
-        path: server/build/libs/server-${{ env.APP_VERSION }}-all.jar
+        name: server
+        path: server.jar
     
     - name: Cleanup Gradle Cache
       run: |
@@ -201,6 +204,9 @@ jobs:
     - uses: actions/download-artifact@v2
       with: 
         path: deploy
+        
+    - name: debug
+      run: ls
      
     - uses: papeloto/action-zip@v1
       with:
