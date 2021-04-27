@@ -13,14 +13,14 @@ on:
 
 jobs:  
   test-client:    
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    
+    if: false
     defaults:
       run:
         working-directory: client
     
     steps:          
     - uses: actions/checkout@v2
-      if: false
     
     - name: Cache node modules
       uses: actions/cache@v2
@@ -191,7 +191,7 @@ jobs:
         working-directory: deploy
     needs: 
     - build-client
-    - test-client
+ #   - test-client
     - test-server
     - build-server
     
