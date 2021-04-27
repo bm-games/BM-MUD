@@ -18,24 +18,9 @@ jobs:
       run:
         working-directory: client
     
-    steps:        
-    - id: timestamp
-      run: echo "::set-output name=timestamp::$(timestamp +%s)"
-
-    - name: Restore the previous run result
-      uses: actions/cache@v2
-      with:
-        path: |
-          run_result
-        key: ${{ github.run_id }}-${{ github.job }}-${{ steps.timestamp.outputs.timestamp }}
-        restore-keys: |
-          ${{ github.run_id }}-${{ github.job }}-          
-    - name: Get the previous run result
-      id: run_result
-      run: cat run_result 2>/dev/null || echo 'default'
-
+    steps:          
     - uses: actions/checkout@v2
-      if: steps.run_result.outputs.run_result != 'success'
+      if: false
     
     - name: Cache node modules
       uses: actions/cache@v2
@@ -61,9 +46,7 @@ jobs:
               
     - name: Codecov
       run: bash <(curl -s https://codecov.io/bash)      
-      
-    - run: echo "::set-output name=run_result::success" > run_result
-          
+                
   build-client:    
     runs-on: ubuntu-latest
     defaults:
@@ -71,23 +54,7 @@ jobs:
         working-directory: client
     
     steps:    
-    - id: timestamp
-      run: echo "::set-output name=timestamp::$(timestamp +%s)"
-
-    - name: Restore the previous run result
-      uses: actions/cache@v2
-      with:
-        path: |
-          run_result
-        key: ${{ github.run_id }}-${{ github.job }}-${{ steps.timestamp.outputs.timestamp }}
-        restore-keys: |
-          ${{ github.run_id }}-${{ github.job }}-
-    - name: Get the previous run result
-      id: run_result
-      run: cat run_result 2>/dev/null || echo 'default'
-
     - uses: actions/checkout@v2
-      if: steps.run_result.outputs.run_result != 'success'
     
     - name: Cache node modules
       uses: actions/cache@v2
@@ -111,7 +78,6 @@ jobs:
       with:
         name: client
         path: client/dist/client        
-    - run: echo "::set-output name=run_result::success" > run_result
     
   test-server:
     runs-on: ubuntu-latest
@@ -233,6 +199,8 @@ jobs:
     - uses: actions/checkout@v2
           
     - uses: actions/download-artifact@v2
+      with: 
+        path: deploy
      
     - uses: papeloto/action-zip@v1
       with:
