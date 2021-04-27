@@ -207,7 +207,7 @@ jobs:
         
     - uses: papeloto/action-zip@v1
       with:
-        files: deploy/client deploy/server.jar server.config.json run.sh README.md
+        files: deploy/client deploy/server/server.jar server.config.json run.sh README.md
         dest: deploy/bm-games.zip
     
     - uses: actions/upload-artifact@v1
