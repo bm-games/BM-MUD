@@ -173,12 +173,12 @@ jobs:
         path: server/build/dokka/html
     
     - name: Rename artifact
-      run: mv server/build/libs/server-${{ env.APP_VERSION }}-all.jar server.jar
+      run: mv build/libs/server-${{ env.APP_VERSION }}-all.jar server.jar
     
     - uses: actions/upload-artifact@v2
       with:
         name: server
-        path: server.jar
+        path: server/server.jar
     
     - name: Cleanup Gradle Cache
       run: |
@@ -205,9 +205,6 @@ jobs:
       with: 
         path: deploy
         
-    - name: debug
-      run: ls
-     
     - uses: papeloto/action-zip@v1
       with:
         files: deploy/client deploy/server.jar server.config.json run.sh README.md
