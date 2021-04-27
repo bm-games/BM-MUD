@@ -185,6 +185,7 @@ jobs:
         
   deploy:      
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
     defaults:
       run:
         working-directory: deploy
@@ -208,7 +209,6 @@ jobs:
         
     - name: Release
       uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
       with:
           files: deploy/bm-games.zip
       env:
