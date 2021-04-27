@@ -7,9 +7,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display dashboard', async () => {
+  it('should display BM-MUD', async () => {
     await page.navigateTo();
-    expect(await page.getTitleText()).toContain('Dashboard');
+    expect(await page.getTitleText()).toContain('BM-MUD');
   });
 
   /*TODO start server for this
