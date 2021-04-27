@@ -241,7 +241,6 @@ jobs:
         
     - name: Debug
       run: |
-        ls ..
         ls
         ls docs
         ls tests
