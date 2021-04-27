@@ -210,7 +210,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-          files: deploy/bm-games.zip
+          files: bm-games.zip
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
