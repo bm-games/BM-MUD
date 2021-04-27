@@ -33,7 +33,7 @@ jobs:
         node-version: 15.x
         
     - name: Install npm packages
-      run: npm i
+      run: npm ci
             
     - name: Run Tests
       run: npm run test:prod
@@ -67,7 +67,7 @@ jobs:
         node-version: 15.x
         
     - name: Install npm packages
-      run: npm i      
+      run: npm ci      
       
     - name: Build
       run: npm run build:prod      
@@ -92,13 +92,6 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v2
-      with:
-        path: ~/.sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
-      
     - name: Cache Gradle packages
       uses: actions/cache@v2
       with:
@@ -119,7 +112,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: tests
-        path: build/reports/tests/test   
+        path: server/build/reports/tests/test   
                 
     - name: Cleanup Gradle Cache
       # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
@@ -147,13 +140,6 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v2
-      with:
-        path: ~/.sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
       
     - name: Cache Gradle packages
       uses: actions/cache@v2
@@ -182,12 +168,12 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: docs
-        path: build/dokka/html
+        path: server/build/dokka/html
     
     - uses: actions/upload-artifact@v2
       with:
         name: server.jar
-        path: build/libs/server-${{ env.APP_VERSION }}-all.jar
+        path: server/build/libs/server-${{ env.APP_VERSION }}-all.jar
     
     - name: Cleanup Gradle Cache
       run: |
