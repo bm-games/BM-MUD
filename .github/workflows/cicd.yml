@@ -203,12 +203,19 @@ jobs:
     - uses: papeloto/action-zip@v1
       with:
         files: client/ server.jar ../server.config.json ../run.sh ../README.md
-        dest: bm-games
+        dest: bm-games.zip
+        
+    - name: Debug
+      run: |
+        ls ..
+        ls
+        ls docs
+        ls tests
     
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-          files: bm-games.zip
+          files: deploy/bm-games.zip
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
