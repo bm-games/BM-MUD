@@ -188,7 +188,6 @@ jobs:
     defaults:
       run:
         working-directory: deploy
-    if: startsWith(github.ref, 'refs/tags/')
     needs: 
     - build-client
     - test-client
@@ -214,6 +213,7 @@ jobs:
     
     - name: Release
       uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
           files: deploy/bm-games.zip
       env:
