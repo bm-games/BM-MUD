@@ -14,7 +14,6 @@ on:
 jobs:  
   test-client:    
     runs-on: ubuntu-latest    
-    if: false
     defaults:
       run:
         working-directory: client
@@ -191,7 +190,7 @@ jobs:
         working-directory: deploy
     needs: 
     - build-client
- #   - test-client
+    - test-client
     - test-server
     - build-server
     
@@ -207,12 +206,6 @@ jobs:
         files: client/ server.jar ../server.config.json ../run.sh ../README.md
         dest: bm-games.zip
         
-    - name: Debug
-      run: |
-        ls
-        ls docs
-        ls tests
-    
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
