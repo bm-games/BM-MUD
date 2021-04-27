@@ -10,54 +10,126 @@ on:
     branches: [ master ]
 
 jobs:  
-  build-client:    
+  test-client:    
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: client
-    strategy:
-      matrix:
-        node-version: [15.x]
     
     steps:    
     - uses: actions/checkout@v2
     
     - name: Cache node modules
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
           
-    - name: Node ${{ matrix.node-version }}
+    - name: Node 15.x
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 15.x
         
     - name: Install npm packages
       run: npm i
             
     - name: Run Tests
       run: npm run test:prod
-        
-    - name: Codecov
-      run: bash <(curl -s https://codecov.io/bash)
           
     - name: Run E2E Tests
       run: npm run e2e:prod
+              
+    - name: Codecov
+      run: bash <(curl -s https://codecov.io/bash)      
+          
+  build-client:    
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    
+    steps:    
+    - uses: actions/checkout@v2
+    
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+          
+    - name: Node 15.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 15.x
+        
+    - name: Install npm packages
+      run: npm i      
       
     - name: Build
-      run: npm run build:prod
-      
+      run: npm run build:prod      
     - uses: actions/upload-artifact@v2
       with:
         name: client
         path: client/dist/client
         
+  test-server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server      
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+      
+    - name: Cache Gradle packages
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-              
+   
+    - name: Test
+      run: |
+        chmod +x gradlew
+        ./gradlew check
+        ./gradlew jacocoTestReport
+        bash <(curl -s https://codecov.io/bash)
+        
+    - uses: actions/upload-artifact@v2
+      with:
+        name: tests
+        path: build/reports/tests/test   
+                
+    - name: Cleanup Gradle Cache
+      # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
+      # Restoring these files from a GitHub Actions cache might cause problems for future builds.
+      run: |
+        rm -f ~/.gradle/caches/modules-2/modules-2.lock
+        rm -f ~/.gradle/caches/modules-2/gc.properties
+        
   build-server:
     runs-on: ubuntu-latest
-    needs: build-client
     defaults:
       run:
         working-directory: server
@@ -95,63 +167,71 @@ jobs:
               
     - name: Setup gradle
       run: chmod +x gradlew
-   
-    - name: Test
+        
+    - name: Build & Docs
       run: |
-        ./gradlew check
-        ./gradlew jacocoTestReport
-        bash <(curl -s https://codecov.io/bash)
+        chmod +x gradlew
+        ./gradlew shadowJar
+        ./gradlew dokkaHtml            
+    
+    - name: Get App Version
+      id: get_version
+      run: |
+        echo "::set-env name=APP_VERSION::$(sed -e 's/"//g' <<< cat build.gradle.kts | grep 'version = ' | cut -d'=' -f2 | awk '{$1=$1};1')"     
         
-    - name: Build
-      run: ./gradlew shadowJar
-        
-    - name: Generate KotlinDocs
-      run: ./gradlew dokkaHtml            
+    - uses: actions/upload-artifact@v2
+      with:
+        name: docs
+        path: build/dokka/html
+    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: server.jar
+        path: build/libs/server-${{ env.APP_VERSION }}-all.jar
     
     - name: Cleanup Gradle Cache
-      # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
-      # Restoring these files from a GitHub Actions cache might cause problems for future builds.
       run: |
         rm -f ~/.gradle/caches/modules-2/modules-2.lock
         rm -f ~/.gradle/caches/modules-2/gc.properties
                   
-    - uses: actions/download-artifact@v2
-      with:
-        name: client
-        path: server/client
-                  
-    - name: Get App Version
-      id: get_version
-      run: |
-        echo "::set-env name=APP_VERSION::$(sed -e 's/"//g' <<< cat build.gradle.kts | grep 'version = ' | cut -d'=' -f2 | awk '{$1=$1};1')"
         
-    - name: Move artifacts
-      run: |
-        mv build/libs/server-${{ env.APP_VERSION }}-all.jar server.jar
+  deploy:      
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: 
+    - build-client
+    - test-server
+    - build-server
+    
+    steps:
+    - uses: actions/download-artifact@v2
      
     - uses: papeloto/action-zip@v1
       with:
         files: client/ server.jar ../server.config.json ../run.sh ../README.md
-        dest: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}
+        dest: bm-games
     
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
-          files: |
-            ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.zip
+          files: bm-games.zip
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
     - name: Move docs and test reports
       run: |
         mkdir pages
-        mv build/dokka/html/ pages/docs 
-        mv build/reports/tests/test pages/tests
+        mv docs/ pages/docs 
+        mv tests/ pages/tests
         
     - name: Deploy KDocs and test reports to Github Pages
-      if: ${{github.event_name == 'push'}}
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
-        FOLDER: server/pages
+        FOLDER: deploy/pages
         
