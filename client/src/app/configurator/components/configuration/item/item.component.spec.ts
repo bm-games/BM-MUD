@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemComponent } from './item.component';
+import {CommandComponent} from "../command/command.component";
+import {EquipmentSlot} from "../../../models/EquipmentSlot";
+import {CommandConfig} from "../../../models/CommandConfig";
+import {ItemConfig} from "../../../models/ItemConfig";
 
 describe('ItemComponent', () => {
   let component: ItemComponent;
@@ -21,5 +25,73 @@ describe('ItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should add new consumable Item', () =>{
+    fixture = TestBed.createComponent(ItemComponent);
+    component = fixture.componentInstance;
+
+    component.isConsumable = true;
+    component.name = 'Item';
+    component.effect = 'effect';
+
+    component.addItem();
+
+    let length = component.configuredItems.length;
+
+    expect(length).toBe(1);
+    expect(component.configuredItems[length-1].name).toEqual('Item');
+    expect(component.configuredItems[length-1].effect).toEqual('effect');
+    expect(component.configuredItems[length-1].isConsumable).toBe(true);
+  });
+
+  it('should add new equipment Item', () =>{
+    fixture = TestBed.createComponent(ItemComponent);
+    component = fixture.componentInstance;
+
+    component.isEquipment = true;
+    component.name = 'Item';
+    component.health = 1;
+    component.equipmentSlot = EquipmentSlot.head;
+
+    component.addItem();
+
+    let length = component.configuredItems.length;
+
+    expect(length).toBe(1);
+    expect(component.configuredItems[length-1].name).toEqual('Item');
+    expect(component.configuredItems[length-1].isConsumable).toBe(false);
+  });
+
+  it('should add new weapon Item', () =>{
+    fixture = TestBed.createComponent(ItemComponent);
+    component = fixture.componentInstance;
+
+    component.isWeapon = true;
+    component.name = 'Item';
+    component.damage = 1;
+    component.damageMultiplier = 2;
+
+    component.addItem();
+
+    let length = component.configuredItems.length;
+
+    expect(length).toBe(1);
+    expect(component.configuredItems[length-1].name).toEqual('Item');
+    expect(component.configuredItems[length-1].isConsumable).toBe(false);
+  });
+
+  it('should return 1 as next free ItemId. Already assigned IDs: 0,2', () => {
+    fixture = TestBed.createComponent(ItemComponent);
+    component = fixture.componentInstance;
+
+    component.configuredItems = [
+      new ItemConfig(0, 'Item', true, 'effect'),
+      new ItemConfig(2, 'Item', true, 'effect'),
+    ];
+
+    let calculatedId = component.getNextFreeId();
+
+    expect(calculatedId).toBe(1);
   });
 });

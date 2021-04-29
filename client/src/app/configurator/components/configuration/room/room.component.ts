@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ConfigurationComponent} from "../configuration.component";
 import {NPCConfig} from "../../../models/NPCConfig";
 import {ItemConfig} from "../../../models/ItemConfig";
+import {RoomConfig} from "../../../models/RoomConfig";
 
 @Component({
   selector: 'app-room',
@@ -68,7 +69,6 @@ export class RoomComponent implements OnInit {
       },
       color: "lightgreen"
     }
-
 
     if(northNeighbour > -1) this.updateNeighbour(northNeighbour);
     if(eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
@@ -194,7 +194,7 @@ export interface gridValue{
   color: string;
 }
 
-// replace this with a real model in "configurator/models"
+ //replace this with a real model in "configurator/models"
 export interface room{
   id: number;
   name: string;

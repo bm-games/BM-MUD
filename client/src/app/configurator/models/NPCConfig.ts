@@ -2,15 +2,16 @@ import {BaseConfig} from "./BaseConfig";
 import {flatMap} from "rxjs/internal/operators";
 import {ItemConfig} from "./ItemConfig";
 import {extractDirectiveTypeCheckMeta} from "@angular/compiler-cli/src/ngtsc/metadata";
+import {NPCType} from "./NPCType";
 
 export class NPCConfig extends BaseConfig{
   private _name: string;
-  private _type: string;
+  private _type: NPCType;
   private _items: number[] = [];
   private _loottable: number[];
   //private loottable: flatMap<ItemConfig, number> | undefined;
 
-  constructor(id: number, name: string, type: string, items: number[], loottable: number[]) {
+  constructor(id: number, name: string, type: NPCType, items: number[], loottable: number[]) {
     super(id);
     this._name = name;
     this._type = type;
@@ -32,11 +33,11 @@ export class NPCConfig extends BaseConfig{
   set items(value: number[]) {
     this._items = value;
   }
-  get type(): string {
+  get type(): NPCType {
     return this._type;
   }
 
-  set type(value: string) {
+  set type(value: NPCType) {
     this._type = value;
   }
   get name(): string {
