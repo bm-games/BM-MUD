@@ -11,7 +11,7 @@
   width: 50%;
   height: 100%;
   margin-bottom: 20px;
-  border: 2px solid #C0C0C0;
+  border: 2px solid gray;
   float: left;
   input {
     font-size: 16pt;
@@ -64,6 +64,7 @@
       resize: none;
       outline: none;
       font-size: 12pt;
+      background-color: whitesmoke;
     }
   }
 }
@@ -90,25 +91,23 @@
 .dataArea{
   width: 50%;
   height: 100%;
-  border-right: 2px solid #C0C0C0;
-  border-top: 2px solid #C0C0C0;
-  border-bottom: 2px solid #C0C0C0;
+  border-right: 2px solid gray;
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
   float: right;
   table {
     width: 100%;
-    th{
-      margin: auto;
-    }
-    td{
-      margin: auto;
-      text-align: center;
+    table-layout: fixed;
+    text-align: center;
+    th, td{
+      overflow: hidden;
     }
   }
 }
 
 .dataAreaHeader{
   position: relative;
-  border-bottom: 1px solid #C0C0C0;
+  border-bottom: 1px solid gray;
   height: 100px;
   width: 80%;
   margin: auto auto 100px;
