@@ -60,6 +60,7 @@ dependencies {
     testImplementation("io.kotest:kotest-property-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-assertions-ktor:$kotest_version")
     testImplementation("de.joshuagleitze:kotest-files:2.0.0")
+    testImplementation("io.mockk:mockk:1.11.0")
 //    implementation("org.openjdk.jmh:jmh-core:1.29")
 //    implementation("org.openjdk.jmh:jmh-generator-annprocess:1.29")
 
@@ -94,7 +95,7 @@ tasks.withType<Test> {
 tasks.withType<JacocoReport> {
     reports {
         xml.isEnabled = true
-        html.isEnabled = false
+//        html.isEnabled = false
     }
 }
 
