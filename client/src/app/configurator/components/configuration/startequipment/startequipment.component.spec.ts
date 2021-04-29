@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StartequipmentComponent } from './startequipment.component';
+import {NPCComponent} from "../npc/npc.component";
+import {FriendlyNPCConfig} from "../../../models/FriendlyNPCConfig";
+import {HostileNPCConfig} from "../../../models/HostileNPCConfig";
 
 describe('StartequipmentComponent', () => {
   let component: StartequipmentComponent;

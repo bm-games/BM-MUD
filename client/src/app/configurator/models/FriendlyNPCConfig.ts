@@ -1,11 +1,12 @@
 import {NPCConfig} from "./NPCConfig";
+import {NPCType} from "./NPCType";
 
 export class FriendlyNPCConfig extends NPCConfig{
   private _commandOnInteraction: string;
   private _messageOnTalk: string;
 
   constructor(id: number, name: string, items: number[], loottable: number[], commandOnInteraction: string, messageOnTalk: string) {
-    super(id, name, 'Verbündet', items, loottable);
+    super(id, name, NPCType.Friendly, items, loottable);
     this._commandOnInteraction = commandOnInteraction;
     this._messageOnTalk = messageOnTalk;
   }

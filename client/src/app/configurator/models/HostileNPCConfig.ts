@@ -1,11 +1,12 @@
 import {NPCConfig} from "./NPCConfig";
+import {NPCType} from "./NPCType";
 
 export class HostileNPCConfig extends NPCConfig{
   private _health: number;
   private _damage: number;
 
   constructor(id: number, name: string, items: number[], loottable: number[], health: number, damage: number) {
-    super(id, name, 'Feindlich', items, loottable);
+    super(id, name, NPCType.Hostile, items, loottable);
     this._health = health;
     this._damage = damage;
   }
