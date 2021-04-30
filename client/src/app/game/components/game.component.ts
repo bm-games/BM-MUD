@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Subject} from "rxjs";
+import {RoomConfig} from "../../configurator/models/RoomConfig";
 
 
 @Component({
@@ -44,43 +45,6 @@ export class GameComponent implements OnInit {
     this.highlightSelectedValue(this.selectedGridValueIndex);
     console.log(this.grid[this.selectedGridValueIndex].value);
   }
-
-  searchForNeighbour(index: number, direction: string) : number{
-    let neighbourId;
-    let i;
-    switch(direction){
-      case "n":
-        i = index - this.mapColumns;
-        if(i >= 0 && this.grid[i].value != null){                                       // i >= 0 -> check if i out of grid (north)
-          neighbourId = this.grid[i].value?.id;
-        }
-        break;
-      case "e":
-        i = index + 1;
-        if(i % this.mapColumns != 0 && this.grid[i].value != null){                     // i % mapColumns != 0 -> check if i out of grid (east)
-          neighbourId = this.grid[i].value?.id
-        }
-        break;
-      case "s":
-        i = index + this.mapColumns;
-        if(i < this.mapColumns*this.mapColumns && this.grid[i].value != null){          // i < mapColumns * mapColumns -> check if i out of grid (south)
-          neighbourId = this.grid[i].value?.id;
-        }
-        break;
-      case "w":
-        i = index - 1;
-        if(index % this.mapColumns != 0 && this.grid[i].value ! != null){               // index % mapColumns != 0 -> check if i out of grid (west)
-          neighbourId = this.grid[i].value?.id;
-        }
-        break;
-    }
-    if(neighbourId != null){
-      return neighbourId
-    }else{
-      return -1;
-    }
-  }
-
 
   setInputValuesToSelected(index: number){
     let name = this.grid[index].value?.name;
@@ -129,23 +93,6 @@ export class GameComponent implements OnInit {
 
 export interface gridValue {
   index: number;
-  value: null | room;
+  value: null | RoomConfig;
   color: string;
-}
-
-// replace this with a real model in "configurator/models"
-export interface room {
-  id: number;
-  name: string;
-  message: string;
-
-  // replace these two with arrays of models
-  npcs: string[];
-  items: string[];
-
-  // contains id from NeighbourRoom -> -1 means no Neighbour
-  north: number;
-  east: number;
-  south: number;
-  west: number;
 }

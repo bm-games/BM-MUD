@@ -1,64 +1,107 @@
-.gameArea{
+body {
+  margin-left: 2%;
+  margin-right: 2%;
+  padding-top: 20px;
+}
+
+.userArea{
   height: 100%;
+  width: 100%;
   max-height: 800px;
   margin-top: 5px;
   margin-bottom: 20px;
-  display: flex;
+  //display: flex;
 }
 
-.gameAreaHeader{
-  position: relative;
-  border-bottom: 1px solid #C0C0C0;
-  height: 100px;
-  width: 80%;
-  margin: auto auto 100px;
-  display: flex;
-  align-items: center;
+.gameConsoleArea{
+  float: left;
+  height: 100%;
+  width: 49%;
+  app-console{
+    background-color: whitesmoke;
+  }
 }
+
+.rightArea{
+  float: right;
+  height: 100%;
+  width: 49%;
+}
+
+.gameChatArea{
+  height: 50%;
+  vertical-align: top;
+}
+
+.gameMapArea{
+  height: 50%;
+  div{
+    width: 40%;
+    margin: auto;
+    mat-grid-list{
+      background-color: whitesmoke;
+    }
+  }
+}
+
+//.gameArea{
+//  height: 100%;
+//  max-height: 800px;
+//  margin-top: 5px;
+//  margin-bottom: 20px;
+//  display: flex;
+//}
+//
+//.gameAreaHeader{
+//  position: relative;
+//  border-bottom: 1px solid #C0C0C0;
+//  height: 100px;
+//  width: 80%;
+//  margin: auto auto 100px;
+//  display: flex;
+//  align-items: center;
+//}
 
 //left box
-.inputArea{
-  width: 50%;
-  height: 100%;
-  margin-bottom: 20px;
-  border: 2px solid #C0C0C0;
-  float: left;
-  input {
-    font-size: 16pt;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    border-bottom: 1px solid black;
-  }
-}
-
-.chatArea{
-  width: 50%;
-  height: 50%;
-  border-right: 2px solid #C0C0C0;
-  border-top: 2px solid #C0C0C0;
-  border-bottom: 2px solid #C0C0C0;
-  float: right;
-  position: relative;
-}
+//.inputArea{
+//  width: 50%;
+//  height: 100%;
+//  margin-bottom: 20px;
+//  border: 2px solid #C0C0C0;
+//  float: left;
+//  input {
+//    font-size: 16pt;
+//    border: 0;
+//    outline: 0;
+//    background: transparent;
+//    border-bottom: 1px solid black;
+//  }
+//}
+//
+//.chatArea{
+//  width: 50%;
+//  height: 50%;
+//  border-right: 2px solid #C0C0C0;
+//  border-top: 2px solid #C0C0C0;
+//  border-bottom: 2px solid #C0C0C0;
+//  float: right;
+//  position: relative;
+//}
 
 //bottomright box
-.mapArea{
-  width: 50%;
-  height: 50%;
-  border-right: 2px solid #C0C0C0;
-  border-top: 2px solid #C0C0C0;
-  border-bottom: 2px solid #C0C0C0;
-  float: right;
-  position: relative;
-  mat-grid-tile:focus-visible {
-    background: lightblue;
-  }
-  .gameGrid{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50%;
-    margin: -25% 0 0 -25%;
-  }
-}
+//.mapArea{
+//  width: 50%;
+//  height: 50%;
+//  border-right: 2px solid #C0C0C0;
+//  border-top: 2px solid #C0C0C0;
+//  border-bottom: 2px solid #C0C0C0;
+//  float: right;
+//  position: relative;
+//  .gameGrid{
+//    position: absolute;
+//    top: 50%;
+//    left: 50%;
+//    width: 50%;
+//    margin: -25% 0 0 -25%;
+//  }
+//}
