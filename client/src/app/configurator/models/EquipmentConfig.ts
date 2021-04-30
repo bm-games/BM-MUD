@@ -39,7 +39,7 @@ import {ItemConfig} from "./ItemConfig";
 //  }
 //}
 
-export interface EquipmentConfig extends BaseConfig{
+export interface EquipmentConfig extends ItemConfig{
   healthModifier: number | undefined;
   damageModifier: number | undefined;
   slot: EquipmentSlot | undefined;

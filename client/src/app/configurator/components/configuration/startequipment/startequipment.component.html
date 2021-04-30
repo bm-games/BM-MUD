@@ -8,7 +8,7 @@
         <div>
           <label>Startequipment</label>
           <mat-selection-list [(ngModel)]="selectedEquipment">
-            <mat-list-option *ngFor="let item in allEquipment" [value]="item">
+            <mat-list-option *ngFor="let item of allEquipment" [value]="item">
               {{item.name}}
             </mat-list-option>
           </mat-selection-list>

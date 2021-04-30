@@ -21,6 +21,9 @@ export class RoomComponent implements OnInit {
   selectedRoomMessage: string = '';
   selectedRoomNPCs: string[] = [];
   selectedRoomItems: string[] = [];
+  selectedStartRoom: number = 0;
+
+  configuredRooms: RoomConfig[] = [];
 
   //Grid
   // -> neighbours of a gridValue are: index -> [-1],[+1],[-mapColumns},[+mapColumns]
@@ -76,6 +79,11 @@ export class RoomComponent implements OnInit {
     if(eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
     if(southNeighbour > -1) this.updateNeighbour(southNeighbour);
     if(westNeighbour > -1) this.updateNeighbour(westNeighbour);
+
+    this.configuredRooms = [];
+    this.grid.forEach(gridValue => {
+      if(gridValue.value != null) this.configuredRooms.push(gridValue.value);
+    });
   }
 
   searchForNeighbour(index: number, direction: string) : number{
@@ -186,6 +194,12 @@ export class RoomComponent implements OnInit {
       this.grid[index].color = "#DC3545";           // selected grid no room -> red
     }else{
       this.grid[index].color = "green";             // selected grid room -> green
+    }
+  }
+
+  OnStartroomChanged(id: number | null){
+    if(id != null){
+      this.selectedStartRoom = id;
     }
   }
 }
