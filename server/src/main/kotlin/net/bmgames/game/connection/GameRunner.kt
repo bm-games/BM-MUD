@@ -20,7 +20,7 @@ class GameRunner(initialGame: Game) {
     private val connections: Atomic<Map<String, SendChannel<Message>>> = Atomic.unsafe(emptyMap())
     private val currentGameState: Atomic<Game> = Atomic.unsafe(initialGame)
     private val commandHandler = GameCommandHandler()
-    private val commandQueue = Channel<Command>()
+    private val commandQueue = Channel<Command<*>>()
 
     suspend fun getCurrentGameState() = currentGameState.get()
 
