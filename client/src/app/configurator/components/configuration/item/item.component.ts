@@ -27,7 +27,7 @@ export class ItemComponent implements OnInit {
   itemCommands: string[] = ['Heilen', 'Gesundheit abziehen'];
   equipmentSlots: string[] = ['Kopf', 'Brust', 'Beine', 'Stiefel'];
 
-  configuredItems: ItemConfig[] = [];
+  configuredItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
 
   constructor() { }
 
@@ -38,7 +38,19 @@ export class ItemComponent implements OnInit {
   addItem(){
     if(this.isConsumable){
       if(this.name != undefined && this.effect != undefined){
-        this.configuredItems.push(new ItemConfig(this.getNextFreeId(), this.name, true, this.effect));
+        //this.configuredItems.push(new ItemConfig(this.getNextFreeId(), this.name, true, this.effect));
+
+        this.configuredItems.push({
+          id: this.getNextFreeId(),
+          isConsumable: true,
+          name: this.name,
+          effect: this.effect,
+          healthModifier: undefined,
+          damageModifier: undefined,
+          slot: undefined,
+          baseDamage: undefined
+        });
+
         this.name = undefined;
         this.effect = undefined;
       }else{
@@ -47,7 +59,19 @@ export class ItemComponent implements OnInit {
     }
     if(this.isEquipment){
       if(this.name != undefined && this.health != undefined){
-        this.configuredItems.push(new EquipmentConfig(this.getNextFreeId(), this.name, this.health, undefined, this.equipmentSlot));
+        //this.configuredItems.push(new EquipmentConfig(this.getNextFreeId(), this.name, this.health, undefined, this.equipmentSlot));
+
+        this.configuredItems.push({
+          id: this.getNextFreeId(),
+          isConsumable: false,
+          name: this.name,
+          effect: undefined,
+          healthModifier: this.health,
+          damageModifier: undefined,
+          slot: this.equipmentSlot,
+          baseDamage: undefined
+        });
+
         this.name = undefined;
         this.health = undefined;
       }else{
@@ -56,7 +80,19 @@ export class ItemComponent implements OnInit {
     }
     if(this.isWeapon){
       if(this.name != undefined && this.damage != undefined && this.damageMultiplier != undefined) {
-        this.configuredItems.push(new WeaponConfig(this.getNextFreeId(), this.name, this.damage, this.damageMultiplier));
+        //this.configuredItems.push(new WeaponConfig(this.getNextFreeId(), this.name, this.damage, this.damageMultiplier));
+
+        this.configuredItems.push({
+          id: this.getNextFreeId(),
+          isConsumable: false,
+          name: this.name,
+          effect: undefined,
+          healthModifier: undefined,
+          damageModifier: this.damageMultiplier,
+          slot: undefined,
+          baseDamage: this.damage
+        });
+
         this.name = undefined;
         this.damage = undefined;
         this.damageMultiplier = undefined;

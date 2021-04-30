@@ -6,6 +6,9 @@ import {ItemConfig} from "../../models/ItemConfig";
 import {EquipmentConfig} from "../../models/EquipmentConfig";
 import {NPCConfig} from "../../models/NPCConfig";
 import {CommandConfig} from "../../models/CommandConfig";
+import {WeaponConfig} from "../../models/WeaponConfig";
+import {FriendlyNPCConfig} from "../../models/FriendlyNPCConfig";
+import {HostileNPCConfig} from "../../models/HostileNPCConfig";
 
 @Component({
   selector: 'app-configuration',
@@ -20,11 +23,11 @@ export class ConfigurationComponent implements OnInit {
   static set allCommands(value: CommandConfig[]) {
     this._allCommands = value;
   }
-  static get allNPCs(): NPCConfig[] {
+  static get allNPCs(): FriendlyNPCConfig[] | HostileNPCConfig[] {
     return this._allNPCs;
   }
 
-  static set allNPCs(value: NPCConfig[]) {
+  static set allNPCs(value: FriendlyNPCConfig[] | HostileNPCConfig[]) {
     this._allNPCs = value;
   }
 
@@ -32,8 +35,8 @@ export class ConfigurationComponent implements OnInit {
 
   private static _allRaces: RaceConfig[] = [];
   private static _allClasses: ClassConfig[] = [];
-  private static _allItems: ItemConfig[] = [];
-  private static _allNPCs: NPCConfig[] = [];
+  private static _allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
+  private static _allNPCs: FriendlyNPCConfig[] | HostileNPCConfig[] = [];
   private static _allCommands: CommandConfig[] = [];
 
   constructor(private titleService: Title) { }
@@ -42,11 +45,11 @@ export class ConfigurationComponent implements OnInit {
     this.setTitle(this.title);
   }
 
-  static get allItems(): ItemConfig[] | EquipmentConfig[] {
+  static get allItems(): ItemConfig[] | EquipmentConfig[] | WeaponConfig[] {
     return this._allItems;
   }
 
-  static set allItems(value: ItemConfig[] | EquipmentConfig[]) {
+  static set allItems(value: ItemConfig[] | EquipmentConfig[] | WeaponConfig[]) {
     this._allItems = value;
   }
 

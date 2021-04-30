@@ -3,6 +3,8 @@ import {ConfigurationComponent} from "../configuration.component";
 import {NPCConfig} from "../../../models/NPCConfig";
 import {ItemConfig} from "../../../models/ItemConfig";
 import {RoomConfig} from "../../../models/RoomConfig";
+import {EquipmentConfig} from "../../../models/EquipmentConfig";
+import {WeaponConfig} from "../../../models/WeaponConfig";
 
 @Component({
   selector: 'app-room',
@@ -12,7 +14,7 @@ import {RoomConfig} from "../../../models/RoomConfig";
 export class RoomComponent implements OnInit {
 
   allNPCs: NPCConfig[] = [];
-  allItems: ItemConfig[] = [];
+  allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
 
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
@@ -190,23 +192,23 @@ export class RoomComponent implements OnInit {
 
 export interface gridValue{
   index: number;
-  value: null | room;
+  value: null | RoomConfig;
   color: string;
 }
 
  //replace this with a real model in "configurator/models"
-export interface room{
-  id: number;
-  name: string;
-  message: string;
-
-  // replace these two with arrays of models
-  npcs: string[];
-  items: string[];
-
-  // contains id from NeighbourRoom -> -1 means no Neighbour
-  north: number;
-  east: number;
-  south: number;
-  west: number;
-}
+//export interface room{
+//  id: number;
+//  name: string;
+//  message: string;
+//
+//  // replace these two with arrays of models
+//  npcs: string[];
+//  items: string[];
+//
+//  // contains id from NeighbourRoom -> -1 means no Neighbour
+//  north: number;
+//  east: number;
+//  south: number;
+//  west: number;
+//}
