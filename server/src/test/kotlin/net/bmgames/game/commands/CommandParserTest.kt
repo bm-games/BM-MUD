@@ -1,6 +1,7 @@
 package net.bmgames.game.commands
 
 import arrow.core.getOrElse
+import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
@@ -16,10 +17,10 @@ class CommandParserTest : FunSpec({
         val parser = CommandParser(CommandConfig())
         val player = Player.Normal(User("", "", "", true), Avatar("test"))
 
-        val command = parser.parse(player, "move north").getOrElse { null }
-
-        command.shouldBeTypeOf<MoveCommand>()
-        command.direction shouldBe Direction.NORTH
+        val command = parser.parse(player, "move north")
+        command.shouldBeRight()
+        val moveCommand = command.value.shouldBeTypeOf<MoveCommand>()
+        moveCommand.direction shouldBe Direction.NORTH
     }
 
 })
