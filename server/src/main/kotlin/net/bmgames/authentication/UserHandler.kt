@@ -2,8 +2,11 @@ package net.bmgames.authentication
 
 import net.bmgames.communication.MailNotifier
 import net.bmgames.database.UserTable
+import net.bmgames.database.VerificationTable
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.sql.SQLException
 
 /**
  * @property mailNotifier Needed for sending registration / password reset mails
@@ -31,9 +34,7 @@ class UserHandler(private val mailNotifier: MailNotifier) {
                     User(
                         email = it[UserTable.email],
                         username = it[UserTable.username],
-                        passwordHash = it[UserTable.passwordHash],
-                        mailVerified = it[UserTable.mailVerified],
-                        registrationKey = ""
+                        passwordHash = it[UserTable.passwordHash]
                     )
                 }
         }
@@ -54,9 +55,7 @@ class UserHandler(private val mailNotifier: MailNotifier) {
                     User(
                         email = it[UserTable.email],
                         username = it[UserTable.username],
-                        passwordHash = it[UserTable.passwordHash],
-                        mailVerified = it[UserTable.mailVerified],
-                        registrationKey = ""
+                        passwordHash = it[UserTable.passwordHash]
                     )
                 }
         }
@@ -64,20 +63,44 @@ class UserHandler(private val mailNotifier: MailNotifier) {
 
     /**
      * Creates a user on the database from an user object
+     * Also adding the Verification Token to the Database with its other Informations
+     * ->Could be the case that the generated Token already exists in the DB
+     * ->Implemented ExceptionHandler for that Case
      *
      * @param user
      */
     internal fun createUser(user: User) {
-        AuthHelper.generateVerificationToken(user)
+        var isExceptionPresent: Boolean
+        var token: String = "None"
+        /*
+        If the VerificationToken/RegistrationKey already exists in the database,
+        an SQLException is thrown. If this is the case, a token is generated again
+        and the process runs again.
+        (Probability for this is small, but exists!).
+         */
+        do {
+            try {
+                token = AuthHelper.generateVerificationToken()
+                transaction {
+                    VerificationTable.insert {
+                        it[registrationKey] = token
+                        it[username] = user.username
+                        it[mailVerified] = false
+                    }
+                }
+                isExceptionPresent = false
+            } catch (e: SQLException){
+                isExceptionPresent = true
+            }
+        } while (isExceptionPresent)
         transaction {
             UserTable.insert {
                 it[email] = user.email
                 it[username] = user.username
                 it[passwordHash] = user.passwordHash
-                it[mailVerified] = user.mailVerified
             }
         }
-        mailNotifier.sendMailRegister(user)
+        mailNotifier.sendMailRegister(user, token)
     }
 
 
@@ -114,14 +137,32 @@ class UserHandler(private val mailNotifier: MailNotifier) {
     /**
      * Set mail approved
      *
-     * @param mail mail-address of the user which gets approved
+     * @param token Verification Token of the User which gets Approved
      */
-    internal fun setMailApproved(mail: String) {
+    internal fun setMailApproved(token: String) {
         transaction {
-            UserTable.update({ UserTable.email eq mail }) {
+            VerificationTable.update({ VerificationTable.registrationKey eq token }) {
                 it[mailVerified] = true
             }
         }
+    }
+
+    /**
+     * Checks if the User has already verified his mail
+     *
+     * @param username of the User which gets checked
+     * @return A Boolean Value (True = mail is Verified, False = Mail is not Verified)
+     */
+    internal fun checkMailApproved(username: String): Boolean {
+        val approved = transaction {
+            VerificationTable.select{
+                VerificationTable.username eq username
+            }.withDistinct().map {
+                it[VerificationTable.mailVerified]
+            }
+
+        }
+        return approved[0]
     }
 
     /**
@@ -135,7 +176,7 @@ class UserHandler(private val mailNotifier: MailNotifier) {
         val userByMail = getUserByMail(email)
         val userByName = getUserByName(username)
         if (userByMail != null || userByName != null)
-            return true
-        return false
+            return false
+        return true
     }
 }

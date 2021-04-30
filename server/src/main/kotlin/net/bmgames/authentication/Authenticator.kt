@@ -21,7 +21,7 @@ class Authenticator(val userHandler: UserHandler) {
     fun registerUser(mail: String, username: String, password: String): String? {
 
         if (userHandler.checkRegisterPossible(mail, username)) {
-            val user = User(mail, username, AuthHelper.hashPassword(password), false)
+            val user = User(mail, username, AuthHelper.hashPassword(password))
             userHandler.createUser(user)
         }
         return null
@@ -38,11 +38,20 @@ class Authenticator(val userHandler: UserHandler) {
     fun loginUser(mail: String, password: String): String? {
         val user = userHandler.getUserByMail(mail)
         if (user != null) {
-            if (user.passwordHash == AuthHelper.hashPassword(password)) {
-                TODO("Create JWT and add it via a cookie to the user (ktor)")
+            if (userHandler.checkMailApproved(user.username)){
+                if (user.passwordHash == AuthHelper.hashPassword(password)) {
+
+                    //TODO("Create JWT and add it via a cookie to the user (ktor)")
+                    println("Logged IN")
+                    return "Logged In"
+                }
+            }else{
+                println("Verify your mail")
+                return "Please Verify Your Mail First"
             }
         }
-        return "Fail"
+        println("Wrong Password or No User with this Credentials")
+        return null
     }
 
     /**

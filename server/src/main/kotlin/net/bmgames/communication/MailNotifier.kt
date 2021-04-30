@@ -50,7 +50,7 @@ class MailNotifier(val config: ServerConfig) : Notifier {
      * @param user
      */
     fun sendMailReset(user: User) {
-        val mailSubject = "Reset your password | BM-Games |  "
+        val mailSubject = "Reset your password | BM-Games "
         val message: String =
             """<html lang="en"><body>            
                 <h1>Reset your password.</h1>
@@ -66,13 +66,13 @@ class MailNotifier(val config: ServerConfig) : Notifier {
      *
      * @param user
      */
-    fun sendMailRegister(user: User) {
+    fun sendMailRegister(user: User, registrationKey: String) {
         val mailSubject = "Registration confirmation | BM-Games | SWE-Project  "
         val message: String =
             """<html><body>
                 <h1>Confirm your registration.</h1>
                 <p>Click the link below to confirm your registration</p>
-                <a>${user.registrationKey}</a>
+                <a>${registrationKey}</a>
                 </body></html>"""
 
         send(user, mailSubject, message)

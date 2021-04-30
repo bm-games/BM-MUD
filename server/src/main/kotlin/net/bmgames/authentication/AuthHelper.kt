@@ -1,5 +1,11 @@
 package net.bmgames.authentication
 
+import net.bmgames.Main.config
+import net.bmgames.database.UserTable
+import net.bmgames.database.VerificationTable
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.Base64
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -7,7 +13,6 @@ import javax.crypto.spec.SecretKeySpec
 
 const val KEY_LENGTH = 10
 const val PASSWORD_LENGTH = 20
-const val SECRET_KEY = "YYiSB7kY5Ed5mttaJRSkgHEPF43iLjTA"
 
 /**
  * Auth helper
@@ -42,14 +47,15 @@ internal object AuthHelper {
     /**
      * Generates a Token to verify the user
      *
-     * @Param user user whose account shall be verified
+     *
      */
-    fun generateVerificationToken(user: User) {
-        val chars = ('a'..'Z') + ('A'..'Z') + ('0'..'9')
+    fun generateVerificationToken(): String {
+        val chars = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         fun randomToken(): String = List(KEY_LENGTH) { chars.random() }.joinToString("")
         val token = randomToken()
-        user.registrationKey = token
-        TODO("Sollte der nicht auch in der DB gespeichert werden?")
+
+        return token
+
     }
 
     /**
@@ -71,7 +77,7 @@ internal object AuthHelper {
      */
     fun hashPassword(password: String): String {
         val encrypted =
-            HashingObject.cipher(Cipher.ENCRYPT_MODE, SECRET_KEY).doFinal(password.toByteArray(Charsets.UTF_8))
+            HashingObject.cipher(Cipher.ENCRYPT_MODE, config.secretKeyHash).doFinal(password.toByteArray(Charsets.UTF_8))
         return String(HashingObject.encorder.encode(encrypted))
     }
 
@@ -83,7 +89,7 @@ internal object AuthHelper {
      */
     fun unhashPassword(hashedpassword: String): String {
         val byteStr = HashingObject.decorder.decode(hashedpassword.toByteArray(Charsets.UTF_8))
-        return String(HashingObject.cipher(Cipher.DECRYPT_MODE, SECRET_KEY).doFinal(byteStr))
+        return String(HashingObject.cipher(Cipher.DECRYPT_MODE, config.secretKeyHash).doFinal(byteStr))
     }
 
 
