@@ -7,12 +7,10 @@ import arrow.core.computations.either
 import arrow.fx.coroutines.Atomic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.runBlocking
 import net.bmgames.ErrorMessage
 import net.bmgames.game.commands.Command
 import net.bmgames.game.commands.CommandParser
-import net.bmgames.game.message.Message
 import net.bmgames.game.state.Game
 import net.bmgames.game.state.Player
 import net.bmgames.success
@@ -33,19 +31,22 @@ class GameRunner internal constructor(initialGame: Game) {
 
     suspend fun getCurrentGameState() = currentGameState.get()
 
+    /**
+     * Connects a player to this game
+     * @return
+     * */
     internal suspend fun connect(
         player: Player
-    ): Either<ErrorMessage, Connection> = either {
+    ): Either<ErrorMessage, IConnection> = either {
         val connection = onlinePlayersRef.modify { connections ->
             if (connections.containsKey(player.ingameName)) {
                 connections to error("Player ${player.ingameName} already connected")
             } else {
-                val incoming = Channel<Command<*>>()
                 val parseCommand = when (player) {
                     is Player.Master -> commandParser::parseMasterCommand
                     is Player.Normal -> commandParser::parsePlayerCommand
                 }
-                val connection = Connection(parseCommand, incoming)
+                val connection = Connection(parseCommand)
                 val newConnections = connections.plus(player.ingameName to connection)
                 newConnections to success(connection)
             }
@@ -67,8 +68,8 @@ class GameRunner internal constructor(initialGame: Game) {
     }
 
     companion object {
-        suspend fun Game.start(initialGame: Game): GameRunner =
-            GameRunner(initialGame).apply { gameLoop() }
+        internal suspend inline fun Game.start(): GameRunner =
+            GameRunner(this).apply { gameLoop() }
     }
 }
 

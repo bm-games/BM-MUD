@@ -2,7 +2,7 @@ package net.bmgames.game
 
 import net.bmgames.game.state.Game
 
-class GamePersistenceManager {
+object GameRepository {
     internal fun save(game: Game) {
         game.name
         //TODO save to DB

@@ -9,8 +9,9 @@ import net.bmgames.game.message.Message
 
 internal data class Connection(
     private val parseCommand: (String) -> Either<String, Command<*>>,
-    internal val incoming: Channel<Command<*>>,
 ) : IConnection {
+
+    internal val incoming = Channel<Command<*>>()
 
     internal val outgoingChannel = Channel<Message>()
     override val outgoing: ReceiveChannel<Message> = outgoingChannel

@@ -17,7 +17,7 @@ sealed class Message {
     data class Kick(val reason: String) : Message()
 }
 
-suspend fun SendChannel<Frame>.sendMessage(msg: Message) {
+suspend fun DefaultWebSocketSession.sendMessage(msg: Message) {
     send(Frame.Text(Json.encodeToString(msg)))
 }
 

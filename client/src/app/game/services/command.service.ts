@@ -23,8 +23,8 @@ export class CommandService {
     @Inject(CONFIG) private CONFIG: ClientConfig) {
   }
 
-  connect(game: string): CommandConnection {
-    const socket = webSocket<string>(this.CONFIG.websocketEndpoint + "/" + game)
+  connect(game: string, avatar: string): CommandConnection {
+    const socket = webSocket<string>(`${this.CONFIG.websocketEndpoint}/api/game/play/${game}/${avatar}`)
 
     return {
       incoming: socket.pipe(map(msg => JSON.parse(msg))),

@@ -2,9 +2,9 @@ package net.bmgames.game
 
 import net.bmgames.game.state.Player
 
-class PlayerManager {
+object PlayerManager {
 
-    suspend fun fetchPlayer(name: String): Player? {
+    suspend fun loadPlayer(gameName: String, ingameName: String): Player? {
         TODO("Not yet implemented")
     }
 }

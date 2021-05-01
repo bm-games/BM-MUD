@@ -3,27 +3,26 @@ package net.bmgames.game
 import arrow.fx.coroutines.Atomic
 import net.bmgames.game.connection.GameRunner
 import net.bmgames.game.connection.GameRunner.Companion.start
-import net.bmgames.game.connection.start
 import net.bmgames.game.state.Game
 
-class GameManager(private val persistence: GamePersistenceManager) {
+class GameManager(private val repository: GameRepository) {
     private val gamesRef: Atomic<Map<String, GameRunner>> = Atomic.unsafe(emptyMap())
 
-    private suspend fun getGameRunner(name: String): GameRunner? =
-        gamesRef.modify { games ->
-            val runningGame = games[name]
-            if (runningGame != null) {
-                games to runningGame
-            } else {
-                val stoppedGame = persistence.loadGame(name)
-                val startedGame = stoppedGame?.start()
-                if (startedGame != null)
-                    games.plus(name to startedGame) to startedGame
-                else games to null
-            }
-        }
+    internal suspend fun getGameRunner(name: String): GameRunner? =
+        gamesRef.get()[name]
 
     suspend fun getGame(name: String) = getGameRunner(name)?.getCurrentGameState()
+
+    suspend fun startGame(gameName: String) {
+        val gameRunner = getGameRunner(gameName)
+            ?: repository.loadGame(gameName)?.start()
+        if(gameRunner != null) {
+            gamesRef.update { games ->
+                if (games.containsKey(gameName)) games
+                else games.plus(gameName to gameRunner)
+            }
+        }
+    }
 
     suspend fun getGames(): List<Game> =
         gamesRef.get().entries

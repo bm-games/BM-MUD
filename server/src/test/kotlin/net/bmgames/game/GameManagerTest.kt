@@ -9,7 +9,7 @@ import net.bmgames.game.state.Game
 
 class GameManagerTest : FunSpec({
 
-    lateinit var db: GamePersistenceManager
+    lateinit var db: GameRepository
 
     beforeTest {
         db = mockk()

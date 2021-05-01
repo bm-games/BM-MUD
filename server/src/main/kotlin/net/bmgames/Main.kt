@@ -6,12 +6,15 @@ import net.bmgames.ServerConfig.Companion.initializeConfig
 import net.bmgames.authentication.UserHandler
 import net.bmgames.communication.MailNotifier
 import net.bmgames.communication.Notifier
+import net.bmgames.game.GameManager
+import net.bmgames.game.GameRepository
 
 object Main {
     lateinit var config: ServerConfig
     val mailNotifier: MailNotifier by lazy { MailNotifier(config) }
     val notifier: Notifier by lazy { mailNotifier }
     val userHandler: UserHandler by lazy { UserHandler(mailNotifier) }
+    val gameManager: GameManager = GameManager(GameRepository)
 }
 
 /**
@@ -29,9 +32,7 @@ suspend fun main(args: Array<String>) {
     }
 
     embeddedServer(Netty, port = 80, host = "0.0.0.0") {
-        configureRouting()
-        configureSecurity()
-        configureMonitoring()
+        installServer()
     }.start(wait = true)
 
 }
