@@ -30,7 +30,7 @@ import {Router} from "@angular/router";
       {{form.errors | json}}
     </form>
   `,
-  styleUrls: ['./register.component.scss'],
+  styleUrls: ['./register.component.scss', '../auth/auth.css', '../auth/styles.css'],
 })
 export class RegisterComponent implements OnInit {
 

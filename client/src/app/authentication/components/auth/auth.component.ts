@@ -6,8 +6,7 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-auth-component',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss', './auth.css', './styles.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./auth.component.scss', './auth.css', './styles.css']
 })
 export class AuthComponent implements OnInit {
 
