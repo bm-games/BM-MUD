@@ -25,3 +25,8 @@ data class Verification(
     val username: String,
     val mailVerified: Boolean
 )*/
+
+data class Login(
+    val user: User,
+    val jwttoken: String,
+)

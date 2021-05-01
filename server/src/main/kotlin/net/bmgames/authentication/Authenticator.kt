@@ -1,5 +1,5 @@
 package net.bmgames.authentication
-
+import io.ktor.sessions.*
 
 /**
  * Authenticator, enacts the creation/registration,login and updates of users which get performed via the userHandler
@@ -33,21 +33,22 @@ class Authenticator(val userHandler: UserHandler) {
      *
      * @param mail of the user
      * @param password of the user
-     * @return
+     * @return null if user has not verified his Mail or his credentials are wrong.
+     * @return Login (Data Class Login) with User and the generated JWT which needs to get assigned.
      */
-    fun loginUser(mail: String, password: String): String? {
+    fun loginUser(mail: String, password: String): Login? {
         val user = userHandler.getUserByMail(mail)
         if (user != null) {
             if (userHandler.checkMailApproved(user.username)){
                 if (user.passwordHash == AuthHelper.hashPassword(password)) {
-
+                    val jwt = AuthHelper.makeToken(user)
                     //TODO("Create JWT and add it via a cookie to the user (ktor)")
                     println("Logged IN")
-                    return "Logged In"
+                    return Login(user, jwt)
                 }
             }else{
                 println("Verify your mail")
-                return "Please Verify Your Mail First"
+                return null
             }
         }
         println("Wrong Password or No User with this Credentials")

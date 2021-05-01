@@ -31,8 +31,7 @@ suspend fun main(args: Array<String>) {
         config = initializeConfig(configPath = args[0])
         config.connectToDB()
     }
-    Main.Authenticator.registerUser("i19002@hb.dhbw-stuttgart.de","Lucock","Randy")
-    Main.Authenticator.loginUser("i19002@hb.dhbw-stuttgart.de","Randy")
+
 
     embeddedServer(Netty, port = 80, host = "0.0.0.0") {
         configureRouting()
