@@ -29,11 +29,12 @@ describe('ClassComponent', () => {
     component = fixture.componentInstance;
 
     component.configuredClasses = [
-      new ClassConfig(0, 'Test', 1, 1, 1, ''),
-      new ClassConfig(1, 'Test', 1, 1, 1, ''),
-      new ClassConfig(2, 'Test', 1, 1, 1, ''),
-      new ClassConfig(3, 'Test', 1, 1, 1, ''),
-      new ClassConfig(4, 'Test', 1, 1, 1, '')
+
+      {id: 0, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
+      {id: 1, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
+      {id: 2, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
+      {id: 3, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
+      {id: 4, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
     ];
 
     let calculatedId = component.getNextFreeId();
@@ -46,10 +47,10 @@ describe('ClassComponent', () => {
     component = fixture.componentInstance;
 
     component.configuredClasses = [
-      new ClassConfig(0, 'Test', 1, 1, 1, ''),
-      new ClassConfig(1, 'Test', 1, 1, 1, ''),
-      new ClassConfig(3, 'Test', 1, 1, 1, ''),
-      new ClassConfig(4, 'Test', 1, 1, 1, '')
+      {id: 0, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
+      {id: 1, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
+      {id: 3, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
+      {id: 4, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
     ];
 
     let calculatedId = component.getNextFreeId();
