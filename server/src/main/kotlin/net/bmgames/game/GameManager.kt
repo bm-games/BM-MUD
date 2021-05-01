@@ -2,6 +2,7 @@ package net.bmgames.game
 
 import arrow.fx.coroutines.Atomic
 import net.bmgames.game.connection.GameRunner
+import net.bmgames.game.connection.GameRunner.Companion.start
 import net.bmgames.game.connection.start
 import net.bmgames.game.state.Game
 

@@ -6,7 +6,7 @@ import net.bmgames.game.state.Game
 import net.bmgames.game.state.Player
 
 
-abstract class Command<in P : Player>(name: String) : CliktCommand(name) {
+sealed class Command<P : Player>(name: String) : CliktCommand(name) {
     /**
      * Check if this command can execute depending on the issuer and the current game state.
      * @param game The current game state
@@ -21,3 +21,6 @@ abstract class Command<in P : Player>(name: String) : CliktCommand(name) {
     override fun run() = Unit
 
 }
+
+abstract class MasterCommand(name: String) : Command<Player.Master>(name)
+abstract class PlayerCommand(name: String) : Command<Player.Normal>(name)

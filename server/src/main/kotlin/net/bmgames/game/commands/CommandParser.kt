@@ -1,14 +1,13 @@
 package net.bmgames.game.commands
 
 import arrow.core.Either
-import arrow.core.right
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.types.enum
 import net.bmgames.ErrorMessage
-import net.bmgames.configurator.CommandConfig
+import net.bmgames.configurator.model.CommandConfig
 import net.bmgames.error
 import net.bmgames.game.state.Game
 import net.bmgames.game.state.Player
@@ -25,24 +24,24 @@ val playerCommands: Map<String, () -> Command<Player.Normal>> = mapOf(
 )
 
 val masterCommands: Map<String, () -> Command<Player.Master>> = mapOf(
-    "say" to ::SayCommand
+//    "say" to ::SayCommand
 )
 
-class CommandParser(
-    val commandConfig: CommandConfig
-) {
-    fun parse(player: Player, commandLine: String): Either<ErrorMessage, Command<*>> {
+
+class CommandParser(val commandConfig: CommandConfig) {
+
+    fun parseMasterCommand(commandLine: String) = parse(commandLine, masterCommands)
+    fun parsePlayerCommand(commandLine: String) = parse(commandLine, playerCommands)
+
+    private fun parse(commandLine: String, commands: Map<String, () -> Command<*>>): Either<ErrorMessage, Command<*>> {
         val args = commandLine.trim().split(Regex("[ \t]+"))
         val commandName = args.getOrNull(0) //TODO replace aliases
 
         if (commandName == null) {
             return error("Empty command")
         }
-        val availableCommands = when (player) {
-            is Player.Master -> masterCommands
-            is Player.Normal -> playerCommands
-        }
-        val commandConstructor = availableCommands[commandName]
+
+        val commandConstructor = commands[commandName]
             ?: return error("Command not found") //TODO send available commands
 
         val command = commandConstructor()
@@ -50,15 +49,14 @@ class CommandParser(
             command.parse(args.subList(1, args.size))
             success(command)
         } catch (_: PrintHelpMessage) { //TODO maybe catch other exceptions -> https://ajalt.github.io/clikt/exceptions/#which-exceptions-exist
-            error(command.getFormattedUsage())
+            error(command.getFormattedHelp())
         } catch (_: Exception) {
             error(command.getFormattedUsage())
         }
     }
+
 }
 
-
-abstract class PlayerCommand(name: String) : Command<Player.Normal>(name)
 
 /**
  * @see [https://ajalt.github.io/clikt/]
@@ -66,6 +64,7 @@ abstract class PlayerCommand(name: String) : Command<Player.Normal>(name)
 class MoveCommand : PlayerCommand("move") {
 
     val direction: Direction by argument(help = "The direction you want to move to").enum()
+
 
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<String>> {
         TODO("Not yet implemented")
@@ -75,14 +74,13 @@ class MoveCommand : PlayerCommand("move") {
 
 }
 
-class SayCommand : Command<Player>("say") {
+class SayCommand : PlayerCommand("say") {
 
     val message: String by argument()
         .multiple(true)
         .transformAll { it.joinToString(" ") }
 
-    override fun toAction(player: Player, game: Game): Either<String, List<String>> {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<String>> {
         TODO("Not yet implemented")
     }
-
 }
