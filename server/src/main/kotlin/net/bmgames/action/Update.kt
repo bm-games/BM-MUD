@@ -1,4 +1,7 @@
 package net.bmgames.action
 
-interface Update {
+import net.bmgames.game.state.Game
+
+interface Update : Action {
+    fun update(game : Game) : Game
 }

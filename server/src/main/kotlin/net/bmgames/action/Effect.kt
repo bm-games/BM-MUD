@@ -1,4 +1,7 @@
 package net.bmgames.action
 
-interface Effect {
+import net.bmgames.game.connection.GameRunner
+
+interface Effect : Action {
+    fun run(gameRunner: GameRunner)
 }
