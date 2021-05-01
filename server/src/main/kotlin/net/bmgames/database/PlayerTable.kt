@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.Table
  * */
 object PlayerTable : Table("Player") {
     val id = integer("playerID")
-    val avatarname = varchar("avatarname", NAME_LENGTH)
+    val avatarId = integer("avatarId")
     val game = varchar("gameName", NAME_LENGTH)
     val user = varchar("userName", NAME_LENGTH)
     val roomId = integer("roomId")
