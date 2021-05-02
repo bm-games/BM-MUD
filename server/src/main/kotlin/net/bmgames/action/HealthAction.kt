@@ -1,4 +1,9 @@
 package net.bmgames.action
 
-class HealthAction {
+import net.bmgames.game.state.Game
+
+class HealthAction : Update {
+    override fun update(game: Game): Game {
+        TODO("Not yet implemented")
+    }
 }

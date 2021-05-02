@@ -25,4 +25,14 @@ class CommandParserTest : FunSpec({
         moveCommand.direction shouldBe Direction.NORTH
     }
 
+    test("test teleport command") {
+        val parser = CommandParser(CommandConfig())
+        val player = Player.Master(User("", "", "", true))
+        val command = parser.parse(player, "teleport test 123")
+        command.shouldBeRight()
+        val teleportCommand = command.value.shouldBeTypeOf<TeleportCommand>()
+        teleportCommand.target shouldBe "test"
+        teleportCommand.newRoomID shouldBe "123"
+    }
+
 })
