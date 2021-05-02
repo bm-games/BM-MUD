@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DungeonConfig(
-    val name: String
+    val name: String,
+    val commandConfig: CommandConfig
 )

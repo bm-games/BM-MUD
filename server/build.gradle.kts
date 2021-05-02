@@ -59,7 +59,9 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-property-jvm:$kotest_version")
     testImplementation("io.kotest:kotest-assertions-ktor:$kotest_version")
+    testImplementation("io.kotest.extensions:kotest-assertions-arrow:1.0.2")
     testImplementation("de.joshuagleitze:kotest-files:2.0.0")
+    testImplementation("io.mockk:mockk:1.11.0")
 //    implementation("org.openjdk.jmh:jmh-core:1.29")
 //    implementation("org.openjdk.jmh:jmh-generator-annprocess:1.29")
 
@@ -77,6 +79,9 @@ dependencies {
 //    Utils
     implementation("com.sun.mail:javax.mail:1.6.2")
     implementation("io.arrow-kt:arrow-fx-coroutines:$arrow_version")
+//    CLI Parser
+    implementation("com.github.ajalt.clikt:clikt:3.1.0")
+//    implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.2")
 
 }
 
@@ -94,7 +99,7 @@ tasks.withType<Test> {
 tasks.withType<JacocoReport> {
     reports {
         xml.isEnabled = true
-        html.isEnabled = false
+//        html.isEnabled = false
     }
 }
 

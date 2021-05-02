@@ -1,10 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ItemComponent } from './item.component';
-import {CommandComponent} from "../command/command.component";
+import {ItemComponent} from './item.component';
 import {EquipmentSlot} from "../../../models/EquipmentSlot";
-import {CommandConfig} from "../../../models/CommandConfig";
-import {ItemConfig} from "../../../models/ItemConfig";
 
 describe('ItemComponent', () => {
   let component: ItemComponent;
@@ -86,8 +83,8 @@ describe('ItemComponent', () => {
     component = fixture.componentInstance;
 
     component.configuredItems = [
-      new ItemConfig(0, 'Item', true, 'effect'),
-      new ItemConfig(2, 'Item', true, 'effect'),
+      {id: 0, isConsumable: true, name: 'name', baseDamage: 1, healthModifier: 1, effect: '', slot: EquipmentSlot.head, damageModifier: 1},
+      {id: 2, isConsumable: true, name: 'name', baseDamage: 1, healthModifier: 1, effect: '', slot: EquipmentSlot.head, damageModifier: 1}
     ];
 
     let calculatedId = component.getNextFreeId();

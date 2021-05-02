@@ -31,8 +31,8 @@ describe('NPCComponent', () => {
     component = fixture.componentInstance;
 
     component.configuredNPCs = [
-      new FriendlyNPCConfig(0, 'test', [], [], 'command', 'msg'),
-      new HostileNPCConfig(2, 'test', [], [], 1, 2)
+      {id: 0, type: NPCType.Friendly, name: '', items: [], loottable: [], commandOnInteraction: '', messageOnTalk: ''},
+      {id: 2, type: NPCType.Hostile, name: '', items: [], loottable: [], commandOnInteraction: '', messageOnTalk: ''}
     ];
 
     let calculatedId = component.getNextFreeId();

@@ -25,19 +25,23 @@ export class AuthService {
   login(credentials: { email: string, password: string }): void {
     this.user$.next({username: credentials.email})
     //TODO login on server
+    console.log('login');
   }
 
   register(credentials: { email: string, username: string, password: string }): void {
     this.user$.next({username: credentials.username})
     //TODO register on server
+    console.log('register');
   }
 
   logout(): void {
     this.user$.next(null)
     //TODO logout on server
+    console.log('logout');
   }
 
   resetPassword(email: string) {
     //TODO
+    console.log('reset PW');
   }
 }
