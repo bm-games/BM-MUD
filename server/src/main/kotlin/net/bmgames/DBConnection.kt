@@ -1,8 +1,10 @@
 package net.bmgames
 
 import net.bmgames.database.UserTable
+import net.bmgames.database.VerificationTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+
 
 
 /**
@@ -17,7 +19,7 @@ internal fun ServerConfig.connectToDB() {
     )
     transaction {
         SchemaUtils.create(
-            UserTable
+            UserTable, VerificationTable
         )
     }
 }
