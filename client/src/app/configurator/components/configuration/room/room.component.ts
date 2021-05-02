@@ -36,11 +36,19 @@ export class RoomComponent implements OnInit {
     this.configuredRooms = ConfigurationComponent.allRooms;
     // initialize grid with rooms
     for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
-      if(this.configuredRooms[i])
-      this.grid[i] = {
-        index: i,
-        value: null,
-        color: "#C0C0C0"
+      let room = this.getRoomConfigById(i);
+      if(room != undefined){
+        this.grid[i] = {
+          index: i,
+          value: room,
+          color: "lightgreen"
+        }
+      }else{
+        this.grid[i] = {
+          index: i,
+          value: null,
+          color: "#C0C0C0"
+        }
       }
     }
     this.highlightSelectedValue(0);
@@ -48,6 +56,14 @@ export class RoomComponent implements OnInit {
     this.allNPCs = ConfigurationComponent.allNPCs;
     this.allItems = ConfigurationComponent.allItems;
     console.log(this.configuredRooms);
+  }
+
+  getRoomConfigById(id: number): RoomConfig | undefined {
+    let room;
+    for (let i = 0; i < this.configuredRooms.length; i++) {
+      if(this.configuredRooms[i].id == id) room = this.configuredRooms[i];
+    }
+    return room;
   }
 
   gridRoomSelected(gridV: gridValue){
