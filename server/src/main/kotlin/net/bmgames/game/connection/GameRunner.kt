@@ -1,42 +1,74 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package net.bmgames.game.connection
 
 import arrow.core.Either
+import arrow.core.computations.either
 import arrow.fx.coroutines.Atomic
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.runBlocking
+import net.bmgames.ErrorMessage
 import net.bmgames.game.commands.Command
-import net.bmgames.game.commands.IssuedCommand
+import net.bmgames.game.commands.CommandParser
 import net.bmgames.game.message.Message
 import net.bmgames.game.state.Game
+import net.bmgames.game.state.Player
+import net.bmgames.success
 
 /**
  * Central component which runs a MUD
+ * @property onlinePlayersRef Stores all connections in a thread safe manner.
+ * Every connection is indexed by the unique ingame name of the player
+ *
  * */
-class GameRunner(initialGame: Game) {
-    /**
-     * Stores all connections in a thread safe manner.
-     * Every connection is indexed by the unique ingame name of the player
-     */
-    private val connections: Atomic<Map<String, SendChannel<Message>>> = Atomic.unsafe(emptyMap())
+class GameRunner internal constructor(initialGame: Game) {
     private val currentGameState: Atomic<Game> = Atomic.unsafe(initialGame)
-    private val commandHandler = GameCommandHandler()
-    private val commandQueue = Channel<Command<*>>()
+    private val commandParser = CommandParser(initialGame.config.commandConfig)
+    private val commandQueue = Channel<Pair<String, Command<*>>>()
+
+    private val onlinePlayersRef: Atomic<Map<String, Connection>> = Atomic.unsafe(emptyMap())
+//    private suspend fun getConnection(name: String) = onlinePlayersRef.get()[name]
 
     suspend fun getCurrentGameState() = currentGameState.get()
 
-//    internal suspend fun queueCommand(command: IssuedCommand<*>) = commandQueue.send(command)
+    internal suspend fun connect(
+        player: Player
+    ): Either<ErrorMessage, Connection> = either {
+        val connection = onlinePlayersRef.modify { connections ->
+            if (connections.containsKey(player.ingameName)) {
+                connections to error("Player ${player.ingameName} already connected")
+            } else {
+                val incoming = Channel<Command<*>>()
+                val parseCommand = when (player) {
+                    is Player.Master -> commandParser::parseMasterCommand
+                    is Player.Normal -> commandParser::parsePlayerCommand
+                }
+                val connection = Connection(parseCommand, incoming)
+                val newConnections = connections.plus(player.ingameName to connection)
+                newConnections to success(connection)
+            }
+        }.bind()
 
-    internal suspend fun connect(playerName: String, channel: SendChannel<Message>): CommandHandler {
-        connections.update { it.plus(playerName to channel) }
-        return commandHandler
+        for (command in connection.incoming) {
+            commandQueue.send(player.ingameName to command)
+        }
+
+        connection.outgoingChannel.invokeOnClose {
+            runBlocking { onlinePlayersRef.update { it - player.ingameName } }
+        }
+
+        return@either connection
     }
 
+    suspend fun gameLoop(): Unit {
+        TODO()
+    }
 
-    private class GameCommandHandler : CommandHandler {
-        override suspend fun tryQueueCommand(playerName: String, command: String): Either<String, Unit> {
-            TODO("Parse command and queue if successful")
-        }
+    companion object {
+        suspend fun Game.start(initialGame: Game): GameRunner =
+            GameRunner(initialGame).apply { gameLoop() }
     }
 }
 
-fun Game.start() = GameRunner(this)

@@ -1,10 +1,20 @@
 package net.bmgames.game.state
 
+import kotlinx.serialization.Serializable
 import net.bmgames.authentication.User
 
-sealed class Player(val user: User, val ingameName: String) {
+@Serializable
+sealed class Player {
+    abstract val user: User
+    abstract val ingameName: String
 
-    class Master(user: User) : Player(user, user.username)
+    @Serializable
+    class Master(override val user: User) : Player() {
+        override val ingameName = user.username
+    }
 
-    class Normal(user: User, val avatar: Avatar) : Player(user, avatar.name)
+    @Serializable
+    class Normal(override val user: User, val avatar: Avatar) : Player() {
+        override val ingameName = avatar.name
+    }
 }

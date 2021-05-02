@@ -47,21 +47,21 @@ val masterCommands: Map<String, () -> Command<Player.Master>> = mapOf(
     "hit" to ::HitTargetCommand
 )
 
-class CommandParser(
-    val commandConfig: CommandConfig
-) {
-    fun parse(player: Player, commandLine: String): Either<ErrorMessage, Command<*>> {
+
+class CommandParser(val commandConfig: CommandConfig) {
+
+    fun parseMasterCommand(commandLine: String) = parse(commandLine, masterCommands)
+    fun parsePlayerCommand(commandLine: String) = parse(commandLine, playerCommands)
+
+    private fun parse(commandLine: String, commands: Map<String, () -> Command<*>>): Either<ErrorMessage, Command<*>> {
         val args = commandLine.trim().split(Regex("[ \t]+"))
         val commandName = args.getOrNull(0) //TODO replace aliases
 
         if (commandName == null) {
             return error("Empty command")
         }
-        val availableCommands = when (player) {
-            is Player.Master -> masterCommands
-            is Player.Normal -> playerCommands
-        }
-        val commandConstructor = availableCommands[commandName]
+
+        val commandConstructor = commands[commandName]
             ?: return error("Command not found") //TODO send available commands
 
         val command = commandConstructor()
@@ -69,14 +69,12 @@ class CommandParser(
             command.parse(args.subList(1, args.size))
             success(command)
         } catch (_: PrintHelpMessage) { //TODO maybe catch other exceptions -> https://ajalt.github.io/clikt/exceptions/#which-exceptions-exist
-            error(command.getFormattedUsage())
+            error(command.getFormattedHelp())
         } catch (_: Exception) {
             error(command.getFormattedUsage())
         }
     }
+
 }
-
-
-
 
 
