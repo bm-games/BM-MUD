@@ -9,12 +9,12 @@ sealed class Player {
     abstract val ingameName: String
 
     @Serializable
-    class Master(override val user: User) : Player() {
+    data class Master(override val user: User) : Player() {
         override val ingameName = user.username
     }
 
     @Serializable
-    class Normal(override val user: User, val avatar: Avatar) : Player() {
+    data class Normal(override val user: User, val avatar: Avatar) : Player() {
         override val ingameName = avatar.name
     }
 }

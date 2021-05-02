@@ -4,6 +4,8 @@ import arrow.core.Either
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.launch
+import net.bmgames.game.GameScope
 import net.bmgames.game.commands.Command
 import net.bmgames.game.message.Message
 

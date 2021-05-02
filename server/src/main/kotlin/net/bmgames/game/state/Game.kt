@@ -4,14 +4,16 @@ import kotlinx.serialization.Serializable
 import net.bmgames.configurator.model.DungeonConfig
 
 /**
- * @property allowedPlayers Maps every
+ * @property users Maps every allowed user to his avatars
  * */
 @Serializable
 data class Game(
     val config: DungeonConfig,
     val master: Player.Master,
-    val players: Map<String, Avatar>,
-    val onlinePlayers: Map<String, Player.Normal>,
+    val users: Map<String, List<String>>,
+    val onlinePlayers: Map<String, Player>,
 ) {
     val name = config.name
 }
+
+fun Game.isMasterOnline() = onlinePlayers.containsKey(master.ingameName)

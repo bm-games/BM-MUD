@@ -1,6 +1,7 @@
 package net.bmgames.game.message
 
 import io.ktor.http.cio.websocket.*
+import io.ktor.websocket.*
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -17,7 +18,7 @@ sealed class Message {
     data class Kick(val reason: String) : Message()
 }
 
-suspend fun DefaultWebSocketSession.sendMessage(msg: Message) {
+suspend fun WebSocketServerSession.sendMessage(msg: Message) {
     send(Frame.Text(Json.encodeToString(msg)))
 }
 

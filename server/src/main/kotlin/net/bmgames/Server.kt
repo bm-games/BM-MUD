@@ -14,6 +14,7 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
 import io.ktor.websocket.*
+import net.bmgames.authentication.User
 import net.bmgames.configurator.installConfigEndpoint
 import net.bmgames.game.installGameEndpoint
 import java.time.Duration
@@ -55,6 +56,7 @@ fun Application.configureSecurity() {
     }
 
     install(Sessions) {
+        cookie<User>("USER")
         //TODO
     }
 }

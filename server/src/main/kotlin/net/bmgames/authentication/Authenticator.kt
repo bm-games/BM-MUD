@@ -1,5 +1,8 @@
 package net.bmgames.authentication
 
+import io.ktor.application.*
+import io.ktor.sessions.*
+
 
 /**
  * Authenticator, enacts the creation/registration,login and updates of users which get performed via the userHandler
@@ -73,3 +76,6 @@ class Authenticator(val userHandler: UserHandler) {
     }
 
 }
+
+fun ApplicationCall.getUser(): User? =
+    sessions.get<User>()

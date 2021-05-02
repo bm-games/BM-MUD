@@ -2,7 +2,7 @@ package net.bmgames.game.commands
 
 import arrow.core.Either
 import com.github.ajalt.clikt.core.CliktCommand
-import net.bmgames.action.Action
+import net.bmgames.game.action.Action
 import net.bmgames.game.state.Game
 import net.bmgames.game.state.Player
 
@@ -22,6 +22,7 @@ sealed class Command<P : Player>(name: String) : CliktCommand(name) {
     override fun run() = Unit
 
 }
+
 
 abstract class MasterCommand(name: String) : Command<Player.Master>(name)
 abstract class PlayerCommand(name: String) : Command<Player.Normal>(name)

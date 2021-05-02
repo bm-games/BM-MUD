@@ -2,18 +2,9 @@ package net.bmgames.game.commands
 
 import arrow.core.Either
 import com.github.ajalt.clikt.core.PrintHelpMessage
-import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.arguments.transformAll
-import com.github.ajalt.clikt.parameters.types.enum
 import net.bmgames.ErrorMessage
-import net.bmgames.action.Action
-import net.bmgames.action.HealthAction
-import net.bmgames.action.MessageAction
-import net.bmgames.configurator.CommandConfig
+import net.bmgames.configurator.model.CommandConfig
 import net.bmgames.error
-import net.bmgames.game.message.Message
-import net.bmgames.game.state.Game
 import net.bmgames.game.state.Player
 import net.bmgames.success
 
@@ -25,7 +16,7 @@ import net.bmgames.success
 val playerCommands: Map<String, () -> Command<Player.Normal>> = mapOf(
     "move" to ::MoveCommand,
     "say" to ::SayCommand,
-    "whisper" to :: WhisperCommand,
+    "whisper" to ::WhisperCommand,
     "hit" to ::HitCommand,
     "look" to ::LookCommand,
     "inspect" to ::InspectCommand,
@@ -36,8 +27,8 @@ val playerCommands: Map<String, () -> Command<Player.Normal>> = mapOf(
 )
 
 val masterCommands: Map<String, () -> Command<Player.Master>> = mapOf(
-    "say" to ::SayCommand,
-    "whisper" to ::WhisperCommand,
+    "say" to ::MasterSayCommand,
+    "whisper" to ::MasterWhisperCommand,
     "invite" to ::InvitationCommand,
     "listinvites" to ::ListInvitationsCommand,
     "kick" to ::KickPlayerCommand,

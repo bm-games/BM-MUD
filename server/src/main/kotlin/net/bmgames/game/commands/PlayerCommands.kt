@@ -5,14 +5,12 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.types.enum
-import net.bmgames.action.Action
-import net.bmgames.action.MessageAction
+import net.bmgames.game.action.*
+import net.bmgames.game.action.MessageAction
 import net.bmgames.game.message.Message
 import net.bmgames.game.state.Game
 import net.bmgames.game.state.Player
 
-
-abstract class PlayerCommand(name: String) : Command<Player.Normal>(name)
 
 /**
  * @see [https://ajalt.github.io/clikt/]
@@ -36,13 +34,13 @@ class MoveCommand : PlayerCommand("move") {
 
 
 
-class SayCommand : Command<Player>("say") {
+class SayCommand :PlayerCommand("say") {
 
     val message: String by argument()
         .multiple(true)
         .transformAll { it.joinToString(" ") }
 
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> =
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         try {
             Either.Right(listOf<Action>(MessageAction(player, Message.Text(message))))
         } catch (e: Error) {
@@ -50,19 +48,19 @@ class SayCommand : Command<Player>("say") {
         }
 }
 
-class WhisperCommand : Command<Player>("whisper") {
+class WhisperCommand :PlayerCommand("whisper") {
     val target: String by argument(help = "The player you want to whisper to")
     val message: String by argument(help = "The message you want to send")
         .multiple(true)
         .transformAll { it.joinToString(" ") }
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> {
         TODO("Not yet implemented")
     }
 }
 
-class HitCommand : Command<Player>("hit") {
+class HitCommand :PlayerCommand("hit") {
     val target: String by argument(help = "The target you want to hit")
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> {
         TODO("Required functions not yet implemented")
         /*val returnList = mutableListOf<Action>()
         val targetPlayer : Player.Normal? = getPlayerByName(target)
@@ -77,42 +75,42 @@ class HitCommand : Command<Player>("hit") {
     }
 }
 
-class LookCommand : Command<Player>("look") {
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> {
+class LookCommand :PlayerCommand("look") {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> {
         TODO("Not yet implemented")
     }
 }
 
-class InspectCommand : Command<Player>("inspect") {
+class InspectCommand :PlayerCommand("inspect") {
     val target: String by argument(help = "The target you want to inspect")
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> {
         TODO("Not yet implemented")
     }
 }
 
-class InventoryCommand : Command<Player>("inventory") {
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> {
+class InventoryCommand :PlayerCommand("inventory") {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> {
         TODO("Not yet implemented")
     }
 }
 
-class PickupCommand : Command<Player>("pickup") {
+class PickupCommand :PlayerCommand("pickup") {
     val target: String by argument(help = "The item you want to pickup")
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> {
         TODO("Not yet implemented")
     }
 }
 
-class DropItemCommand : Command<Player>("drop") {
+class DropItemCommand :PlayerCommand("drop") {
     val target: String by argument(help = "The item you want to drop")
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> {
         TODO("Not yet implemented")
     }
 }
 
-class UseItemCommand : Command<Player>("use") {
+class UseItemCommand :PlayerCommand("use") {
     val target: String by argument(help = "The item you want to drop")
-    override fun toAction(player: Player, game: Game): Either<String, List<Action>> {
+    override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> {
         TODO("Not yet implemented")
     }
 }

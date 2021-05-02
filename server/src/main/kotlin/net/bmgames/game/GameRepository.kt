@@ -4,15 +4,14 @@ import net.bmgames.game.state.Game
 
 object GameRepository {
     internal fun save(game: Game) {
-        game.name
-        //TODO save to DB
+        TODO("Save game")
     }
 
     internal fun loadGame(name: String): Game? {
-        return Game(name) //TODO load from DB
+        return TODO("Load from DB")
     }
 
     internal fun listGames(): List<Game> {
-        return listOf() //TODO load from DB
+        return TODO("Load from DB")
     }
 }
