@@ -14,12 +14,3 @@ object UserTable : Table("User") {
     override val primaryKey = PrimaryKey(username, name = "username")
 
 }
-/**
- * Represents the Database Table - Verification
- * */
-object VerificationTable : Table("Verification") {
-    val registrationKey = varchar("registrationKey", REG_LENGTH)
-    val username = varchar("username", NAME_LENGTH)
-    val mailVerified = bool("mailVerified")
-    override val primaryKey = PrimaryKey(registrationKey, name = "registrationKey")
-}

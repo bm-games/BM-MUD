@@ -13,6 +13,7 @@ import java.sql.SQLException
  */
 class UserHandler(private val mailNotifier: MailNotifier) {
 
+    private val authHelper = AuthHelper()
 
     /* protected fun getUser(token: JWT): User?{
         return null
@@ -80,7 +81,7 @@ class UserHandler(private val mailNotifier: MailNotifier) {
          */
         do {
             try {
-                token = AuthHelper.generateVerificationToken()
+                token = authHelper.generateVerificationToken()
                 transaction {
                     VerificationTable.insert {
                         it[registrationKey] = token
@@ -112,7 +113,7 @@ class UserHandler(private val mailNotifier: MailNotifier) {
     internal fun resetPassword(mail: String) {
         val userByMail = getUserByMail(mail)
         if (userByMail != null) {
-            val password = AuthHelper.hashPassword(AuthHelper.generatePassword())
+            val password = authHelper.hashPassword(authHelper.generatePassword())
             changePassword(mail, password)
             mailNotifier.sendMailReset(userByMail)
         }

@@ -13,6 +13,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
+import io.ktor.util.*
 import io.ktor.websocket.*
 import net.bmgames.authentication.User
 import net.bmgames.configurator.installConfigEndpoint
@@ -20,9 +21,9 @@ import net.bmgames.game.installGameEndpoint
 import java.time.Duration
 
 
-fun Application.installServer() {
+fun Application.installServer(config: ServerConfig) {
     installFeatures()
-    configureSecurity()
+    configureSecurity(config)
     configureRoutes()
 }
 
@@ -45,7 +46,7 @@ fun Application.configureRoutes() {
 
 }
 
-fun Application.configureSecurity() {
+fun Application.configureSecurity(config: ServerConfig) {
     install(CORS) {
         anyHost()
         allowCredentials = true
@@ -56,8 +57,13 @@ fun Application.configureSecurity() {
     }
 
     install(Sessions) {
-        cookie<User>("USER")
-        //TODO
+        cookie<User>("UserIdentifier") {
+            val secretEncryptKey = hex("00112233445566778899aabbccddeeff") //replace with a value from config.json
+            val secretAuthKey = hex("02030405060708090a0b0c") //replace with a value from config.json
+            cookie.extensions["SameSite"] = "lax"
+            cookie.httpOnly = true
+            transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
+        }
     }
 }
 

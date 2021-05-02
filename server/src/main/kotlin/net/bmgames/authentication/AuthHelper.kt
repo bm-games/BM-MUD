@@ -3,12 +3,9 @@ package net.bmgames.authentication
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import net.bmgames.Main
 import net.bmgames.Main.config
-import net.bmgames.database.UserTable
-import net.bmgames.database.VerificationTable
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import net.bmgames.ServerConfig
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -22,12 +19,12 @@ const val PASSWORD_LENGTH = 20
  *
  * @Constructor Create empty Auth helper
  */
-internal object AuthHelper {
+internal class AuthHelper(val config: ServerConfig = Main.config) {
 
-    object ChCrypto {
+    /*companion object ChCrypto { TODO Wozu?
         fun aesEncrypt(v: String) = hashPassword(v)
         fun aesDecrypt(v: String) = unhashPassword(v)
-    }
+    }*/
 
     /**
      * HashingObject
@@ -80,7 +77,8 @@ internal object AuthHelper {
      */
     fun hashPassword(password: String): String {
         val encrypted =
-            HashingObject.cipher(Cipher.ENCRYPT_MODE, config.secretKeyHash).doFinal(password.toByteArray(Charsets.UTF_8))
+            HashingObject.cipher(Cipher.ENCRYPT_MODE, config.secretKeyHash)
+                .doFinal(password.toByteArray(Charsets.UTF_8))
         return String(HashingObject.encorder.encode(encrypted))
     }
 
@@ -100,10 +98,10 @@ internal object AuthHelper {
      *
      *
      */
-    private const val secret = "R6A6QCo5oTygj37aM4zG" //replace with a secret Key from config.json
-    private const val issuer = "bm-games.net"   //replace with a value from config.json
-    private const val audience = "bm-games-audience"    //replace with a value from config.json
-    private const val validityInMs = 36_000_00 * 10 // 10 hours
+    private val secret = "R6A6QCo5oTygj37aM4zG" //replace with a secret Key from config.json
+    private val issuer = "bm-games.net"   //replace with a value from config.json
+    private val audience = "bm-games-audience"    //replace with a value from config.json
+    private val validityInMs = 36_000_00 * 10 // 10 hours
     private val algorithm = Algorithm.HMAC512(secret)
 
     val verifier: JWTVerifier = JWT
@@ -123,6 +121,7 @@ internal object AuthHelper {
         .withClaim("pw", user?.passwordHash)
         .withExpiresAt(getExpiration())
         .sign(algorithm)
+
     /**
      * Calculate the expiration Date based on current time + the given validity
      */

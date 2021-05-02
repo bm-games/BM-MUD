@@ -35,7 +35,7 @@ class GameEndpointKtTest : FunSpec({
     test("Should connect websocket successfully") {
         withAuthenticatedTestApplication(PLAYER.user) {
             handleWebSocketConversation("/api/game/play/${GAME_WITH_PLAYER.name}/${PLAYER.ingameName}")
-            { incoming, outgoing ->
+            { incoming, _ ->
                 for (msg in incoming) {
                     if (msg is Frame.Text) {
                         msg.shouldBeTypeOf<Frame.Text>()

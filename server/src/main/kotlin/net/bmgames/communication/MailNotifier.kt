@@ -13,6 +13,8 @@ import javax.mail.internet.MimeMessage
  * @constructor Create empty Mail notifier
  */
 class MailNotifier(val config: ServerConfig) : Notifier {
+    private val authHelper = AuthHelper()
+
     /**
      * Sends a mail to the user using the supplied parameters via smtp.
      *
@@ -55,7 +57,7 @@ class MailNotifier(val config: ServerConfig) : Notifier {
             """<html lang="en"><body>            
                 <h1>Reset your password.</h1>
                 <p>Click the link below to reset your password</p>
-                <p>${AuthHelper.unhashPassword(user.passwordHash)}</p>
+                <p>${authHelper.unhashPassword(user.passwordHash)}</p>
                 </body></html>"""
 
         send(user, mailSubject, message)

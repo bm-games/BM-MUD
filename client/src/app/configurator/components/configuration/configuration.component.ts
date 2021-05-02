@@ -31,11 +31,11 @@ export class ConfigurationComponent implements OnInit {
   static set allCommands(value: CommandConfig[]) {
     this._allCommands = value;
   }
-  static get allNPCs(): FriendlyNPCConfig[] | HostileNPCConfig[] {
+  static get allNPCs(): (FriendlyNPCConfig | HostileNPCConfig)[] {
     return this._allNPCs;
   }
 
-  static set allNPCs(value: FriendlyNPCConfig[] | HostileNPCConfig[]) {
+  static set allNPCs(value: (FriendlyNPCConfig | HostileNPCConfig)[]) {
     this._allNPCs = value;
   }
 
@@ -44,7 +44,7 @@ export class ConfigurationComponent implements OnInit {
   private static _allRaces: RaceConfig[] = [];
   private static _allClasses: ClassConfig[] = [];
   private static _allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
-  private static _allNPCs: FriendlyNPCConfig[] | HostileNPCConfig[] = [];
+  private static _allNPCs: (FriendlyNPCConfig | HostileNPCConfig)[] = [];
   private static _allCommands: CommandConfig[] = [];
   private static _allRooms: RoomConfig[] = [];
 

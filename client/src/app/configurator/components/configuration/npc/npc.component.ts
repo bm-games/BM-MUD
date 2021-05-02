@@ -28,7 +28,7 @@ export class NPCComponent implements OnInit {
   selectedNPCItemsLoottable: ItemConfig[] = [];
   selectedCommandOnInteraction: string = '';
 
-  configuredNPCs: FriendlyNPCConfig[] | HostileNPCConfig[] = [];
+  configuredNPCs: (FriendlyNPCConfig | HostileNPCConfig)[] = [];
 
   constructor() { }
 

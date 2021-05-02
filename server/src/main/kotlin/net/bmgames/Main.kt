@@ -32,7 +32,7 @@ suspend fun main(args: Array<String>) {
     }
 
     embeddedServer(Netty, port = 80, host = "0.0.0.0") {
-        installServer()
+        installServer(Main.config)
     }.start(wait = true)
 
 }

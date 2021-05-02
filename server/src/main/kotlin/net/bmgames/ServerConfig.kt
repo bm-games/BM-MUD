@@ -68,7 +68,7 @@ data class ServerConfig(
     }
 }
 
-internal val DEMO_CONFIG = ServerConfig(
+val DEMO_CONFIG = ServerConfig(
     dbHost = "localhost",
     dbPort = 5432,
     dbName = "postgres",

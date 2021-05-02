@@ -13,6 +13,8 @@ import io.ktor.sessions.*
  */
 class Authenticator(val userHandler: UserHandler) {
 
+    private val authHelper = AuthHelper()
+
     /**
      * Register a new user if possible
      *
@@ -24,7 +26,7 @@ class Authenticator(val userHandler: UserHandler) {
     fun registerUser(mail: String, username: String, password: String): String? {
 
         if (userHandler.checkRegisterPossible(mail, username)) {
-            val user = User(mail, username, AuthHelper.hashPassword(password))
+            val user = User(mail, username, authHelper.hashPassword(password))
             userHandler.createUser(user)
         }
         return null
@@ -43,8 +45,8 @@ class Authenticator(val userHandler: UserHandler) {
         val user = userHandler.getUserByMail(mail)
         if (user != null) {
             if (userHandler.checkMailApproved(user.username)){
-                if (user.passwordHash == AuthHelper.hashPassword(password)) {
-                    val jwt = AuthHelper.makeToken(user)
+                if (user.passwordHash == authHelper.hashPassword(password)) {
+                    val jwt = authHelper.makeToken(user)
                     //TODO("Create JWT and add it via a cookie to the user (ktor)")
                     println("Logged IN")
                     return Login(user, jwt)
@@ -79,8 +81,8 @@ class Authenticator(val userHandler: UserHandler) {
      */
     fun changePassword(mail: String, oldPassword: String, password: String): String? {
         val user = userHandler.getUserByMail(mail)
-        if (user != null && user.passwordHash == AuthHelper.hashPassword(oldPassword)) {
-            userHandler.changePassword(mail, AuthHelper.hashPassword(password))
+        if (user != null && user.passwordHash == authHelper.hashPassword(oldPassword)) {
+            userHandler.changePassword(mail, authHelper.hashPassword(password))
         }
         return null
     }
