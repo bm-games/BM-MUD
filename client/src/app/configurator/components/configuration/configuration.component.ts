@@ -9,6 +9,7 @@ import {CommandConfig} from "../../models/CommandConfig";
 import {WeaponConfig} from "../../models/WeaponConfig";
 import {FriendlyNPCConfig} from "../../models/FriendlyNPCConfig";
 import {HostileNPCConfig} from "../../models/HostileNPCConfig";
+import {RoomConfig} from "../../models/RoomConfig";
 
 @Component({
   selector: 'app-configuration',
@@ -16,6 +17,13 @@ import {HostileNPCConfig} from "../../models/HostileNPCConfig";
   styleUrls: ['./configuration.component.scss']
 })
 export class ConfigurationComponent implements OnInit {
+  static get allRooms(): RoomConfig[] {
+    return this._allRooms;
+  }
+
+  static set allRooms(value: RoomConfig[]) {
+    this._allRooms = value;
+  }
   static get allCommands(): CommandConfig[] {
     return this._allCommands;
   }
@@ -38,6 +46,7 @@ export class ConfigurationComponent implements OnInit {
   private static _allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
   private static _allNPCs: FriendlyNPCConfig[] | HostileNPCConfig[] = [];
   private static _allCommands: CommandConfig[] = [];
+  private static _allRooms: RoomConfig[] = [];
 
   constructor(private titleService: Title) { }
 

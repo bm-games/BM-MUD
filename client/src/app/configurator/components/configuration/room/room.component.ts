@@ -33,8 +33,10 @@ export class RoomComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.configuredRooms = ConfigurationComponent.allRooms;
     // initialize grid with rooms
     for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
+      if(this.configuredRooms[i])
       this.grid[i] = {
         index: i,
         value: null,
@@ -45,6 +47,7 @@ export class RoomComponent implements OnInit {
 
     this.allNPCs = ConfigurationComponent.allNPCs;
     this.allItems = ConfigurationComponent.allItems;
+    console.log(this.configuredRooms);
   }
 
   gridRoomSelected(gridV: gridValue){
@@ -84,6 +87,7 @@ export class RoomComponent implements OnInit {
     this.grid.forEach(gridValue => {
       if(gridValue.value != null) this.configuredRooms.push(gridValue.value);
     });
+    ConfigurationComponent.allRooms = this.configuredRooms;
   }
 
   searchForNeighbour(index: number, direction: string) : number{

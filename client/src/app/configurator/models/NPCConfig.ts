@@ -46,7 +46,8 @@ import {NPCType} from "./NPCType";
 //  }
 //}
 
-export interface NPCConfig extends BaseConfig{
+export interface NPCConfig {
+  id: number;
   name: string;
   type: NPCType;
   items: number[];
