@@ -16,21 +16,24 @@ internal fun ServerConfig.connectToDB() {
         password = dbPassword
     )
     transaction {
+        SchemaUtils.drop(
+        )
         SchemaUtils.create(
             UserTable,
             AvatarTable,
-            ClassTable,
-            EquipmentConfigTable,
+            ClassConfigTable,
             GameTable,
             ItemConfigTable,
-            NPCConfig,
+            NPCConfigtable,
             NPCItemTable,
             NPCTable,
-            PlayerEquipmentTable,
             PlayerItemTable,
             PlayerTable,
             RoomConfigTable,
-            RoomTable
+            RoomTable,
+            VerificationTable,
+            VisitedRoomsTable,
+            CommandConfigTable
         )
     }
 }

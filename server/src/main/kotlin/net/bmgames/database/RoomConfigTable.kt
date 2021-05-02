@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.Table
  * */
 object RoomConfigTable : Table("RoomConfig") {
     val id = integer("roomConfigId")
+    val game = varchar("gameName", NAME_LENGTH)
     val name = varchar("roomName", NAME_LENGTH)
     val northId = integer("northId")
     val eastId = integer("eastId")
