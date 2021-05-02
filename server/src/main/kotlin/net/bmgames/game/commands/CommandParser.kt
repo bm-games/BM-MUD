@@ -7,8 +7,12 @@ import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.types.enum
 import net.bmgames.ErrorMessage
-import net.bmgames.configurator.model.CommandConfig
+import net.bmgames.action.Action
+import net.bmgames.action.HealthAction
+import net.bmgames.action.MessageAction
+import net.bmgames.configurator.CommandConfig
 import net.bmgames.error
+import net.bmgames.game.message.Message
 import net.bmgames.game.state.Game
 import net.bmgames.game.state.Player
 import net.bmgames.success
@@ -20,11 +24,27 @@ import net.bmgames.success
  * */
 val playerCommands: Map<String, () -> Command<Player.Normal>> = mapOf(
     "move" to ::MoveCommand,
-    "say" to ::SayCommand
+    "say" to ::SayCommand,
+    "whisper" to :: WhisperCommand,
+    "hit" to ::HitCommand,
+    "look" to ::LookCommand,
+    "inspect" to ::InspectCommand,
+    "inventory" to ::InventoryCommand,
+    "pickup" to ::PickupCommand,
+    "drop" to ::DropItemCommand,
+    "use" to ::UseItemCommand
 )
 
 val masterCommands: Map<String, () -> Command<Player.Master>> = mapOf(
-//    "say" to ::SayCommand
+    "say" to ::SayCommand,
+    "whisper" to ::WhisperCommand,
+    "invite" to ::InvitationCommand,
+    "listinvites" to ::ListInvitationsCommand,
+    "kick" to ::KickPlayerCommand,
+    "teleport" to ::TeleportCommand,
+    "createroom" to ::CreateRoomCommand,
+    "spawn" to ::SpawnCommand,
+    "hit" to ::HitTargetCommand
 )
 
 
@@ -58,29 +78,3 @@ class CommandParser(val commandConfig: CommandConfig) {
 }
 
 
-/**
- * @see [https://ajalt.github.io/clikt/]
- * */
-class MoveCommand : PlayerCommand("move") {
-
-    val direction: Direction by argument(help = "The direction you want to move to").enum()
-
-
-    override fun toAction(player: Player.Normal, game: Game): Either<String, List<String>> {
-        TODO("Not yet implemented")
-    }
-
-    enum class Direction { NORTH, EAST, SOUTH, WEST }
-
-}
-
-class SayCommand : PlayerCommand("say") {
-
-    val message: String by argument()
-        .multiple(true)
-        .transformAll { it.joinToString(" ") }
-
-    override fun toAction(player: Player.Normal, game: Game): Either<String, List<String>> {
-        TODO("Not yet implemented")
-    }
-}
