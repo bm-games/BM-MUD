@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {NPCConfig} from "../../../models/NPCConfig";
+import {Component, OnInit} from '@angular/core';
 import {ConfigurationComponent} from "../configuration.component";
-import {HostileNPCConfig} from "../../../models/HostileNPCConfig";
 import {ItemConfig} from "../../../models/ItemConfig";
 import {FriendlyNPCConfig} from "../../../models/FriendlyNPCConfig";
+import {EquipmentConfig} from "../../../models/EquipmentConfig";
+import {WeaponConfig} from "../../../models/WeaponConfig";
+import {NPCType} from "../../../models/NPCType";
+import {HostileNPCConfig} from "../../../models/HostileNPCConfig";
 
 @Component({
   selector: 'app-npc',
@@ -15,8 +17,8 @@ export class NPCComponent implements OnInit {
   name: string | undefined;
   messageOnTalk: string | undefined;
   npcTypes: string[] = ['Verbündet', 'Feindlich'];
-  allEquipment: ItemConfig[] = [];
-  allItemsLoottable: ItemConfig[] = [];
+  allEquipment: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
+  allItemsLoottable: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
   interactionCommands: string[] = ['Heilen', 'In zufälligen Raum teleportieren'];
   selectedNPCType: string = 'Verbündet';
   isHostile = false;
@@ -26,7 +28,7 @@ export class NPCComponent implements OnInit {
   selectedNPCItemsLoottable: ItemConfig[] = [];
   selectedCommandOnInteraction: string = '';
 
-  configuredNPCs: NPCConfig[] = [];
+  configuredNPCs: (FriendlyNPCConfig | HostileNPCConfig)[] = [];
 
   constructor() { }
 
@@ -43,7 +45,20 @@ export class NPCComponent implements OnInit {
     this.selectedNPCItemsLoottable.forEach(e => loottableItemsIds.push(e.id));
     if(this.isHostile){
       if(this.name != undefined && this.health != undefined && this.damage != undefined){
-        this.configuredNPCs.push(new HostileNPCConfig(this.getNextFreeId(), this.name, equipmentIds, loottableItemsIds, this.health, this.damage))
+        //this.configuredNPCs.push(new HostileNPCConfig(this.getNextFreeId(), this.name, equipmentIds, loottableItemsIds, this.health, this.damage))
+
+        this.configuredNPCs.push({
+          id: this.getNextFreeId(),
+          type: NPCType.Hostile,
+          name: this.name,
+          items: equipmentIds,
+          loottable: loottableItemsIds,
+          health: this.health,
+          damage: this.damage,
+          commandOnInteraction: undefined,
+          messageOnTalk: undefined
+        });
+
         this.name = undefined;
         this.health = undefined;
         this.damage = undefined;
@@ -53,7 +68,20 @@ export class NPCComponent implements OnInit {
       }
     }else{
       if(this.name != undefined && this.messageOnTalk != undefined && this.selectedCommandOnInteraction != undefined){
-        this.configuredNPCs.push(new FriendlyNPCConfig(this.getNextFreeId(), this.name, equipmentIds, loottableItemsIds, this.selectedCommandOnInteraction, this.messageOnTalk))
+        //this.configuredNPCs.push(new FriendlyNPCConfig(this.getNextFreeId(), this.name, equipmentIds, loottableItemsIds, this.selectedCommandOnInteraction, this.messageOnTalk))
+
+        this.configuredNPCs.push({
+          id: this.getNextFreeId(),
+          type: NPCType.Friendly,
+          name: this.name,
+          items: equipmentIds,
+          loottable: loottableItemsIds,
+          health: undefined,
+          damage: undefined,
+          commandOnInteraction: this.selectedCommandOnInteraction,
+          messageOnTalk: this.messageOnTalk
+        });
+
         this.name = undefined;
         this.messageOnTalk = undefined;
         this.selectedCommandOnInteraction = '';

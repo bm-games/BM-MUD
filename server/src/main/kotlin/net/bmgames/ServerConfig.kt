@@ -24,7 +24,9 @@ data class ServerConfig(
     val smtpHost: String,
     val smtpPort: Int,
     val emailAddress: String,
-    val emailPassword: String
+    val emailPassword: String,
+
+    val secretKeyHash: String
 
 ) {
     companion object {
@@ -66,7 +68,7 @@ data class ServerConfig(
     }
 }
 
-internal val DEMO_CONFIG = ServerConfig(
+val DEMO_CONFIG = ServerConfig(
     dbHost = "localhost",
     dbPort = 5432,
     dbName = "postgres",
@@ -76,5 +78,6 @@ internal val DEMO_CONFIG = ServerConfig(
     smtpPort = 25,
     emailAddress = "info@bm-games.net",
     emailPassword = "password",
+    secretKeyHash = "YYiSB7kY5Ed5mttaJRSkgHEPF43iLjTA"
 )
 

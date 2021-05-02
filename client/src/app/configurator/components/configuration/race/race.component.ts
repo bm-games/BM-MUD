@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RaceConfig} from "../../../models/RaceConfig";
 import {DungeonConfig} from "../../../models/DungeonConfig";
 import {ConfigurationComponent} from "../configuration.component";
+import {NPCType} from "../../../models/NPCType";
 
 @Component({
   selector: 'app-race',
@@ -25,7 +26,16 @@ export class RaceComponent implements OnInit {
 
   addRace(){
     if(this.name != undefined && this.health != undefined && this.damage != undefined && this.description != undefined){
-      this.configuredRaces.push(new RaceConfig(this.getNextFreeId(), this.name, this.health, this.damage, this.description));
+      //this.configuredRaces.push(new RaceConfig(this.getNextFreeId(), this.name, this.health, this.damage, this.description));
+
+      this.configuredRaces.push({
+        id: this.getNextFreeId(),
+        name: this.name,
+        health: this.health,
+        damageMultiplier: this.damage,
+        description: this.description
+      });
+
       this.name = undefined;
       this.health = undefined;
       this.damage = undefined;
@@ -60,10 +70,4 @@ export class RaceComponent implements OnInit {
     return value;
   }
 
-}
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
 }

@@ -22,7 +22,7 @@ import {Router} from "@angular/router";
     </a>
 
   `,
-  styleUrls: ['./reset-password.component.scss']
+  styleUrls: ['./reset-password.component.scss', '../auth/auth.css', '../auth/styles.css']
 })
 export class ResetPasswordComponent implements OnInit {
 

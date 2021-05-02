@@ -33,8 +33,8 @@ describe('RaceComponent', () => {
     component = fixture.componentInstance;
 
     component.configuredRaces = [
-      new RaceConfig(0, 'race', 1, 1, 'desc'),
-      new RaceConfig(2, 'race', 1, 1, 'desc'),
+      { id: 0, name: 'test', health: 1, description: '', damageMultiplier: 2},
+      { id: 2, name: 'test', health: 1, description: '', damageMultiplier: 2},
     ];
 
     let calculatedId = component.getNextFreeId();

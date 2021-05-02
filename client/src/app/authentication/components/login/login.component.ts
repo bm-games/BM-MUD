@@ -28,7 +28,7 @@ import {Router} from "@angular/router";
       <p class="title">Forgot your Password?</p>
     </a>
   `,
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss', '../auth/auth.css', '../auth/styles.css'],
 })
 export class LoginComponent implements OnInit {
 

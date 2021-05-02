@@ -1,3 +1,9 @@
+body {
+  margin-left: 2%;
+  margin-right: 2%;
+  padding-top: 20px;
+}
+
 .Area{
   height: 80%;
   margin-top: 5px;
@@ -10,7 +16,7 @@
   width: 50%;
   height: 100%;
   margin-bottom: 20px;
-  border: 2px solid #C0C0C0;
+  border: 2px solid gray;
   float: left;
   input {
     font-size: 16pt;
@@ -23,7 +29,7 @@
 
 .inputAreaHeader{
   position: relative;
-  border-bottom: 1px solid #C0C0C0;
+  border-bottom: 1px solid gray;
   height: 100px;
   width: 80%;
   margin: auto auto 100px;
@@ -81,9 +87,9 @@
 .dataArea{
   width: 50%;
   height: 100%;
-  border-right: 2px solid #C0C0C0;
-  border-top: 2px solid #C0C0C0;
-  border-bottom: 2px solid #C0C0C0;
+  border-right: 2px solid gray;
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
   float: right;
 
 }
@@ -99,20 +105,15 @@
       font-size: 16pt;
       width: 50%;
     }
-
-    textarea {
-      float: right;
-      width: 50%;
-      height: 100px;
-      resize: none;
-      outline: none;
-      font-size: 12pt;
+    mat-card{
+      background-color: whitesmoke;
+      margin-bottom: 20px;
     }
   }
 }
 .dataAreaHeader{
   position: relative;
-  border-bottom: 1px solid #C0C0C0;
+  border-bottom: 1px solid gray;
   height: 100px;
   width: 80%;
   margin: auto auto 100px;

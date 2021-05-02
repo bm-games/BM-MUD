@@ -1,8 +1,9 @@
 package net.bmgames
 
-import net.bmgames.database.UserTable
+import net.bmgames.database.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+
 
 
 /**
@@ -16,8 +17,26 @@ internal fun ServerConfig.connectToDB() {
         password = dbPassword
     )
     transaction {
+        SchemaUtils.drop(
+        )
         SchemaUtils.create(
-            UserTable
+            UserTable,
+            AvatarTable,
+            ClassConfigTable,
+            GameTable,
+            ItemConfigTable,
+            NPCConfigtable,
+            NPCItemTable,
+            NPCTable,
+            PlayerItemTable,
+            PlayerTable,
+            RaceConfigTable,
+            RoomConfigTable,
+            RoomItemTable,
+            RoomTable,
+            VerificationTable,
+            VisitedRoomsTable,
+            CommandConfigTable
         )
     }
 }

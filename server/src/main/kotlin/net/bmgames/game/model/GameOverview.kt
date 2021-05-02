@@ -6,6 +6,7 @@ import net.bmgames.configurator.model.DungeonConfig
 @Serializable
 data class GameOverview (
     val config: DungeonConfig,
+//    val isStarted: Boolean,
     val onlinePlayers: Int,
     val masterOnline: Boolean,
     val avatarCount: Int,

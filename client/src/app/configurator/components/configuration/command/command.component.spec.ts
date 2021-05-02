@@ -31,11 +31,11 @@ describe('CommandComponent', () => {
     component = fixture.componentInstance;
 
     component.customCommands = [
-      new CommandConfig(0, '', ['']),
-      new CommandConfig(1, '', ['']),
-      new CommandConfig(2, '', ['']),
-      new CommandConfig(3, '', ['']),
-      new CommandConfig(4, '', [''])
+      {id: 0, actions: [], command: ''},
+      {id: 1, actions: [], command: ''},
+      {id: 2, actions: [], command: ''},
+      {id: 3, actions: [], command: ''},
+      {id: 4, actions: [], command: ''}
     ];
 
     let calculatedId = component.getNextFreeId();
@@ -48,10 +48,10 @@ describe('CommandComponent', () => {
     component = fixture.componentInstance;
 
     component.customCommands = [
-      new CommandConfig(0, '', ['']),
-      new CommandConfig(1, '', ['']),
-      new CommandConfig(3, '', ['']),
-      new CommandConfig(4, '', [''])
+      {id: 0, actions: [], command: ''},
+      {id: 1, actions: [], command: ''},
+      {id: 3, actions: [], command: ''},
+      {id: 4, actions: [], command: ''}
     ];
 
     let calculatedId = component.getNextFreeId();

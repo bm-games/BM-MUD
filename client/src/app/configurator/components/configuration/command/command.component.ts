@@ -38,7 +38,14 @@ export class CommandComponent implements OnInit {
   addCommand(){
     if(this.isCustomCommand){
       if(this.selectedActions.length > 0 && this.commandSyntax != undefined){
-        this.customCommands.push(new CommandConfig(this.getNextFreeId(), this.commandSyntax, this.selectedActions))
+        //this.customCommands.push(new CommandConfig(this.getNextFreeId(), this.commandSyntax, this.selectedActions))
+
+        this.customCommands.push({
+          id: this.getNextFreeId(),
+          command: this.commandSyntax,
+          actions: this.selectedActions
+        });
+
         ConfigurationComponent.allCommands = this.customCommands;
         this.selectedActions = [];
         this.commandSyntax = undefined;
