@@ -1,5 +1,7 @@
 package net.bmgames.authentication
 
+import kotlinx.serialization.Serializable
+
 
 /**
  * User Data class
@@ -11,6 +13,8 @@ package net.bmgames.authentication
  * @constructor is also the primary constructor of the class
  *
  * */
+
+@Serializable
 data class User(
     val email: String,
     val username: String,

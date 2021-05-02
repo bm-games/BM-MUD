@@ -9,10 +9,11 @@ import {GameModule} from "./game/game.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {AuthService} from "./authentication/services/auth.service";
+import {environment} from "../environments/environment";
 
 export const LOCAL_CONFIG: ClientConfig = {
-  endpoint: "http://play.bm-games.net",
-  websocketEndpoint: "ws://play.bm-games.net/game",
+  endpoint: environment.endpoint,
+  websocketEndpoint: environment.websocketEndpoint,
 };
 
 @NgModule({
