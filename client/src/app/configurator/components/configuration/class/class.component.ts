@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {RaceConfig} from "../../../models/RaceConfig";
 import {ClassConfig} from "../../../models/ClassConfig";
-import {DungeonConfig} from "../../../models/DungeonConfig";
 import {ConfigurationComponent} from "../configuration.component";
 
 @Component({
@@ -32,7 +30,17 @@ export class ClassComponent implements OnInit {
     console.log(this.attackSpeed);
     console.log(this.description);
     if(this.name != undefined && this.healthMultiplier != undefined && this.damage != undefined && this.description != undefined && this.attackSpeed != undefined){
-      this.configuredClasses.push(new ClassConfig(this.getNextFreeId(), this.name, this.healthMultiplier, this.damage, this.attackSpeed, this.description));
+      //this.configuredClasses.push(new ClassConfig(this.getNextFreeId(), this.name, this.healthMultiplier, this.damage, this.attackSpeed, this.description));
+
+      this.configuredClasses.push({
+        id: this.getNextFreeId(),
+        name: this.name,
+        healthMultiplier: this.healthMultiplier,
+        damage: this.damage,
+        attackSpeed: this.attackSpeed,
+        description: this.description
+      });
+
       this.name = undefined;
       this.healthMultiplier = undefined;
       this.damage = undefined;

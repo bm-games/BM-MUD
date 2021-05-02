@@ -3,6 +3,8 @@ import {ConfigurationComponent} from "../configuration.component";
 import {NPCConfig} from "../../../models/NPCConfig";
 import {ItemConfig} from "../../../models/ItemConfig";
 import {RoomConfig} from "../../../models/RoomConfig";
+import {EquipmentConfig} from "../../../models/EquipmentConfig";
+import {WeaponConfig} from "../../../models/WeaponConfig";
 
 @Component({
   selector: 'app-room',
@@ -12,13 +14,16 @@ import {RoomConfig} from "../../../models/RoomConfig";
 export class RoomComponent implements OnInit {
 
   allNPCs: NPCConfig[] = [];
-  allItems: ItemConfig[] = [];
+  allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
 
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
   selectedRoomNPCs: string[] = [];
   selectedRoomItems: string[] = [];
+  selectedStartRoom: number = 0;
+
+  configuredRooms: RoomConfig[] = [];
 
   //Grid
   // -> neighbours of a gridValue are: index -> [-1],[+1],[-mapColumns},[+mapColumns]
@@ -74,6 +79,11 @@ export class RoomComponent implements OnInit {
     if(eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
     if(southNeighbour > -1) this.updateNeighbour(southNeighbour);
     if(westNeighbour > -1) this.updateNeighbour(westNeighbour);
+
+    this.configuredRooms = [];
+    this.grid.forEach(gridValue => {
+      if(gridValue.value != null) this.configuredRooms.push(gridValue.value);
+    });
   }
 
   searchForNeighbour(index: number, direction: string) : number{
@@ -186,27 +196,33 @@ export class RoomComponent implements OnInit {
       this.grid[index].color = "green";             // selected grid room -> green
     }
   }
+
+  OnStartroomChanged(id: number | null){
+    if(id != null){
+      this.selectedStartRoom = id;
+    }
+  }
 }
 
 export interface gridValue{
   index: number;
-  value: null | room;
+  value: null | RoomConfig;
   color: string;
 }
 
  //replace this with a real model in "configurator/models"
-export interface room{
-  id: number;
-  name: string;
-  message: string;
-
-  // replace these two with arrays of models
-  npcs: string[];
-  items: string[];
-
-  // contains id from NeighbourRoom -> -1 means no Neighbour
-  north: number;
-  east: number;
-  south: number;
-  west: number;
-}
+//export interface room{
+//  id: number;
+//  name: string;
+//  message: string;
+//
+//  // replace these two with arrays of models
+//  npcs: string[];
+//  items: string[];
+//
+//  // contains id from NeighbourRoom -> -1 means no Neighbour
+//  north: number;
+//  east: number;
+//  south: number;
+//  west: number;
+//}
