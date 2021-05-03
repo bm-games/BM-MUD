@@ -22,6 +22,7 @@ export class RoomComponent implements OnInit {
   selectedRoomNPCs: string[] = [];
   selectedRoomItems: string[] = [];
   selectedStartRoom: number = 0;
+  selectedStartRoomName: string | undefined;
 
   configuredRooms: RoomConfig[] = [];
 
@@ -34,6 +35,8 @@ export class RoomComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuredRooms = ConfigurationComponent.allRooms;
+    this.selectedStartRoom = ConfigurationComponent.startRoom;
+    this.selectedStartRoomName = this.getRoomConfigById(this.selectedStartRoom)?.name;
     // initialize grid with rooms
     for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
       let room = this.getRoomConfigById(i);
@@ -52,10 +55,9 @@ export class RoomComponent implements OnInit {
       }
     }
     this.highlightSelectedValue(0);
-
     this.allNPCs = ConfigurationComponent.allNPCs;
     this.allItems = ConfigurationComponent.allItems;
-    console.log(this.configuredRooms);
+    console.log(this.selectedStartRoomName);
   }
 
   getRoomConfigById(id: number): RoomConfig | undefined {
@@ -143,7 +145,9 @@ export class RoomComponent implements OnInit {
   }
 
   private updateNeighbour(target: number) {
+    console.log("target: " + target);
     let index = this.grid.find(r => r.value?.id == target)?.index;        // index of room in grid
+    console.log('index: ' + index);
     if(index != null){
       let name = this.grid[index].value?.name;
       let msg = this.grid[index].value?.message;
@@ -157,11 +161,11 @@ export class RoomComponent implements OnInit {
         this.grid[index] = {
           index: index,
           value: {
-            id: index,                              // replace this with real id
-            name: this.selectedRoomName,
-            message: this.selectedRoomMessage,
-            npcs: this.selectedRoomNPCs,
-            items: this.selectedRoomItems,
+            id: index,                              // id = index in grid
+            name: name,
+            message: msg,
+            npcs: npcs,
+            items: items,
             north: northNeighbour,
             east: eastNeighbour,
             south: southNeighbour,
@@ -217,9 +221,10 @@ export class RoomComponent implements OnInit {
     }
   }
 
-  OnStartroomChanged(id: number | null){
+  startroomChanged(id: number | null){
     if(id != null){
       this.selectedStartRoom = id;
+      ConfigurationComponent.startRoom = id;
     }
   }
 }
@@ -229,20 +234,3 @@ export interface gridValue{
   value: null | RoomConfig;
   color: string;
 }
-
- //replace this with a real model in "configurator/models"
-//export interface room{
-//  id: number;
-//  name: string;
-//  message: string;
-//
-//  // replace these two with arrays of models
-//  npcs: string[];
-//  items: string[];
-//
-//  // contains id from NeighbourRoom -> -1 means no Neighbour
-//  north: number;
-//  east: number;
-//  south: number;
-//  west: number;
-//}
