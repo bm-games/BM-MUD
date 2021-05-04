@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.010s</div>
+<div class="counter">0.027s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,12 +79,12 @@
 </thead>
 <tr>
 <td class="success">Should list games for user correctly</td>
-<td class="success">0.004s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Should list started and stopped games correctly</td>
-<td class="success">0.006s</td>
+<td class="success">0.013s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -92,51 +92,51 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2021-05-02 21:59:04.724 [pool-1-thread-1 @coroutine#44] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [GameRepository(object GameRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-02 21:59:04.724 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-02 21:59:04.725 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=27d94bb8
-2021-05-02 21:59:04.725 [pool-1-thread-1 @coroutine#44] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
-2021-05-02 21:59:04.726 [pool-1-thread-1 @coroutine#44] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
-2021-05-02 21:59:04.726 [pool-1-thread-1 @coroutine#44] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
-2021-05-02 21:59:04.727 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-02 21:59:04.727 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: loadGame$server(String)
-2021-05-02 21:59:04.727 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of loadGame$server(String): [test]
-2021-05-02 21:59:04.728 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).loadGame$server(eq(test)))
-2021-05-02 21:59:04.728 [pool-1-thread-1 @coroutine#44] TRACE i.m.impl.recording.PermanentMocker - Child search key: GameRepository(object GameRepository).loadGame$server(eq(test)))
-2021-05-02 21:59:04.729 [pool-1-thread-1 @coroutine#44] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for Game name=child of object GameRepository#4
-2021-05-02 21:59:04.729 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=27d94bb8
-2021-05-02 21:59:04.730 [pool-1-thread-1 @coroutine#44] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
-2021-05-02 21:59:04.730 [pool-1-thread-1 @coroutine#44] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
-2021-05-02 21:59:04.730 [pool-1-thread-1 @coroutine#44] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
-2021-05-02 21:59:04.731 [pool-1-thread-1 @coroutine#44] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).loadGame$server(eq(test))
-2021-05-02 21:59:04.732 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-02 21:59:04.735 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-02 21:59:04.740 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=27d94bb8
-2021-05-02 21:59:04.740 [pool-1-thread-1 @coroutine#44] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
-2021-05-02 21:59:04.740 [pool-1-thread-1 @coroutine#44] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
-2021-05-02 21:59:04.741 [pool-1-thread-1 @coroutine#44] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
-2021-05-02 21:59:04.742 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-02 21:59:04.747 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: loadGame$server(String)
-2021-05-02 21:59:04.747 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of loadGame$server(String): [dummy]
-2021-05-02 21:59:04.748 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).loadGame$server(eq(dummy)))
-2021-05-02 21:59:04.749 [pool-1-thread-1 @coroutine#44] TRACE i.m.impl.recording.PermanentMocker - Child search key: GameRepository(object GameRepository).loadGame$server(eq(dummy)))
-2021-05-02 21:59:04.749 [pool-1-thread-1 @coroutine#44] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for Game name=child of object GameRepository#5
-2021-05-02 21:59:04.749 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=27d94bb8
-2021-05-02 21:59:04.750 [pool-1-thread-1 @coroutine#44] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
-2021-05-02 21:59:04.750 [pool-1-thread-1 @coroutine#44] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
-2021-05-02 21:59:04.750 [pool-1-thread-1 @coroutine#44] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
-2021-05-02 21:59:04.751 [pool-1-thread-1 @coroutine#44] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).loadGame$server(eq(dummy))
-2021-05-02 21:59:04.751 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-02 21:59:04.752 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-02 21:59:04.752 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-02 21:59:04.753 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: listGames$server()
-2021-05-02 21:59:04.753 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).listGames$server())
-2021-05-02 21:59:04.754 [pool-1-thread-1 @coroutine#44] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).listGames$server()
-2021-05-02 21:59:04.754 [pool-1-thread-1 @coroutine#44] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-02 21:59:04.760 [pool-5-thread-1 @coroutine#45] DEBUG i.m.i.r.states.AnsweringState - Answering [Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@4fe398f5), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234)), users={master@master.de=[]}, onlinePlayers={master@master.de=Master(user=User(email=master, username=master@master.de, passwordHash=1234))}), Game(config=DungeonConfig(name=Test, commandConfig=net.bmgames.configurator.model.CommandConfig@4fe398f5), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234)), users={master@master.de=[], =[georkina]}, onlinePlayers={georkina=Normal(user=User(email=player1, username=, passwordHash=), avatar=Avatar(name=georkina))})] on GameRepository(object GameRepository).listGames$server()
-2021-05-02 21:59:04.761 [pool-5-thread-1 @coroutine#45] DEBUG i.m.i.r.states.AnsweringState - Answering Game(config=DungeonConfig(name=Test, commandConfig=net.bmgames.configurator.model.CommandConfig@4fe398f5), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234)), users={master@master.de=[], =[georkina]}, onlinePlayers={georkina=Normal(user=User(email=player1, username=, passwordHash=), avatar=Avatar(name=georkina))}) on GameRepository(object GameRepository).loadGame$server(test)
-2021-05-02 21:59:04.762 [pool-5-thread-1 @coroutine#45] DEBUG i.m.i.r.states.AnsweringState - Answering [Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@4fe398f5), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234)), users={master@master.de=[]}, onlinePlayers={master@master.de=Master(user=User(email=master, username=master@master.de, passwordHash=1234))}), Game(config=DungeonConfig(name=Test, commandConfig=net.bmgames.configurator.model.CommandConfig@4fe398f5), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234)), users={master@master.de=[], =[georkina]}, onlinePlayers={georkina=Normal(user=User(email=player1, username=, passwordHash=), avatar=Avatar(name=georkina))})] on GameRepository(object GameRepository).listGames$server()
-2021-05-02 21:59:04.768 [pool-5-thread-1 @coroutine#47] DEBUG i.m.i.r.states.AnsweringState - Answering [Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@4fe398f5), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234)), users={master@master.de=[]}, onlinePlayers={master@master.de=Master(user=User(email=master, username=master@master.de, passwordHash=1234))}), Game(config=DungeonConfig(name=Test, commandConfig=net.bmgames.configurator.model.CommandConfig@4fe398f5), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234)), users={master@master.de=[], =[georkina]}, onlinePlayers={georkina=Normal(user=User(email=player1, username=, passwordHash=), avatar=Avatar(name=georkina))})] on GameRepository(object GameRepository).listGames$server()
+<pre>2021-05-04 22:12:33.171 [pool-1-thread-1 @coroutine#46] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [GameRepository(object GameRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-04 22:12:33.172 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-04 22:12:33.175 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=e3586fd
+2021-05-04 22:12:33.176 [pool-1-thread-1 @coroutine#46] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
+2021-05-04 22:12:33.176 [pool-1-thread-1 @coroutine#46] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
+2021-05-04 22:12:33.176 [pool-1-thread-1 @coroutine#46] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
+2021-05-04 22:12:33.177 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-04 22:12:33.177 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: loadGame$server(String)
+2021-05-04 22:12:33.177 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of loadGame$server(String): [test]
+2021-05-04 22:12:33.178 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).loadGame$server(eq(test)))
+2021-05-04 22:12:33.178 [pool-1-thread-1 @coroutine#46] TRACE i.m.impl.recording.PermanentMocker - Child search key: GameRepository(object GameRepository).loadGame$server(eq(test)))
+2021-05-04 22:12:33.179 [pool-1-thread-1 @coroutine#46] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for Game name=child of object GameRepository#4
+2021-05-04 22:12:33.180 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=e3586fd
+2021-05-04 22:12:33.180 [pool-1-thread-1 @coroutine#46] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
+2021-05-04 22:12:33.180 [pool-1-thread-1 @coroutine#46] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
+2021-05-04 22:12:33.180 [pool-1-thread-1 @coroutine#46] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
+2021-05-04 22:12:33.182 [pool-1-thread-1 @coroutine#46] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).loadGame$server(eq(test))
+2021-05-04 22:12:33.183 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-04 22:12:33.183 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-04 22:12:33.184 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=e3586fd
+2021-05-04 22:12:33.184 [pool-1-thread-1 @coroutine#46] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
+2021-05-04 22:12:33.184 [pool-1-thread-1 @coroutine#46] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
+2021-05-04 22:12:33.185 [pool-1-thread-1 @coroutine#46] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
+2021-05-04 22:12:33.185 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-04 22:12:33.187 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: loadGame$server(String)
+2021-05-04 22:12:33.187 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of loadGame$server(String): [dummy]
+2021-05-04 22:12:33.188 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).loadGame$server(eq(dummy)))
+2021-05-04 22:12:33.189 [pool-1-thread-1 @coroutine#46] TRACE i.m.impl.recording.PermanentMocker - Child search key: GameRepository(object GameRepository).loadGame$server(eq(dummy)))
+2021-05-04 22:12:33.190 [pool-1-thread-1 @coroutine#46] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for Game name=child of object GameRepository#5
+2021-05-04 22:12:33.190 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=e3586fd
+2021-05-04 22:12:33.190 [pool-1-thread-1 @coroutine#46] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
+2021-05-04 22:12:33.190 [pool-1-thread-1 @coroutine#46] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
+2021-05-04 22:12:33.192 [pool-1-thread-1 @coroutine#46] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
+2021-05-04 22:12:33.193 [pool-1-thread-1 @coroutine#46] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).loadGame$server(eq(dummy))
+2021-05-04 22:12:33.193 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-04 22:12:33.195 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-04 22:12:33.197 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-04 22:12:33.198 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: listGames$server()
+2021-05-04 22:12:33.200 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).listGames$server())
+2021-05-04 22:12:33.201 [pool-1-thread-1 @coroutine#46] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).listGames$server()
+2021-05-04 22:12:33.201 [pool-1-thread-1 @coroutine#46] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-04 22:12:33.221 [pool-6-thread-1 @coroutine#47] DEBUG i.m.i.r.states.AnsweringState - Answering [Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[]}, onlinePlayers={master@master.de=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null))}), Game(config=DungeonConfig(name=Test, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[], =[georkina]}, onlinePlayers={georkina=Normal(user=User(email=player1, username=, passwordHash=, registrationKey=null), avatar=Avatar(name=georkina))})] on GameRepository(object GameRepository).listGames$server()
+2021-05-04 22:12:33.224 [pool-6-thread-1 @coroutine#47] DEBUG i.m.i.r.states.AnsweringState - Answering Game(config=DungeonConfig(name=Test, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[], =[georkina]}, onlinePlayers={georkina=Normal(user=User(email=player1, username=, passwordHash=, registrationKey=null), avatar=Avatar(name=georkina))}) on GameRepository(object GameRepository).loadGame$server(test)
+2021-05-04 22:12:33.226 [pool-6-thread-1 @coroutine#47] DEBUG i.m.i.r.states.AnsweringState - Answering [Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[]}, onlinePlayers={master@master.de=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null))}), Game(config=DungeonConfig(name=Test, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[], =[georkina]}, onlinePlayers={georkina=Normal(user=User(email=player1, username=, passwordHash=, registrationKey=null), avatar=Avatar(name=georkina))})] on GameRepository(object GameRepository).listGames$server()
+2021-05-04 22:12:33.240 [pool-6-thread-1 @coroutine#49] DEBUG i.m.i.r.states.AnsweringState - Answering [Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[]}, onlinePlayers={master@master.de=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null))}), Game(config=DungeonConfig(name=Test, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[], =[georkina]}, onlinePlayers={georkina=Normal(user=User(email=player1, username=, passwordHash=, registrationKey=null), avatar=Avatar(name=georkina))})] on GameRepository(object GameRepository).listGames$server()
 </pre>
 </span>
 </div>
@@ -148,7 +148,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.7</a> at May 2, 2021, 9:59:05 PM</p>
+<a href="http://www.gradle.org">Gradle 6.7</a> at May 4, 2021, 10:12:33 PM</p>
 </div>
 </div>
 </body>
