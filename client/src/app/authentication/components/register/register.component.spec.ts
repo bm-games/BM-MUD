@@ -4,6 +4,8 @@ import { RegisterComponent } from './register.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
+import {CONFIG} from "../../../client-config";
+import {LOCAL_CONFIG} from "../../../app.module";
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -16,6 +18,9 @@ describe('RegisterComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
+      providers: [
+      {provide: CONFIG, useValue: LOCAL_CONFIG},
+    ],
       declarations: [ RegisterComponent ]
     })
     .compileComponents();

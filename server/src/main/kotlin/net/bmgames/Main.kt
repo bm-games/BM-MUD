@@ -3,38 +3,38 @@ package net.bmgames
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import net.bmgames.ServerConfig.Companion.initializeConfig
-import net.bmgames.authentication.Authenticator
-import net.bmgames.authentication.UserHandler
-import net.bmgames.communication.MailNotifier
-import net.bmgames.communication.Notifier
-import net.bmgames.game.GameManager
-import net.bmgames.game.GameRepository
 
-object Main {
-    lateinit var config: ServerConfig
-    val mailNotifier: MailNotifier by lazy { MailNotifier(config) }
-    val notifier: Notifier by lazy { mailNotifier }
-    val userHandler: UserHandler by lazy { UserHandler(mailNotifier) }
-    val authenticator: Authenticator by lazy { Authenticator(userHandler) }
-    val gameManager: GameManager = GameManager(GameRepository)
-}
 
 /**
  * Starts the server.
  * @param args The command line arguments that were passed when executing the runnable.
  * */
-suspend fun main(args: Array<String>) {
+fun main(args: Array<String>) {
     if (args.size != 1) {
         error("Path of config is missing. Please specify it as the first command line argument.")
     }
 
-    with(Main) {
-        config = initializeConfig(configPath = args[0])
-        config.connectToDB()
-    }
+    val main = initializeConfig(configPath = args[0]).let(::Server)
+    main.config.connectToDB()
 
     embeddedServer(Netty, port = 80, host = "0.0.0.0") {
-        installServer(Main.config)
+        installServer(main)
     }.start(wait = true)
 
 }
+
+
+val DEMO_CONFIG = ServerConfig(
+    dbHost = "localhost",
+    dbPort = 5432,
+    dbName = "postgres",
+    dbUser = "user",
+    dbPassword = "password",
+    smtpHost = "smtp.mail.com",
+    smtpPort = 25,
+    emailAddress = "info@bm-games.net",
+    emailPassword = "password",
+    secretKeyHash = "YYiSB7kY5Ed5mttaJRSkgHEPF43iLjTA"
+)
+
+val DEMO_SERVER = Server(DEMO_CONFIG)

@@ -8,10 +8,10 @@ object GameRepository {
     }
 
     internal fun loadGame(name: String): Game? {
-        return TODO("Load from DB")
+        return null//TODO("Load from DB")
     }
 
     internal fun listGames(): List<Game> {
-        return TODO("Load from DB")
+        return emptyList()//TODO("Load from DB")
     }
 }

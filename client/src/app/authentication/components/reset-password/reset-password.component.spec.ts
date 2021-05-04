@@ -4,6 +4,8 @@ import {ResetPasswordComponent} from './reset-password.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
+import {CONFIG} from "../../../client-config";
+import {LOCAL_CONFIG} from "../../../app.module";
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
@@ -16,9 +18,12 @@ describe('ResetPasswordComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      declarations: [ ResetPasswordComponent ]
+      providers: [
+        {provide: CONFIG, useValue: LOCAL_CONFIG},
+      ],
+      declarations: [ResetPasswordComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

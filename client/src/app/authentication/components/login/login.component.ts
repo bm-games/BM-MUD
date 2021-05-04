@@ -33,20 +33,23 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
   readonly form = this.fb.group({
-    email: ['',  [Validators.required, Validators.email]],
-    password: ['',  Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
   });
 
   constructor(private fb: FormBuilder,
-              private auth: AuthService,
-              private router: Router) {
+              private router: Router,
+              private auth: AuthService) {
   }
 
   ngOnInit(): void {
   }
 
-  login() {
-    this.auth.login(this.form.value)
-    this.router.navigateByUrl("/dashboard")
+  async login() {
+    this.form.disable()
+    await this.auth.login(this.form.value)
+      .catch(({error}) => alert(error))
+      .then(() => this.router.navigateByUrl("/dashboard"))
+    this.form.enable()
   }
 }

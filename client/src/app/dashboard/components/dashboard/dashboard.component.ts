@@ -40,8 +40,7 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    this.auth.logout()
-    this.router.navigateByUrl("/auth")
+    this.auth.logout().catch(console.error)
   }
 
   set searchedGameName(name: string) {

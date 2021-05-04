@@ -13,7 +13,6 @@ import javax.mail.internet.MimeMessage
  * @constructor Create empty Mail notifier
  */
 class MailNotifier(val config: ServerConfig) : Notifier {
-    private val authHelper = AuthHelper()
 
     /**
      * Sends a mail to the user using the supplied parameters via smtp.
@@ -51,16 +50,16 @@ class MailNotifier(val config: ServerConfig) : Notifier {
      *
      * @param user
      */
-    fun sendMailReset(user: User) {
+    fun sendMailReset(user: User, password: String) {
         val mailSubject = "Reset your password | BM-Games "
         val message: String =
-            """<html lang="en">[30.04 16:01] Cielecki, Jakub
+            """<html lang="en">
                 <body style="background-color:#c0c0c0;">
                 <h1><center>Your password got reset!</h1>
                 <p><center>Dear ${user.username}</p>
                 <p><center>Your password reset was successful!</p>
                 <p><center>Your new password:</p>
-                <span style="border: 3px solid black;">${authHelper.unhashPassword(user.passwordHash)}</span>
+                <span style="border: 3px solid black;">${password}</span>
                 <p><center> Login with the new generated password and change it after logging in if you want!</p>
                 </body>
                 </html>"""

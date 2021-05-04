@@ -79,6 +79,7 @@ dependencies {
 //    Utils
     implementation("com.sun.mail:javax.mail:1.6.2")
     implementation("io.arrow-kt:arrow-fx-coroutines:$arrow_version")
+
 //    CLI Parser
     implementation("com.github.ajalt.clikt:clikt:3.1.0")
 //    implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.2")

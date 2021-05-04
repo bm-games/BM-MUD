@@ -1,23 +1,23 @@
 package net.bmgames.authentication
 
-import com.github.ajalt.clikt.completion.CompletionCandidates
+import arrow.core.Either
+import net.bmgames.ErrorMessage
 import net.bmgames.communication.MailNotifier
 import net.bmgames.database.UserTable
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import net.bmgames.error
+import net.bmgames.success
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.sql.SQLException
+import org.jetbrains.exposed.sql.update
 
 /**
  * @property mailNotifier Needed for sending registration / password reset mails
  */
-class UserHandler(private val mailNotifier: MailNotifier) {
-
-    private val authHelper = AuthHelper()
-
-    /* protected fun getUser(token: JWT): User?{
-        return null
-    }*/
+class UserHandler(
+    private val mailNotifier: MailNotifier,
+    private val authHelper: AuthHelper
+) {
 
 
     /**
@@ -72,29 +72,22 @@ class UserHandler(private val mailNotifier: MailNotifier) {
      *
      * @param user
      */
-    internal fun createUser(user: User) {
-        var isExceptionPresent: Boolean
+    internal fun createUser(user: User): Boolean {
         val token = authHelper.generateVerificationToken()
-        /*
-        Geht sicher, dass der User auch wirklich angelegt wird.
-        do while Schleife mit Try kann aber auch entfernt werden ggf.
-         */
-        do {
-            try {
-                transaction {
-                    UserTable.insert {
-                        it[email] = user.email
-                        it[username] = user.username
-                        it[passwordHash] = user.passwordHash
-                        it[registrationKey] = "${user.username}$token"
-                    }
+        return try {
+            transaction {
+                UserTable.insert {
+                    it[email] = user.email
+                    it[username] = user.username
+                    it[passwordHash] = user.passwordHash
+                    it[registrationKey] = "${user.username}$token"
                 }
-                mailNotifier.sendMailRegister(user, "${user.username}$token")
-                isExceptionPresent = false
-            } catch (e: SQLException){
-                isExceptionPresent = true
             }
-        } while (isExceptionPresent)
+            mailNotifier.sendMailRegister(user, "${user.username}$token")
+            true
+        } catch (_: Exception) {
+            false
+        }
     }
 
 
@@ -106,9 +99,9 @@ class UserHandler(private val mailNotifier: MailNotifier) {
     internal fun resetPassword(mail: String) {
         val userByMail = getUserByMail(mail)
         if (userByMail != null) {
-            val password = authHelper.hashPassword(authHelper.generatePassword())
-            changePassword(mail, password)
-            mailNotifier.sendMailReset(userByMail)
+            val password = authHelper.generatePassword()
+            changePassword(mail, authHelper.hashPassword(password))
+            mailNotifier.sendMailReset(userByMail, password)
         }
 
     }
@@ -117,12 +110,12 @@ class UserHandler(private val mailNotifier: MailNotifier) {
      * Changes the password of a user using the supplied password and mail
      *
      * @param mail mail of the account which password is to be changed
-     * @param password new password for the user
+     * @param hashedPassword new password for the user
      */
-    internal fun changePassword(mail: String, password: String) {
+    internal fun changePassword(mail: String, hashedPassword: String) {
         transaction {
             UserTable.update({ UserTable.email eq mail }) {
-                it[passwordHash] = password
+                it[passwordHash] = hashedPassword
             }
         }
 
@@ -133,11 +126,16 @@ class UserHandler(private val mailNotifier: MailNotifier) {
      *
      * @param token Verification Token of the User which gets Approved
      */
-    internal fun setMailApproved(token: String) {
-        transaction {
+    internal fun setMailApproved(token: String): Either<ErrorMessage, Unit> {
+        val rowsUpdated = transaction {
             UserTable.update({ UserTable.registrationKey eq token }) {
                 it[registrationKey] = null
             }
+        }
+        return if (rowsUpdated == 1) {
+            success
+        } else {
+            error("Token not valid.")
         }
     }
 
@@ -149,10 +147,7 @@ class UserHandler(private val mailNotifier: MailNotifier) {
      */
     internal fun checkMailApproved(username: String): Boolean {
         val status = getUserByName(username)
-        if (status?.registrationKey != null){
-            return false
-        }
-        return true
+        return status?.isMailVerified() ?: false
 
     }
 
@@ -166,8 +161,6 @@ class UserHandler(private val mailNotifier: MailNotifier) {
     internal fun checkRegisterPossible(email: String, username: String): Boolean {
         val userByMail = getUserByMail(email)
         val userByName = getUserByName(username)
-        if (userByMail != null || userByName != null)
-            return false
-        return true
+        return userByMail == null && userByName == null
     }
 }
