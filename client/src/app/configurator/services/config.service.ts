@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {ClientConfig, CONFIG} from "../../client-config";
 import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {DungeonConfig} from "../model/dungeon-config";
+import {DungeonConfig} from "../models/DungeonConfig";
 import {catchError} from "rxjs/operators";
 
 @Injectable({
@@ -21,6 +21,7 @@ export class ConfigService {
   }
 
   createDungeon(dungeonConfig: DungeonConfig): Observable<any> {
+    console.log(dungeonConfig);
     return this.http.post(`${this.CONFIG.endpoint}/configurator/create`, dungeonConfig)
   }
 

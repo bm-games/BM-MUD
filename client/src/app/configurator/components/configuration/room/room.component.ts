@@ -60,6 +60,11 @@ export class RoomComponent implements OnInit {
     console.log(this.selectedStartRoomName);
   }
 
+  /**
+   * Finds a RoomConfig in the 'configuredRooms' list by it's ID
+   * @param id Id of the room to be found
+   * @returns RoomConfig if a room was found
+   */
   getRoomConfigById(id: number): RoomConfig | undefined {
     let room;
     for (let i = 0; i < this.configuredRooms.length; i++) {
@@ -68,6 +73,10 @@ export class RoomComponent implements OnInit {
     return room;
   }
 
+  /**
+   * Sets 'selectedGridValueIndex' to the selected grid value and sets all UI-inputs to the selected grid value data
+   * @param gridV gridValue, which was selected in the UI
+   */
   gridRoomSelected(gridV: gridValue){
     this.selectedGridValueIndex = gridV.index;
     this.setInputValuesToSelected(this.selectedGridValueIndex);
@@ -75,6 +84,10 @@ export class RoomComponent implements OnInit {
     console.log(this.grid[this.selectedGridValueIndex].value);
   }
 
+  /**
+   * Finds all neighbours of the new room and generates a new RoomConfig.
+   * All existing neighbours getting updated.
+   */
   addRoom() {
     let northNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'n');
     let eastNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'e');
@@ -108,6 +121,12 @@ export class RoomComponent implements OnInit {
     ConfigurationComponent.allRooms = this.configuredRooms;
   }
 
+  /**
+   * Searches for a neighbour of a room in the target direction.
+   * @param index index of the target room, which neighbour should be found.
+   * @param direction direction, in which the neighbour should be found. Possible values: 'n','e','s','w'.
+   * @returns neighbourId - the id of the neighbour. Returns -1 if no neighbour was found.
+   */
   searchForNeighbour(index: number, direction: string) : number{
     let neighbourId;
     let i;
@@ -144,6 +163,10 @@ export class RoomComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates all neighbours of a room.
+   * @param target id of the room, that should be updated
+   */
   private updateNeighbour(target: number) {
     console.log("target: " + target);
     let index = this.grid.find(r => r.value?.id == target)?.index;        // index of room in grid
@@ -177,6 +200,10 @@ export class RoomComponent implements OnInit {
     }
   }
 
+  /**
+   * Sets the UI components to the data of the selected grid value
+   * @param index index of the selected grid value
+   */
   setInputValuesToSelected(index: number){
     let name = this.grid[index].value?.name;
     let msg = this.grid[index].value?.message;
@@ -206,6 +233,10 @@ export class RoomComponent implements OnInit {
     }
   }
 
+  /**
+   * Changes the color of the selected grid value
+   * @param index index of the selected grid value
+   */
   highlightSelectedValue(index: number){
     for (let i = 0; i < this.grid.length; i++) {
       if(this.grid[i].value == null){
@@ -221,6 +252,10 @@ export class RoomComponent implements OnInit {
     }
   }
 
+  /**
+   * Sets the startroom of the Dungeon
+   * @param id id of the startroom
+   */
   startroomChanged(id: number | null){
     if(id != null){
       this.selectedStartRoom = id;

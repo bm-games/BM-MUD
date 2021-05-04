@@ -82,6 +82,7 @@ dependencies {
 //    CLI Parser
     implementation("com.github.ajalt.clikt:clikt:3.1.0")
 //    implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.2")
+    implementation(kotlin("stdlib-jdk8"))
 
 }
 
@@ -131,4 +132,11 @@ tasks.withType<ShadowJar> {
 }
 
 
-
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}

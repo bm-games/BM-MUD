@@ -24,6 +24,9 @@ export class RaceComponent implements OnInit {
     this.configuredRaces = ConfigurationComponent.allRaces;
   }
 
+  /**
+   * Generates a RaceConfig with the current UI-data inputs and adds it to the list 'configuredRaces'
+   */
   addRace(){
     if(this.name != undefined && this.health != undefined && this.damage != undefined && this.description != undefined){
       //this.configuredRaces.push(new RaceConfig(this.getNextFreeId(), this.name, this.health, this.damage, this.description));
@@ -46,6 +49,10 @@ export class RaceComponent implements OnInit {
     }
   }
 
+  /**
+   * Finds next smallest possible ID for the new RaceConfig
+   * @returns id: number
+   */
   getNextFreeId(): number {
     let id = 0;
     let foundId = false;

@@ -38,6 +38,10 @@ export class NPCComponent implements OnInit {
     this.allItemsLoottable = ConfigurationComponent.allItems;
   }
 
+  /**
+   * Generates a NPCConfig with the current UI-data inputs and adds it to the list 'configuredNPCs'.
+   * Depending on the selected NPCType, a FriendlyNPCConfig or a HostileNPCConfig is created.
+   */
   addNPC(){
     let equipmentIds: number[] = [];
     this.selectedNPCEquipment.forEach(e => equipmentIds.push(e.id));
@@ -92,6 +96,10 @@ export class NPCComponent implements OnInit {
     }
   }
 
+  /**
+   * Finds next smallest possible ID for the new NPCConfig
+   * @returns id: number
+   */
   getNextFreeId(): number {
     let id = 0;
     let foundId = false;

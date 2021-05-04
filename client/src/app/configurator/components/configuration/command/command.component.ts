@@ -35,6 +35,10 @@ export class CommandComponent implements OnInit {
     this.customCommands = ConfigurationComponent.allCommands;
   }
 
+  /**
+   * Generates a new CommandConfig with the current UI-data inputs and adds it to the list 'customCommands'.
+   * If it's not a custom command, the aliases for the standard commands are saved
+   */
   addCommand(){
     if(this.isCustomCommand){
       if(this.selectedActions.length > 0 && this.commandSyntax != undefined){
@@ -63,6 +67,10 @@ export class CommandComponent implements OnInit {
     }
   }
 
+  /**
+   * sets the bool value 'isCustomCommand' depending on the current UI-selection
+   * @param type selected value from the UI
+   */
   commandTypeChanged(type: string){
     switch(type){
       case "Standard Befehle":
@@ -74,6 +82,10 @@ export class CommandComponent implements OnInit {
     }
   }
 
+  /**
+   * Finds next smallest possible ID for the new CommandConfig
+   * @returns id: number
+   */
   getNextFreeId(): number {
     let id = 0;
     let foundId = false;

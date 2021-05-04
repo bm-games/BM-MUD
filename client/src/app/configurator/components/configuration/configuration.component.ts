@@ -11,6 +11,7 @@ import {HostileNPCConfig} from "../../models/HostileNPCConfig";
 import {RoomConfig} from "../../models/RoomConfig";
 import {DungeonConfig} from "../../models/DungeonConfig";
 import {race} from "rxjs";
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-configuration',
@@ -31,12 +32,15 @@ export class ConfigurationComponent implements OnInit {
   private static _startequipment: ItemConfig[] = [];
   private static _startRoom: number = 0;
 
-  constructor(private titleService: Title) { }
+  constructor(private configService: ConfigService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.setTitle(this.title);
   }
 
+  /**
+   * Creates a DungeonConfig and sends it to the ConfigService.
+   */
   createConfig(){
     //let startequipmentIDs: number[] = [];
     //ConfigurationComponent.startequipment.forEach(s => startequipmentIDs.push(s.id));
@@ -60,7 +64,7 @@ export class ConfigurationComponent implements OnInit {
       classes: ConfigurationComponent.allClasses,
       commands: ConfigurationComponent.allCommands
     }
-    console.log(dungeon);
+    this.configService.createDungeon(dungeon);
   }
 
   static get startRoom(): number {

@@ -23,6 +23,9 @@ export class ClassComponent implements OnInit {
     this.configuredClasses = ConfigurationComponent.allClasses;
   }
 
+  /**
+   * Generates a ClassConfig with the current UI-data inputs and adds it to the list 'configuredClasses'
+   */
   addClass(){
     console.log(this.name);
     console.log(this.healthMultiplier);
@@ -51,6 +54,10 @@ export class ClassComponent implements OnInit {
     }
   }
 
+  /**
+   * Finds next smallest possible ID for the new ClassConfig
+   * @returns id: number
+   */
   getNextFreeId(): number{
     let id = 0;
     let foundId = false;
