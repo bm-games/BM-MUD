@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
@@ -27,7 +27,7 @@ import {Router} from "@angular/router";
 export class ResetPasswordComponent implements OnInit {
 
   readonly form = this.fb.group({
-    email: ['',  [Validators.required, Validators.email]]
+    email: ['', [Validators.required, Validators.email]]
   });
 
   constructor(private fb: FormBuilder,
@@ -38,9 +38,12 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  resetPassword() {
-    this.auth.resetPassword(this.form.value.email)
-    this.router.navigateByUrl("/auth")
+  async resetPassword() {
+    this.form.disable()
+    await this.auth.resetPassword(this.form.value.email)
+      .catch(({error}) => alert(error))
+      .then(() => this.router.navigateByUrl("/auth"));
+    this.form.enable()
   }
 
 }

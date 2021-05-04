@@ -3,6 +3,8 @@ package net.bmgames
 import arrow.core.Either
 import arrow.core.Either.Companion.catch
 import arrow.core.computations.either
+import arrow.core.filterOrElse
+import arrow.core.flatMap
 import arrow.core.identity
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -30,16 +32,18 @@ data class ServerConfig(
 
 ) {
     companion object {
-        internal suspend fun readConfig(path: String): Either<Error, ServerConfig> =
-            either {
-                val content = catch(
-                    { Error("Couldn't find config file.", it) },
-                    { File(path).readText() }
-                ).bind()
+        internal fun readConfig(path: String): Either<Error, ServerConfig> =
+            catch(
+                { Error("Couldn't find config file.", it) },
+                { File(path).readText() }
+            ).flatMap { content ->
                 catch(
                     { Error("Couldn't parse config.", it) },
                     { Json.decodeFromString<ServerConfig>(content) }
-                ).bind()
+                ).filterOrElse(
+                    { it.secretKeyHash.length == 32 },
+                    { Error("Secret hash key must be of length 32") }
+                )
             }
 
         internal fun ServerConfig.writeConfig(path: String, override: Boolean = false): Boolean =
@@ -57,7 +61,7 @@ data class ServerConfig(
          * @throws Error If config wasn't found or is invalid.
          * In this case a [DEMO_CONFIG] is generated at the specified path, if the file doesn't exist
          * */
-        internal suspend fun initializeConfig(configPath: String): ServerConfig =
+        internal fun initializeConfig(configPath: String): ServerConfig =
             readConfig(configPath)
                 .fold({ error ->
                     if (DEMO_CONFIG.writeConfig(configPath)) println("A demo config was generated at $configPath.")
@@ -67,17 +71,3 @@ data class ServerConfig(
 
     }
 }
-
-val DEMO_CONFIG = ServerConfig(
-    dbHost = "localhost",
-    dbPort = 5432,
-    dbName = "postgres",
-    dbUser = "user",
-    dbPassword = "password",
-    smtpHost = "smtp.mail.com",
-    smtpPort = 25,
-    emailAddress = "info@bm-games.net",
-    emailPassword = "password",
-    secretKeyHash = "YYiSB7kY5Ed5mttaJRSkgHEPF43iLjTA"
-)
-

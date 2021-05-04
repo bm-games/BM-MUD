@@ -1,5 +1,6 @@
 package net.bmgames.authentication
 
+import io.ktor.auth.*
 import kotlinx.serialization.Serializable
 
 
@@ -19,18 +20,7 @@ data class User(
     val email: String,
     val username: String,
     val passwordHash: String,
-    //val mailVerified: Boolean,
-    //var registrationKey: String = ""
-)
-//wird aktuell nicht wirklich benötigt -> ggf. löschen
-/*
-data class Verification(
-    var registrationKey: String = "",
-    val username: String,
-    val mailVerified: Boolean
-)*/
+    val registrationKey: String?
+): Principal
 
-data class Login(
-    val user: User,
-    val jwttoken: String,
-)
+fun User.isMailVerified() = registrationKey == null

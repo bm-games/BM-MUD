@@ -3,8 +3,6 @@ package net.bmgames.authentication
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import net.bmgames.Main
-import net.bmgames.Main.config
 import net.bmgames.ServerConfig
 import java.util.*
 import javax.crypto.Cipher
@@ -19,7 +17,7 @@ const val PASSWORD_LENGTH = 20
  *
  * @Constructor Create empty Auth helper
  */
-internal class AuthHelper(val config: ServerConfig = Main.config) {
+class AuthHelper(val config: ServerConfig) {
 
     /*companion object ChCrypto { TODO Wozu?
         fun aesEncrypt(v: String) = hashPassword(v)

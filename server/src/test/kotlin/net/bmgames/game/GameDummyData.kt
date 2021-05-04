@@ -8,10 +8,10 @@ import net.bmgames.game.state.Game
 import net.bmgames.game.state.Player
 
 val master = Player.Master(
-    User("master", "master@master.de", "1234")
+    User("master", "master@master.de", "1234", null)
 )
 val PLAYER = Player.Normal(
-    User("player1", "", ""),
+    User("player1", "", "", null),
     Avatar("georkina")
 )
 

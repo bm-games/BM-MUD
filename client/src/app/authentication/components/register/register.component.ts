@@ -27,7 +27,6 @@ import {Router} from "@angular/router";
       <div class="form-group">
         <button class="btn btn-primary btn-block" type="submit" [disabled]="!form.valid">Register Now!</button>
       </div>
-      {{form.errors | json}}
     </form>
   `,
   styleUrls: ['./register.component.scss', '../auth/auth.css', '../auth/styles.css'],
@@ -35,9 +34,9 @@ import {Router} from "@angular/router";
 export class RegisterComponent implements OnInit {
 
   readonly form = this.fb.group({
-    email: ['',  [Validators.required, Validators.email]],
-    username: ['',  Validators.required],
-    password: ['',  Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
   });
 
   constructor(private fb: FormBuilder,
@@ -48,9 +47,12 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  register() {
-    this.auth.register(this.form.value)
-    this.router.navigateByUrl("/auth")
+  async register() {
+    this.form.disable()
+    await this.auth.register(this.form.value)
+      .catch(({error}) => alert(error))
+      .then(() => this.router.navigateByUrl("/auth"));
+    this.form.enable()
   }
 
 }
