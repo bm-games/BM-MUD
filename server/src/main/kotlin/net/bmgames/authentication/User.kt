@@ -19,16 +19,8 @@ data class User(
     val email: String,
     val username: String,
     val passwordHash: String,
-    //val mailVerified: Boolean,
-    //var registrationKey: String = ""
+    val registrationKey: String?
 )
-//wird aktuell nicht wirklich benötigt -> ggf. löschen
-/*
-data class Verification(
-    var registrationKey: String = "",
-    val username: String,
-    val mailVerified: Boolean
-)*/
 
 data class Login(
     val user: User,

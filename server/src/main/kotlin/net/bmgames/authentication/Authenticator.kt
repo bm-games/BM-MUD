@@ -26,7 +26,7 @@ class Authenticator(val userHandler: UserHandler) {
     fun registerUser(mail: String, username: String, password: String): String? {
 
         if (userHandler.checkRegisterPossible(mail, username)) {
-            val user = User(mail, username, authHelper.hashPassword(password))
+            val user = User(mail, username, authHelper.hashPassword(password), null)
             userHandler.createUser(user)
         }
         return null

@@ -3,16 +3,15 @@ package net.bmgames.authentication
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import net.bmgames.DEMO_CONFIG
+import net.bmgames.game.GameManager
 
 class AuthHelperTest : FunSpec({
 
-    xtest("Hashed password should be: Ux1sgq1OagEn5G77TLpUCA== ") {
-        val test = AuthHelper.hashPassword("password")
-        test shouldBe "Ux1sgq1OagEn5G77TLpUCA=="
-    }
+    lateinit var authHelper: AuthHelper
 
-    xtest("Unhashed password should be: Gurkensalat") {
-        val test = AuthHelper.unhashPassword("ohtBU7hSCvmQqZGbIkoFKg==")
+    xtest("Password Gurkensalat should be the same after Hasing and Unhashing it") {
+        val hash = authHelper.hashPassword("Gurkensalat")
+        val test = authHelper.unhashPassword(hash)
         test shouldBe "Gurkensalat"
     }
 

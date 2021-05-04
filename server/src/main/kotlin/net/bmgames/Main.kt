@@ -3,6 +3,7 @@ package net.bmgames
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import net.bmgames.ServerConfig.Companion.initializeConfig
+import net.bmgames.authentication.Authenticator
 import net.bmgames.authentication.UserHandler
 import net.bmgames.communication.MailNotifier
 import net.bmgames.communication.Notifier
@@ -14,6 +15,7 @@ object Main {
     val mailNotifier: MailNotifier by lazy { MailNotifier(config) }
     val notifier: Notifier by lazy { mailNotifier }
     val userHandler: UserHandler by lazy { UserHandler(mailNotifier) }
+    val authenticator: Authenticator by lazy { Authenticator(userHandler) }
     val gameManager: GameManager = GameManager(GameRepository)
 }
 

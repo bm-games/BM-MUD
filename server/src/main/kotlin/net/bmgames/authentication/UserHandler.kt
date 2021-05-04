@@ -1,8 +1,8 @@
 package net.bmgames.authentication
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import net.bmgames.communication.MailNotifier
 import net.bmgames.database.UserTable
-import net.bmgames.database.VerificationTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -35,7 +35,8 @@ class UserHandler(private val mailNotifier: MailNotifier) {
                     User(
                         email = it[UserTable.email],
                         username = it[UserTable.username],
-                        passwordHash = it[UserTable.passwordHash]
+                        passwordHash = it[UserTable.passwordHash],
+                        registrationKey = it[UserTable.registrationKey]
                     )
                 }
         }
@@ -56,7 +57,8 @@ class UserHandler(private val mailNotifier: MailNotifier) {
                     User(
                         email = it[UserTable.email],
                         username = it[UserTable.username],
-                        passwordHash = it[UserTable.passwordHash]
+                        passwordHash = it[UserTable.passwordHash],
+                        registrationKey = it[UserTable.registrationKey]
                     )
                 }
         }
@@ -72,36 +74,27 @@ class UserHandler(private val mailNotifier: MailNotifier) {
      */
     internal fun createUser(user: User) {
         var isExceptionPresent: Boolean
-        var token: String = "None"
+        val token = authHelper.generateVerificationToken()
         /*
-        If the VerificationToken/RegistrationKey already exists in the database,
-        an SQLException is thrown. If this is the case, a token is generated again
-        and the process runs again.
-        (Probability for this is small, but exists!).
+        Geht sicher, dass der User auch wirklich angelegt wird.
+        do while Schleife mit Try kann aber auch entfernt werden ggf.
          */
         do {
             try {
-                token = authHelper.generateVerificationToken()
                 transaction {
-                    VerificationTable.insert {
-                        it[registrationKey] = token
+                    UserTable.insert {
+                        it[email] = user.email
                         it[username] = user.username
-                        it[mailVerified] = false
+                        it[passwordHash] = user.passwordHash
+                        it[registrationKey] = "${user.username}$token"
                     }
                 }
+                mailNotifier.sendMailRegister(user, "${user.username}$token")
                 isExceptionPresent = false
             } catch (e: SQLException){
                 isExceptionPresent = true
             }
         } while (isExceptionPresent)
-        transaction {
-            UserTable.insert {
-                it[email] = user.email
-                it[username] = user.username
-                it[passwordHash] = user.passwordHash
-            }
-        }
-        mailNotifier.sendMailRegister(user, token)
     }
 
 
@@ -142,8 +135,8 @@ class UserHandler(private val mailNotifier: MailNotifier) {
      */
     internal fun setMailApproved(token: String) {
         transaction {
-            VerificationTable.update({ VerificationTable.registrationKey eq token }) {
-                it[mailVerified] = true
+            UserTable.update({ UserTable.registrationKey eq token }) {
+                it[registrationKey] = null
             }
         }
     }
@@ -155,15 +148,12 @@ class UserHandler(private val mailNotifier: MailNotifier) {
      * @return A Boolean Value (True = mail is Verified, False = Mail is not Verified)
      */
     internal fun checkMailApproved(username: String): Boolean {
-        val approved = transaction {
-            VerificationTable.select{
-                VerificationTable.username eq username
-            }.withDistinct().map {
-                it[VerificationTable.mailVerified]
-            }
-
+        val status = getUserByName(username)
+        if (status?.registrationKey != null){
+            return false
         }
-        return approved[0]
+        return true
+
     }
 
     /**
