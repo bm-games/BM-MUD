@@ -22,8 +22,8 @@ export class ChangePasswordDialog{
   }
 
   submitNewPassword(){
-    if(this.mail != undefined && this.newPassword != undefined && this.oldPassword != undefined) {
-      this.authService.changePassword(this.mail, this.oldPassword, this.newPassword);
+    if(this.newPassword != undefined && this.oldPassword != undefined) {
+      this.authService.changePassword(this.oldPassword, this.newPassword);
       this.dialogRef.close();
     }else{
       window.alert("Es wurden nicht alle Daten eingegeben.");

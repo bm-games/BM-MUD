@@ -49,4 +49,10 @@ export class AuthService {
     this.user$.next(null)
     return this.http.get<void>(`${this.CONFIG.endpoint}/auth/logout`).toPromise()
   }
+
+  changePassword(oldPassword: string, newPassword: string): Promise<void>{
+    return this.http.post<void>(`${this.CONFIG.endpoint}/auth/changePassword`, {oldPassword, newPassword}).toPromise()
+    console.log('change PW')
+
+  }
 }
