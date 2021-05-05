@@ -5,6 +5,8 @@ import {User} from "../../../authentication/model/user";
 import {GameService} from "../../../game/services/game.service";
 import {GameOverview} from "../../../game/model/game-overview";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {ChangePasswordDialog} from "../dialog/changePasswordDialog";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +24,8 @@ export class DashboardComponent implements OnInit {
   constructor(private titleService: Title,
               private gameService: GameService,
               private auth: AuthService,
-              private router: Router) {
+              private router: Router,
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -46,5 +49,11 @@ export class DashboardComponent implements OnInit {
   set searchedGameName(name: string) {
     this.filteredGames = this.games
       .filter(game => game.config.name.toLowerCase().includes(name.toLowerCase()))
+  }
+
+  changePasswordDialog() {
+    const dialogRef = this.dialog.open(ChangePasswordDialog, {
+      width: '300px'
+    });
   }
 }
