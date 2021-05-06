@@ -12,6 +12,7 @@ import {RoomConfig} from "../../models/RoomConfig";
 import {DungeonConfig} from "../../models/DungeonConfig";
 import {race} from "rxjs";
 import {ConfigService} from "../../services/config.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-configuration',
@@ -32,7 +33,7 @@ export class ConfigurationComponent implements OnInit {
   private static _startequipment: ItemConfig[] = [];
   private static _startRoom: number = 0;
 
-  constructor(private configService: ConfigService, private titleService: Title) { }
+  constructor(private configService: ConfigService, private titleService: Title, private router: Router) { }
 
   ngOnInit(): void {
     this.setTitle(this.title);
@@ -64,7 +65,7 @@ export class ConfigurationComponent implements OnInit {
       classes: ConfigurationComponent.allClasses,
       commands: ConfigurationComponent.allCommands
     }
-    this.configService.createDungeon(dungeon);
+    this.configService.createDungeon(dungeon).then(() => this.router.navigateByUrl('/dashboard')).catch(({error}) => alert(error));
   }
 
   static get startRoom(): number {

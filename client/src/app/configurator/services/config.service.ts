@@ -20,9 +20,9 @@ export class ConfigService {
       .pipe(catchError(() => of(null)));
   }
 
-  createDungeon(dungeonConfig: DungeonConfig): Observable<any> {
+  createDungeon(dungeonConfig: DungeonConfig): Promise<void> {
     console.log(dungeonConfig);
-    return this.http.post(`${this.CONFIG.endpoint}/configurator/create`, dungeonConfig)
+    return this.http.post<void>(`${this.CONFIG.endpoint}/configurator/createConfig`, dungeonConfig).toPromise();
   }
 
 }

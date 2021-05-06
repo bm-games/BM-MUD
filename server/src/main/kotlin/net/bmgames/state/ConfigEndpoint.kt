@@ -28,7 +28,7 @@ fun Route.installConfigEndpoint() {
                 ?.let { config -> call.respond(config) }
                 ?: call.respond(HttpStatusCode.BadRequest)
     }
-    post<SaveConfig> {
+    post("/createConfig") {
         val config = call.receive<Game>()
         println(config)
         TODO("Validate")
@@ -40,5 +40,3 @@ fun Route.installConfigEndpoint() {
 @Location("/get/{name}")
 data class GetConfig(val name: String)
 
-@Location("/create")
-class SaveConfig
