@@ -28,7 +28,7 @@ export class ConfigurationComponent implements OnInit {
   private static _allClasses: ClassConfig[] = [];
   private static _allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
   private static _allNPCs: (FriendlyNPCConfig | HostileNPCConfig)[] = [];
-  private static _allCommands: CommandConfig[] = [];
+  private static _commandConfig: CommandConfig = { aliases: new Map<string, string>(), customCommands: new Map<string, string>()}
   private static _allRooms: RoomConfig[] = [];
   private static _startequipment: ItemConfig[] = [];
   private static _startRoom: number = 0;
@@ -73,7 +73,7 @@ export class ConfigurationComponent implements OnInit {
       items: ConfigurationComponent.allItems,
       races: ConfigurationComponent.allRaces,
       classes: ConfigurationComponent.allClasses,
-      commands: ConfigurationComponent.allCommands
+      commands: ConfigurationComponent.commandConfig
     }
     this.configService.createDungeon(dungeon).then(() => this.router.navigateByUrl('/dashboard')).catch(({error}) => alert(error));
   }
@@ -112,12 +112,12 @@ export class ConfigurationComponent implements OnInit {
   static set allRooms(value: RoomConfig[]) {
     this._allRooms = value;
   }
-  static get allCommands(): CommandConfig[] {
-    return this._allCommands;
+  static get commandConfig(): CommandConfig {
+    return this._commandConfig;
   }
 
-  static set allCommands(value: CommandConfig[]) {
-    this._allCommands = value;
+  static set commandConfig(value: CommandConfig) {
+    this._commandConfig = value;
   }
   static get allNPCs(): (FriendlyNPCConfig | HostileNPCConfig)[] {
     return this._allNPCs;

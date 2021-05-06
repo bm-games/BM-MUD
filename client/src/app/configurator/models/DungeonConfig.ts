@@ -15,5 +15,5 @@ export interface DungeonConfig {
   items: ItemConfig[];
   races: RaceConfig[];
   classes: ClassConfig[];
-  commands: CommandConfig[];
+  commands: CommandConfig;
 }

@@ -37,7 +37,7 @@
         </div>
       </div>
       <div *ngIf="isCustomCommand">
-        <div>
+        <!--<div>
           <label>Syntax definieren:</label>
           <input placeholder="z.B. hit $player" [(ngModel)]="commandSyntax"/>
         </div>
@@ -48,6 +48,60 @@
               {{action}}
             </mat-list-option>
           </mat-selection-list>
+        </div>-->
+        <div>
+          <label>Befehl:</label>
+          <input placeholder="drop" [(ngModel)]="commandSyntax"/>
+        </div>
+        <div class="actionDiv">
+          <label>Action 1:</label>
+          <mat-form-field class="dropDown">
+            <mat-select [(ngModel)]="selectedAction1">
+              <mat-option *ngFor="let action of allActions" [value]="action">
+                {{action}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="actionDiv">
+          <label>Action 2:</label>
+          <mat-form-field class="dropDown">
+            <mat-select [(ngModel)]="selectedAction2">
+              <mat-option *ngFor="let action of allActions" [value]="action" >
+                {{action}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="actionDiv">
+          <label>Action 3:</label>
+          <mat-form-field class="dropDown">
+            <mat-select [(ngModel)]="selectedAction3">
+              <mat-option *ngFor="let action of allActions" [value]="action">
+                {{action}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="actionDiv">
+          <label>Action 4:</label>
+          <mat-form-field class="dropDown">
+            <mat-select [(ngModel)]="selectedAction4">
+              <mat-option *ngFor="let action of allActions" [value]="action">
+                {{action}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="actionDiv">
+          <label>Action 5:</label>
+          <mat-form-field class="dropDown">
+            <mat-select [(ngModel)]="selectedAction5">
+              <mat-option *ngFor="let action of allActions" [value]="action">
+                {{action}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
     </div>
@@ -71,9 +125,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let command of customCommands">
-          <td>{{command.command}}</td>
-          <td>{{command.actions.length}}</td>
+        <tr *ngFor="let command of customCommands | keyvalue ">
+          <td>{{command.key}}</td>
+          <td>{{command.value}}</td>
         </tr>
         </tbody>
       </table>
