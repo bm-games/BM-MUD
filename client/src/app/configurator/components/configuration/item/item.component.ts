@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemConfig} from "../../../models/ItemConfig";
+import { ConsumableItemConfig, ItemConfig} from "../../../models/ItemConfig";
 import {EquipmentConfig} from "../../../models/EquipmentConfig";
 import {ConfigurationComponent} from "../configuration.component";
 import {EquipmentSlot} from "../../../models/EquipmentSlot";
@@ -27,7 +27,8 @@ export class ItemComponent implements OnInit {
   itemCommands: string[] = ['Heilen', 'Gesundheit abziehen'];
   equipmentSlots: string[] = ['Kopf', 'Brust', 'Beine', 'Stiefel'];
 
-  configuredItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
+  //configuredItems: ConsumableItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
+  configuredItems: ItemConfig[] = [];
 
   constructor() { }
 
@@ -43,17 +44,21 @@ export class ItemComponent implements OnInit {
     if(this.name != undefined && !this.checkContainsName()){
       if(this.isConsumable){
         if(this.effect != undefined){
-          //this.configuredItems.push(new ItemConfig(this.getNextFreeId(), this.name, true, this.effect));
 
-          this.configuredItems.push({
-            isConsumable: true,
+          let consumable: ConsumableItemConfig = {
+            name: this.name,
+            effect: this.effect
+          }
+          this.configuredItems.push(consumable);
+          /*this.configuredItems.push({
+            //isConsumable: true,
             name: this.name,
             effect: this.effect,
             healthModifier: undefined,
             damageModifier: undefined,
             slot: undefined,
             baseDamage: undefined
-          });
+          });*/
 
           this.name = undefined;
           this.effect = undefined;
@@ -64,7 +69,14 @@ export class ItemComponent implements OnInit {
       if(this.isEquipment){
         if(this.health != undefined && this.name != undefined){
 
-          this.configuredItems.push({
+          let equip: EquipmentConfig = {
+            name: this.name,
+            damageModifier: this.damageMultiplier,
+            healthModifier: this.health,
+            slot: this.equipmentSlot
+          }
+          this.configuredItems.push(equip);
+          /*this.configuredItems.push({
             isConsumable: false,
             name: this.name,
             effect: undefined,
@@ -72,7 +84,7 @@ export class ItemComponent implements OnInit {
             damageModifier: undefined,
             slot: this.equipmentSlot,
             baseDamage: undefined
-          });
+          });*/
 
           this.name = undefined;
           this.health = undefined;
@@ -83,7 +95,12 @@ export class ItemComponent implements OnInit {
       if(this.isWeapon){
         if(this.damage != undefined && this.damageMultiplier != undefined && this.name != undefined) {
 
-          this.configuredItems.push({
+          let weapon: WeaponConfig = {
+            name: this.name,
+            baseDamage: this.damage
+          }
+          this.configuredItems.push(weapon);
+          /*this.configuredItems.push({
             isConsumable: false,
             name: this.name,
             effect: undefined,
@@ -91,7 +108,7 @@ export class ItemComponent implements OnInit {
             damageModifier: this.damageMultiplier,
             slot: undefined,
             baseDamage: this.damage
-          });
+          });*/
 
           this.name = undefined;
           this.damage = undefined;

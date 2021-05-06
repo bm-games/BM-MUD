@@ -11,9 +11,9 @@ export interface DungeonConfig {
   startRoom: number;
   startEquipment: ItemConfig[];
   rooms: Map<string, RoomConfigExport>;
-  npcs: NPCConfig[];
-  items: ItemConfig[];
+  npcConfigs: Map<string, NPCConfig>;
+  itemConfigs: Map<string, ItemConfig>;
   races: RaceConfig[];
   classes: ClassConfig[];
-  commands: CommandConfig;
+  commandConfig: CommandConfig;
 }

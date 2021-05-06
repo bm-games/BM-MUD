@@ -77,18 +77,4 @@ describe('ItemComponent', () => {
     expect(component.configuredItems[length-1].name).toEqual('Item');
     expect(component.configuredItems[length-1].isConsumable).toBe(false);
   });
-
-  it('should return 1 as next free ItemId. Already assigned IDs: 0,2', () => {
-    fixture = TestBed.createComponent(ItemComponent);
-    component = fixture.componentInstance;
-
-    component.configuredItems = [
-      {id: 0, isConsumable: true, name: 'name', baseDamage: 1, healthModifier: 1, effect: '', slot: EquipmentSlot.head, damageModifier: 1},
-      {id: 2, isConsumable: true, name: 'name', baseDamage: 1, healthModifier: 1, effect: '', slot: EquipmentSlot.head, damageModifier: 1}
-    ];
-
-    let calculatedId = component.getNextFreeId();
-
-    expect(calculatedId).toBe(1);
-  });
 });
