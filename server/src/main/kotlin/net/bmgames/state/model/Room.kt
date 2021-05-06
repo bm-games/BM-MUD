@@ -3,6 +3,9 @@ package net.bmgames.state.model
 import arrow.optics.optics
 import kotlinx.serialization.Serializable
 
+/**
+ *
+ * */
 @Serializable
 @optics
 data class Room(

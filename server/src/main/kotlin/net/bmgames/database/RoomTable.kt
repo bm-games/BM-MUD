@@ -5,11 +5,15 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Represents the Database Table
  * */
-object RoomTable : Table("Room") {
-    val id = integer("roomId")
-    val game = varchar("gameName", NAME_LENGTH)
-    val configId = integer("configId")
+object RoomTable : IntIdTable("Room") {
+    val game = reference("gameName", GameTable)
+    val configId = reference("configId", RoomConfigTable)
+}
 
-    override val primaryKey = PrimaryKey(id, name = "roomId")
 
+class RoomDAO (id: EntityID<Int>): IntEntity(id) {
+    companion object: IntEntityClass<NPCDAO>(NPCTable)
+
+    val game by GameDAO referencedOn RoomTable.game
+    val config by RoomConfigDAO referencedOn RoomTable.configId
 }

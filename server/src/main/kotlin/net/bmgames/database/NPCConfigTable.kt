@@ -5,12 +5,10 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Represents the Database Table
  * */
-object NPCConfigtable : Table("NPCConfig") {
-    val id = integer("NPCConfigId")
-    val game = varchar("gameName", NAME_LENGTH)
+object NPCConfigTable : IntIdTable("NPCConfig") {
+    val game = reference("gameName", GameTable.id)
+
     val name = varchar("NPCName", NAME_LENGTH)
-    val type = varchar("type", NAME_LENGTH)
-    val damageMultiplier = float("damageMultiplier")
     val friendly = bool("friendly")
     val health = integer("health").nullable()
     val damage = integer("damage").nullable()

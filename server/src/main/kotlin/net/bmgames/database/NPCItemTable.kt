@@ -5,11 +5,15 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Represents the Database Table
  * */
-object NPCItemTable : Table("NPCItem") {
-    val id = integer("NPCItemId")
-    val NPCId = integer("NPCId")
-    val itemConfigId = integer("itemConfigId")
+object NPCItemTable : IntIdTable("NPCItem") {
+    val npcId = reference("NPCId", NPCTable)
+    val itemConfigId = reference("itemConfigId", ItemConfigTable)
+}
 
-    override val primaryKey = PrimaryKey(id, name = "NPCItemId")
 
+class NPCItemDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<NPCItemDAO>(NPCItemTable)
+
+    val npc by NPCDAO referencedOn NPCItemTable.npcId
+    val item by ItemConfigDAO referencedOn NPCItemTable.itemConfigId
 }

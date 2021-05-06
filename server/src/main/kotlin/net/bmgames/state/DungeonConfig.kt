@@ -11,7 +11,7 @@ data class DungeonConfig(
     val classes: List<Class>,
     val commandConfig: CommandConfig,
     val npcConfigs: Map<String, NPC>,
-    val itemConfigs: Map<String, NPC>,
+    val itemConfigs: Map<String, Item>,
 
     val startRoom: String,
     val rooms: Map<String, Room>

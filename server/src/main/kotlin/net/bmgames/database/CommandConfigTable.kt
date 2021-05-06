@@ -5,20 +5,23 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Represents the Database Table
  * */
-
-enum class Type
-{
-    Alias,
-    Custom
-}
-
-object CommandConfigTable : Table("CommandConfig") {
-    val id = integer("roomConfigId")
-    val game = varchar("gameName", NAME_LENGTH)
-    val new = varchar("newCommand", NAME_LENGTH)
-    val original = varchar("originalCommand", NAME_LENGTH)
+object CommandConfigTable : IntIdTable("CommandConfig") {
+    val game = reference("gameName", GameTable)
     val type = enumerationByName("type", NAME_LENGTH, Type::class)
 
-    override val primaryKey = PrimaryKey(id, name = "commandConfigId")
+    val new = varchar("newCommand", NAME_LENGTH)
+    val original = varchar("originalCommand", NAME_LENGTH)
 
+    enum class Type { Alias, Custom }
 }
+
+class CommandDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<CommandDAO>(CommandConfigTable)
+
+    var game by CommandDAO referencedOn CommandConfigTable.game
+
+    val type by CommandConfigTable.type
+    val new by CommandConfigTable.new
+    val original by CommandConfigTable.original
+}
+

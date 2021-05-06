@@ -5,11 +5,16 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Represents the Database Table
  * */
-object GameTable : Table("Game") {
-    val name = varchar("gameName", NAME_LENGTH)
+object GameTable : IdTable<String>("Game") {
+    override val id = varchar("gameName", NAME_LENGTH).entityId()
     val startRoom = varchar("startRoom", NAME_LENGTH)
-    val master = varchar("dungeonMaster", NAME_LENGTH)
+    val master = reference("dungeonMaster", GameTable)
+}
 
-    override val primaryKey = PrimaryKey(name, name = "gameName")
+class GameDAO(name: EntityID<String>) : Entity<String>(name) {
+    companion object : EntityClass<String, GameDAO>(GameTable)
 
+    val name by GameTable.id
+    val startRoom by GameTable.startRoom
+    val master by UserDAO referrersOn GameTable.master
 }

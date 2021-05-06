@@ -22,6 +22,17 @@ val PLAYER by lazy {
     )
 }
 
+val items = mapOf(
+    "Apfel" to Consumable("Apfel", "heal \$player 10"),
+    "Diamond Helmet" to Equipment("Diamond Helmet", 10f, 1f, Equipment.Slot.Head),
+    "Wooden Sword" to Weapon("Wooden Sword", 1),
+)
+
+val npcs = mapOf(
+    "geork" to NPC.Friendly("geork", listOf(items["Apfel"]!!), "heal \$player 1", "Halloooooooooo"),
+    "georkina" to NPC.Hostile("georkina", listOf(items["Diamond Helmet"]!!), 100, 100000),
+)
+
 val GAME_WITHOUT_PLAYER = Game(
     name = "Game with only master",
     races = listOf(
@@ -42,9 +53,20 @@ val GAME_WITHOUT_PLAYER = Game(
         )
     ),
     commandConfig = CommandConfig(),
+    itemConfigs = items,
+    npcConfigs = npcs,
 
     startRoom = "start",
-    rooms = mapOf("start" to Room("Start room", "Welcome!")),
+    rooms = mapOf(
+        "start" to Room(
+            "Start room",
+            "Welcome!",
+            npcs = mapOf("georkina" to npcs["georkina"]!!),
+            items = items.values.toList(),
+            south = "room"
+        ),
+        "room" to Room("Next room", "HIIIIIIIIIIIIIIIIIII!", north = "start")
+    ),
 
     master = master,
     onlinePlayers = mapOf(master.ingameName to master)
