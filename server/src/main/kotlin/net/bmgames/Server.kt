@@ -18,19 +18,20 @@ import io.ktor.websocket.*
 import net.bmgames.authentication.*
 import net.bmgames.communication.MailNotifier
 import net.bmgames.communication.Notifier
-import net.bmgames.configurator.installConfigEndpoint
+import net.bmgames.state.installConfigEndpoint
 import net.bmgames.game.GameManager
-import net.bmgames.game.GameRepository
+import net.bmgames.state.GameRepository
 import net.bmgames.game.installGameEndpoint
 import java.time.Duration
 
 class Server(val config: ServerConfig) {
-    val mailNotifier: MailNotifier by lazy { MailNotifier(config) }
+    private val mailNotifier by lazy { MailNotifier(config) }
+    private val authHelper = AuthHelper(config)
+    private val userHandler = UserHandler(mailNotifier, authHelper)
+
     val notifier: Notifier by lazy { mailNotifier }
-    val authHelper = AuthHelper(config)
-    val userHandler = UserHandler(mailNotifier, authHelper)
     val authenticator = Authenticator(authHelper, userHandler)
-    val gameManager: GameManager = GameManager(GameRepository)
+    val gameRepository = GameRepository
 }
 
 fun Application.installServer(server: Server) {

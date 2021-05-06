@@ -10,12 +10,14 @@ import io.kotest.matchers.types.shouldBeTypeOf
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
 import io.ktor.server.testing.*
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockkObject
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import net.bmgames.game.model.GameOverview
-import net.bmgames.installServer
+import net.bmgames.state.GameRepository
+import net.bmgames.state.PlayerRepository
 import net.bmgames.withAuthenticatedTestApplication
 
 @OptIn(InternalCoroutinesApi::class)
@@ -28,8 +30,8 @@ class GameEndpointKtTest : FunSpec({
 
         every { GameRepository.listGames() } returns listOf(GAME_WITHOUT_PLAYER, GAME_WITH_PLAYER)
 
-        mockkObject(PlayerManager)
-        coEvery { PlayerManager.loadPlayer(GAME_WITH_PLAYER.name, PLAYER.ingameName) } returns PLAYER
+        mockkObject(PlayerRepository)
+        coEvery { PlayerRepository.loadPlayer(GAME_WITH_PLAYER.name, PLAYER.ingameName) } returns PLAYER
     }
 
     test("Should connect websocket successfully") {
@@ -53,8 +55,10 @@ class GameEndpointKtTest : FunSpec({
         withAuthenticatedTestApplication(PLAYER.user) {
             handleRequest(HttpMethod.Get, "/api/game/list").apply {
                 response shouldHaveStatus 200
-                val games =
-                    response.content?.let { Json.decodeFromString<List<GameOverview>>(it).map { it.config.name } }
+                val games = response.content?.let {
+                    Json.decodeFromString<List<GameOverview>>(it)
+                        .map { it.name }
+                }
                 games.shouldNotBeNull()
                 games shouldContainAll listOf(GAME_WITHOUT_PLAYER.name, GAME_WITH_PLAYER.name)
             }

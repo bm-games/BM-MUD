@@ -1,6 +1,7 @@
-package net.bmgames.game.model
+package net.bmgames.game.message
 
 import kotlinx.serialization.Serializable
+import net.bmgames.state.model.Player
 
 @Serializable
 data class RoomMap(
@@ -15,3 +16,5 @@ data class Tile(
     val west: Boolean,
     val color: String
 )
+
+fun Player.Normal.getVisitedRooms(): RoomMap = RoomMap(emptyList()) //TODO

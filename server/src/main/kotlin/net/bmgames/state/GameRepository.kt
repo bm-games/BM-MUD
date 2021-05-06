@@ -1,6 +1,6 @@
-package net.bmgames.game
+package net.bmgames.state
 
-import net.bmgames.game.state.Game
+import net.bmgames.state.model.Game
 
 object GameRepository {
     internal fun save(game: Game) {

@@ -5,17 +5,18 @@ package net.bmgames.game.connection
 import arrow.core.Either
 import arrow.core.computations.either
 import arrow.fx.coroutines.Atomic
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 import net.bmgames.ErrorMessage
-import net.bmgames.game.commands.Command
-import net.bmgames.game.commands.CommandParser
-import net.bmgames.game.state.Game
-import net.bmgames.game.state.Player
-import net.bmgames.success
 import net.bmgames.error
 import net.bmgames.game.GameScope
+import net.bmgames.game.commands.Command
+import net.bmgames.game.commands.CommandParser
 import net.bmgames.game.message.Message
+import net.bmgames.state.model.Game
+import net.bmgames.state.model.Player
+import net.bmgames.success
 
 /**
  * Central component which runs a MUD
@@ -25,7 +26,7 @@ import net.bmgames.game.message.Message
  * */
 class GameRunner internal constructor(initialGame: Game) {
     private val currentGameState: Atomic<Game> = Atomic.unsafe(initialGame)
-    private val commandParser = CommandParser(initialGame.config.commandConfig)
+    private val commandParser = CommandParser(initialGame.commandConfig)
     private val commandQueue = Channel<Pair<String, Command<*>>>()
 
     private val onlinePlayersRef: Atomic<Map<String, Connection>> = Atomic.unsafe(emptyMap())

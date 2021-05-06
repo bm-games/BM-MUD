@@ -6,6 +6,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkObject
+import net.bmgames.state.GameRepository
 
 class GameEndpointTest : FunSpec({
 

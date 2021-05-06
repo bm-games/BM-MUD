@@ -13,7 +13,15 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 /**
+ * The secret hash key must have this length.
+ * Required by encryption algorithm
+ * */
+const val SECRET_KET_LENGTH = 32
+
+/**
  * This Config configures the server
+ * @property secretKeyHash Used for encrypting user passwords and sessions.
+ * Must have length [SECRET_KET_LENGTH]
  * */
 @Serializable
 data class ServerConfig(
@@ -32,8 +40,8 @@ data class ServerConfig(
 
 ) {
     companion object {
-        internal fun readConfig(path: String): Either<Error, ServerConfig> =
-            catch(
+        internal fun readConfig(path: String): Either<Error, ServerConfig> {
+            return catch(
                 { Error("Couldn't find config file.", it) },
                 { File(path).readText() }
             ).flatMap { content ->
@@ -41,10 +49,11 @@ data class ServerConfig(
                     { Error("Couldn't parse config.", it) },
                     { Json.decodeFromString<ServerConfig>(content) }
                 ).filterOrElse(
-                    { it.secretKeyHash.length == 32 },
-                    { Error("Secret hash key must be of length 32") }
+                    { it.secretKeyHash.length == SECRET_KET_LENGTH },
+                    { Error("Secret hash key must be of length $SECRET_KET_LENGTH") }
                 )
             }
+        }
 
         internal fun ServerConfig.writeConfig(path: String, override: Boolean = false): Boolean =
             File(path).let {

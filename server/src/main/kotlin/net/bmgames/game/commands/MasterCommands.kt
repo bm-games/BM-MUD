@@ -7,8 +7,8 @@ import com.github.ajalt.clikt.parameters.arguments.transformAll
 import net.bmgames.game.action.Action
 import net.bmgames.game.action.MessageAction
 import net.bmgames.game.message.Message
-import net.bmgames.game.state.Game
-import net.bmgames.game.state.Player
+import net.bmgames.state.model.Game
+import net.bmgames.state.model.Player
 
 
 class InvitationCommand : MasterCommand("invite") {
