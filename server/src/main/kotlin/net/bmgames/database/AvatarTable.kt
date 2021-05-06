@@ -8,8 +8,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 /**
  * Represents the Database Table
  * */
-object AvatarTable : Table("Avatar") {
-    val id = integer("avatarId")
+object AvatarTable : IntIdTable("Avatar") {
     val name = varchar("avatarName", NAME_LENGTH)
     val raceId = reference("raceId", RaceTable)
     val classId = reference("classId", ClassTable)

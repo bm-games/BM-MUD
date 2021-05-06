@@ -9,10 +9,9 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 /**
  * Represents the Database Table
  * */
-object NPCTable : Table("NPC") {
-    val id = integer("NPCId")
-    val NPCConfigId = integer("NPCConfigId")
-    val roomId = integer("roomId")
+object NPCTable : IntIdTable("NPC") {
+    val npcConfigId = reference("npcConfigId", NPCConfigTable)
+    val roomId = reference("roomId", RoomTable)
     val health = integer("health").nullable()
 }
 

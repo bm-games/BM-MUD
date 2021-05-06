@@ -1,6 +1,9 @@
 package net.bmgames.database
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
 
 /**
  * Represents the Database Table

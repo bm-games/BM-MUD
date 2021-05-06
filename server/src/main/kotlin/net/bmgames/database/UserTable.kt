@@ -1,7 +1,10 @@
 package net.bmgames.database
 
-import net.bmgames.authentication.PASSWORD_LENGTH
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.Entity
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
+
 
 /**
  * Represents the Database Table - User

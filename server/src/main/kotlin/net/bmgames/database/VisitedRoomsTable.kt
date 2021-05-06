@@ -1,16 +1,23 @@
 package net.bmgames.database
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
 
 /**
  * Represents the Database Table
  * */
-object VisitedRoomsTable : Table("VisitedRooms") {
-    val id = integer("visitedRoomsId")
-    val playerId = integer("playerId")
-    val game = varchar("gameName", NAME_LENGTH)
-    val roomId = integer("roomId")
+object VisitedRoomsTable : IntIdTable("VisitedRooms") {
+    val game = reference("gameName", GameTable)
+    val playerId = reference("playerId", PlayerTable)
+    val roomId = reference("roomId", RoomTable)
+}
 
-    override val primaryKey = PrimaryKey(id, name = "visitedRoomsId")
+class VisitedRoomDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<VisitedRoomDAO>(VisitedRoomsTable)
 
+    val game by GameDAO referencedOn VisitedRoomsTable.game
+    val player by PlayerDAO referencedOn VisitedRoomsTable.playerId
+    val room by RoomDAO referencedOn VisitedRoomsTable.roomId
 }
