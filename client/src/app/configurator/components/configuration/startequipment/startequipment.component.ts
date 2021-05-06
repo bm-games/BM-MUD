@@ -17,6 +17,11 @@ export class StartequipmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.allEquipment = ConfigurationComponent.allItems;
+    this.selectedEquipment = ConfigurationComponent.startequipment;
+  }
+
+  saveStartequipment(){
+    ConfigurationComponent.startequipment = this.selectedEquipment;
   }
 
 }

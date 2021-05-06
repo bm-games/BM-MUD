@@ -1,8 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.ir.util.filterOutAnnotations
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 val ktor_version: String by project
 val kotlin_version: String by project
@@ -87,7 +85,6 @@ dependencies {
 
 //    CLI Parser
     implementation("com.github.ajalt.clikt:clikt:3.1.0")
-    implementation(kotlin("stdlib"))
 
 }
 
@@ -146,6 +143,3 @@ tasks.withType<ShadowJar> {
     }
 
 }
-
-
-

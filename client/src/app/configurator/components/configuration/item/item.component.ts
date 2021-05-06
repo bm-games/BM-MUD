@@ -35,6 +35,10 @@ export class ItemComponent implements OnInit {
     this.configuredItems = ConfigurationComponent.allItems;
   }
 
+  /**
+   * Generates a ItemConfig with the current UI-data inputs and adds it to the list 'configuredItems'
+   * Depending on the selected ItemType, a ItemConfig, EquipmentConfig or WeaponConfig is created
+   */
   addItem(){
     if(this.isConsumable){
       if(this.name != undefined && this.effect != undefined){
@@ -102,6 +106,10 @@ export class ItemComponent implements OnInit {
     }
   }
 
+  /**
+   * Finds next smallest possible ID for the new ItemConfig
+   * @returns id: number
+   */
   getNextFreeId(): number {
     let id = 0;
     let foundId = false;
@@ -122,6 +130,10 @@ export class ItemComponent implements OnInit {
     return id;
   }
 
+  /**
+   * Sets the bool values 'isEquipment', 'isConsumable' and 'isWeapon' depending on the current UI selection
+   * @param item selected UI value
+   */
   itemTypeChanged(item: string) {
     switch(item){
       case 'Ausrüstung':
@@ -142,11 +154,19 @@ export class ItemComponent implements OnInit {
     }
   }
 
+  /**
+   * Sets the effect of a consumable item depending on the current UI selection
+   * @param item selected UI value
+   */
   itemEffectChanged(effect: string){
     this.effect = effect;
     console.log(effect);
   }
 
+  /**
+   * Sets the EquipmentSlot (Enum) depending on the current UI selection
+   * @param item selected UI value
+   */
   equipmentSlotChanged(slot: string){
     switch(slot){
       case "Kopf":
