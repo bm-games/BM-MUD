@@ -23,8 +23,8 @@ object GameTable : IntIdTable("Game") {
     val master = reference("dungeonMaster", UserTable)
 }
 
-class GameDAO(name: EntityID<String>) : Entity<String>(name) {
-    companion object : EntityClass<String, GameDAO>(GameTable)
+class GameDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<GameDAO>(GameTable)
 
     var name by GameTable.name
     var startRoom by GameTable.startRoom

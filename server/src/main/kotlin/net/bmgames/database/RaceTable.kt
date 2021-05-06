@@ -11,7 +11,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 /**
  * Represents the Database Table
  * */
-object RaceTable : IntIdTable("RaceConfig") {
+object RaceTable : IntIdTable("Race") {
     val game = reference("gameName", GameTable)
     val name = varchar("raceName", NAME_LENGTH)
     val description = varchar("description", NAME_LENGTH)
@@ -24,7 +24,10 @@ class RaceDAO(id: EntityID<Int>) : IntEntity(id) {
 
     var game by GameDAO referencedOn RaceTable.game
 
-    val description by RaceTable.description
-    val health by RaceTable.health
-    val damageMultiplier by RaceTable.damageMultiplier
+    var name by RaceTable.name
+    var description by RaceTable.description
+    var health by RaceTable.health
+    var damageMultiplier by RaceTable.damageMultiplier
+
+    fun toRace(): Race = Race(name, description, health, damageMultiplier).setId(id.value)
 }

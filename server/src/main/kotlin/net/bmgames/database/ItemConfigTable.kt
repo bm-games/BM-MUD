@@ -29,12 +29,22 @@ class ItemConfigDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ItemConfigDAO>(ItemConfigTable)
 
     var game by GameDAO referencedOn ItemConfigTable.game
-    val name by ItemConfigTable.name
-    val type by ItemConfigTable.type
+    var name by ItemConfigTable.name
+    var type by ItemConfigTable.type
 
-    val isConsumable by ItemConfigTable.isConsumable
-    val effect by ItemConfigTable.effect
-    val baseDamage by ItemConfigTable.baseDamage
-    val healthModifier by ItemConfigTable.healthModifier
-    val damageModifier by ItemConfigTable.damageModifier
+    var effect by ItemConfigTable.effect
+    var baseDamage by ItemConfigTable.baseDamage
+    var healthModifier by ItemConfigTable.healthModifier
+    var damageModifier by ItemConfigTable.damageModifier
+
+    fun toItem(): Item =
+        when (type) {
+            Type.Weapon -> Weapon(name, baseDamage!!)
+            Type.Consumable -> Consumable(name, effect)
+            Type.Head -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Head)
+            Type.Chest -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Chest)
+            Type.Legs -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Legs)
+            Type.Boots -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Boots)
+        }.setId(id.value)
 }
+

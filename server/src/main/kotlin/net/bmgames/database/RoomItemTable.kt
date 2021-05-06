@@ -16,7 +16,7 @@ object RoomItemTable : IntIdTable("RoomItem") {
 class RoomItemDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<RoomItemDAO>(RoomItemTable)
 
-    val room by RoomDAO referencedOn RoomItemTable.roomId
-    val itemConfig by ItemConfigDAO referencedOn RoomItemTable.itemConfigId
+    var room by RoomDAO referencedOn RoomItemTable.roomId
+    var itemConfig by ItemConfigDAO referencedOn RoomItemTable.itemConfigId
 }
 */

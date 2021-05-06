@@ -8,6 +8,20 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object PlayerRepository {
 
+    internal fun loadPlayer(gameName: String, ingameName: String): Player.Normal? {
+        return transaction {
+            addLogger(StdOutSqlLogger)
+            val query = PlayerTable.innerJoin(GameTable).innerJoin(AvatarTable)
+                .slice(PlayerTable.columns)
+                .select { GameTable.name eq gameName and (AvatarTable.name eq ingameName) }
+                .withDistinct()
+
+            PlayerDAO.wrapRows(query)
+                .firstOrNull()
+                ?.toPlayer()
+        }
+    }
+
     internal fun createPlayer(game: Game, player: Player.Normal): Unit {
         transaction {
             val gameDAO = GameDAO[game.id]

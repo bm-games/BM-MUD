@@ -10,8 +10,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 /**
  * Represents the Database Table
  * */
-object ClassTable : IntIdTable("ClassConfig") {
-    val game = reference("gameName", GameTable)
+object ClassTable : GameReferencingTable("Class") {
     val name = varchar("className", NAME_LENGTH)
     val description = varchar("description", NAME_LENGTH)
     val healthMultiplier = float("healthMultiplier")

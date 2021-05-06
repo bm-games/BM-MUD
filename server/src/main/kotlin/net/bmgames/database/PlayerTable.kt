@@ -29,5 +29,21 @@ class PlayerDAO(id: EntityID<Int>) : IntEntity(id) {
     var inventory by ItemConfigDAO via PlayerItemTable
     var visitedRooms by VisitedRoomDAO via VisitedRoomsTable
 
-    val health by PlayerTable.health
+    fun toPlayer() = Player.Normal(
+        user = user.toUser(),
+        avatar = avatar.toAvatar(),
+        inventory = inventory.map { it.toItem() }.toInventory(),
+        room = room,
+        healthPoints = health,
+        lastHit = null,
+        visitedRooms = visitedRooms.map { it.room }.toSet()
+    ).setId(id.value)
 }
+
+private fun List<Item>.toInventory(): Inventory =
+    Inventory(
+        weapon = filterIsInstance<Weapon>().firstOrNull(),
+        equipment = filterIsInstance<Equipment>().associateBy { it.slot },
+        items = filterIsInstance<Consumable>()
+    )
+
