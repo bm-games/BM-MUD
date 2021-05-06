@@ -13,16 +13,12 @@ import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockkObject
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import net.bmgames.state.DungeonConfig
 import net.bmgames.state.GameRepository
 import net.bmgames.state.PlayerRepository
 import net.bmgames.withAuthenticatedTestApplication
 
-@OptIn(InternalCoroutinesApi::class)
 class GameEndpointKtTest : FunSpec({
 
     beforeSpec {

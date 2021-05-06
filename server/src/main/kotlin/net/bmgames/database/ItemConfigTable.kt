@@ -1,5 +1,8 @@
 package net.bmgames.database
 
+import net.bmgames.database.ItemConfigTable.Type
+import net.bmgames.state.model.*
+import net.bmgames.state.model.Equipment.Slot
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -9,13 +12,10 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 /**
  * Represents the Database Table
  * */
-object ItemConfigTable : IntIdTable("ItemConfig") {
-    val game = reference("gameName", GameTable.id)
-
+object ItemConfigTable : GameReferencingTable("ItemConfig") {
     val name = varchar("itemName", NAME_LENGTH)
     val type = enumerationByName("type", NAME_LENGTH, Type::class)
 
-    val isConsumable = bool("isConsumable").nullable()
     val effect = varchar("effect", NAME_LENGTH).nullable()
     val baseDamage = integer("baseDamage").nullable()
     val healthModifier = float("healthModifier").nullable()

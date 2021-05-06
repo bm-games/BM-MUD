@@ -9,8 +9,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 /**
  * Represents the Database Table
  * */
-object CommandConfigTable : IntIdTable("CommandConfig") {
-    val game = reference("gameName", GameTable)
+object CommandTable : GameReferencingTable("Command") {
     val type = enumerationByName("type", NAME_LENGTH, Type::class)
 
     val new = varchar("newCommand", NAME_LENGTH)
@@ -20,12 +19,12 @@ object CommandConfigTable : IntIdTable("CommandConfig") {
 }
 
 class CommandDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<CommandDAO>(CommandConfigTable)
+    companion object : IntEntityClass<CommandDAO>(CommandTable)
 
-    var game by CommandDAO referencedOn CommandConfigTable.game
+    var game by GameDAO referencedOn CommandTable.game
 
-    val type by CommandConfigTable.type
-    val new by CommandConfigTable.new
-    val original by CommandConfigTable.original
+    var type by CommandTable.type
+    var new by CommandTable.new
+    var original by CommandTable.original
 }
 

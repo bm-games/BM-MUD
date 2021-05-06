@@ -17,8 +17,7 @@ internal fun ServerConfig.connectToDB() {
         password = dbPassword
     )
     transaction {
-        SchemaUtils.drop(
-        )
+        SchemaUtils.drop()
         SchemaUtils.create(
             UserTable,
             AvatarTable,
@@ -35,7 +34,7 @@ internal fun ServerConfig.connectToDB() {
             RoomItemTable,
             RoomTable,
             VisitedRoomsTable,
-            CommandConfigTable
+            CommandTable
         )
     }
 }

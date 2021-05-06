@@ -17,6 +17,6 @@ object NPCItemTable : IntIdTable("NPCItem") {
 class NPCItemDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<NPCItemDAO>(NPCItemTable)
 
-    val npc by NPCDAO referencedOn NPCItemTable.npcId
-    val item by ItemConfigDAO referencedOn NPCItemTable.itemConfigId
+    var npc by NPCDAO referencedOn NPCItemTable.npcId
+    var item by ItemConfigDAO referencedOn NPCItemTable.itemConfigId
 }

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @optics
-sealed class NPC {
+sealed class NPC: IdEntity() {
     abstract val name: String
     abstract val items: List<Item>
 

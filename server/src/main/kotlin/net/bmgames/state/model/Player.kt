@@ -6,7 +6,7 @@ import net.bmgames.authentication.User
 
 @Serializable
 @optics
-sealed class Player {
+sealed class Player: IdEntity() {
     abstract val user: User
     abstract val ingameName: String
 
@@ -27,7 +27,7 @@ sealed class Player {
 
         val healthPoints: Int,
         val lastHit: Long?,
-        val visitedRooms: Set<Int>
+        val visitedRooms: Set<String>
     ) : Player() {
         override val ingameName = avatar.name
     }

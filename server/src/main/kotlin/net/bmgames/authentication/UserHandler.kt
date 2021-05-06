@@ -1,11 +1,15 @@
 package net.bmgames.authentication
 
 import arrow.core.Either
+import arrow.core.Nullable
+import arrow.core.Option.Companion.catch
 import net.bmgames.ErrorMessage
 import net.bmgames.communication.MailNotifier
+import net.bmgames.database.UserDAO
 import net.bmgames.database.UserTable
 import net.bmgames.error
 import net.bmgames.success
+import net.bmgames.tryOrNull
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -28,16 +32,9 @@ class UserHandler(
      */
     fun getUserByName(username: String): User? {
         return transaction {
-            UserTable.select {
-                UserTable.username eq username
-            }.firstOrNull()
-                ?.let {
-                    User(
-                        email = it[UserTable.email],
-                        username = it[UserTable.username],
-                        passwordHash = it[UserTable.passwordHash],
-                        registrationKey = it[UserTable.registrationKey]
-                    )
+            UserDAO.find { UserTable.username eq username }.firstOrNull()
+                ?.run {
+                    User(email, username, passwordHash, registrationKey)
                 }
         }
     }
@@ -50,16 +47,9 @@ class UserHandler(
      */
     fun getUserByMail(mail: String): User? {
         return transaction {
-            UserTable.select {
-                UserTable.email eq mail
-            }.firstOrNull()
-                ?.let {
-                    User(
-                        email = it[UserTable.email],
-                        username = it[UserTable.username],
-                        passwordHash = it[UserTable.passwordHash],
-                        registrationKey = it[UserTable.registrationKey]
-                    )
+            UserDAO.find { UserTable.email eq mail }.firstOrNull()
+                ?.run {
+                    User(email, username, passwordHash, registrationKey)
                 }
         }
     }
@@ -76,12 +66,12 @@ class UserHandler(
         val token = authHelper.generateVerificationToken()
         return try {
             transaction {
-                UserTable.insert {
-                    it[email] = user.email
-                    it[username] = user.username
-                    it[passwordHash] = user.passwordHash
-                    it[registrationKey] = "${user.username}$token"
-                }
+               UserDAO.new {
+                   username = user.username
+                   email = user.email
+                   passwordHash = user.passwordHash
+                   registrationKey = user.registrationKey
+               }
             }
             mailNotifier.sendMailRegister(user, "${user.username}$token")
             true

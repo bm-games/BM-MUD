@@ -8,13 +8,23 @@ import kotlinx.coroutines.launch
 import net.bmgames.game.connection.GameRunner
 import net.bmgames.state.GameRepository
 
+/**
+ * The Coroutine Scope where all game related tasks run
+ * */
 internal object GameScope : CoroutineScope {
     override val coroutineContext = SupervisorJob() + Dispatchers.Default
 }
 
+/**
+ * Manages all running games
+ * @property gamesRef Stores all running games threadsafe
+ * */
 class GameManager(private val repository: GameRepository) {
     private val gamesRef: Atomic<Map<String, GameRunner>> = Atomic.unsafe(emptyMap())
 
+    /**
+     * @return A started game runner, if it exists. Otherwise it gets loaded from the database
+     * */
     internal suspend fun getGameRunner(gameName: String): GameRunner? {
         val gameRunner = gamesRef.get()[gameName]
         return if (gameRunner == null) {

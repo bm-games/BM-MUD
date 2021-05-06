@@ -20,10 +20,17 @@ import net.bmgames.game.message.sendMessage
 import net.bmgames.state.GameRepository
 import net.bmgames.state.PlayerRepository
 
+/**
+ * The interface for the game logic to the outer world.
+ * */
 internal class GameEndpoint(
     val gameManager: GameManager,
     val gameRepo: GameRepository
 ) {
+
+    /**
+     * Collects all existing games and if adds information if they're running
+     * */
     suspend fun listGames(user: User): List<GameOverview> {
         val runningGames = gameManager.getRunningGames()
         return runningGames
@@ -42,6 +49,12 @@ internal class GameEndpoint(
             }
     }
 
+
+    /**
+     * Connects a [WebSocketServerSession] with an [IConnection]
+     * @param socketServerSession The WebSocket session to the client
+     * @param connection The connection from the Gamerunner
+     * */
     suspend fun joinGame(socketServerSession: WebSocketServerSession, connection: IConnection) {
         GameScope.launch {
             try {
@@ -61,6 +74,9 @@ internal class GameEndpoint(
     }
 }
 
+/**
+ * Connects the [GameEndpoint] to Ktor
+ * */
 fun Route.installGameEndpoint(
     gameRepo: GameRepository = GameRepository,
     gameManager: GameManager = GameManager(gameRepo)

@@ -44,7 +44,7 @@ val GAME_WITHOUT_PLAYER = Game(
         )
     ),
     classes = listOf(
-        Class(
+        Clazz(
             name = "class",
             description = "Its a class",
             healthMultiplier = 1.5f,
@@ -55,6 +55,7 @@ val GAME_WITHOUT_PLAYER = Game(
     commandConfig = CommandConfig(),
     itemConfigs = items,
     npcConfigs = npcs,
+    startItems = items.values.toList(),
 
     startRoom = "start",
     rooms = mapOf(

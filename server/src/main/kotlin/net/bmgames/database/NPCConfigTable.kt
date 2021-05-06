@@ -1,16 +1,14 @@
 package net.bmgames.database
 
+import net.bmgames.state.model.NPC
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IntIdTable
 
 /**
  * Represents the Database Table
  * */
-object NPCConfigTable : IntIdTable("NPCConfig") {
-    val game = reference("gameName", GameTable.id)
-
+object NPCConfigTable : GameReferencingTable("NPCConfig") {
     val name = varchar("NPCName", NAME_LENGTH)
     val friendly = bool("friendly")
     val health = integer("health").nullable()
@@ -24,10 +22,18 @@ class NPCConfigDAO(id: EntityID<Int>) : IntEntity(id) {
 
     var game by GameDAO referencedOn NPCConfigTable.game
 
-    val name by NPCConfigTable.name
-    val friendly by NPCConfigTable.friendly
-    val health by NPCConfigTable.health
-    val damage by NPCConfigTable.damage
-    val message by NPCConfigTable.message
-    val command by NPCConfigTable.command
+    var name by NPCConfigTable.name
+
+    var friendly by NPCConfigTable.friendly
+    var maxHealth by NPCConfigTable.health
+    var damage by NPCConfigTable.damage
+    var message by NPCConfigTable.message
+    var command by NPCConfigTable.command
+
+    fun toNPC(): NPC =
+        if (friendly) {
+            NPC.Friendly(name, emptyList(), command!!, message!!)
+        } else {
+            NPC.Hostile(name, emptyList(), maxHealth!!, damage!!)
+        }
 }

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @optics
-sealed class Item {
+sealed class Item: IdEntity() {
     abstract val name: String
 }
 
@@ -13,7 +13,7 @@ sealed class Item {
 @optics
 data class Consumable(
     override val name: String,
-    val effect: String
+    val effect: String?
 ) : Item()
 
 @Serializable

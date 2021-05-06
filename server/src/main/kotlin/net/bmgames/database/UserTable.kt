@@ -1,26 +1,32 @@
 package net.bmgames.database
 
-import org.jetbrains.exposed.dao.Entity
-import org.jetbrains.exposed.dao.EntityClass
+import net.bmgames.authentication.User
+import net.bmgames.state.model.setId
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.dao.id.IntIdTable
 
 
 /**
  * Represents the Database Table - User
  * */
-object UserTable : IdTable<String>("User") {
-    override val id = varchar("username", NAME_LENGTH).entityId()
+object UserTable : IntIdTable("User") {
+    val username = varchar("username", NAME_LENGTH)
     val email = varchar("email", NAME_LENGTH)
     val passwordHash = varchar("passwordHash", PW_LENGTH)
     val registrationKey = varchar("registrationKey", REG_LENGTH).nullable()
 }
 
-class UserDAO(username: EntityID<String>) : Entity<String>(username) {
-    companion object : EntityClass<String, UserDAO>(UserTable)
+class UserDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<UserDAO>(UserTable)
 
-    val email by UserTable.email
-    val passwordHash by UserTable.passwordHash
-    val registrationKey by UserTable.registrationKey
+    var username by UserTable.username
+
+    var email by UserTable.email
+    var passwordHash by UserTable.passwordHash
+    var registrationKey by UserTable.registrationKey
+
+    fun toUser(): User = User(email, username, passwordHash, registrationKey).setId(id.value)
 }
 

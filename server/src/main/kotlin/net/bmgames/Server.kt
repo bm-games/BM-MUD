@@ -41,7 +41,6 @@ fun Application.installServer(server: Server) {
 }
 
 fun Application.configureRoutes(authenticator: Authenticator) {
-
     routing {
         route("/api") {
             installAuthEndpoint(authenticator)

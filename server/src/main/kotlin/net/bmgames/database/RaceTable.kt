@@ -1,5 +1,7 @@
 package net.bmgames.database
 
+import net.bmgames.state.model.Race
+import net.bmgames.state.model.setId
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -17,8 +19,8 @@ object RaceTable : IntIdTable("RaceConfig") {
     val damageMultiplier = float("damageMultiplier")
 }
 
-class RaceDAO (id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<RaceDAO>(RaceTable)
+class RaceDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<RaceDAO>(RaceTable)
 
     var game by GameDAO referencedOn RaceTable.game
 

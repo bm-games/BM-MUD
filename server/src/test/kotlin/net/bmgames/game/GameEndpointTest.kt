@@ -10,8 +10,6 @@ import net.bmgames.state.GameRepository
 
 class GameEndpointTest : FunSpec({
 
-
-
     lateinit var gameManager: GameManager
     lateinit var endpoint: GameEndpoint
 
@@ -28,11 +26,6 @@ class GameEndpointTest : FunSpec({
         endpoint = GameEndpoint(gameManager, GameRepository)
     }
 
-    /*test("GameRunner should load games if not running"){
-        gameManager.getRunningGames() shouldHaveSize 0
-        gameManager.getGameRunner("test")
-        gameManager.getRunningGames() shouldHaveSize 1
-    }*/
 
     test("Should list started and stopped games correctly") {
 

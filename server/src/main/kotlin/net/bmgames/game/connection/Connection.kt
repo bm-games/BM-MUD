@@ -9,6 +9,12 @@ import net.bmgames.game.GameScope
 import net.bmgames.game.commands.Command
 import net.bmgames.game.message.Message
 
+/**
+ * The connection to a MUD player from the [GameRunner] side.
+ * @property parseCommand The command parser function, either for a normal player or the master
+ * @property incoming Queue for already parsed commands which are tied to this connection
+ * @property outgoingChannel Queue for sending messages to the client
+ * */
 internal data class Connection(
     private val parseCommand: (String) -> Either<String, Command<*>>,
 ) : IConnection {
