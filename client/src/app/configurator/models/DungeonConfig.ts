@@ -1,21 +1,16 @@
-import {BaseConfig} from "./BaseConfig";
 import {NPCConfig} from "./NPCConfig";
 import {ItemConfig} from "./ItemConfig";
 import {RaceConfig} from "./RaceConfig";
 import {ClassConfig} from "./ClassConfig";
 import {CommandConfig} from "./CommandConfig";
-
-//export class DungeonConfig extends BaseConfig {
-//  private name: string | undefined;
-//  private startRoom: number | undefined;
-//  private startEquipment: number[] | undefined;
-//  // private actionConfig: ActionConfig
-//}
+import {RoomConfig} from "./RoomConfig";
+import {RoomConfigExport} from "../components/configuration/configuration.component";
 
 export interface DungeonConfig {
   name: string;
   startRoom: number;
   startEquipment: ItemConfig[];
+  rooms: Map<string, RoomConfigExport>;
   npcs: NPCConfig[];
   items: ItemConfig[];
   races: RaceConfig[];

@@ -89,36 +89,49 @@ export class RoomComponent implements OnInit {
    * All existing neighbours getting updated.
    */
   addRoom() {
-    let northNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'n');
-    let eastNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'e');
-    let southNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 's');
-    let westNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'w');
-    this.grid[this.selectedGridValueIndex] = {
-      index: this.selectedGridValueIndex,
-      value: {
-        id: this.selectedGridValueIndex,           // replace this with real id
-        name: this.selectedRoomName,
-        message: this.selectedRoomMessage,
-        npcs: this.selectedRoomNPCs,
-        items: this.selectedRoomItems,
-        north: northNeighbour,
-        east: eastNeighbour,
-        south: southNeighbour,
-        west: westNeighbour
-      },
-      color: "lightgreen"
+    if(!this.checkContainsName()){
+      let northNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'n');
+      let eastNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'e');
+      let southNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 's');
+      let westNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'w');
+      this.grid[this.selectedGridValueIndex] = {
+        index: this.selectedGridValueIndex,
+        value: {
+          id: this.selectedGridValueIndex,           // replace this with real id
+          name: this.selectedRoomName,
+          message: this.selectedRoomMessage,
+          npcs: this.selectedRoomNPCs,
+          items: this.selectedRoomItems,
+          north: northNeighbour,
+          east: eastNeighbour,
+          south: southNeighbour,
+          west: westNeighbour
+        },
+        color: "lightgreen"
+      }
+
+      if(northNeighbour > -1) this.updateNeighbour(northNeighbour);
+      if(eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
+      if(southNeighbour > -1) this.updateNeighbour(southNeighbour);
+      if(westNeighbour > -1) this.updateNeighbour(westNeighbour);
+
+      this.configuredRooms = [];
+      this.grid.forEach(gridValue => {
+        if(gridValue.value != null) this.configuredRooms.push(gridValue.value);
+      });
+      ConfigurationComponent.allRooms = this.configuredRooms;
+    }else{
+      window.alert("Es existiert bereits ein Raum mit dem Namen: " + this.selectedRoomName);
     }
+  }
 
-    if(northNeighbour > -1) this.updateNeighbour(northNeighbour);
-    if(eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
-    if(southNeighbour > -1) this.updateNeighbour(southNeighbour);
-    if(westNeighbour > -1) this.updateNeighbour(westNeighbour);
-
-    this.configuredRooms = [];
-    this.grid.forEach(gridValue => {
-      if(gridValue.value != null) this.configuredRooms.push(gridValue.value);
-    });
-    ConfigurationComponent.allRooms = this.configuredRooms;
+  checkContainsName(): boolean{
+    for (let i = 0; i < this.configuredRooms.length; i++) {
+      if(this.configuredRooms[i].name == this.selectedRoomName){
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

@@ -43,21 +43,31 @@ export class ConfigurationComponent implements OnInit {
    * Creates a DungeonConfig and sends it to the ConfigService.
    */
   createConfig(){
-    //let startequipmentIDs: number[] = [];
-    //ConfigurationComponent.startequipment.forEach(s => startequipmentIDs.push(s.id));
-    //let itemIDs: number[] = [];
-    //ConfigurationComponent.allItems.forEach(i => itemIDs.push(i.id));
-    //let npcIDs: number[] = [];
-    //ConfigurationComponent.allNPCs.forEach(n => npcIDs.push(n.id));
-    //let raceIDs: number[] = [];
-    //ConfigurationComponent.allRaces.forEach(r => raceIDs.push(r.id));
-    //let classIDs: number[] = [];
-    //ConfigurationComponent.allClasses.forEach((c => classIDs.push(c.id)));
-    //let commandIDs: number[] = [];
-    //ConfigurationComponent.allCommands.forEach(c => commandIDs.push(c.id));
+    let roomMap = new Map<string, RoomConfigExport>();
+    ConfigurationComponent.allRooms.forEach(r => {
+      let north = this.getRoomNameById(r.north);
+      let east = this.getRoomNameById(r.east);
+      let south = this.getRoomNameById(r.south);
+      let west = this.getRoomNameById(r.west);
+      let roomConfig: RoomConfigExport = {
+        name: r.name,
+        items: r.items,
+        npcs: r.npcs,
+        north: north,
+        east: east,
+        south: south,
+        west: west,
+        message: r.message
+      }
+
+      roomMap.set(r.name, roomConfig);
+    });
+
+
     let dungeon: DungeonConfig = {
       name: this.mudName,
       startRoom: ConfigurationComponent.startRoom,
+      rooms: roomMap,
       startEquipment: ConfigurationComponent.startequipment,
       npcs: ConfigurationComponent.allNPCs,
       items: ConfigurationComponent.allItems,
@@ -66,6 +76,18 @@ export class ConfigurationComponent implements OnInit {
       commands: ConfigurationComponent.allCommands
     }
     this.configService.createDungeon(dungeon).then(() => this.router.navigateByUrl('/dashboard')).catch(({error}) => alert(error));
+  }
+
+  getRoomNameById(id: number | undefined): string {
+    if(id != undefined && id > -1){
+      let room;
+      for (let i = 0; i < ConfigurationComponent.allRooms.length; i++) {
+        if(ConfigurationComponent.allRooms[i].id == id) room = ConfigurationComponent.allRooms[i];
+      }
+      if(room != undefined) return room.name;
+      else return '';
+    }
+    return '';
   }
 
   static get startRoom(): number {
@@ -132,4 +154,15 @@ export class ConfigurationComponent implements OnInit {
     this._allClasses = value;
   }
 
+}
+
+export interface RoomConfigExport{
+  name: string;
+  north: string;
+  east: string;
+  south: string;
+  west: string;
+  items: string[];
+  npcs: string[];
+  message: string;
 }
