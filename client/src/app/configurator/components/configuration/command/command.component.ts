@@ -32,7 +32,7 @@ export class CommandComponent implements OnInit {
 
   ngOnInit(): void {
     //this.allCommands = ConfigurationComponent.allCommands;
-    this.customCommands = ConfigurationComponent.allCommands;
+    //this.customCommands = ConfigurationComponent.allCommands;
   }
 
   addCommand(){
@@ -46,7 +46,7 @@ export class CommandComponent implements OnInit {
           actions: this.selectedActions
         });
 
-        ConfigurationComponent.allCommands = this.customCommands;
+        //ConfigurationComponent.allCommands = this.customCommands;
         this.selectedActions = [];
         this.commandSyntax = undefined;
       }

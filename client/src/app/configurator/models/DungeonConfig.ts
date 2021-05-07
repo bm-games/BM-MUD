@@ -1,4 +1,5 @@
 import {BaseConfig} from "./BaseConfig";
+import {ItemConfig} from "./ItemConfig";
 
 //export class DungeonConfig extends BaseConfig {
 //  private name: string | undefined;
@@ -10,6 +11,6 @@ import {BaseConfig} from "./BaseConfig";
 export interface DungeonConfig extends BaseConfig{
   name: string | undefined;
   startRoom: number | undefined;
-  startEquipment: number[] | undefined;
+  startEquipment: ItemConfig[];
   // actionConfig: ActionConfig
 }

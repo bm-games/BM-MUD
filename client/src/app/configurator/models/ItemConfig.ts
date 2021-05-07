@@ -43,3 +43,8 @@ export interface ItemConfig extends BaseConfig{
   isConsumable: boolean;
   effect: string | undefined;
 }
+
+export interface ConsumableItemConfig{
+  name: string,
+  effect: string
+}

@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigurationComponent} from "../configuration.component";
 import {ItemConfig} from "../../../models/ItemConfig";
-import {FriendlyNPCConfig} from "../../../models/FriendlyNPCConfig";
-import {EquipmentConfig} from "../../../models/EquipmentConfig";
-import {WeaponConfig} from "../../../models/WeaponConfig";
 import {NPCType} from "../../../models/NPCType";
 import {HostileNPCConfig} from "../../../models/HostileNPCConfig";
+import {NPCConfig} from "../../../models/NPCConfig";
+import {FriendlyNPCConfig} from "../../../models/FriendlyNPCConfig";
 
 @Component({
   selector: 'app-npc',
@@ -17,8 +16,8 @@ export class NPCComponent implements OnInit {
   name: string | undefined;
   messageOnTalk: string | undefined;
   npcTypes: string[] = ['Verbündet', 'Feindlich'];
-  allEquipment: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
-  allItemsLoottable: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
+  allEquipment: ItemConfig[] = [];
+  allItemsLoottable: ItemConfig[] = [];
   interactionCommands: string[] = ['Heilen', 'In zufälligen Raum teleportieren'];
   selectedNPCType: string = 'Verbündet';
   isHostile = false;
@@ -28,8 +27,8 @@ export class NPCComponent implements OnInit {
   selectedNPCItemsLoottable: ItemConfig[] = [];
   selectedCommandOnInteraction: string = '';
 
-  configuredNPCs: (FriendlyNPCConfig | HostileNPCConfig)[] = [];
-
+  //configuredNPCs: (FriendlyNPCConfig | HostileNPCConfig)[] = [];
+  configuredNPCs: NPCConfig[] = [];
   constructor() { }
 
   ngOnInit(): void {
@@ -38,79 +37,116 @@ export class NPCComponent implements OnInit {
     this.allItemsLoottable = ConfigurationComponent.allItems;
   }
 
+  /**
+   * Generates a NPCConfig with the current UI-data inputs and adds it to the list 'configuredNPCs'.
+   * Depending on the selected NPCType, a FriendlyNPCConfig or a HostileNPCConfig is created.
+   */
   addNPC(){
-    let equipmentIds: number[] = [];
-    this.selectedNPCEquipment.forEach(e => equipmentIds.push(e.id));
-    let loottableItemsIds: number[] = [];
-    this.selectedNPCItemsLoottable.forEach(e => loottableItemsIds.push(e.id));
-    if(this.isHostile){
-      if(this.name != undefined && this.health != undefined && this.damage != undefined){
-        //this.configuredNPCs.push(new HostileNPCConfig(this.getNextFreeId(), this.name, equipmentIds, loottableItemsIds, this.health, this.damage))
+    if(this.name != undefined && this.checkContainsName() == false){
+      let equipmentNames: string[] = [];
+      this.selectedNPCEquipment.forEach(e => equipmentNames.push(e.name));
+      let loottableItemNames: string[] = [];
+      this.selectedNPCItemsLoottable.forEach(e => loottableItemNames.push(e.name));
+      if(this.isHostile){
+        if(this.health != undefined && this.damage != undefined){
+          //this.configuredNPCs.push(new HostileNPCConfig(this.getNextFreeId(), this.name, equipmentIds, loottableItemsIds, this.health, this.damage))
 
-        this.configuredNPCs.push({
-          id: this.getNextFreeId(),
-          type: NPCType.Hostile,
-          name: this.name,
-          items: equipmentIds,
-          loottable: loottableItemsIds,
-          health: this.health,
-          damage: this.damage,
-          commandOnInteraction: undefined,
-          messageOnTalk: undefined
-        });
+          let hostile: HostileNPCConfig = {
+            name: this.name,
+            items: this.selectedNPCEquipment,
+            damage: this.damage,
+            health: this.health,
+            loottable: loottableItemNames,
+            type: NPCType.Hostile
+          }
+          this.configuredNPCs.push(hostile);
+          /*this.configuredNPCs.push({
+            type: NPCType.Hostile,
+            name: this.name,
+            items: equipmentNames,
+            loottable: loottableItemNames,
+            health: this.health,
+            damage: this.damage,
+            commandOnInteraction: undefined,
+            messageOnTalk: undefined
+          });*/
 
-        this.name = undefined;
-        this.health = undefined;
-        this.damage = undefined;
-        ConfigurationComponent.allNPCs = this.configuredNPCs;
+          this.name = undefined;
+          this.health = undefined;
+          this.damage = undefined;
+          ConfigurationComponent.allNPCs = this.configuredNPCs;
+        }else{
+          window.alert("Es wurden nicht alle Daten eingegeben");
+        }
       }else{
-        window.alert("Es wurden nicht alle Daten eingegeben");
-      }
-    }else{
-      if(this.name != undefined && this.messageOnTalk != undefined && this.selectedCommandOnInteraction != undefined){
-        //this.configuredNPCs.push(new FriendlyNPCConfig(this.getNextFreeId(), this.name, equipmentIds, loottableItemsIds, this.selectedCommandOnInteraction, this.messageOnTalk))
+        if(this.messageOnTalk != undefined && this.selectedCommandOnInteraction != undefined){
+          //this.configuredNPCs.push(new FriendlyNPCConfig(this.getNextFreeId(), this.name, equipmentIds, loottableItemsIds, this.selectedCommandOnInteraction, this.messageOnTalk))
 
-        this.configuredNPCs.push({
-          id: this.getNextFreeId(),
-          type: NPCType.Friendly,
-          name: this.name,
-          items: equipmentIds,
-          loottable: loottableItemsIds,
-          health: undefined,
-          damage: undefined,
-          commandOnInteraction: this.selectedCommandOnInteraction,
-          messageOnTalk: this.messageOnTalk
-        });
+          let friendly: FriendlyNPCConfig = {
+            name: this.name,
+            items: this.selectedNPCEquipment,
+            loottable: loottableItemNames,
+            messageOnTalk: this.messageOnTalk,
+            commandOnInteraction: this.selectedCommandOnInteraction,
+            type: NPCType.Friendly
+          }
+          this.configuredNPCs.push(friendly);
+          /*this.configuredNPCs.push({
+            type: NPCType.Friendly,
+            name: this.name,
+            items: equipmentNames,
+            loottable: loottableItemNames,
+            health: undefined,
+            damage: undefined,
+            commandOnInteraction: this.selectedCommandOnInteraction,
+            messageOnTalk: this.messageOnTalk
+          });*/
 
-        this.name = undefined;
-        this.messageOnTalk = undefined;
-        this.selectedCommandOnInteraction = '';
-        ConfigurationComponent.allNPCs = this.configuredNPCs;
-      }else{
-        window.alert("Es wurden nicht alle Daten eingegeben");
-      }
-    }
-  }
-
-  getNextFreeId(): number {
-    let id = 0;
-    let foundId = false;
-    let containsId = false;
-    while(!foundId){
-      for (let i = 0; i < this.configuredNPCs.length; i++) {
-        if(this.configuredNPCs[i].id == id){
-          containsId = true;
+          this.name = undefined;
+          this.messageOnTalk = undefined;
+          this.selectedCommandOnInteraction = '';
+          ConfigurationComponent.allNPCs = this.configuredNPCs;
+        }else{
+          window.alert("Es wurden nicht alle Daten eingegeben");
         }
       }
-      if(!containsId){
-        foundId = true;
-      }else{
-        containsId = false;
-        id++;
+    }else{
+      window.alert("Ungültiger Name. Entweder es ist kein Name eingetragen oder es exisitert bereits ein NPC mit diesem Namen.");
+    }
+  }
+
+  checkContainsName(): boolean{
+    for (let i = 0; i < this.configuredNPCs.length; i++) {
+      if(this.configuredNPCs[i].name == this.name){
+        return true;
       }
     }
-    return id;
+    return false;
   }
+
+  /**
+   * Finds next smallest possible ID for the new NPCConfig
+   * @returns id: number
+   */
+  //getNextFreeId(): number {
+  //  let id = 0;
+  //  let foundId = false;
+  //  let containsId = false;
+  //  while(!foundId){
+  //    for (let i = 0; i < this.configuredNPCs.length; i++) {
+  //      if(this.configuredNPCs[i].id == id){
+  //        containsId = true;
+  //      }
+  //    }
+  //    if(!containsId){
+  //      foundId = true;
+  //    }else{
+  //      containsId = false;
+  //      id++;
+  //    }
+  //  }
+  //  return id;
+  //}
 
   npcTypeChanged(type: string){
     switch(type){

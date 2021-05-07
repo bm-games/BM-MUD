@@ -10,11 +10,14 @@ import {GameRoutingModule} from "./game-routing.module";
 import { ConsoleComponent } from './components/console/console.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FormsModule} from "@angular/forms";
+import { MasterComponent } from './components/master/master.component';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
     GameComponent,
-    ConsoleComponent
+    ConsoleComponent,
+    MasterComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +25,8 @@ import {FormsModule} from "@angular/forms";
     GameRoutingModule,
     AngularSplitModule,
     MatToolbarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatListModule
   ],
   providers: [
     GameService,
