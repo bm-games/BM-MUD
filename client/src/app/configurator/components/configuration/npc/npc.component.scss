@@ -27,7 +27,7 @@
   border-bottom: 1px solid #C0C0C0;
   height: 100px;
   width: 80%;
-  margin: auto auto 30px;
+  margin: auto auto 100px;
   display: flex;
   align-items: center;
 }
@@ -44,6 +44,7 @@
   height: 60%;
   .divWithList{
     height: 190px;
+    margin-bottom: 50px;
   }
   div{
     height: 50px;
@@ -72,6 +73,7 @@
     textarea{
       float: right;
       width: 50%;
+      margin-top: -35px;
       resize: none;
       outline: none;
       background-color: whitesmoke;
@@ -80,10 +82,11 @@
 }
 .divBtn{
   position: relative;
+  margin-bottom: 50px;
   button{
     font-size: 16pt;
-    margin-top: 100px;
     position: absolute;
+    //top: 200%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);

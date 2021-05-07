@@ -44,7 +44,7 @@ describe('RaceComponent', () => {
     expect(length).toBe(1);
     expect(component.configuredRaces[length-1].name).toEqual('race');
     expect(component.configuredRaces[length-1].description).toEqual('desc');
-    expect(component.configuredRaces[length-1].damageMultiplier).toBe(1);
+    expect(component.configuredRaces[length-1].damageModifier).toBe(1);
     expect(component.configuredRaces[length-1].health).toBe(2);
   });
 });

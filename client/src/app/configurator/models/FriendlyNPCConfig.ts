@@ -1,6 +1,10 @@
-import {NPCConfig} from "./NPCConfig";
+import {Item} from "./Item";
 
-export interface FriendlyNPCConfig extends NPCConfig{
-  commandOnInteraction: string | undefined;
-  messageOnTalk: string | undefined;
+export interface FriendlyNPCConfig {
+  readonly type: 'net.bmgames.state.model.NPC.Friendly';
+  name: string;
+  items: Item[];
+  // loottable: string[];
+  commandOnInteraction: string;
+  messageOnTalk: string;
 }

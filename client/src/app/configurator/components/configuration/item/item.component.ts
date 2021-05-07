@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { ConsumableItemConfig, ItemConfig} from "../../../models/ItemConfig";
+import {ConsumableItemConfig, Item} from "../../../models/Item";
 import {EquipmentConfig} from "../../../models/EquipmentConfig";
 import {ConfigurationComponent} from "../configuration.component";
 import {EquipmentSlot} from "../../../models/EquipmentSlot";
@@ -27,8 +27,7 @@ export class ItemComponent implements OnInit {
   itemCommands: string[] = ['Heilen', 'Gesundheit abziehen'];
   equipmentSlots: string[] = ['Kopf', 'Brust', 'Beine', 'Stiefel'];
 
-  //configuredItems: ConsumableItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
-  configuredItems: ItemConfig[] = [];
+  configuredItems: Item[] = [];
 
   constructor() { }
 
@@ -46,6 +45,7 @@ export class ItemComponent implements OnInit {
         if(this.effect != undefined){
 
           let consumable: ConsumableItemConfig = {
+            type: "net.bmgames.state.model.Consumable",
             name: this.name,
             effect: this.effect
           }
@@ -67,13 +67,29 @@ export class ItemComponent implements OnInit {
         }
       }
       if(this.isEquipment){
-        if(this.health != undefined && this.name != undefined){
+        if(this.health != undefined && this.name != undefined && this.damageMultiplier != undefined){
 
           let equip: EquipmentConfig = {
+            type: "net.bmgames.state.model.Equipment",
             name: this.name,
             damageModifier: this.damageMultiplier,
             healthModifier: this.health,
-            slot: this.equipmentSlot
+            //slot: this.equipmentSlot
+            slot: "Head"
+          }
+          switch(this.equipmentSlot){
+            case EquipmentSlot.head:
+              equip.slot = "Head";
+              break;
+            case EquipmentSlot.chest:
+              equip.slot = "Chest";
+              break;
+            case EquipmentSlot.legs:
+              equip.slot = "Legs";
+              break;
+            case EquipmentSlot.boots:
+              equip.slot = "Boots";
+              break;
           }
           this.configuredItems.push(equip);
           /*this.configuredItems.push({
@@ -96,8 +112,9 @@ export class ItemComponent implements OnInit {
         if(this.damage != undefined && this.damageMultiplier != undefined && this.name != undefined) {
 
           let weapon: WeaponConfig = {
+            type: "net.bmgames.state.model.Weapon",
             name: this.name,
-            baseDamage: this.damage
+            damage: this.damage
           }
           this.configuredItems.push(weapon);
           /*this.configuredItems.push({
@@ -201,7 +218,7 @@ export class ItemComponent implements OnInit {
         this.equipmentSlot = EquipmentSlot.chest;
         break;
       case "Beine":
-        this.equipmentSlot = EquipmentSlot.legs
+        this.equipmentSlot = EquipmentSlot.legs;
         break;
       case "Stiefel":
         this.equipmentSlot = EquipmentSlot.boots;

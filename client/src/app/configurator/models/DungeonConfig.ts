@@ -1,5 +1,5 @@
-import {NPCConfig} from "./NPCConfig";
-import {ItemConfig} from "./ItemConfig";
+import {NPC} from "./NPCConfig";
+import {Item} from "./Item";
 import {RaceConfig} from "./RaceConfig";
 import {ClassConfig} from "./ClassConfig";
 import {CommandConfig} from "./CommandConfig";
@@ -8,11 +8,11 @@ import {RoomConfigExport} from "../components/configuration/configuration.compon
 
 export interface DungeonConfig {
   name: string;
-  startRoom: number;
-  startEquipment: ItemConfig[];
+  startRoom: string;
+  startEquipment: Item[];
   rooms: Map<string, RoomConfigExport>;
-  npcConfigs: Map<string, NPCConfig>;
-  itemConfigs: Map<string, ItemConfig>;
+  npcConfigs: Map<string, NPC>;
+  itemConfigs: Map<string, Item>;
   races: RaceConfig[];
   classes: ClassConfig[];
   commandConfig: CommandConfig;

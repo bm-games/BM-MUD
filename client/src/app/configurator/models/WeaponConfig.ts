@@ -1,6 +1,8 @@
 import {EquipmentConfig} from "./EquipmentConfig";
-import {ItemConfig} from "./ItemConfig";
+import {Item} from "./Item";
 
-export interface WeaponConfig extends ItemConfig{
-  baseDamage: number | undefined;
+export interface WeaponConfig {
+  readonly type: 'net.bmgames.state.model.Weapon';
+  name: string;
+  damage: number;
 }

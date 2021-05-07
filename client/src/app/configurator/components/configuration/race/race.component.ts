@@ -33,7 +33,7 @@ export class RaceComponent implements OnInit {
         this.configuredRaces.push({
           name: this.name,
           health: this.health,
-          damageMultiplier: this.damage,
+          damageModifier: this.damage,
           description: this.description
         });
 

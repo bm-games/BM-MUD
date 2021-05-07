@@ -1,4 +1,6 @@
 import {BaseConfig} from "./BaseConfig";
+import {Item} from "./Item";
+import {NPC} from "./NPCConfig";
 
 export interface RoomConfig {
   id: number;
@@ -7,7 +9,7 @@ export interface RoomConfig {
   east: number | undefined;
   south: number | undefined;
   west: number | undefined;
-  items: string[];
-  npcs: string[];
+  items: Item[];
+  npcs: Map<string, NPC>;
   message: string;
 }

@@ -1,9 +1,12 @@
 import {BaseConfig} from "./BaseConfig";
 import {EquipmentSlot} from "./EquipmentSlot";
-import {ItemConfig} from "./ItemConfig";
+import {Item} from "./Item";
 
-export interface EquipmentConfig extends ItemConfig{
-  healthModifier: number | undefined;
-  damageModifier: number | undefined;
-  slot: EquipmentSlot | undefined;
+export interface EquipmentConfig {
+  readonly type: 'net.bmgames.state.model.Equipment';
+  name: string;
+  healthModifier: number;
+  damageModifier: number;
+  //slot: EquipmentSlot | undefined;
+  slot: "Head" | "Chest" | "Legs" | "Boots";
 }

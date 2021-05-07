@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ItemConfig} from "../../../models/ItemConfig";
+import {Item} from "../../../models/Item";
 import {WeaponConfig} from "../../../models/WeaponConfig";
 import {EquipmentConfig} from "../../../models/EquipmentConfig";
 import {ConfigurationComponent} from "../configuration.component";
@@ -11,8 +11,8 @@ import {ConfigurationComponent} from "../configuration.component";
 })
 export class StartequipmentComponent implements OnInit {
 
-  allEquipment: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = []
-  selectedEquipment: ItemConfig[] = [];
+  allEquipment: Item[] | EquipmentConfig[] | WeaponConfig[] = []
+  selectedEquipment: Item[] = [];
   constructor() { }
 
   ngOnInit(): void {

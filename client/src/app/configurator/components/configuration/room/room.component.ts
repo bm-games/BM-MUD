@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ConfigurationComponent} from "../configuration.component";
-import {NPCConfig} from "../../../models/NPCConfig";
-import {ItemConfig} from "../../../models/ItemConfig";
+import {NPC} from "../../../models/NPCConfig";
+import {Item} from "../../../models/Item";
 import {RoomConfig} from "../../../models/RoomConfig";
-import {EquipmentConfig} from "../../../models/EquipmentConfig";
-import {WeaponConfig} from "../../../models/WeaponConfig";
 
 @Component({
   selector: 'app-room',
@@ -13,15 +11,14 @@ import {WeaponConfig} from "../../../models/WeaponConfig";
 })
 export class RoomComponent implements OnInit {
 
-  allNPCs: NPCConfig[] = [];
-  allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
+  allNPCs: NPC[] = [];
+  allItems: Item[] = [];
 
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: string[] = [];
-  selectedRoomItems: string[] = [];
-  selectedStartRoom: number = 0;
+  selectedRoomNPCs: Map<string, NPC> = new Map<string, NPC>();
+  selectedRoomItems: Item[] = [];
   selectedStartRoomName: string | undefined;
 
   configuredRooms: RoomConfig[] = [];
@@ -35,8 +32,7 @@ export class RoomComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuredRooms = ConfigurationComponent.allRooms;
-    this.selectedStartRoom = ConfigurationComponent.startRoom;
-    this.selectedStartRoomName = this.getRoomConfigById(this.selectedStartRoom)?.name;
+    this.selectedStartRoomName = ConfigurationComponent.startRoom;
     // initialize grid with rooms
     for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
       let room = this.getRoomConfigById(i);
@@ -57,7 +53,6 @@ export class RoomComponent implements OnInit {
     this.highlightSelectedValue(0);
     this.allNPCs = ConfigurationComponent.allNPCs;
     this.allItems = ConfigurationComponent.allItems;
-    console.log(this.selectedStartRoomName);
   }
 
   /**
@@ -123,6 +118,7 @@ export class RoomComponent implements OnInit {
     }else{
       window.alert("Es existiert bereits ein Raum mit dem Namen: " + this.selectedRoomName);
     }
+    console.log(this.configuredRooms);
   }
 
   checkContainsName(): boolean{
@@ -235,7 +231,7 @@ export class RoomComponent implements OnInit {
       this.selectedRoomMessage = msg;
     }
     if(npcs == undefined){
-      this.selectedRoomNPCs = [];
+      this.selectedRoomNPCs = new Map<string, NPC>();
     }else{
       this.selectedRoomNPCs = npcs;
     }
@@ -269,10 +265,10 @@ export class RoomComponent implements OnInit {
    * Sets the startroom of the Dungeon
    * @param id id of the startroom
    */
-  startroomChanged(id: number | null){
-    if(id != null){
-      this.selectedStartRoom = id;
-      ConfigurationComponent.startRoom = id;
+  startroomChanged(name: string){
+    if(name != null){
+      this.selectedStartRoomName = name;
+      ConfigurationComponent.startRoom = name;
     }
   }
 }
