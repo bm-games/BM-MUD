@@ -28,7 +28,7 @@ object ItemConfigTable : GameReferencingTable("ItemConfig") {
 class ItemConfigDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ItemConfigDAO>(ItemConfigTable)
 
-    var game by GameDAO referencedOn ItemConfigTable.game
+    var gameRef by GameDAO referencedOn ItemConfigTable.game
     var name by ItemConfigTable.name
     var type by ItemConfigTable.type
 
@@ -39,12 +39,12 @@ class ItemConfigDAO(id: EntityID<Int>) : IntEntity(id) {
 
     fun toItem(): Item =
         when (type) {
-            Type.Weapon -> Weapon(name, baseDamage!!)
-            Type.Consumable -> Consumable(name, effect)
-            Type.Head -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Head)
-            Type.Chest -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Chest)
-            Type.Legs -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Legs)
-            Type.Boots -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Boots)
-        }.setId(id.value)
+            Type.Weapon -> Weapon(name, baseDamage!!, id.value)
+            Type.Consumable -> Consumable(name, effect, id.value)
+            Type.Head -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Head, id.value)
+            Type.Chest -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Chest, id.value)
+            Type.Legs -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Legs, id.value)
+            Type.Boots -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Boots, id.value)
+        }
 }
 

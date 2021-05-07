@@ -2,7 +2,6 @@ package net.bmgames.authentication
 
 import io.ktor.auth.*
 import kotlinx.serialization.Serializable
-import net.bmgames.state.model.IdEntity
 
 
 /**
@@ -21,7 +20,8 @@ data class User(
     val email: String,
     val username: String,
     val passwordHash: String,
-    val registrationKey: String?
-): Principal, IdEntity()
+    val registrationKey: String?,
+    val id: Int? = null
+): Principal
 
 fun User.isMailVerified() = registrationKey == null

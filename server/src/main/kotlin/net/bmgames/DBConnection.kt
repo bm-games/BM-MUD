@@ -4,6 +4,27 @@ import net.bmgames.database.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
+/**
+ * All tables that are in use.
+ * */
+internal val TABLES = arrayOf(
+    UserTable,
+    AvatarTable,
+    ClassTable,
+    GameTable,
+    ItemConfigTable,
+    StartItemTable,
+    NPCConfigTable,
+    NPCItemTable,
+    NPCTable,
+    PlayerItemTable,
+    PlayerTable,
+    RaceTable,
+    RoomItemTable,
+    RoomTable,
+    CommandTable,
+    JoinRequestTable
+)
 
 
 /**
@@ -17,25 +38,7 @@ internal fun ServerConfig.connectToDB() {
         password = dbPassword
     )
     transaction {
-        SchemaUtils.drop()
-        SchemaUtils.create(
-            UserTable,
-            AvatarTable,
-            ClassTable,
-            GameTable,
-            ItemConfigTable,
-            NPCConfigTable,
-            NPCItemTable,
-            NPCTable,
-            PlayerItemTable,
-            PlayerTable,
-            RaceTable,
-            RoomConfigTable,
-            RoomItemTable,
-            RoomTable,
-            VisitedRoomsTable,
-            CommandTable
-        )
+        SchemaUtils.create(*TABLES)
     }
 }
 

@@ -1,7 +1,6 @@
 package net.bmgames.database
 
 import net.bmgames.state.model.*
-import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
@@ -14,20 +13,20 @@ object PlayerTable : GameReferencingTable("Player") {
     val user = reference("userName", UserTable)
     val room = varchar("room", NAME_LENGTH)
     val health = integer("health")
+    val visitedRooms = varchar("visitedRooms", MAX_VARCHAR)
 }
 
-class PlayerDAO(id: EntityID<Int>) : IntEntity(id) {
+class PlayerDAO(id: EntityID<Int>) : GameReferencingDAO(id, PlayerTable) {
     companion object : IntEntityClass<PlayerDAO>(PlayerTable)
 
-    var game by GameDAO referencedOn PlayerTable.game
     var avatar by AvatarDAO referencedOn PlayerTable.avatarId
+    var user by UserDAO referencedOn PlayerTable.user
     var room by PlayerTable.room
     var health by PlayerTable.health
-
-    var user by UserDAO referencedOn PlayerTable.user
+    var visitedRooms: Set<String> by PlayerTable.visitedRooms
+        .transform({ it.joinToString { "\n" } }, { it.split("\n").toSet() })
 
     var inventory by ItemConfigDAO via PlayerItemTable
-    var visitedRooms by VisitedRoomDAO via VisitedRoomsTable
 
     fun toPlayer() = Player.Normal(
         user = user.toUser(),
@@ -36,8 +35,9 @@ class PlayerDAO(id: EntityID<Int>) : IntEntity(id) {
         room = room,
         healthPoints = health,
         lastHit = null,
-        visitedRooms = visitedRooms.map { it.room }.toSet()
-    ).setId(id.value)
+        visitedRooms = visitedRooms,
+        id = id.value
+    )
 }
 
 private fun List<Item>.toInventory(): Inventory =

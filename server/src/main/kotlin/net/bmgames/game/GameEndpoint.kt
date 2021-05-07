@@ -43,8 +43,8 @@ internal class GameEndpoint(
 //                    isStarted = runningGames.containsKey(it.name),
                     onlinePlayers = it.onlinePlayers.size,
                     masterOnline = it.isMasterOnline(),
-                    avatarCount = it.users[user.username]?.size ?: 0,
-                    userPermitted = it.users.containsKey(user.username),
+                    avatarCount = it.allowedUsers[user.username]?.size ?: 0,
+                    userPermitted = it.allowedUsers.containsKey(user.username),
                 )
             }
     }

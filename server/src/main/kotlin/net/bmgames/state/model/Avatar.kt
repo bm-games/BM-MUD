@@ -6,8 +6,9 @@ import kotlinx.serialization.Serializable
 data class Avatar(
     val name: String,
     val race: Race,
-    val clazz: Clazz
-) : IdEntity()
+    val clazz: Clazz,
+    val id: Int? = null,
+)
 
 @Serializable
 data class Race(
@@ -15,7 +16,8 @@ data class Race(
     val description: String,
     val health: Int,
     val damageModifier: Float,
-): IdEntity()
+    val id: Int? = null,
+)
 
 @Serializable
 data class Clazz(
@@ -23,5 +25,6 @@ data class Clazz(
     val description: String,
     val healthMultiplier: Float,
     val damage: Int,
-    val attackSpeed: Int
-): IdEntity()
+    val attackSpeed: Int,
+    val id: Int? = null,
+)

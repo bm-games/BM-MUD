@@ -1,7 +1,6 @@
 package net.bmgames.database
 
 import net.bmgames.authentication.User
-import net.bmgames.state.model.setId
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -27,6 +26,6 @@ class UserDAO(id: EntityID<Int>) : IntEntity(id) {
     var passwordHash by UserTable.passwordHash
     var registrationKey by UserTable.registrationKey
 
-    fun toUser(): User = User(email, username, passwordHash, registrationKey).setId(id.value)
+    fun toUser(): User = User(email, username, passwordHash, registrationKey, id.value)
 }
 

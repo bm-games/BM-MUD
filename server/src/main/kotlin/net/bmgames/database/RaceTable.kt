@@ -1,7 +1,6 @@
 package net.bmgames.database
 
 import net.bmgames.state.model.Race
-import net.bmgames.state.model.setId
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -22,12 +21,12 @@ object RaceTable : IntIdTable("Race") {
 class RaceDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<RaceDAO>(RaceTable)
 
-    var game by GameDAO referencedOn RaceTable.game
+    var gameRef by GameDAO referencedOn RaceTable.game
 
     var name by RaceTable.name
     var description by RaceTable.description
     var health by RaceTable.health
     var damageMultiplier by RaceTable.damageMultiplier
 
-    fun toRace(): Race = Race(name, description, health, damageMultiplier).setId(id.value)
+    fun toRace(): Race = Race(name, description, health, damageMultiplier, id.value)
 }

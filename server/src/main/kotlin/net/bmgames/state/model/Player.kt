@@ -6,7 +6,7 @@ import net.bmgames.authentication.User
 
 @Serializable
 @optics
-sealed class Player: IdEntity() {
+sealed class Player {
     abstract val user: User
     abstract val ingameName: String
 
@@ -19,6 +19,7 @@ sealed class Player: IdEntity() {
     @Serializable
     @optics
     data class Normal(
+        val id: Int? = null,
         override val user: User,
         val avatar: Avatar,
 

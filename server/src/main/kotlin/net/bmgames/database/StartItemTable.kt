@@ -11,10 +11,3 @@ object StartItemTable : Table("StartItem") {
 
     override val primaryKey = PrimaryKey(game, itemConfigId)
 }
-/*
-class StartItemDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<StartItemDAO>(StartItemTable)
-
-    var gameName by StartItemTable.game
-    var itemConfig by ItemConfigDAO referencedOn StartItemTable.itemConfigId
-}*/

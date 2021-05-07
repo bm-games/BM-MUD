@@ -6,12 +6,10 @@ import net.bmgames.database.CommandTable.Type.Custom
 import net.bmgames.state.model.CommandConfig
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
-import net.bmgames.state.model.setId
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.emptySized
 
 
 /**
@@ -30,15 +28,20 @@ class GameDAO(id: EntityID<Int>) : IntEntity(id) {
     var startRoom by GameTable.startRoom
     var masterUser by UserDAO referencedOn GameTable.master
 
-    var races = emptySized<RaceDAO>() // RaceDAO via RaceTable
-    var classes = emptySized<ClassDAO>() // ClassDAO via ClassTable
-    var commands = emptySized<CommandDAO>() // CommandDAO via CommandTable
-    var npcConfigs = emptySized<NPCConfigDAO>() // NPCConfigDAO via NPCConfigTable
-    var itemConfigs = emptySized<ItemConfigDAO>() // ItemConfigDAO via ItemConfigTable
-    var startItems = emptySized<ItemConfigDAO>() // ItemConfigDAO via StartItemTable
-    var rooms = emptySized<RoomDAO>() // RoomDAO via RoomTable
-    var players = emptySized<PlayerDAO>() // PlayerDAO via PlayerTable
-    var joinRequests = emptySized<UserDAO>() // UserDAO via JoinRequestTable
+
+    // Many to many => can be updated through this object
+    var startItems by ItemConfigDAO via StartItemTable
+    var joinRequests by UserDAO via JoinRequestTable
+
+    // Immutable references from other table.
+    // Update them if the gamestate changes
+    val races by RaceDAO referrersOn RaceTable.game
+    val classes by ClassDAO referrersOn ClassTable.game
+    val itemConfigs by ItemConfigDAO referrersOn ItemConfigTable.game
+    private val commands by CommandDAO referrersOn CommandTable.game
+    private val npcConfigs by NPCConfigDAO referrersOn NPCConfigTable.game
+    private val rooms by RoomDAO referrersOn RoomTable.game
+    private val players by PlayerDAO referrersOn PlayerTable.game
 
     fun toGame(): Game = Game(
         name = name,
@@ -51,10 +54,11 @@ class GameDAO(id: EntityID<Int>) : IntEntity(id) {
         startRoom = startRoom,
         rooms = rooms.map { it.toRoom() }.associateBy { it.name },
         master = Player.Master(masterUser.toUser()),
-        users = players.groupBy({ it.user.username }, { it.avatar.name }),
+        allowedUsers = players.groupBy({ it.user.username }, { it.avatar.name }),
         onlinePlayers = emptyMap(),
-        joinRequests = joinRequests.map { it.username }
-    ).setId(id.value)
+        joinRequests = joinRequests.map { it.toUser() },
+        id = id.value
+    )
 }
 
 private fun Iterable<CommandDAO>.toCommandConfig(): CommandConfig =

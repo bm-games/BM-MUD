@@ -20,7 +20,7 @@ object NPCConfigTable : GameReferencingTable("NPCConfig") {
 class NPCConfigDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<NPCConfigDAO>(NPCConfigTable)
 
-    var game by GameDAO referencedOn NPCConfigTable.game
+    var gameRef by GameDAO referencedOn NPCConfigTable.game
 
     var name by NPCConfigTable.name
 

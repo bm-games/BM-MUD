@@ -5,15 +5,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @optics
-sealed class Item: IdEntity() {
+sealed class Item {
     abstract val name: String
+    abstract val id: Int?
 }
 
 @Serializable
 @optics
 data class Consumable(
     override val name: String,
-    val effect: String?
+    val effect: String?,
+    override val id: Int? = null,
 ) : Item()
 
 @Serializable
@@ -23,6 +25,7 @@ data class Equipment(
     val healthModifier: Float,
     val damageModifier: Float,
     val slot: Slot,
+    override val id: Int? = null,
 ) : Item() {
     enum class Slot { Head, Chest, Legs, Boots }
 }
@@ -31,5 +34,6 @@ data class Equipment(
 @optics
 data class Weapon(
     override val name: String,
-    val damage: Int
+    val damage: Int,
+    override val id: Int? = null,
 ) : Item()

@@ -23,11 +23,9 @@ object NPCTable : IntIdTable("NPC") {
 class NPCDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<NPCDAO>(NPCTable)
 
-    var npcConfig by NPCConfigDAO referencedOn NPCTable.npcConfigId
-
-    var room by RoomDAO referencedOn NPCTable.roomId
     var health by NPCTable.health
-
+    var npcConfig by NPCConfigDAO referencedOn NPCTable.npcConfigId
+    var roomRef by RoomDAO referencedOn NPCTable.roomId
     var items by ItemConfigDAO via NPCItemTable
 
     fun toNPC(): NPC {

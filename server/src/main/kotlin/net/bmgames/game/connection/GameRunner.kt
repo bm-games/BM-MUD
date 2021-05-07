@@ -3,7 +3,6 @@ package net.bmgames.game.connection
 import arrow.core.Either
 import arrow.core.computations.either
 import arrow.fx.coroutines.Atomic
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import net.bmgames.ErrorMessage
@@ -43,7 +42,7 @@ class GameRunner internal constructor(initialGame: Game) {
      * @return Either an [ErrorMessage], if the connection fails, else an [IConnection]
      * */
     internal suspend fun connect(player: Player): Either<ErrorMessage, IConnection> = either {
-        if (!getCurrentGameState().users.containsKey(player.user.username)) {
+        if (!getCurrentGameState().allowedUsers.containsKey(player.user.username)) {
             error("You are not invited to this game").bind()
         }
 

@@ -1,7 +1,6 @@
 package net.bmgames.database
 
 import net.bmgames.state.model.Avatar
-import net.bmgames.state.model.setId
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -23,5 +22,5 @@ class AvatarDAO(id: EntityID<Int>) : IntEntity(id) {
     var race by RaceDAO referencedOn AvatarTable.raceId
     var clazz by ClassDAO referencedOn AvatarTable.classId
 
-    fun toAvatar(): Avatar = Avatar(name, race.toRace(), clazz.toClass()).setId(id.value)
+    fun toAvatar(): Avatar = Avatar(name, race.toRace(), clazz.toClass(), id.value)
 }

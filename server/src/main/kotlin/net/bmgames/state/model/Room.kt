@@ -16,5 +16,6 @@ data class Room(
     val south: String? = null,
     val west: String? = null,
     val items: List<Item> = emptyList(),
-    val npcs: Map<String, NPC> = emptyMap()
-) : IdEntity()
+    val npcs: Map<String, NPC> = emptyMap(),
+    val id: Int? = null,
+)

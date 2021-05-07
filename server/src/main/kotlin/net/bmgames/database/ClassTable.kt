@@ -1,11 +1,9 @@
 package net.bmgames.database
 
 import net.bmgames.state.model.Clazz
-import net.bmgames.state.model.setId
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IntIdTable
 
 /**
  * Represents the Database Table
@@ -21,7 +19,7 @@ object ClassTable : GameReferencingTable("Class") {
 class ClassDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ClassDAO>(ClassTable)
 
-    var game by GameDAO referencedOn ClassTable.game
+    var gameRef by GameDAO referencedOn ClassTable.game
 
     var name by ClassTable.name
     var description by ClassTable.description
@@ -29,5 +27,5 @@ class ClassDAO(id: EntityID<Int>) : IntEntity(id) {
     var damage by ClassTable.damage
     var attackSpeed by ClassTable.attackSpeed
 
-    fun toClass(): Clazz = Clazz(name, description, healthMultiplier, damage, attackSpeed).setId(id.value)
+    fun toClass(): Clazz = Clazz(name, description, healthMultiplier, damage, attackSpeed, id.value)
 }
