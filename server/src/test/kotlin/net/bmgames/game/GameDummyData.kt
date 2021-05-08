@@ -5,6 +5,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.bmgames.authentication.User
 import net.bmgames.state.model.*
+import net.bmgames.state.model.Item.*
+
 
 val MASTER = Player.Master(
     User(email = "master@master.de", username = "master", passwordHash = "1234", registrationKey = null)

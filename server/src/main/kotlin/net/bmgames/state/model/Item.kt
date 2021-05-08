@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 sealed class Item {
     abstract val name: String
     abstract val id: Int?
-}
+
 
     @Serializable
     @optics
@@ -38,3 +38,5 @@ sealed class Item {
         override val id: Int? = null,
     ) : Item()
 }
+
+fun Float.toRelativePercent() = (this - 1) * 100
