@@ -11,12 +11,12 @@ export class CommandComponent implements OnInit {
 
   commandTypes: string[] = ['Standard Befehle', 'Eigener Befehl'];
   selectedCommandType: string = 'Standard Befehle';
-  allActions: string[] = ['Keine Action', 'In einen beliebigen Raum teleportieren', 'Charakter LP abziehen', 'Charakter heilen', 'NPC LP abziehen', 'Bewegen nach Norden', 'Bewegen nach Osten', 'Bewegen nach Süden', 'Bewegen nach Westen'];
-  selectedAction1: string = 'Keine Action';
-  selectedAction2: string = 'Keine Action';
-  selectedAction3: string = 'Keine Action';
-  selectedAction4: string = 'Keine Action';
-  selectedAction5: string = 'Keine Action';
+  allActions: string[] = ['Kein Command', 'move player north', 'move player east', 'move player south', 'move player west', 'look', 'show inventory', 'pickup', 'hit'];
+  selectedAction1: string = 'Kein Command';
+  selectedAction2: string = 'Kein Command';
+  selectedAction3: string = 'Kein Command';
+  selectedAction4: string = 'Kein Command';
+  selectedAction5: string = 'Kein Command';
   commandSyntax: string | undefined;
 
   pickupAlias: string | undefined;
@@ -53,11 +53,11 @@ export class CommandComponent implements OnInit {
         //this.customCommands.push(new CommandConfig(this.getNextFreeId(), this.commandSyntax, this.selectedActions))
 
         let actionString = "";
-        if(this.selectedAction1 != "Keine Action") actionString += this.selectedAction1 + ", ";
-        if(this.selectedAction2 != "Keine Action") actionString += this.selectedAction2 + ", ";
-        if(this.selectedAction3 != "Keine Action") actionString += this.selectedAction3 + ", ";
-        if(this.selectedAction4 != "Keine Action") actionString += this.selectedAction4 + ", ";
-        if(this.selectedAction5 != "Keine Action") actionString += this.selectedAction5;
+        if(this.selectedAction1 != "Kein Command") actionString += this.selectedAction1 + ", ";
+        if(this.selectedAction2 != "Kein Command") actionString += this.selectedAction2 + ", ";
+        if(this.selectedAction3 != "Kein Command") actionString += this.selectedAction3 + ", ";
+        if(this.selectedAction4 != "Kein Command") actionString += this.selectedAction4 + ", ";
+        if(this.selectedAction5 != "Kein Command") actionString += this.selectedAction5;
 
         this.customCommands.set(this.commandSyntax, actionString);
         console.log(this.customCommands);

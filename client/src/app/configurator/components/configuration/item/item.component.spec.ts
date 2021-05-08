@@ -67,7 +67,7 @@ describe('ItemComponent', () => {
     component.isWeapon = true;
     component.name = 'Item';
     component.damage = 1;
-    component.damageMultiplier = 2;
+    component.damageModifier = 2;
 
     component.addItem();
 

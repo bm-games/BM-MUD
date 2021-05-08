@@ -15,7 +15,7 @@ export class ItemComponent implements OnInit {
   name: string | undefined;
   effect: string | undefined;
   damage: number | undefined;
-  damageMultiplier: number | undefined;
+  damageModifier: number | undefined;
   health: number | undefined;
   isConsumable: boolean = true;
   isWeapon: boolean = false;
@@ -67,12 +67,12 @@ export class ItemComponent implements OnInit {
         }
       }
       if(this.isEquipment){
-        if(this.health != undefined && this.name != undefined && this.damageMultiplier != undefined){
+        if(this.health != undefined && this.name != undefined && this.damageModifier != undefined){
 
           let equip: EquipmentConfig = {
             type: "net.bmgames.state.model.Equipment",
             name: this.name,
-            damageModifier: this.damageMultiplier,
+            damageModifier: this.damageModifier,
             healthModifier: this.health,
             //slot: this.equipmentSlot
             slot: "Head"
@@ -104,12 +104,13 @@ export class ItemComponent implements OnInit {
 
           this.name = undefined;
           this.health = undefined;
+          this.damageModifier = undefined;
         }else{
           window.alert("Es wurden nicht alle Werte eingegeben");
         }
       }
       if(this.isWeapon){
-        if(this.damage != undefined && this.damageMultiplier != undefined && this.name != undefined) {
+        if(this.damage != undefined && this.damageModifier != undefined && this.name != undefined) {
 
           let weapon: WeaponConfig = {
             type: "net.bmgames.state.model.Weapon",
@@ -129,7 +130,7 @@ export class ItemComponent implements OnInit {
 
           this.name = undefined;
           this.damage = undefined;
-          this.damageMultiplier = undefined;
+          this.damageModifier = undefined;
         }else{
           window.alert("Es wurden nicht alle Werte eingegeben");
         }

@@ -20,7 +20,7 @@ export class NPCComponent implements OnInit {
   npcTypes: string[] = ['Verbündet', 'Feindlich'];
   allEquipment: Item[] = [];
   //allItemsLoottable: Item[] | EquipmentConfig[] | WeaponConfig[] = [];
-  interactionCommands: string[] = ['Heilen', 'In zufälligen Raum teleportieren'];
+  interactionCommands: string[] = ['move player north', 'move player east', 'move player south', 'move player west', 'look', 'show inventory', 'pickup', 'hit'];
   selectedNPCType: string = 'Verbündet';
   isHostile = false;
   health: number | undefined;

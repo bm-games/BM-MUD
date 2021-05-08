@@ -13,6 +13,7 @@ import {RoomConfig} from "../../models/RoomConfig";
 import {DungeonConfig} from "../../models/DungeonConfig";
 import {ConfigService} from "../../services/config.service";
 import {Router} from "@angular/router";
+import {JsonObject, JsonValue} from "@angular/compiler-cli/ngcc/src/packages/entry_point";
 
 @Component({
   selector: 'app-configuration',
@@ -85,6 +86,10 @@ export class ConfigurationComponent implements OnInit {
       classes: ConfigurationComponent.allClasses,
       commandConfig: ConfigurationComponent.commandConfig
     }
+
+    //console.log(JSON.stringify(dungeon, this.mapToJson))
+    console.log(JSON.stringify(dungeon))
+
     // language=JSON
     //let dungeonClient = JSON.parse('{\n  "name": "sdfg",\n  "startRoom": "",\n  "rooms": {},\n  "startEquipment": [\n    {\n      "type": "net.bmgames.state.model.Consumable",\n      "name": "Apfel",\n      "effect": "heal $player 10"\n    },\n    {\n      "type": "net.bmgames.state.model.Equipment",\n      "name": "Diamond Helmet",\n      "healthModifier": 10.0,\n      "damageModifier": 1.0,\n      "slot": "Head"\n    },\n    {\n      "type": "net.bmgames.state.model.Weapon",\n      "name": "Wooden Sword",\n      "damage": 1\n    }\n  ],\n  "npcConfigs": {},\n  "itemConfigs": {},\n  "races": [\n    {\n      "name": "sdfgsdfg",\n      "health": 26,\n      "damageModifier": 6.5,\n      "description": "sdfg"\n    }\n  ],\n  "classes": [\n    {\n      "name": "sdfg",\n      "healthMultiplier": 4.5,\n      "damage": 53,\n      "attackSpeed": 32,\n      "description": "sdfg"\n    }\n  ],\n  "commandConfig": {\n    "aliases": {},\n    "customCommands": {}\n  }\n}')
     /*let dungeon = JSON.parse(`{
@@ -228,6 +233,13 @@ export class ConfigurationComponent implements OnInit {
 }`)*/
     this.configService.createDungeon(dungeon).then(() => this.router.navigateByUrl('/dashboard')).catch(({error}) => alert(error));
   }
+
+  /*mapToJson(key: any, value: any){
+    if(value instanceof Map){
+      return Array.from(value.entries())
+    }
+    return value
+  }*/
 
   getRoomNameById(id: number | undefined): string {
     if(id != undefined && id > -1){
