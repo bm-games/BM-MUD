@@ -19,7 +19,8 @@ export class GameComponent implements OnInit {
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: StringMap<NPC> = {};
+  //selectedRoomNPCs: StringMap<NPC> = {};
+  selectedRoomNPCs: NPC[] = [];
   selectedRoomItems: Item[] = [];
 
   //Grid
@@ -67,7 +68,7 @@ export class GameComponent implements OnInit {
       this.selectedRoomMessage = msg;
     }
     if(npcs == undefined){
-      this.selectedRoomNPCs = {};
+      this.selectedRoomNPCs = [];
     }else{
       this.selectedRoomNPCs = npcs;
     }

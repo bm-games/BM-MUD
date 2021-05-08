@@ -10,6 +10,7 @@ export interface RoomConfig {
   south: number | undefined;
   west: number | undefined;
   items: Item[];
-  npcs: StringMap<NPC>;
+  npcs: NPC[];
+  //npcs: StringMap<NPC>;
   message: string;
 }
