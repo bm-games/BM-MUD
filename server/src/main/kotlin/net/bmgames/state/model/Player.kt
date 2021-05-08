@@ -31,5 +31,17 @@ sealed class Player {
         val visitedRooms: Set<String>
     ) : Player() {
         override val ingameName = avatar.name
+        val damage: Float
+            get() = (avatar.clazz.damage + (inventory.weapon?.damage ?: 0)) * avatar.race.damageModifier
+
+        fun canHit(): Boolean =
+            lastHit == null ||
+                    lastHit + HIT_TIMEFRAME / avatar.clazz.attackSpeed <= System.currentTimeMillis()
+
     }
 }
+
+/**
+ * In this time range the player can hit [Clazz.attackSpeed] times
+ * */
+const val HIT_TIMEFRAME = 20L * 1000L

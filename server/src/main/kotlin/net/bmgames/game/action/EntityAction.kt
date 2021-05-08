@@ -1,11 +1,11 @@
 package net.bmgames.game.action
 
-import net.bmgames.state.model.Game
-import net.bmgames.state.model.Player
+import arrow.core.Either
+import net.bmgames.state.model.*
 
-class EntityAction (type : type,/* room : Room,*/ entity : Player.Normal) : Update() {
+data class EntityAction(val type: Type, val room: Room, val entity: Either<NPC, Item>) : Update() {
 
-    enum class type {
+    enum class Type {
         Create, Remove
     }
 

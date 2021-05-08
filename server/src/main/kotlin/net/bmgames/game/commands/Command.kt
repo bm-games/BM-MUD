@@ -1,6 +1,8 @@
 package net.bmgames.game.commands
 
 import arrow.core.Either
+import arrow.core.identity
+import arrow.core.traverseEither
 import com.github.ajalt.clikt.core.CliktCommand
 import net.bmgames.game.action.Action
 import net.bmgames.state.model.Game
@@ -26,3 +28,10 @@ sealed class Command<P : Player>(name: String) : CliktCommand(name) {
 
 abstract class MasterCommand(name: String) : Command<Player.Master>(name)
 abstract class PlayerCommand(name: String) : Command<Player.Normal>(name)
+
+data class BatchCommand(val commands: List<MasterCommand>) : Command<Player.Master>("batch") {
+    override fun toAction(player: Player.Master, game: Game): Either<String, List<Action>> =
+        commands.traverseEither { it.toAction(player, game) }
+            .map { it.flatten() }
+
+}

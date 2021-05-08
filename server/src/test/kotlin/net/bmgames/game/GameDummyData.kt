@@ -7,7 +7,7 @@ import net.bmgames.authentication.User
 import net.bmgames.state.model.*
 
 val MASTER = Player.Master(
-    User("master", "master@master.de", "1234", null)
+    User(email = "master@master.de", username = "master", passwordHash = "1234", registrationKey = null)
 )
 val PLAYER by lazy {
     Player.Normal(
@@ -81,7 +81,7 @@ val GAME_WITH_PLAYER by lazy {
         allowedUsers = GAME_WITHOUT_PLAYER.allowedUsers.plus(
             PLAYER.user.username to listOf(PLAYER.ingameName)
         ),
-        onlinePlayers = mapOf(PLAYER.ingameName to PLAYER)
+        onlinePlayers = GAME_WITHOUT_PLAYER.onlinePlayers + (PLAYER.ingameName to PLAYER)
     )
 }
 
