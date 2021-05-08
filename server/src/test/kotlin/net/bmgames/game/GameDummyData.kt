@@ -6,6 +6,8 @@ import kotlinx.serialization.json.Json
 import net.bmgames.authentication.User
 import net.bmgames.state.DungeonConfig
 import net.bmgames.state.model.*
+import net.bmgames.state.model.Item.*
+
 
 val MASTER = Player.Master(
     User(username = "master", email = "master@master.de", passwordHash = "1234", registrationKey = null)
