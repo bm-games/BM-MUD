@@ -93,7 +93,7 @@ val GAME_WITH_PLAYER by lazy {
         allowedUsers = GAME_WITHOUT_PLAYER.allowedUsers.plus(
             PLAYER.user.username to listOf(PLAYER.ingameName)
         ),
-        onlinePlayers = mapOf(PLAYER.ingameName to PLAYER)
+        onlinePlayers = GAME_WITHOUT_PLAYER.onlinePlayers + (PLAYER.ingameName to PLAYER)
     )
 }
 

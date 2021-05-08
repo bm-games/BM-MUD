@@ -17,6 +17,7 @@ sealed class NPC {
         override val items: List<Item>,
         val health: Int,
         val damage: Int,
+        val lastDamageDealt: Long? = null,
         override val id: Int? = null,
     ) : NPC()
 
@@ -31,3 +32,15 @@ sealed class NPC {
     ) : NPC()
 
 }
+
+/**
+ * Default attack speed of an hostile NPC
+ * */
+const val ATTACK_COOLDOWN = 10L * 1000L
+
+fun NPC.Hostile.nextAttackTimePoint(): Long =
+    if (lastDamageDealt == null) {
+        System.currentTimeMillis()
+    } else {
+        lastDamageDealt + ATTACK_COOLDOWN
+    }

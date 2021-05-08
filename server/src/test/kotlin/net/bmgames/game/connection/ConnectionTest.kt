@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.launch
 import net.bmgames.errorMsg
-import net.bmgames.game.commands.MoveCommand
+import net.bmgames.game.commands.player.MoveCommand
 import net.bmgames.game.message.Message
 import net.bmgames.success
 

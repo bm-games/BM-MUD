@@ -1,5 +1,9 @@
 package net.bmgames.state.database
 
+import net.bmgames.database.ItemConfigTable.Type
+import net.bmgames.state.model.Item
+import net.bmgames.state.model.Item.*
+import net.bmgames.state.model.Item.Equipment.Slot
 import net.bmgames.state.database.ItemConfigTable.Type
 import net.bmgames.state.model.*
 import net.bmgames.state.model.Equipment.Slot
