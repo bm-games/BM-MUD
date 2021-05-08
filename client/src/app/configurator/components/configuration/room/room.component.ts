@@ -3,6 +3,7 @@ import {ConfigurationComponent} from "../configuration.component";
 import {NPC} from "../../../models/NPCConfig";
 import {Item} from "../../../models/Item";
 import {RoomConfig} from "../../../models/RoomConfig";
+import {StringMap} from "../../../models/DungeonConfig";
 
 @Component({
   selector: 'app-room',
@@ -17,7 +18,7 @@ export class RoomComponent implements OnInit {
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: Map<string, NPC> = new Map<string, NPC>();
+  selectedRoomNPCs: StringMap<NPC> = {};
   selectedRoomItems: Item[] = [];
   selectedStartRoomName: string | undefined;
 
@@ -231,7 +232,7 @@ export class RoomComponent implements OnInit {
       this.selectedRoomMessage = msg;
     }
     if(npcs == undefined){
-      this.selectedRoomNPCs = new Map<string, NPC>();
+      this.selectedRoomNPCs = {};
     }else{
       this.selectedRoomNPCs = npcs;
     }

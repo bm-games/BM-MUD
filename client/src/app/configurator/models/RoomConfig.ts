@@ -1,6 +1,6 @@
-import {BaseConfig} from "./BaseConfig";
 import {Item} from "./Item";
 import {NPC} from "./NPCConfig";
+import {StringMap} from "./DungeonConfig";
 
 export interface RoomConfig {
   id: number;
@@ -10,6 +10,6 @@ export interface RoomConfig {
   south: number | undefined;
   west: number | undefined;
   items: Item[];
-  npcs: Map<string, NPC>;
+  npcs: StringMap<NPC>;
   message: string;
 }

@@ -50,15 +50,6 @@ export class ItemComponent implements OnInit {
             effect: this.effect
           }
           this.configuredItems.push(consumable);
-          /*this.configuredItems.push({
-            //isConsumable: true,
-            name: this.name,
-            effect: this.effect,
-            healthModifier: undefined,
-            damageModifier: undefined,
-            slot: undefined,
-            baseDamage: undefined
-          });*/
 
           this.name = undefined;
           this.effect = undefined;
@@ -74,7 +65,6 @@ export class ItemComponent implements OnInit {
             name: this.name,
             damageModifier: this.damageModifier,
             healthModifier: this.health,
-            //slot: this.equipmentSlot
             slot: "Head"
           }
           switch(this.equipmentSlot){
@@ -92,15 +82,6 @@ export class ItemComponent implements OnInit {
               break;
           }
           this.configuredItems.push(equip);
-          /*this.configuredItems.push({
-            isConsumable: false,
-            name: this.name,
-            effect: undefined,
-            healthModifier: this.health,
-            damageModifier: undefined,
-            slot: this.equipmentSlot,
-            baseDamage: undefined
-          });*/
 
           this.name = undefined;
           this.health = undefined;
@@ -118,15 +99,6 @@ export class ItemComponent implements OnInit {
             damage: this.damage
           }
           this.configuredItems.push(weapon);
-          /*this.configuredItems.push({
-            isConsumable: false,
-            name: this.name,
-            effect: undefined,
-            healthModifier: undefined,
-            damageModifier: this.damageMultiplier,
-            slot: undefined,
-            baseDamage: this.damage
-          });*/
 
           this.name = undefined;
           this.damage = undefined;
@@ -148,30 +120,6 @@ export class ItemComponent implements OnInit {
     }
     return false;
   }
-
-  /**
-   * Finds next smallest possible ID for the new ItemConfig
-   * @returns id: number
-   */
-  //getNextFreeId(): number {
-  //  let id = 0;
-  //  let foundId = false;
-  //  let containsId = false;
-  //  while(!foundId){
-  //    for (let i = 0; i < this.configuredItems.length; i++) {
-  //      if(this.configuredItems[i].id == id){
-  //        containsId = true
-  //      }
-  //    }
-  //    if(!containsId){
-  //      foundId = true;
-  //    }else{
-  //      containsId = false;
-  //      id++;
-  //    }
-  //  }
-  //  return id;
-  //}
 
   /**
    * Sets the bool values 'isEquipment', 'isConsumable' and 'isWeapon' depending on the current UI selection
@@ -203,7 +151,6 @@ export class ItemComponent implements OnInit {
    */
   itemEffectChanged(effect: string){
     this.effect = effect;
-    console.log(effect);
   }
 
   /**

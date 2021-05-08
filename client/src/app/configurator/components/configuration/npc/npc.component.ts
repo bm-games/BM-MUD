@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigurationComponent} from "../configuration.component";
 import {Item} from "../../../models/Item";
-import {EquipmentConfig} from "../../../models/EquipmentConfig";
-import {WeaponConfig} from "../../../models/WeaponConfig";
-import {NPCType} from "../../../models/NPCType";
 import {HostileNPCConfig} from "../../../models/HostileNPCConfig";
 import {NPC} from "../../../models/NPCConfig";
 import {FriendlyNPCConfig} from "../../../models/FriendlyNPCConfig";
@@ -26,7 +23,6 @@ export class NPCComponent implements OnInit {
   health: number | undefined;
   damage: number | undefined;
   selectedNPCEquipment: Item[] = [];
-  //selectedNPCItemsLoottable: Item[] = [];
   selectedCommandOnInteraction: string = '';
 
   configuredNPCs: NPC[] = [];
@@ -36,7 +32,6 @@ export class NPCComponent implements OnInit {
   ngOnInit(): void {
     this.configuredNPCs = ConfigurationComponent.allNPCs;
     this.allEquipment = ConfigurationComponent.allItems;
-    //this.allItemsLoottable = ConfigurationComponent.allItems;
   }
 
   /**
@@ -45,10 +40,6 @@ export class NPCComponent implements OnInit {
    */
   addNPC(){
     if(this.name != undefined && !this.checkContainsName()){
-      let equipmentNames: string[] = [];
-      this.selectedNPCEquipment.forEach(e => equipmentNames.push(e.name));
-      //let loottableItemNames: string[] = [];
-      //this.selectedNPCItemsLoottable.forEach(e => loottableItemNames.push(e.name));
       if(this.isHostile){
         if(this.health != undefined && this.damage != undefined){
           let hostile: HostileNPCConfig = {
@@ -59,16 +50,6 @@ export class NPCComponent implements OnInit {
             type: "net.bmgames.state.model.NPC.Hostile"
           }
           this.configuredNPCs.push(hostile);
-          /*this.configuredNPCs.push({
-            type: NPCType.Hostile,
-            name: this.name,
-            items: equipmentNames,
-            loottable: loottableItemNames,
-            health: this.health,
-            damage: this.damage,
-            commandOnInteraction: undefined,
-            messageOnTalk: undefined
-          });*/
 
           this.name = undefined;
           this.health = undefined;
@@ -87,17 +68,6 @@ export class NPCComponent implements OnInit {
             type: "net.bmgames.state.model.NPC.Friendly"
           }
           this.configuredNPCs.push(friendly);
-
-          /*this.configuredNPCs.push({
-            type: NPCType.Friendly,
-            name: this.name,
-            items: equipmentNames,
-            loottable: loottableItemNames,
-            health: undefined,
-            damage: undefined,
-            commandOnInteraction: this.selectedCommandOnInteraction,
-            messageOnTalk: this.messageOnTalk
-          });*/
 
           this.name = undefined;
           this.messageOnTalk = undefined;
@@ -120,30 +90,6 @@ export class NPCComponent implements OnInit {
     }
     return false;
   }
-
-  /**
-   * Finds next smallest possible ID for the new NPCConfig
-   * @returns id: number
-   */
-  //getNextFreeId(): number {
-  //  let id = 0;
-  //  let foundId = false;
-  //  let containsId = false;
-  //  while(!foundId){
-  //    for (let i = 0; i < this.configuredNPCs.length; i++) {
-  //      if(this.configuredNPCs[i].id == id){
-  //        containsId = true;
-  //      }
-  //    }
-  //    if(!containsId){
-  //      foundId = true;
-  //    }else{
-  //      containsId = false;
-  //      id++;
-  //    }
-  //  }
-  //  return id;
-  //}
 
   npcTypeChanged(type: string){
     switch(type){

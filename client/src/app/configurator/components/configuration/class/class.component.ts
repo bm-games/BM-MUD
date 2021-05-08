@@ -64,30 +64,6 @@ export class ClassComponent implements OnInit {
     return false;
   }
 
-  /**
-   * Finds next smallest possible ID for the new ClassConfig
-   * @returns id: number
-   */
-  //getNextFreeId(): number{
-  //  let id = 0;
-  //  let foundId = false;
-  //  let containsId = false;
-  //  while(!foundId){
-  //    for (let i = 0; i < this.configuredClasses.length; i++) {
-  //      if(this.configuredClasses[i].id == id){
-  //        containsId = true;
-  //      }
-  //    }
-  //    if(!containsId){
-  //      foundId = true;
-  //    }else{
-  //      containsId = false;
-  //      id++;
-  //    }
-  //  }
-  //  return id;
-  //}
-
   sliderValue(value: number) {
     return value;
   }

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {RaceConfig} from "../../../models/RaceConfig";
-import {DungeonConfig} from "../../../models/DungeonConfig";
 import {ConfigurationComponent} from "../configuration.component";
-import {NPCType} from "../../../models/NPCType";
 
 @Component({
   selector: 'app-race',
@@ -29,7 +27,7 @@ export class RaceComponent implements OnInit {
    */
   addRace(){
     if(this.name != undefined && this.health != undefined && this.damage != undefined && this.description != undefined){
-      if(this.checkContainsName() == false){
+      if(!this.checkContainsName()){
         this.configuredRaces.push({
           name: this.name,
           health: this.health,
@@ -58,30 +56,6 @@ export class RaceComponent implements OnInit {
     }
     return false;
   }
-
-  /**
-   * Finds next smallest possible ID for the new RaceConfig
-   * @returns id: number
-   */
-  //getNextFreeId(): number {
-  //  let id = 0;
-  //  let foundId = false;
-  //  let containsId = false;
-  //  while(!foundId){
-  //    for (let i = 0; i < this.configuredRaces.length; i++) {
-  //      if(this.configuredRaces[i].id == id){
-  //        containsId = true;
-  //      }
-  //    }
-  //    if(!containsId){
-  //      foundId = true;
-  //    }else{
-  //      containsId = false;
-  //      id++;
-  //    }
-  //  }
-  //  return id;
-  //}
 
   sliderValue(value: number) {
     return value;

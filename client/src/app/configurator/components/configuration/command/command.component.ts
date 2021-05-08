@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CommandConfig} from "../../../models/CommandConfig";
 import {ConfigurationComponent} from "../configuration.component";
+import {StringMap} from "../../../models/DungeonConfig";
 
 @Component({
   selector: 'app-command',
@@ -27,8 +28,8 @@ export class CommandComponent implements OnInit {
 
   isCustomCommand = false;
 
-  aliases: Map<string,string> = new Map<string, string>();            // Map<Name, Alias>
-  customCommands: Map<string, string> = new Map<string, string>();    // Map<Name, "Action1,Action2,Action3,...">
+  aliases: StringMap<string> = {}           // StringMap[Name] = 'alias'
+  customCommands: StringMap<string> = {}    // StringMap[Name] = 'ActionString'
 
   constructor() { }
 
@@ -36,11 +37,11 @@ export class CommandComponent implements OnInit {
     this.aliases = ConfigurationComponent.commandConfig.aliases;
     this.customCommands = ConfigurationComponent.commandConfig.customCommands;
 
-    this.pickupAlias = this.aliases.get('pickup');
-    this.consumeAlias = this.aliases.get('consume');
-    this.showInventoryAlias = this.aliases.get('show inventory');
-    this.goAlias = this.aliases.get('go');
-    this.lookAlias = this.aliases.get('look');
+    this.pickupAlias = this.aliases['pickup'];
+    this.consumeAlias = this.aliases['consume'];
+    this.showInventoryAlias = this.aliases['show inventory'];
+    this.goAlias = this.aliases['go'];
+    this.lookAlias = this.aliases['look'];
   }
 
   /**
@@ -50,8 +51,6 @@ export class CommandComponent implements OnInit {
   addCommand(){
     if(this.isCustomCommand){
       if(this.commandSyntax != undefined){
-        //this.customCommands.push(new CommandConfig(this.getNextFreeId(), this.commandSyntax, this.selectedActions))
-
         let actionString = "";
         if(this.selectedAction1 != "Kein Command") actionString += this.selectedAction1 + ", ";
         if(this.selectedAction2 != "Kein Command") actionString += this.selectedAction2 + ", ";
@@ -59,14 +58,7 @@ export class CommandComponent implements OnInit {
         if(this.selectedAction4 != "Kein Command") actionString += this.selectedAction4 + ", ";
         if(this.selectedAction5 != "Kein Command") actionString += this.selectedAction5;
 
-        this.customCommands.set(this.commandSyntax, actionString);
-        console.log(this.customCommands);
-
-        /*this.customCommands.push({
-          id: this.getNextFreeId(),
-          command: this.commandSyntax,
-          actions: this.selectedActions
-        });*/
+        this.customCommands[this.commandSyntax] = actionString;
 
         ConfigurationComponent.commandConfig.customCommands = this.customCommands;
         this.commandSyntax = undefined;
@@ -81,11 +73,11 @@ export class CommandComponent implements OnInit {
       if(this.goAlias == undefined) this.goAlias = "go";
       if(this.lookAlias == undefined) this.lookAlias = "look";
 
-      this.aliases.set('pickup', this.pickupAlias);
-      this.aliases.set('consume', this.consumeAlias);
-      this.aliases.set('show inventory', this.showInventoryAlias);
-      this.aliases.set('go', this.goAlias);
-      this.aliases.set('look', this.lookAlias);
+      this.aliases['pickup'] = this.pickupAlias;
+      this.aliases['consume'] = this.consumeAlias;
+      this.aliases['show inventory'] = this.showInventoryAlias;
+      this.aliases['go'] = this.goAlias;
+      this.aliases['look'] = this.lookAlias;
 
       ConfigurationComponent.commandConfig.aliases = this.aliases;
     }
@@ -105,30 +97,6 @@ export class CommandComponent implements OnInit {
         break;
     }
   }
-
-  /**
-   * Finds next smallest possible ID for the new CommandConfig
-   * @returns id: number
-   */
-  //getNextFreeId(): number {
-  //  let id = 0;
-  //  let foundId = false;
-  //  let containsId = false;
-  //  while(!foundId){
-  //    for (let i = 0; i < this.customCommands.length; i++) {
-  //      if(this.customCommands[i].id == id){
-  //        containsId = true;
-  //      }
-  //    }
-  //    if(!containsId){
-  //      foundId = true;
-  //    }else{
-  //      containsId = false;
-  //      id++;
-  //    }
-  //  }
-  //  return id;
-  //}
 
   sliderValue(value: number) {
     return value;

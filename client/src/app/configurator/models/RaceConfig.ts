@@ -1,4 +1,3 @@
-import {BaseConfig} from "./BaseConfig";
 
 export interface RaceConfig {
   name: string;

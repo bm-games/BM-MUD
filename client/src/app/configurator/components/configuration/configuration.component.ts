@@ -2,18 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {Title} from "@angular/platform-browser";
 import {RaceConfig} from "../../models/RaceConfig";
 import {ClassConfig} from "../../models/ClassConfig";
-import {ConsumableItemConfig, Item} from "../../models/Item";
-import {EquipmentConfig} from "../../models/EquipmentConfig";
+import {Item} from "../../models/Item";
 import {CommandConfig} from "../../models/CommandConfig";
-import {WeaponConfig} from "../../models/WeaponConfig";
-import {FriendlyNPCConfig} from "../../models/FriendlyNPCConfig";
-import {HostileNPCConfig} from "../../models/HostileNPCConfig";
 import {NPC} from "../../models/NPCConfig";
 import {RoomConfig} from "../../models/RoomConfig";
 import {DungeonConfig} from "../../models/DungeonConfig";
 import {ConfigService} from "../../services/config.service";
 import {Router} from "@angular/router";
-import {JsonObject, JsonValue} from "@angular/compiler-cli/ngcc/src/packages/entry_point";
 
 @Component({
   selector: 'app-configuration',
@@ -44,14 +39,14 @@ export class ConfigurationComponent implements OnInit {
    * Creates a DungeonConfig and sends it to the ConfigService.
    */
   createConfig(){
-    let roomMap = new Map<string, RoomConfigExport>();
+    let roomMap: StringMap<RoomConfigExport> = {}
     ConfigurationComponent.allRooms.forEach(r => {
       let north = this.getRoomNameById(r.north);
       let east = this.getRoomNameById(r.east);
       let south = this.getRoomNameById(r.south);
       let west = this.getRoomNameById(r.west);
       let roomConfig: RoomConfigExport = {
-        type: "net.bmgames.state.model.Room",
+        //type: "net.bmgames.state.model.Room",
         name: r.name,
         items: r.items,
         npcs: r.npcs,
@@ -62,184 +57,31 @@ export class ConfigurationComponent implements OnInit {
         message: r.message
       }
 
-      roomMap.set(r.name, roomConfig);
+      roomMap[r.name] = roomConfig;
     });
 
     let npcMap = new Map<string, NPC>();
     ConfigurationComponent.allNPCs.forEach(n => {
       npcMap.set(n.name, n);
     });
-    let itemMap = new Map<string, Item>();
+    let itemMap: StringMap<Item> = {};
     ConfigurationComponent.allItems.forEach(i => {
-      itemMap.set(i.name, i);
+      itemMap[i.name] = i;
     });
     let dungeon: DungeonConfig = {
       name: this.mudName,
       startRoom: ConfigurationComponent.startRoom,
       rooms: roomMap,
       startEquipment: ConfigurationComponent.startequipment,
-      //npcConfigs: ConfigurationComponent.allNPCs,
       npcConfigs: npcMap,
-      //itemConfigs: ConfigurationComponent.allItems,
       itemConfigs: itemMap,
       races: ConfigurationComponent.allRaces,
       classes: ConfigurationComponent.allClasses,
       commandConfig: ConfigurationComponent.commandConfig
     }
 
-    //console.log(JSON.stringify(dungeon, this.mapToJson))
-    console.log(JSON.stringify(dungeon))
-
-    // language=JSON
-    //let dungeonClient = JSON.parse('{\n  "name": "sdfg",\n  "startRoom": "",\n  "rooms": {},\n  "startEquipment": [\n    {\n      "type": "net.bmgames.state.model.Consumable",\n      "name": "Apfel",\n      "effect": "heal $player 10"\n    },\n    {\n      "type": "net.bmgames.state.model.Equipment",\n      "name": "Diamond Helmet",\n      "healthModifier": 10.0,\n      "damageModifier": 1.0,\n      "slot": "Head"\n    },\n    {\n      "type": "net.bmgames.state.model.Weapon",\n      "name": "Wooden Sword",\n      "damage": 1\n    }\n  ],\n  "npcConfigs": {},\n  "itemConfigs": {},\n  "races": [\n    {\n      "name": "sdfgsdfg",\n      "health": 26,\n      "damageModifier": 6.5,\n      "description": "sdfg"\n    }\n  ],\n  "classes": [\n    {\n      "name": "sdfg",\n      "healthMultiplier": 4.5,\n      "damage": 53,\n      "attackSpeed": 32,\n      "description": "sdfg"\n    }\n  ],\n  "commandConfig": {\n    "aliases": {},\n    "customCommands": {}\n  }\n}')
-    /*let dungeon = JSON.parse(`{
-    "name": "Test game",
-    "races": [
-        {
-            "name": "race",
-            "description": "Its a race",
-            "health": 10,
-            "damageModifier": 1.5
-        }
-    ],
-    "classes": [
-        {
-            "name": "class",
-            "description": "Its a class",
-            "healthMultiplier": 1.5,
-            "damage": 10,
-            "attackSpeed": 1
-        }
-    ],
-    "commandConfig": {
-    },
-    "npcConfigs": {
-        "geork": {
-            "type": "net.bmgames.state.model.NPC.Friendly",
-            "name": "geork",
-            "items": [
-                {
-                    "type": "net.bmgames.state.model.Consumable",
-                    "name": "Apfel",
-                    "effect": "heal $player 10"
-                }
-            ],
-            "commandOnInteraction": "heal $player 1",
-            "messageOnTalk": "Halloooooooooo"
-        },
-        "georkina": {
-            "type": "net.bmgames.state.model.NPC.Hostile",
-            "name": "georkina",
-            "items": [
-                {
-                    "type": "net.bmgames.state.model.Equipment",
-                    "name": "Diamond Helmet",
-                    "healthModifier": 10.0,
-                    "damageModifier": 1.0,
-                    "slot": "Head"
-                }
-            ],
-            "health": 100,
-            "damage": 100000
-        }
-    },
-    "itemConfigs": {
-        "Apfel": {
-            "type": "net.bmgames.state.model.Consumable",
-            "name": "Apfel",
-            "effect": "heal $player 10"
-        },
-        "Diamond Helmet": {
-            "type": "net.bmgames.state.model.Equipment",
-            "name": "Diamond Helmet",
-            "healthModifier": 10.0,
-            "damageModifier": 1.0,
-            "slot": "Head"
-        },
-        "Wooden Sword": {
-            "type": "net.bmgames.state.model.Weapon",
-            "name": "Wooden Sword",
-            "damage": 1
-        }
-    },
-    "startEquipment": [
-        {
-            "type": "net.bmgames.state.model.Consumable",
-            "name": "Apfel",
-            "effect": "heal $player 10"
-        },
-        {
-            "type": "net.bmgames.state.model.Equipment",
-            "name": "Diamond Helmet",
-            "healthModifier": 10.0,
-            "damageModifier": 1.0,
-            "slot": "Head"
-        },
-        {
-            "type": "net.bmgames.state.model.Weapon",
-            "name": "Wooden Sword",
-            "damage": 1
-        }
-    ],
-    "startRoom": "start",
-    "rooms": {
-        "start": {
-            "name": "Start room",
-            "message": "Welcome!",
-            "south": "room",
-            "items": [
-                {
-                    "type": "net.bmgames.state.model.Consumable",
-                    "name": "Apfel",
-                    "effect": "heal $player 10"
-                },
-                {
-                    "type": "net.bmgames.state.model.Equipment",
-                    "name": "Diamond Helmet",
-                    "healthModifier": 10.0,
-                    "damageModifier": 1.0,
-                    "slot": "Head"
-                },
-                {
-                    "type": "net.bmgames.state.model.Weapon",
-                    "name": "Wooden Sword",
-                    "damage": 1
-                }
-            ],
-            "npcs": {
-                "georkina": {
-                    "type": "net.bmgames.state.model.NPC.Hostile",
-                    "name": "georkina",
-                    "items": [
-                        {
-                            "type": "net.bmgames.state.model.Equipment",
-                            "name": "Diamond Helmet",
-                            "healthModifier": 10.0,
-                            "damageModifier": 1.0,
-                            "slot": "Head"
-                        }
-                    ],
-                    "health": 100,
-                    "damage": 100000
-                }
-            }
-        },
-        "room": {
-            "name": "Next room",
-            "message": "HIIIIIIIIIIIIIIIIIII!",
-            "north": "start"
-        }
-    }
-}`)*/
     this.configService.createDungeon(dungeon).then(() => this.router.navigateByUrl('/dashboard')).catch(({error}) => alert(error));
   }
-
-  /*mapToJson(key: any, value: any){
-    if(value instanceof Map){
-      return Array.from(value.entries())
-    }
-    return value
-  }*/
 
   getRoomNameById(id: number | undefined): string {
     if(id != undefined && id > -1){
@@ -320,7 +162,7 @@ export class ConfigurationComponent implements OnInit {
 }
 
 export interface RoomConfigExport{
-  readonly type: 'net.bmgames.state.model.Room';
+  //readonly type: 'net.bmgames.state.model.Room';
   name: string;
   message: string;
   north?: string;
@@ -328,5 +170,5 @@ export interface RoomConfigExport{
   south?: string;
   west?: string;
   items: Item[];
-  npcs: Map<String, NPC>;
+  npcs: StringMap<NPC>;
 }

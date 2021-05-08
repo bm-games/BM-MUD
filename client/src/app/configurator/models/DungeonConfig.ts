@@ -10,9 +10,9 @@ export interface DungeonConfig {
   name: string;
   startRoom: string;
   startEquipment: Item[];
-  rooms: Map<string, RoomConfigExport>;
-  npcConfigs: Map<string, NPC>;
-  itemConfigs: Map<string, Item>;
+  rooms: StringMap<RoomConfigExport>;
+  npcConfigs: StringMap<NPC>;
+  itemConfigs: StringMap<Item>;
   races: RaceConfig[];
   classes: ClassConfig[];
   commandConfig: CommandConfig;

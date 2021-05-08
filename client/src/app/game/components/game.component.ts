@@ -3,6 +3,7 @@ import {Subject} from "rxjs";
 import {RoomConfig} from "../../configurator/models/RoomConfig";
 import {NPC} from "../../configurator/models/NPCConfig";
 import {Item} from "../../configurator/models/Item";
+import {StringMap} from "../../configurator/models/DungeonConfig";
 
 
 @Component({
@@ -18,7 +19,7 @@ export class GameComponent implements OnInit {
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: Map<string, NPC> = new Map<string, NPC>();
+  selectedRoomNPCs: StringMap<NPC> = {};
   selectedRoomItems: Item[] = [];
 
   //Grid
@@ -66,7 +67,7 @@ export class GameComponent implements OnInit {
       this.selectedRoomMessage = msg;
     }
     if(npcs == undefined){
-      this.selectedRoomNPCs = new Map<string, NPC>();
+      this.selectedRoomNPCs = {};
     }else{
       this.selectedRoomNPCs = npcs;
     }
