@@ -11,7 +11,7 @@ data class DungeonConfig(
     val commandConfig: CommandConfig,
     val npcConfigs: Map<String, NPC>,
     val itemConfigs: Map<String, Item>,
-    val startEquipment: List<Item> = emptyList(),
+    val startEquipment: List<Item>,
     val startRoom: String,
     val rooms: Map<String, Room>
 )

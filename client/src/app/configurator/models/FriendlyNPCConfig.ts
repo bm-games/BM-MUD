@@ -1,32 +1,10 @@
-import {NPCConfig} from "./NPCConfig";
+import {Item} from "./Item";
 
-//export class FriendlyNPCConfig extends NPCConfig{
-//  private _commandOnInteraction: string;
-//  private _messageOnTalk: string;
-//
-//  constructor(id: number, name: string, items: number[], loottable: number[], commandOnInteraction: string, messageOnTalk: string) {
-//    super(id, name, NPCType.Friendly, items, loottable);
-//    this._commandOnInteraction = commandOnInteraction;
-//    this._messageOnTalk = messageOnTalk;
-//  }
-//
-//  get messageOnTalk(): string {
-//    return this._messageOnTalk;
-//  }
-//
-//  set messageOnTalk(value: string) {
-//    this._messageOnTalk = value;
-//  }
-//  get commandOnInteraction(): string {
-//    return this._commandOnInteraction;
-//  }
-//
-//  set commandOnInteraction(value: string) {
-//    this._commandOnInteraction = value;
-//  }
-//}
-
-export interface FriendlyNPCConfig extends NPCConfig{
-  commandOnInteraction: string | undefined;
-  messageOnTalk: string | undefined;
+export interface FriendlyNPCConfig {
+  readonly type: 'net.bmgames.state.model.NPC.Friendly';
+  name: string;
+  items: Item[];
+  // loottable: string[];
+  commandOnInteraction: string;
+  messageOnTalk: string;
 }

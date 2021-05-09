@@ -1,32 +1,10 @@
-import {NPCConfig} from "./NPCConfig";
+import {Item} from "./Item";
 
-//export class HostileNPCConfig extends NPCConfig{
-//  private _health: number;
-//  private _damage: number;
-//
-//  constructor(id: number, name: string, items: number[], loottable: number[], health: number, damage: number) {
-//    super(id, name, NPCType.Hostile, items, loottable);
-//    this._health = health;
-//    this._damage = damage;
-//  }
-//
-//  get damage(): number {
-//    return this._damage;
-//  }
-//
-//  set damage(value: number) {
-//    this._damage = value;
-//  }
-//  get health(): number {
-//    return this._health;
-//  }
-//
-//  set health(value: number) {
-//    this._health = value;
-//  }
-//}
-
-export interface HostileNPCConfig extends NPCConfig{
-  health: number | undefined;
-  damage: number | undefined;
+export interface HostileNPCConfig {
+  readonly type: 'net.bmgames.state.model.NPC.Hostile';
+  name: string;
+  items: Item[];
+  // loottable: string[];
+  health: number;
+  damage: number;
 }

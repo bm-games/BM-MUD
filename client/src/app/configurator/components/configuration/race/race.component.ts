@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {RaceConfig} from "../../../models/RaceConfig";
-import {DungeonConfig} from "../../../models/DungeonConfig";
 import {ConfigurationComponent} from "../configuration.component";
-import {NPCType} from "../../../models/NPCType";
 
 @Component({
   selector: 'app-race',
@@ -29,48 +27,34 @@ export class RaceComponent implements OnInit {
    */
   addRace(){
     if(this.name != undefined && this.health != undefined && this.damage != undefined && this.description != undefined){
-      //this.configuredRaces.push(new RaceConfig(this.getNextFreeId(), this.name, this.health, this.damage, this.description));
+      if(!this.checkContainsName()){
+        this.configuredRaces.push({
+          name: this.name,
+          health: this.health,
+          damageModifier: this.damage,
+          description: this.description
+        });
 
-      this.configuredRaces.push({
-        id: this.getNextFreeId(),
-        name: this.name,
-        health: this.health,
-        damageMultiplier: this.damage,
-        description: this.description
-      });
-
-      this.name = undefined;
-      this.health = undefined;
-      this.damage = undefined;
-      this.description = undefined;
-      ConfigurationComponent.allRaces = this.configuredRaces;
+        this.name = undefined;
+        this.health = undefined;
+        this.damage = undefined;
+        this.description = undefined;
+        ConfigurationComponent.allRaces = this.configuredRaces;
+      }else{
+        window.alert("Es existiert bereits eine Rasse mit dem Namen: " + this.name);
+      }
     }else{
       window.alert("Es wurden nicht alle Werte eingegeben");
     }
   }
 
-  /**
-   * Finds next smallest possible ID for the new RaceConfig
-   * @returns id: number
-   */
-  getNextFreeId(): number {
-    let id = 0;
-    let foundId = false;
-    let containsId = false;
-    while(!foundId){
-      for (let i = 0; i < this.configuredRaces.length; i++) {
-        if(this.configuredRaces[i].id == id){
-          containsId = true;
-        }
-      }
-      if(!containsId){
-        foundId = true;
-      }else{
-        containsId = false;
-        id++;
+  checkContainsName(): boolean{
+    for (let i = 0; i < this.configuredRaces.length; i++) {
+      if(this.configuredRaces[i].name == this.name){
+        return true;
       }
     }
-    return id;
+    return false;
   }
 
   sliderValue(value: number) {

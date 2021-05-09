@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ConfigurationComponent} from "../configuration.component";
-import {NPCConfig} from "../../../models/NPCConfig";
-import {ItemConfig} from "../../../models/ItemConfig";
+import {NPC} from "../../../models/NPCConfig";
+import {Item} from "../../../models/Item";
 import {RoomConfig} from "../../../models/RoomConfig";
-import {EquipmentConfig} from "../../../models/EquipmentConfig";
-import {WeaponConfig} from "../../../models/WeaponConfig";
+import {StringMap} from "../../../models/DungeonConfig";
 
 @Component({
   selector: 'app-room',
@@ -13,15 +12,15 @@ import {WeaponConfig} from "../../../models/WeaponConfig";
 })
 export class RoomComponent implements OnInit {
 
-  allNPCs: NPCConfig[] = [];
-  allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
+  allNPCs: NPC[] = [];
+  allItems: Item[] = [];
 
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: string[] = [];
-  selectedRoomItems: string[] = [];
-  selectedStartRoom: number = 0;
+  //selectedRoomNPCs: StringMap<NPC> = {};
+  selectedRoomNPCs: NPC[] = [];
+  selectedRoomItems: Item[] = [];
   selectedStartRoomName: string | undefined;
 
   configuredRooms: RoomConfig[] = [];
@@ -35,8 +34,7 @@ export class RoomComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuredRooms = ConfigurationComponent.allRooms;
-    this.selectedStartRoom = ConfigurationComponent.startRoom;
-    this.selectedStartRoomName = this.getRoomConfigById(this.selectedStartRoom)?.name;
+    this.selectedStartRoomName = ConfigurationComponent.startRoom;
     // initialize grid with rooms
     for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
       let room = this.getRoomConfigById(i);
@@ -57,7 +55,6 @@ export class RoomComponent implements OnInit {
     this.highlightSelectedValue(0);
     this.allNPCs = ConfigurationComponent.allNPCs;
     this.allItems = ConfigurationComponent.allItems;
-    console.log(this.selectedStartRoomName);
   }
 
   /**
@@ -89,36 +86,50 @@ export class RoomComponent implements OnInit {
    * All existing neighbours getting updated.
    */
   addRoom() {
-    let northNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'n');
-    let eastNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'e');
-    let southNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 's');
-    let westNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'w');
-    this.grid[this.selectedGridValueIndex] = {
-      index: this.selectedGridValueIndex,
-      value: {
-        id: this.selectedGridValueIndex,           // replace this with real id
-        name: this.selectedRoomName,
-        message: this.selectedRoomMessage,
-        npcs: this.selectedRoomNPCs,
-        items: this.selectedRoomItems,
-        north: northNeighbour,
-        east: eastNeighbour,
-        south: southNeighbour,
-        west: westNeighbour
-      },
-      color: "lightgreen"
+    if(!this.checkContainsName()){
+      let northNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'n');
+      let eastNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'e');
+      let southNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 's');
+      let westNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'w');
+      this.grid[this.selectedGridValueIndex] = {
+        index: this.selectedGridValueIndex,
+        value: {
+          id: this.selectedGridValueIndex,           // replace this with real id
+          name: this.selectedRoomName,
+          message: this.selectedRoomMessage,
+          npcs: this.selectedRoomNPCs,
+          items: this.selectedRoomItems,
+          north: northNeighbour,
+          east: eastNeighbour,
+          south: southNeighbour,
+          west: westNeighbour
+        },
+        color: "lightgreen"
+      }
+
+      if(northNeighbour > -1) this.updateNeighbour(northNeighbour);
+      if(eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
+      if(southNeighbour > -1) this.updateNeighbour(southNeighbour);
+      if(westNeighbour > -1) this.updateNeighbour(westNeighbour);
+
+      this.configuredRooms = [];
+      this.grid.forEach(gridValue => {
+        if(gridValue.value != null) this.configuredRooms.push(gridValue.value);
+      });
+      ConfigurationComponent.allRooms = this.configuredRooms;
+    }else{
+      window.alert("Es existiert bereits ein Raum mit dem Namen: " + this.selectedRoomName);
     }
+    console.log(this.configuredRooms);
+  }
 
-    if(northNeighbour > -1) this.updateNeighbour(northNeighbour);
-    if(eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
-    if(southNeighbour > -1) this.updateNeighbour(southNeighbour);
-    if(westNeighbour > -1) this.updateNeighbour(westNeighbour);
-
-    this.configuredRooms = [];
-    this.grid.forEach(gridValue => {
-      if(gridValue.value != null) this.configuredRooms.push(gridValue.value);
-    });
-    ConfigurationComponent.allRooms = this.configuredRooms;
+  checkContainsName(): boolean{
+    for (let i = 0; i < this.configuredRooms.length; i++) {
+      if(this.configuredRooms[i].name == this.selectedRoomName){
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -256,10 +267,10 @@ export class RoomComponent implements OnInit {
    * Sets the startroom of the Dungeon
    * @param id id of the startroom
    */
-  startroomChanged(id: number | null){
-    if(id != null){
-      this.selectedStartRoom = id;
-      ConfigurationComponent.startRoom = id;
+  startroomChanged(name: string){
+    if(name != null){
+      this.selectedStartRoomName = name;
+      ConfigurationComponent.startRoom = name;
     }
   }
 }

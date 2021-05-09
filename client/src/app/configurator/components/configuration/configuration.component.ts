@@ -2,15 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {Title} from "@angular/platform-browser";
 import {RaceConfig} from "../../models/RaceConfig";
 import {ClassConfig} from "../../models/ClassConfig";
-import {ItemConfig} from "../../models/ItemConfig";
-import {EquipmentConfig} from "../../models/EquipmentConfig";
+import {Item} from "../../models/Item";
 import {CommandConfig} from "../../models/CommandConfig";
-import {WeaponConfig} from "../../models/WeaponConfig";
-import {FriendlyNPCConfig} from "../../models/FriendlyNPCConfig";
-import {HostileNPCConfig} from "../../models/HostileNPCConfig";
+import {NPC} from "../../models/NPCConfig";
 import {RoomConfig} from "../../models/RoomConfig";
 import {DungeonConfig} from "../../models/DungeonConfig";
-import {race} from "rxjs";
 import {ConfigService} from "../../services/config.service";
 import {Router} from "@angular/router";
 
@@ -26,12 +22,12 @@ export class ConfigurationComponent implements OnInit {
 
   private static _allRaces: RaceConfig[] = [];
   private static _allClasses: ClassConfig[] = [];
-  private static _allItems: ItemConfig[] | EquipmentConfig[] | WeaponConfig[] = [];
-  private static _allNPCs: (FriendlyNPCConfig | HostileNPCConfig)[] = [];
-  private static _allCommands: CommandConfig[] = [];
+  private static _allItems: Item[] = [];
+  private static _allNPCs: NPC[] = [];
+  private static _commandConfig: CommandConfig = { aliases: new Map<string, string>(), customCommands: new Map<string, string>()}
   private static _allRooms: RoomConfig[] = [];
-  private static _startequipment: ItemConfig[] = [];
-  private static _startRoom: number = 0;
+  private static _startequipment: Item[] = [];
+  private static _startRoom: string;
 
   constructor(private configService: ConfigService, private titleService: Title, private router: Router) { }
 
@@ -43,43 +39,79 @@ export class ConfigurationComponent implements OnInit {
    * Creates a DungeonConfig and sends it to the ConfigService.
    */
   createConfig(){
-    //let startequipmentIDs: number[] = [];
-    //ConfigurationComponent.startequipment.forEach(s => startequipmentIDs.push(s.id));
-    //let itemIDs: number[] = [];
-    //ConfigurationComponent.allItems.forEach(i => itemIDs.push(i.id));
-    //let npcIDs: number[] = [];
-    //ConfigurationComponent.allNPCs.forEach(n => npcIDs.push(n.id));
-    //let raceIDs: number[] = [];
-    //ConfigurationComponent.allRaces.forEach(r => raceIDs.push(r.id));
-    //let classIDs: number[] = [];
-    //ConfigurationComponent.allClasses.forEach((c => classIDs.push(c.id)));
-    //let commandIDs: number[] = [];
-    //ConfigurationComponent.allCommands.forEach(c => commandIDs.push(c.id));
+    let roomMap: StringMap<RoomConfigExport> = {}
+    ConfigurationComponent.allRooms.forEach(r => {
+      let north = this.getRoomNameById(r.north);
+      let east = this.getRoomNameById(r.east);
+      let south = this.getRoomNameById(r.south);
+      let west = this.getRoomNameById(r.west);
+      let npcStringMap: StringMap<NPC> = {}
+      r.npcs.forEach(n => {npcStringMap[n.name] = n})
+      let roomConfig: RoomConfigExport = {
+        //type: "net.bmgames.state.model.Room",
+        name: r.name,
+        items: r.items,
+        //npcs: r.npcs,
+        npcs: npcStringMap,
+        north: north,
+        east: east,
+        south: south,
+        west: west,
+        message: r.message
+      }
+
+      roomMap[r.name] = roomConfig;
+    });
+
+    let npcMap = new Map<string, NPC>();
+    ConfigurationComponent.allNPCs.forEach(n => {
+      npcMap.set(n.name, n);
+    });
+    let itemMap: StringMap<Item> = {};
+    ConfigurationComponent.allItems.forEach(i => {
+      itemMap[i.name] = i;
+    });
     let dungeon: DungeonConfig = {
       name: this.mudName,
       startRoom: ConfigurationComponent.startRoom,
+      rooms: roomMap,
       startEquipment: ConfigurationComponent.startequipment,
-      npcs: ConfigurationComponent.allNPCs,
-      items: ConfigurationComponent.allItems,
+      npcConfigs: npcMap,
+      itemConfigs: itemMap,
       races: ConfigurationComponent.allRaces,
       classes: ConfigurationComponent.allClasses,
-      commands: ConfigurationComponent.allCommands
+      commandConfig: ConfigurationComponent.commandConfig
     }
+
+    //let dungeon = JSON.parse('{"name":"Der erste echte MUD","startRoom":"Keller","rooms":{"Keller":{"name":"Keller","items":[],"npcs":{},"north":"","east":"","south":"Maschinenraum","west":"","message":"Es ist kalt. Du bist im Keller."},"Maschinenraum":{"name":"Maschinenraum","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"},{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"npcs":[{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"},{"name":"Hecke","items":[{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"health":79,"damage":13,"type":"net.bmgames.state.model.NPC.Hostile"}],"north":"Keller","east":"","south":"","west":"","message":"Hallllloooooo."},"Himmel":{"name":"Himmel","items":[],"npcs":[{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"}],"north":"","east":"","south":"","west":"","message":"the sky is the limit"}},"startEquipment":[{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"npcConfigs":{"GeOrk":{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"},"Hecke":{"name":"Hecke","items":[{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"health":79,"damage":13,"type":"net.bmgames.state.model.NPC.Hostile"}},"itemConfigs":{"Zaubertrank":{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"},"Goldenes Schwert":{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},"Helm":{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}},"races":[{"name":"Kobold","health":54,"damageModifier":2,"description":"blablabla"},{"name":"Zwerg","health":65,"damageModifier":4,"description":"sgd"}],"classes":[{"name":"Ork","healthMultiplier":5.5,"damage":22,"attackSpeed":52,"description":"sdfg"},{"name":"Drache","healthMultiplier":6.5,"damage":30,"attackSpeed":32,"description":"sdfg"}],"commandConfig":{"aliases":{"pickup":"pickup","consume":"consume","show inventory":"show inventory","go":"go","look":"look"},"customCommands":{"fly":"move player north, look, pickup, "}}}\n')
+
     this.configService.createDungeon(dungeon).then(() => this.router.navigateByUrl('/dashboard')).catch(({error}) => alert(error));
   }
 
-  static get startRoom(): number {
+  getRoomNameById(id: number | undefined): string {
+    if(id != undefined && id > -1){
+      let room;
+      for (let i = 0; i < ConfigurationComponent.allRooms.length; i++) {
+        if(ConfigurationComponent.allRooms[i].id == id) room = ConfigurationComponent.allRooms[i];
+      }
+      if(room != undefined) return room.name;
+      else return '';
+    }
+    return '';
+  }
+
+  static get startRoom(): string {
     return this._startRoom;
   }
 
-  static set startRoom(value: number) {
+  static set startRoom(value: string) {
     this._startRoom = value;
   }
-  static get startequipment(): ItemConfig[] {
+  static get startequipment(): Item[] {
     return this._startequipment;
   }
 
-  static set startequipment(value: ItemConfig[]) {
+  static set startequipment(value: Item[]) {
     this._startequipment = value;
   }
 
@@ -90,26 +122,26 @@ export class ConfigurationComponent implements OnInit {
   static set allRooms(value: RoomConfig[]) {
     this._allRooms = value;
   }
-  static get allCommands(): CommandConfig[] {
-    return this._allCommands;
+  static get commandConfig(): CommandConfig {
+    return this._commandConfig;
   }
 
-  static set allCommands(value: CommandConfig[]) {
-    this._allCommands = value;
+  static set commandConfig(value: CommandConfig) {
+    this._commandConfig = value;
   }
-  static get allNPCs(): (FriendlyNPCConfig | HostileNPCConfig)[] {
+  static get allNPCs(): NPC[] {
     return this._allNPCs;
   }
 
-  static set allNPCs(value: (FriendlyNPCConfig | HostileNPCConfig)[]) {
+  static set allNPCs(value: NPC[]) {
     this._allNPCs = value;
   }
 
-  static get allItems(): ItemConfig[] | EquipmentConfig[] | WeaponConfig[] {
+  static get allItems(): Item[] {
     return this._allItems;
   }
 
-  static set allItems(value: ItemConfig[] | EquipmentConfig[] | WeaponConfig[]) {
+  static set allItems(value: Item[]) {
     this._allItems = value;
   }
 
@@ -132,4 +164,16 @@ export class ConfigurationComponent implements OnInit {
     this._allClasses = value;
   }
 
+}
+
+export interface RoomConfigExport{
+  //readonly type: 'net.bmgames.state.model.Room';
+  name: string;
+  message: string;
+  north?: string;
+  east?: string;
+  south?: string;
+  west?: string;
+  npcs: StringMap<NPC>;
+  items: Item[];
 }

@@ -22,6 +22,8 @@ export class ConfigService {
 
   createDungeon(dungeonConfig: DungeonConfig): Promise<void> {
     console.log(dungeonConfig);
+    console.log(JSON.stringify(dungeonConfig));
+
     return this.http.post<void>(`${this.CONFIG.endpoint}/configurator/createConfig`, dungeonConfig).toPromise();
   }
 

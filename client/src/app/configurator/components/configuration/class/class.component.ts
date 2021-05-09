@@ -33,49 +33,35 @@ export class ClassComponent implements OnInit {
     console.log(this.attackSpeed);
     console.log(this.description);
     if(this.name != undefined && this.healthMultiplier != undefined && this.damage != undefined && this.description != undefined && this.attackSpeed != undefined){
-      //this.configuredClasses.push(new ClassConfig(this.getNextFreeId(), this.name, this.healthMultiplier, this.damage, this.attackSpeed, this.description));
+      if(!this.checkContainsName()){
+        this.configuredClasses.push({
+          name: this.name,
+          healthMultiplier: this.healthMultiplier,
+          damage: this.damage,
+          attackSpeed: this.attackSpeed,
+          description: this.description
+        });
 
-      this.configuredClasses.push({
-        id: this.getNextFreeId(),
-        name: this.name,
-        healthMultiplier: this.healthMultiplier,
-        damage: this.damage,
-        attackSpeed: this.attackSpeed,
-        description: this.description
-      });
-
-      this.name = undefined;
-      this.healthMultiplier = undefined;
-      this.damage = undefined;
-      this.description = undefined;
-      ConfigurationComponent.allClasses = this.configuredClasses;
+        this.name = undefined;
+        this.healthMultiplier = undefined;
+        this.damage = undefined;
+        this.description = undefined;
+        ConfigurationComponent.allClasses = this.configuredClasses;
+      }else{
+        window.alert("Es gibt bereits eine Klasse mit diesem Namen: " + this.name);
+      }
     }else{
       window.alert("Es wurden nicht alle Werte eingegeben");
     }
   }
 
-  /**
-   * Finds next smallest possible ID for the new ClassConfig
-   * @returns id: number
-   */
-  getNextFreeId(): number{
-    let id = 0;
-    let foundId = false;
-    let containsId = false;
-    while(!foundId){
-      for (let i = 0; i < this.configuredClasses.length; i++) {
-        if(this.configuredClasses[i].id == id){
-          containsId = true;
-        }
-      }
-      if(!containsId){
-        foundId = true;
-      }else{
-        containsId = false;
-        id++;
-      }
-    }
-    return id;
+  checkContainsName(): boolean{
+    for (let i = 0; i < this.configuredClasses.length; i++) {
+       if(this.configuredClasses[i].name == this.name){
+         return true;
+       }
+     }
+    return false;
   }
 
   sliderValue(value: number) {
