@@ -71,7 +71,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.postgresql:postgresql:42.2.5")
-//    implementation("com.h2database:h2:1.4.199")
+    implementation("com.h2database:h2:1.4.199")
 //    implementation("postgresql:postgresql:jar:9.1-901.jdbc4")
 
 //    Serialization

@@ -7,6 +7,7 @@ import io.ktor.response.*
 import io.ktor.sessions.*
 import net.bmgames.ErrorMessage
 import net.bmgames.error
+import net.bmgames.state.UserRepository.getUserByMail
 import net.bmgames.success
 
 
@@ -50,7 +51,7 @@ class Authenticator(
      * @return Login (Data Class Login) with User and the generated JWT which needs to get assigned.
      */
     fun loginUser(mail: String, password: String): Either<ErrorMessage, User> {
-        val user = userHandler.getUserByMail(mail)
+        val user = getUserByMail(mail)
         if (user != null) {
             if (userHandler.checkMailApproved(user.username)) {
                 if (user.passwordHash == authHelper.hashPassword(password)) {

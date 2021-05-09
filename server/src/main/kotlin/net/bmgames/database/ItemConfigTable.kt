@@ -1,32 +1,50 @@
 package net.bmgames.database
 
-import org.jetbrains.exposed.sql.Table
-import org.postgresql.util.PGobject
+import net.bmgames.database.ItemConfigTable.Type
+import net.bmgames.state.model.*
+import net.bmgames.state.model.Equipment.Slot
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
+
 
 /**
  * Represents the Database Table
  * */
-
-enum class Slot
-{
-    Head,
-    Chest,
-    Legs,
-    Boots,
-    Weapon
-}
-
-object ItemConfigTable : Table("ItemConfig") {
-    val id = integer("itemConfigId")
-    val game = varchar("gameName", NAME_LENGTH)
+object ItemConfigTable : GameReferencingTable("ItemConfig") {
     val name = varchar("itemName", NAME_LENGTH)
-    val isConsumable = bool("isConsumable").nullable()
+    val type = enumerationByName("type", NAME_LENGTH, Type::class)
+
     val effect = varchar("effect", NAME_LENGTH).nullable()
     val baseDamage = integer("baseDamage").nullable()
     val healthModifier = float("healthModifier").nullable()
     val damageModifier = float("damageModifier").nullable()
-    val slot = enumerationByName("slot", NAME_LENGTH, Slot::class).nullable()
 
-    override val primaryKey = PrimaryKey(id, name = "itemConfigId")
-
+    enum class Type { Head, Chest, Legs, Boots, Weapon, Consumable }
 }
+
+
+class ItemConfigDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<ItemConfigDAO>(ItemConfigTable)
+
+    var gameRef by GameDAO referencedOn ItemConfigTable.game
+    var name by ItemConfigTable.name
+    var type by ItemConfigTable.type
+
+    var effect by ItemConfigTable.effect
+    var baseDamage by ItemConfigTable.baseDamage
+    var healthModifier by ItemConfigTable.healthModifier
+    var damageModifier by ItemConfigTable.damageModifier
+
+    fun toItem(): Item =
+        when (type) {
+            Type.Weapon -> Weapon(name, baseDamage!!, id.value)
+            Type.Consumable -> Consumable(name, effect, id.value)
+            Type.Head -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Head, id.value)
+            Type.Chest -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Chest, id.value)
+            Type.Legs -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Legs, id.value)
+            Type.Boots -> Equipment(name, healthModifier!!, damageModifier!!, Slot.Boots, id.value)
+        }
+}
+

@@ -1,9 +1,12 @@
 package net.bmgames.game
 
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import net.bmgames.authentication.User
 import net.bmgames.state.model.*
 
-val master = Player.Master(
+val MASTER = Player.Master(
     User("master", "master@master.de", "1234", null)
 )
 val PLAYER by lazy {
@@ -22,8 +25,19 @@ val PLAYER by lazy {
     )
 }
 
+val items = mapOf(
+    "Apfel" to Consumable("Apfel", "heal \$player 10"),
+    "Diamond Helmet" to Equipment("Diamond Helmet", 10f, 1f, Equipment.Slot.Head),
+    "Wooden Sword" to Weapon("Wooden Sword", 1),
+)
+
+val npcs = mapOf(
+    "geork" to NPC.Friendly("geork", listOf(items["Apfel"]!!), "heal \$player 1", "Halloooooooooo"),
+    "georkina" to NPC.Hostile("georkina", listOf(items["Diamond Helmet"]!!), 100, 100000),
+)
+
 val GAME_WITHOUT_PLAYER = Game(
-    name = "Game with only master",
+    name = "Test game",
     races = listOf(
         Race(
             name = "race",
@@ -33,7 +47,7 @@ val GAME_WITHOUT_PLAYER = Game(
         )
     ),
     classes = listOf(
-        Class(
+        Clazz(
             name = "class",
             description = "Its a class",
             healthMultiplier = 1.5f,
@@ -42,20 +56,35 @@ val GAME_WITHOUT_PLAYER = Game(
         )
     ),
     commandConfig = CommandConfig(),
+    itemConfigs = items,
+    npcConfigs = npcs,
+    startItems = items.values.toList(),
 
     startRoom = "start",
-    rooms = mapOf("start" to Room("Start room", "Welcome!")),
+    rooms = mapOf(
+        "Start room" to Room(
+            "Start room",
+            "Welcome!",
+            npcs = mapOf("georkina" to npcs["georkina"]!!),
+            items = items.values.toList(),
+            south = "room"
+        ),
+        "Next room" to Room("Next room", "HIIIIIIIIIIIIIIIIIII!", north = "start")
+    ),
 
-    master = master,
-    onlinePlayers = mapOf(master.ingameName to master)
+    master = MASTER,
+    onlinePlayers = mapOf(MASTER.ingameName to MASTER)
 )
 
 val GAME_WITH_PLAYER by lazy {
     GAME_WITHOUT_PLAYER.copy(
-        "Game with player",
-        users = GAME_WITHOUT_PLAYER.users.plus(
+        allowedUsers = GAME_WITHOUT_PLAYER.allowedUsers.plus(
             PLAYER.user.username to listOf(PLAYER.ingameName)
         ),
         onlinePlayers = mapOf(PLAYER.ingameName to PLAYER)
     )
+}
+
+fun main() {
+    print(Json.decodeFromString<Game>(Json { prettyPrint = true }.encodeToString(GAME_WITHOUT_PLAYER)))
 }

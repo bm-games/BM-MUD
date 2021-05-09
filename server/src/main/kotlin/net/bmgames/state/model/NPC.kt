@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 sealed class NPC {
     abstract val name: String
     abstract val items: List<Item>
+    abstract val id: Int?
 
     @Serializable
     @optics
@@ -15,7 +16,8 @@ sealed class NPC {
         override val name: String,
         override val items: List<Item>,
         val health: Int,
-        val damage: Int
+        val damage: Int,
+        override val id: Int? = null,
     ) : NPC()
 
     @Serializable
@@ -24,7 +26,8 @@ sealed class NPC {
         override val name: String,
         override val items: List<Item>,
         val commandOnInteraction: String,
-        val messageOnTalk: String
+        val messageOnTalk: String,
+        override val id: Int? = null,
     ) : NPC()
 
 }

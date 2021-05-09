@@ -38,7 +38,10 @@ val masterCommands: Map<String, () -> Command<Player.Master>> = mapOf(
     "hit" to ::HitTargetCommand
 )
 
-
+/**
+ * Parses player and master commands, depending on a dungeon configuration
+ * @property commandConfig The Command config of the associated dungeon
+ * */
 class CommandParser(val commandConfig: CommandConfig) {
 
     fun parseMasterCommand(commandLine: String) = parse(commandLine, masterCommands)
@@ -59,7 +62,7 @@ class CommandParser(val commandConfig: CommandConfig) {
         return try {
             command.parse(args.subList(1, args.size))
             success(command)
-        } catch (_: PrintHelpMessage) { //TODO maybe catch other exceptions -> https://ajalt.github.io/clikt/exceptions/#which-exceptions-exist
+        } catch (_: PrintHelpMessage) {
             error(command.getFormattedHelp())
         } catch (_: Exception) {
             error(command.getFormattedUsage())

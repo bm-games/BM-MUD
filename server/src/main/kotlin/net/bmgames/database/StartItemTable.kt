@@ -5,9 +5,9 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Represents the Database Table
  * */
-object RoomItemTable : Table("RoomItem") {
-    val roomId = reference("roomId", RoomTable)
+object StartItemTable : Table("StartItem") {
+    val game = reference("gameName", GameTable)
     val itemConfigId = reference("itemConfigId", ItemConfigTable)
 
-    override val primaryKey = PrimaryKey(roomId, itemConfigId)
+    override val primaryKey = PrimaryKey(game, itemConfigId)
 }

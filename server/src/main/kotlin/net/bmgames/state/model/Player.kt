@@ -19,6 +19,7 @@ sealed class Player {
     @Serializable
     @optics
     data class Normal(
+        val id: Int? = null,
         override val user: User,
         val avatar: Avatar,
 
@@ -27,7 +28,7 @@ sealed class Player {
 
         val healthPoints: Int,
         val lastHit: Long?,
-        val visitedRooms: Set<Int>
+        val visitedRooms: Set<String>
     ) : Player() {
         override val ingameName = avatar.name
     }
