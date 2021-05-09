@@ -1,8 +1,8 @@
-package net.bmgames.database
+package net.bmgames.state.database
 
 
-import net.bmgames.database.CommandTable.Type.Alias
-import net.bmgames.database.CommandTable.Type.Custom
+import net.bmgames.state.database.CommandTable.Type.Alias
+import net.bmgames.state.database.CommandTable.Type.Custom
 import net.bmgames.state.model.CommandConfig
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player

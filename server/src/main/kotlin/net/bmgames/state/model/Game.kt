@@ -20,7 +20,6 @@ data class Game(
     val npcConfigs: Map<String, NPC> = emptyMap(),
     val itemConfigs: Map<String, Item> = emptyMap(),
 
-    val startEquipment: List<Equipment> = emptyList(),
     val startRoom: String,
     val rooms: Map<String, Room>,
 

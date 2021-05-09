@@ -1,4 +1,4 @@
-package net.bmgames.database
+package net.bmgames.state.database
 
 import net.bmgames.authentication.User
 import org.jetbrains.exposed.dao.IntEntity

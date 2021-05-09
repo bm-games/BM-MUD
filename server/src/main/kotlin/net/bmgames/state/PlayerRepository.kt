@@ -1,6 +1,6 @@
 package net.bmgames.state
 
-import net.bmgames.database.*
+import net.bmgames.state.database.*
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 import org.jetbrains.exposed.sql.*

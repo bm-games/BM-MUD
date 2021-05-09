@@ -1,6 +1,6 @@
 package net.bmgames
 
-import net.bmgames.database.*
+import net.bmgames.state.database.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 

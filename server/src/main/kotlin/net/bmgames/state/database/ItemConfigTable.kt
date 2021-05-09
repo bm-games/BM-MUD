@@ -1,12 +1,11 @@
-package net.bmgames.database
+package net.bmgames.state.database
 
-import net.bmgames.database.ItemConfigTable.Type
+import net.bmgames.state.database.ItemConfigTable.Type
 import net.bmgames.state.model.*
 import net.bmgames.state.model.Equipment.Slot
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IntIdTable
 
 
 /**

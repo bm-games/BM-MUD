@@ -1,4 +1,4 @@
-package net.bmgames.database
+package net.bmgames.state.database
 
 import org.jetbrains.exposed.sql.Table
 

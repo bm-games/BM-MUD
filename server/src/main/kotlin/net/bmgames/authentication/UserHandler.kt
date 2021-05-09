@@ -3,7 +3,7 @@ package net.bmgames.authentication
 import arrow.core.Either
 import net.bmgames.ErrorMessage
 import net.bmgames.communication.MailNotifier
-import net.bmgames.database.UserTable
+import net.bmgames.state.database.UserTable
 import net.bmgames.error
 import net.bmgames.state.UserRepository
 import net.bmgames.state.UserRepository.getUserByMail

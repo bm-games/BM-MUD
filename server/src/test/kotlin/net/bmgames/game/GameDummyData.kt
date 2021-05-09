@@ -57,7 +57,12 @@ val GAME_WITHOUT_PLAYER = Game(
     ),
     commandConfig = CommandConfig(),
     itemConfigs = items,
-    npcConfigs = npcs,
+    npcConfigs = npcs.mapValues { (_, it) ->
+        when (it) {
+            is NPC.Hostile -> it.copy(items = emptyList())
+            is NPC.Friendly -> it.copy(items = emptyList())
+        }
+    },
     startItems = items.values.toList(),
 
     startRoom = "start",
@@ -69,7 +74,11 @@ val GAME_WITHOUT_PLAYER = Game(
             items = items.values.toList(),
             south = "room"
         ),
-        "Next room" to Room("Next room", "HIIIIIIIIIIIIIIIIIII!", north = "start")
+        "Next room" to Room(
+            "Next room", "HIIIIIIIIIIIIIIIIIII!",
+            npcs = mapOf("geork" to npcs["geork"]!!),
+            north = "start"
+        )
     ),
 
     master = MASTER,

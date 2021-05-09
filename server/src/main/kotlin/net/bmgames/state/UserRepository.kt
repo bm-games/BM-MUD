@@ -1,10 +1,9 @@
 package net.bmgames.state
 
 import net.bmgames.authentication.User
-import net.bmgames.database.UserDAO
-import net.bmgames.database.UserTable
-import net.bmgames.database.updateOrCreate
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import net.bmgames.state.database.UserDAO
+import net.bmgames.state.database.UserTable
+import net.bmgames.state.database.updateOrCreate
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object UserRepository {

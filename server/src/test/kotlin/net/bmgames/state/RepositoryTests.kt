@@ -40,7 +40,8 @@ class RepositoryTests : FunSpec({
         val gme = GAME_WITHOUT_PLAYER.copy(master = Player.Master(masterUser))
         GameRepository.save(gme)
         game = GameRepository.loadGame(gme.name)!!
-        game.removeIDs() shouldBe GAME_WITHOUT_PLAYER
+        println(game)
+        game.removeIDs() shouldBe GAME_WITHOUT_PLAYER.copy(onlinePlayers = emptyMap())
     }
 
     test("Player should be the same after reading and writing") {

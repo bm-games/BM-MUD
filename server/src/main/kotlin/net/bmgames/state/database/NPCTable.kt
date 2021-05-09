@@ -1,10 +1,9 @@
-package net.bmgames.database
+package net.bmgames.state.database
 
 
 import net.bmgames.state.model.NPC
 import net.bmgames.state.model.NPC.Friendly
 import net.bmgames.state.model.NPC.Hostile
-import net.bmgames.state.model.health
 import net.bmgames.state.model.items
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

@@ -1,10 +1,10 @@
 package net.bmgames.state
 
 
-import net.bmgames.database.*
-import net.bmgames.database.CommandTable.Type.Alias
-import net.bmgames.database.CommandTable.Type.Custom
-import net.bmgames.database.ItemConfigTable.Type
+import net.bmgames.state.database.*
+import net.bmgames.state.database.CommandTable.Type.Alias
+import net.bmgames.state.database.CommandTable.Type.Custom
+import net.bmgames.state.database.ItemConfigTable.Type
 import net.bmgames.state.model.*
 import net.bmgames.state.model.Equipment.Slot
 import org.jetbrains.exposed.sql.Transaction
