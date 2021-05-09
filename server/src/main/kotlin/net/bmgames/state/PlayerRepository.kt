@@ -1,8 +1,8 @@
-package net.bmgames.game
+package net.bmgames.state
 
-import net.bmgames.game.state.Player
+import net.bmgames.state.model.Player
 
-object PlayerManager {
+object PlayerRepository {
 
     internal suspend fun loadPlayer(gameName: String, ingameName: String): Player.Normal? {
 //        TODO("Not yet implemented")

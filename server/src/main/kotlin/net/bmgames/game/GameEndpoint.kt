@@ -9,18 +9,16 @@ import io.ktor.http.cio.websocket.*
 import io.ktor.locations.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.sessions.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.launch
 import net.bmgames.ErrorMessage
-import net.bmgames.Main
 import net.bmgames.authentication.User
 import net.bmgames.authentication.getUser
+import net.bmgames.authentication.withUser
 import net.bmgames.game.connection.IConnection
 import net.bmgames.game.message.sendMessage
-import net.bmgames.game.model.GameOverview
-import net.bmgames.game.state.isMasterOnline
-import net.bmgames.withUser
+import net.bmgames.state.GameRepository
+import net.bmgames.state.PlayerRepository
 
 internal class GameEndpoint(
     val gameManager: GameManager,
@@ -34,7 +32,7 @@ internal class GameEndpoint(
                 .filterNot { runningGames.containsKey(it.name) })
             .map {
                 GameOverview(
-                    it.config,
+                    it.name,
 //                    isStarted = runningGames.containsKey(it.name),
                     onlinePlayers = it.onlinePlayers.size,
                     masterOnline = it.isMasterOnline(),
@@ -64,8 +62,8 @@ internal class GameEndpoint(
 }
 
 fun Route.installGameEndpoint(
-    gameManager: GameManager = Main.gameManager,
-    gameRepo: GameRepository = GameRepository
+    gameRepo: GameRepository = GameRepository,
+    gameManager: GameManager = GameManager(gameRepo)
 ) {
     val endpoint = GameEndpoint(gameManager, gameRepo)
 
@@ -92,7 +90,7 @@ fun Route.installGameEndpoint(
 
                 call.getUser().rightIfNotNull { "User not authenticated" }.bind()
 
-                val player = PlayerManager.loadPlayer(gameName, avatar).rightIfNotNull { "Player not found" }.bind()
+                val player = PlayerRepository.loadPlayer(gameName, avatar).rightIfNotNull { "Player not found" }.bind()
                 val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
 
                 gameRunner.connect(player).bind()
@@ -116,3 +114,4 @@ data class RequestJoin(val gameName: String)
 
 @Location("/create/{gameName}")
 data class CreatePlayer(val gameName: String)
+

@@ -3,6 +3,8 @@ package net.bmgames
 import arrow.core.Either
 import arrow.core.Either.Companion.catch
 import arrow.core.computations.either
+import arrow.core.filterOrElse
+import arrow.core.flatMap
 import arrow.core.identity
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -11,7 +13,15 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 /**
+ * The secret hash key must have this length.
+ * Required by encryption algorithm
+ * */
+const val SECRET_KET_LENGTH = 32
+
+/**
  * This Config configures the server
+ * @property secretKeyHash Used for encrypting user passwords and sessions.
+ * Must have length [SECRET_KET_LENGTH]
  * */
 @Serializable
 data class ServerConfig(
@@ -30,17 +40,20 @@ data class ServerConfig(
 
 ) {
     companion object {
-        internal suspend fun readConfig(path: String): Either<Error, ServerConfig> =
-            either {
-                val content = catch(
-                    { Error("Couldn't find config file.", it) },
-                    { File(path).readText() }
-                ).bind()
+        internal fun readConfig(path: String): Either<Error, ServerConfig> {
+            return catch(
+                { Error("Couldn't find config file.", it) },
+                { File(path).readText() }
+            ).flatMap { content ->
                 catch(
                     { Error("Couldn't parse config.", it) },
                     { Json.decodeFromString<ServerConfig>(content) }
-                ).bind()
+                ).filterOrElse(
+                    { it.secretKeyHash.length == SECRET_KET_LENGTH },
+                    { Error("Secret hash key must be of length $SECRET_KET_LENGTH") }
+                )
             }
+        }
 
         internal fun ServerConfig.writeConfig(path: String, override: Boolean = false): Boolean =
             File(path).let {
@@ -57,7 +70,7 @@ data class ServerConfig(
          * @throws Error If config wasn't found or is invalid.
          * In this case a [DEMO_CONFIG] is generated at the specified path, if the file doesn't exist
          * */
-        internal suspend fun initializeConfig(configPath: String): ServerConfig =
+        internal fun initializeConfig(configPath: String): ServerConfig =
             readConfig(configPath)
                 .fold({ error ->
                     if (DEMO_CONFIG.writeConfig(configPath)) println("A demo config was generated at $configPath.")
@@ -67,17 +80,3 @@ data class ServerConfig(
 
     }
 }
-
-val DEMO_CONFIG = ServerConfig(
-    dbHost = "localhost",
-    dbPort = 5432,
-    dbName = "postgres",
-    dbUser = "user",
-    dbPassword = "password",
-    smtpHost = "smtp.mail.com",
-    smtpPort = 25,
-    emailAddress = "info@bm-games.net",
-    emailPassword = "password",
-    secretKeyHash = "YYiSB7kY5Ed5mttaJRSkgHEPF43iLjTA"
-)
-

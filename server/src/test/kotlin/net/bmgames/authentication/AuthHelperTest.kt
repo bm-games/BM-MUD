@@ -1,23 +1,17 @@
 package net.bmgames.authentication
 
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.shouldBe
+import io.kotest.property.forAll
 import net.bmgames.DEMO_CONFIG
 
-/*
 class AuthHelperTest : FunSpec({
-    val authHelper = AuthHelper(DEMO_CONFIG.copy(secretKeyHash = "R6A6QCo5oTygj37aM4zG"))
 
+    val authHelper = AuthHelper(DEMO_CONFIG)
 
-    xtest("Hashed password should be: Ux1sgq1OagEn5G77TLpUCA== ") {
-        val test = authHelper.hashPassword("password")
-        test shouldBe "Ux1sgq1OagEn5G77TLpUCA=="
-    }
-
-    xtest("Unhashed password should be: Gurkensalat") {
-        val test = authHelper.unhashPassword("ohtBU7hSCvmQqZGbIkoFKg==")
-        test shouldBe "Gurkensalat"
+    test("Any password should be the same after hashing and unhashing it") {
+        forAll<String> { string ->
+            authHelper.unhashPassword(authHelper.hashPassword(string)) == string
+        }
     }
 
 })
-*/

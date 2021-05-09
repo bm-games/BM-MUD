@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Subject} from "rxjs";
 import {RoomConfig} from "../../configurator/models/RoomConfig";
+import {NPC} from "../../configurator/models/NPCConfig";
+import {Item} from "../../configurator/models/Item";
+import {StringMap} from "../../configurator/models/DungeonConfig";
 
 
 @Component({
@@ -16,8 +19,9 @@ export class GameComponent implements OnInit {
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: string[] = [];
-  selectedRoomItems: string[] = [];
+  //selectedRoomNPCs: StringMap<NPC> = {};
+  selectedRoomNPCs: NPC[] = [];
+  selectedRoomItems: Item[] = [];
 
   //Grid
   // -> neighbours of a gridValue are: index -> [-1],[+1],[-mapColumns},[+mapColumns]

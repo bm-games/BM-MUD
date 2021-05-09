@@ -5,11 +5,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import net.bmgames.authentication.User
-import net.bmgames.configurator.model.DungeonConfig
 import net.bmgames.game.connection.GameRunner
-import net.bmgames.game.state.Game
-import net.bmgames.game.state.Player
+import net.bmgames.state.GameRepository
 
 internal object GameScope : CoroutineScope {
     override val coroutineContext = SupervisorJob() + Dispatchers.Default
@@ -35,16 +32,6 @@ class GameManager(private val repository: GameRepository) {
         }
     }
 
-    fun createGame(config: DungeonConfig, master: User) {
-        repository.save(
-            Game(
-                config,
-                Player.Master(master),
-                users = mapOf(master.username to emptyList()),
-                onlinePlayers = emptyMap()
-            )
-        )
-    }
 
     internal suspend fun getRunningGames() = gamesRef.get()
 

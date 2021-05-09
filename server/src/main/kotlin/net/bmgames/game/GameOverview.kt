@@ -1,11 +1,10 @@
-package net.bmgames.game.model
+package net.bmgames.game
 
 import kotlinx.serialization.Serializable
-import net.bmgames.configurator.model.DungeonConfig
 
 @Serializable
 data class GameOverview (
-    val config: DungeonConfig,
+    val name: String,
 //    val isStarted: Boolean,
     val onlinePlayers: Int,
     val masterOnline: Boolean,

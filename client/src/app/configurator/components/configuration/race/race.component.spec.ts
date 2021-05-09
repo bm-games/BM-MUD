@@ -28,20 +28,6 @@ describe('RaceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return 1 as next free RaceId. Already assigned IDs: 0,2', () => {
-    fixture = TestBed.createComponent(RaceComponent);
-    component = fixture.componentInstance;
-
-    component.configuredRaces = [
-      { id: 0, name: 'test', health: 1, description: '', damageMultiplier: 2},
-      { id: 2, name: 'test', health: 1, description: '', damageMultiplier: 2},
-    ];
-
-    let calculatedId = component.getNextFreeId();
-
-    expect(calculatedId).toBe(1);
-  });
-
   it('should add new Race', () =>{
     fixture = TestBed.createComponent(RaceComponent);
     component = fixture.componentInstance;
@@ -56,10 +42,9 @@ describe('RaceComponent', () => {
     let length = component.configuredRaces.length;
 
     expect(length).toBe(1);
-    expect(component.configuredRaces[length-1].id).toEqual(0);
     expect(component.configuredRaces[length-1].name).toEqual('race');
     expect(component.configuredRaces[length-1].description).toEqual('desc');
-    expect(component.configuredRaces[length-1].damageMultiplier).toBe(1);
+    expect(component.configuredRaces[length-1].damageModifier).toBe(1);
     expect(component.configuredRaces[length-1].health).toBe(2);
   });
 });

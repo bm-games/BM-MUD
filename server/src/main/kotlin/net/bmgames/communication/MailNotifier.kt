@@ -13,7 +13,6 @@ import javax.mail.internet.MimeMessage
  * @constructor Create empty Mail notifier
  */
 class MailNotifier(val config: ServerConfig) : Notifier {
-    private val authHelper = AuthHelper()
 
     /**
      * Sends a mail to the user using the supplied parameters via smtp.
@@ -51,15 +50,20 @@ class MailNotifier(val config: ServerConfig) : Notifier {
      *
      * @param user
      */
-    fun sendMailReset(user: User) {
+    fun sendMailReset(user: User, password: String) {
         val mailSubject = "Reset your password | BM-Games "
         val message: String =
-            """<html lang="en"><body>            
-                <h1>Reset your password.</h1>
-                <p>Click the link below to reset your password</p>
-                <p>${authHelper.unhashPassword(user.passwordHash)}</p>
-                </body></html>"""
-
+            """<html lang="en">
+                <body style="background-color:#c0c0c0;">
+                <h1><center>Your password got reset!</h1>
+                <p><center>Dear ${user.username}</p>
+                <p><center>Your password reset was successful!</p>
+                <p><center>Your new password:</p>
+                <span style="border: 3px solid black;">${password}</span>
+                <p><center> Login with the new generated password and change it after logging in if you want!</p>
+                </body>
+                </html>"""
+                //HTML by Jakub
         send(user, mailSubject, message)
     }
 
@@ -71,12 +75,15 @@ class MailNotifier(val config: ServerConfig) : Notifier {
     fun sendMailRegister(user: User, registrationKey: String) {
         val mailSubject = "Registration confirmation | BM-Games | SWE-Project  "
         val message: String =
-            """<html><body>
-                <h1>Confirm your registration.</h1>
-                <p>Click the link below to confirm your registration</p>
-                <a>${registrationKey}</a>
-                </body></html>"""
-
+            """<html><body style="background-color:#c0c0c0;">
+            <h1><center>Confirm registration</h1>
+            <p><center>Dear ${user.username}</p>
+            <p><center>Please confirm your registration by clicking on the following link:</p>
+            <a href="http://play.bm-games.net/api/auth/verify/${registrationKey}" target="_blank">Click here!</a>
+            <p><center>or copying this Link:</p>
+            <span style="border: 3px solid black;">http://play.bm-games.net/api/auth/verify/${registrationKey}</span>
+            </body></html>"""
+            //HTML by Jakub
         send(user, mailSubject, message)
     }
 }

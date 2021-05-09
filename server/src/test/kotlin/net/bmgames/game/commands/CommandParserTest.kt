@@ -4,7 +4,7 @@ import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
-import net.bmgames.configurator.model.CommandConfig
+import net.bmgames.state.model.CommandConfig
 import net.bmgames.game.commands.MoveCommand.Direction
 
 class CommandParserTest : FunSpec({

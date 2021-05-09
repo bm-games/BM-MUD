@@ -24,40 +24,6 @@ describe('ClassComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return 5 as next free ClassId. Already assigned IDs: 0,1,2,3,4 ', () => {
-    fixture = TestBed.createComponent(ClassComponent);
-    component = fixture.componentInstance;
-
-    component.configuredClasses = [
-
-      {id: 0, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-      {id: 1, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-      {id: 2, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-      {id: 3, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-      {id: 4, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-    ];
-
-    let calculatedId = component.getNextFreeId();
-
-    expect(calculatedId).toBe(5);
-  });
-
-  it('should return 2 as next free ClassId. Already assigned IDs: 0,1,3,4', () => {
-    fixture = TestBed.createComponent(ClassComponent);
-    component = fixture.componentInstance;
-
-    component.configuredClasses = [
-      {id: 0, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-      {id: 1, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-      {id: 3, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-      {id: 4, name: 'Test', healthMultiplier: 1, description: 'dsc', attackSpeed: 2, damage: 3},
-    ];
-
-    let calculatedId = component.getNextFreeId();
-
-    expect(calculatedId).toBe(2);
-  });
-
   it('should add new ClassConfig', () =>{
     fixture = TestBed.createComponent(ClassComponent);
     component = fixture.componentInstance;
@@ -72,7 +38,6 @@ describe('ClassComponent', () => {
 
     let length = component.configuredClasses.length;
     expect(length).toBe(1);
-    expect(component.configuredClasses[length-1].id).toBe(0);
     expect(component.configuredClasses[length-1].name).toEqual('Test');
     expect(component.configuredClasses[length-1].healthMultiplier).toBe(1);
     expect(component.configuredClasses[length-1].damage).toBe(2);

@@ -15,7 +15,7 @@ export class GameService {
   }
 
   getAvailableGames(): Observable<GameOverview[]> {
-    return this.http.get<GameOverview[]>(this.CONFIG.endpoint + '/api/game/list')
+    return this.http.get<GameOverview[]>(this.CONFIG.endpoint + '/game/list')
   }
 
 }

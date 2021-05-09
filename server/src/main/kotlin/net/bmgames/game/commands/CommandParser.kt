@@ -3,9 +3,9 @@ package net.bmgames.game.commands
 import arrow.core.Either
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import net.bmgames.ErrorMessage
-import net.bmgames.configurator.model.CommandConfig
+import net.bmgames.state.model.CommandConfig
 import net.bmgames.error
-import net.bmgames.game.state.Player
+import net.bmgames.state.model.Player
 import net.bmgames.success
 
 /**

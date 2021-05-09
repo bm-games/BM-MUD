@@ -14,7 +14,7 @@ import net.bmgames.game.PLAYER
 class ServerTest : FunSpec({
 
     test("Root url should redirect to index.html") {
-        withTestApplication({ installServer(DEMO_CONFIG) }) {
+        withTestApplication({ installServer(DEMO_SERVER) }) {
             handleRequest(HttpMethod.Get, "/").apply {
                 response shouldHaveStatus 302
             }
@@ -25,7 +25,7 @@ class ServerTest : FunSpec({
 
 
 fun withAuthenticatedTestApplication(user: User, block: TestApplicationEngine.() -> Unit) = withTestApplication {
-    application.installServer(DEMO_CONFIG)
+    application.installServer(DEMO_SERVER)
 
     application.routing {
         get("/test") { call.sessions.set(user) }

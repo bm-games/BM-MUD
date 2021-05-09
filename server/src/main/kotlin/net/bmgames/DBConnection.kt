@@ -34,7 +34,6 @@ internal fun ServerConfig.connectToDB() {
             RoomConfigTable,
             RoomItemTable,
             RoomTable,
-            VerificationTable,
             VisitedRoomsTable,
             CommandConfigTable
         )

@@ -4,6 +4,8 @@ import { LoginComponent } from './login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
+import {CONFIG} from "../../../client-config";
+import {LOCAL_CONFIG} from "../../../app.module";
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -16,6 +18,9 @@ describe('LoginComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         RouterTestingModule
+      ],
+      providers: [
+        {provide: CONFIG, useValue: LOCAL_CONFIG},
       ]
     })
     .compileComponents();

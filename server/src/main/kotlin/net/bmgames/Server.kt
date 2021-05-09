@@ -3,6 +3,7 @@
 package net.bmgames
 
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
@@ -13,58 +14,51 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
-import io.ktor.util.*
 import io.ktor.websocket.*
-import net.bmgames.authentication.User
-import net.bmgames.configurator.installConfigEndpoint
+import net.bmgames.authentication.*
+import net.bmgames.communication.MailNotifier
+import net.bmgames.communication.Notifier
+import net.bmgames.state.installConfigEndpoint
+import net.bmgames.game.GameManager
+import net.bmgames.state.GameRepository
 import net.bmgames.game.installGameEndpoint
 import java.time.Duration
 
+class Server(val config: ServerConfig) {
+    private val mailNotifier by lazy { MailNotifier(config) }
+    private val authHelper = AuthHelper(config)
+    private val userHandler = UserHandler(mailNotifier, authHelper)
 
-fun Application.installServer(config: ServerConfig) {
-    installFeatures()
-    configureSecurity(config)
-    configureRoutes()
+    val notifier: Notifier by lazy { mailNotifier }
+    val authenticator = Authenticator(authHelper, userHandler)
+    val gameRepository = GameRepository
 }
 
-fun Application.configureRoutes() {
+fun Application.installServer(server: Server) {
+    installFeatures()
+    configureSecurity(server.config)
+    configureRoutes(server.authenticator)
+}
+
+fun Application.configureRoutes(authenticator: Authenticator) {
 
     routing {
-        static("") {
-            files("client")
+        route("/api") {
+            installAuthEndpoint(authenticator)
+            authenticate {
+                installConfigEndpoint()
+                installGameEndpoint()
+            }
         }
 
+        static("") {
+            files( "client")
+        }
         get("/") {
             call.respondRedirect("/index.html")
         }
-
-        route("/api") {
-            installConfigEndpoint()
-            installGameEndpoint()
-        }
     }
 
-}
-
-fun Application.configureSecurity(config: ServerConfig) {
-    install(CORS) {
-        anyHost()
-        allowCredentials = true
-        allowNonSimpleContentTypes = true
-        method(HttpMethod.Get)
-        method(HttpMethod.Options)
-        method(HttpMethod.Post)
-    }
-
-    install(Sessions) {
-        cookie<User>("UserIdentifier") {
-            val secretEncryptKey = hex("00112233445566778899aabbccddeeff") //replace with a value from config.json
-            val secretAuthKey = hex("02030405060708090a0b0c") //replace with a value from config.json
-            cookie.extensions["SameSite"] = "lax"
-            cookie.httpOnly = true
-            transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
-        }
-    }
 }
 
 fun Application.installFeatures() {
@@ -83,6 +77,42 @@ fun Application.installFeatures() {
         timeout = Duration.ofSeconds(15)
         maxFrameSize = Long.MAX_VALUE
         masking = false
+    }
+}
+
+fun Application.configureSecurity(config: ServerConfig) {
+    install(CORS) {
+        anyHost()
+        allowCredentials = true
+        allowNonSimpleContentTypes = true
+        method(HttpMethod.Get)
+        method(HttpMethod.Options)
+        method(HttpMethod.Post)
+    }
+
+    install(Sessions) {
+        cookie<User>("UserIdentifier") {
+            val secretEncryptKey = config.secretKeyHash
+                .subSequence(0, 16)
+                .toString()
+                .toByteArray()
+            val secretAuthKey = config.secretKeyHash
+                .subSequence(0, 16)
+                .toString()
+                .toByteArray()
+            cookie.extensions["SameSite"] = "lax"
+            cookie.httpOnly = true
+            transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
+        }
+    }
+
+    install(Authentication) {
+        session<User> {
+            validate { session -> session }
+            challenge {
+                //call.respond(HttpStatusCode.Unauthorized)
+            }
+        }
     }
 }
 

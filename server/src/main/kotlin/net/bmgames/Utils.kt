@@ -12,7 +12,3 @@ typealias ErrorMessage = String
 fun error(message: String) = Either.Left(message)
 fun <T> success(result: T): Either<Nothing, T> = Either.Right(result)
 val success = success(Unit)
-
-
-suspend inline fun ApplicationCall.withUser(block: User.() -> Unit): Unit =
-    sessions.get<User>()?.let(block) ?: respond(HttpStatusCode.Forbidden)

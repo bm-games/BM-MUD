@@ -26,20 +26,6 @@ describe('NPCComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return 1 as next free NPCId. Already assigned IDs: 0,2', () => {
-    fixture = TestBed.createComponent(NPCComponent);
-    component = fixture.componentInstance;
-
-    component.configuredNPCs = [
-      {id: 0, type: NPCType.Friendly, name: '', items: [], loottable: [], commandOnInteraction: '', messageOnTalk: ''},
-      {id: 2, type: NPCType.Hostile, name: '', items: [], loottable: [], commandOnInteraction: '', messageOnTalk: ''}
-    ];
-
-    let calculatedId = component.getNextFreeId();
-
-    expect(calculatedId).toBe(1);
-  });
-
   it('should add new friendly NPC', () =>{
     fixture = TestBed.createComponent(NPCComponent);
     component = fixture.componentInstance;
@@ -54,7 +40,6 @@ describe('NPCComponent', () => {
     let length = component.configuredNPCs.length;
 
     expect(length).toBe(1);
-    expect(component.configuredNPCs[length-1].id).toEqual(0);
     expect(component.configuredNPCs[length-1].name).toEqual('NPC 1');
     expect(component.configuredNPCs[length-1].type).toEqual(NPCType.Friendly);
   });
@@ -73,7 +58,6 @@ describe('NPCComponent', () => {
     let length = component.configuredNPCs.length;
 
     expect(length).toBe(1);
-    expect(component.configuredNPCs[length-1].id).toEqual(0);
     expect(component.configuredNPCs[length-1].name).toEqual('NPC 1');
     expect(component.configuredNPCs[length-1].type).toEqual(NPCType.Hostile);
   });
@@ -94,6 +78,6 @@ describe('NPCComponent', () => {
     let length = component.configuredNPCs.length;
 
     expect(length).toBe(0);
-    expect(window.alert).toHaveBeenCalledWith('Es wurden nicht alle Daten eingegeben');
+    expect(window.alert).toHaveBeenCalledWith('Ungültiger Name. Entweder es ist kein Name eingetragen oder es exisitert bereits ein NPC mit diesem Namen.');
   });
 });
