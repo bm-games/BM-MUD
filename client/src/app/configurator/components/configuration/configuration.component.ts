@@ -24,16 +24,12 @@ export class ConfigurationComponent implements OnInit {
   private static _allClasses: ClassConfig[] = [];
   private static _allItems: Item[] = [];
   private static _allNPCs: NPC[] = [];
-  private static _commandConfig: CommandConfig = {
-    aliases: new Map<string, string>(),
-    customCommands: new Map<string, string>()
-  }
+  private static _commandConfig: CommandConfig = { aliases: {}, customCommands: {}}
   private static _allRooms: RoomConfig[] = [];
   private static _startequipment: Item[] = [];
   private static _startRoom: string;
 
-  constructor(private configService: ConfigService, private titleService: Title, private router: Router) {
-  }
+  constructor(private configService: ConfigService, private titleService: Title, private router: Router) { }
 
   ngOnInit(): void {
     this.setTitle(this.title);
@@ -42,7 +38,7 @@ export class ConfigurationComponent implements OnInit {
   /**
    * Creates a DungeonConfig and sends it to the ConfigService.
    */
-  createConfig() {
+  createConfig(){
     let roomMap: StringMap<RoomConfigExport> = {}
     ConfigurationComponent.allRooms.forEach(r => {
       let north = this.getRoomNameById(r.north);
@@ -50,9 +46,7 @@ export class ConfigurationComponent implements OnInit {
       let south = this.getRoomNameById(r.south);
       let west = this.getRoomNameById(r.west);
       let npcStringMap: StringMap<NPC> = {}
-      r.npcs.forEach(n => {
-        npcStringMap[n.name] = n
-      })
+      r.npcs.forEach(n => {npcStringMap[n.name] = n})
       let roomConfig: RoomConfigExport = {
         //type: "net.bmgames.state.model.Room",
         name: r.name,
@@ -95,12 +89,12 @@ export class ConfigurationComponent implements OnInit {
   }
 
   getRoomNameById(id: number | undefined): string {
-    if (id != undefined && id > -1) {
+    if(id != undefined && id > -1){
       let room;
       for (let i = 0; i < ConfigurationComponent.allRooms.length; i++) {
-        if (ConfigurationComponent.allRooms[i].id == id) room = ConfigurationComponent.allRooms[i];
+        if(ConfigurationComponent.allRooms[i].id == id) room = ConfigurationComponent.allRooms[i];
       }
-      if (room != undefined) return room.name;
+      if(room != undefined) return room.name;
       else return '';
     }
     return '';
@@ -113,7 +107,6 @@ export class ConfigurationComponent implements OnInit {
   static set startRoom(value: string) {
     this._startRoom = value;
   }
-
   static get startequipment(): Item[] {
     return this._startequipment;
   }
@@ -129,7 +122,6 @@ export class ConfigurationComponent implements OnInit {
   static set allRooms(value: RoomConfig[]) {
     this._allRooms = value;
   }
-
   static get commandConfig(): CommandConfig {
     return this._commandConfig;
   }
@@ -137,7 +129,6 @@ export class ConfigurationComponent implements OnInit {
   static set commandConfig(value: CommandConfig) {
     this._commandConfig = value;
   }
-
   static get allNPCs(): NPC[] {
     return this._allNPCs;
   }
@@ -154,14 +145,13 @@ export class ConfigurationComponent implements OnInit {
     this._allItems = value;
   }
 
-  public setTitle(newTitle: string) {
+  public setTitle(newTitle: string){
     this.titleService.setTitle(newTitle);
   }
 
   static set allRaces(value: RaceConfig[]) {
     this._allRaces = value;
   }
-
   static get allRaces(): RaceConfig[] {
     return this._allRaces;
   }
@@ -176,7 +166,7 @@ export class ConfigurationComponent implements OnInit {
 
 }
 
-export interface RoomConfigExport {
+export interface RoomConfigExport{
   //readonly type: 'net.bmgames.state.model.Room';
   name: string;
   message: string;

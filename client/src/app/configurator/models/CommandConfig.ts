@@ -1,7 +1,6 @@
+import {StringMap} from "./DungeonConfig";
+
 export interface CommandConfig {
-  aliases: Map<string, string>
-  customCommands: Map<string, string>
-  //id: number;
-  //command: string;
-  //actions: string[];
+  aliases: StringMap<string>
+  customCommands: StringMap<string>
 }

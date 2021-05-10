@@ -17,4 +17,7 @@ export interface DungeonConfig {
   commandConfig: CommandConfig;
 }
 
-export type StringMap<T> = {[key: string]: T}
+
+export type StringMap<V> = {
+  [key: string]: V
+}

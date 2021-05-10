@@ -4,6 +4,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.bmgames.authentication.User
+import net.bmgames.state.DungeonConfig
 import net.bmgames.state.model.*
 
 val MASTER = Player.Master(
@@ -96,4 +97,16 @@ val GAME_WITH_PLAYER by lazy {
 
 fun main() {
     print(Json.decodeFromString<Game>(Json { prettyPrint = true }.encodeToString(GAME_WITHOUT_PLAYER)))
+}
+
+
+fun main2() {
+    val config = GAME_WITHOUT_PLAYER.run {
+        DungeonConfig(
+            name, races, classes, commandConfig, npcConfigs, itemConfigs, startItems, startRoom, rooms
+        )
+    }
+    val json = Json { prettyPrint = true }.encodeToString(config)
+    print(json)
+
 }

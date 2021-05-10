@@ -11,6 +11,8 @@ import io.ktor.locations.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import net.bmgames.ErrorMessage
 import net.bmgames.authentication.User
 import net.bmgames.authentication.getUser
@@ -59,7 +61,8 @@ fun Route.installConfigEndpoint() {
         post("/createConfig") {
             either<ErrorMessage, Unit> {
                 val user = call.getUser().rightIfNotNull { "Not authenticated" }.bind()
-                val config = call.receive<DungeonConfig>().rightIfNotNull { "Config missing" }.bind()
+                val configJSON = call.receive<String>().rightIfNotNull { "Config missing" }.bind()
+                val config = Json.decodeFromString<DungeonConfig>(configJSON)
                 configEndpoint.saveConfig(config, user).bind()
             }.fold(
                 { error -> call.respond(HttpStatusCode.BadRequest, error) },
