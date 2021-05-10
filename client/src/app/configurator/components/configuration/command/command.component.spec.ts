@@ -1,9 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CommandComponent } from './command.component';
-import {ClassComponent} from "../class/class.component";
-import {ClassConfig} from "../../../models/ClassConfig";
-import {CommandConfig} from "../../../models/CommandConfig";
+import {CommandComponent} from './command.component';
 
 describe('CommandComponent', () => {
   let component: CommandComponent;
@@ -11,9 +8,9 @@ describe('CommandComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CommandComponent ]
+      declarations: [CommandComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -26,53 +23,19 @@ describe('CommandComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return 5 as next free CommandId. Already assigned IDs: 0,1,2,3,4 ', () => {
-    fixture = TestBed.createComponent(CommandComponent);
-    component = fixture.componentInstance;
-
-    component.customCommands = [
-      {id: 0, actions: [], command: ''},
-      {id: 1, actions: [], command: ''},
-      {id: 2, actions: [], command: ''},
-      {id: 3, actions: [], command: ''},
-      {id: 4, actions: [], command: ''}
-    ];
-
-    let calculatedId = component.getNextFreeId();
-
-    expect(calculatedId).toBe(5);
-  });
-
-  it('should return 2 as next free CommandId. Already assigned IDs: 0,1,3,4', () => {
-    fixture = TestBed.createComponent(CommandComponent);
-    component = fixture.componentInstance;
-
-    component.customCommands = [
-      {id: 0, actions: [], command: ''},
-      {id: 1, actions: [], command: ''},
-      {id: 3, actions: [], command: ''},
-      {id: 4, actions: [], command: ''}
-    ];
-
-    let calculatedId = component.getNextFreeId();
-
-    expect(calculatedId).toBe(2);
-  });
-
-  it('should add new custom CommandConfig', () =>{
+  it('should add new custom CommandConfig', () => {
     fixture = TestBed.createComponent(CommandComponent);
     component = fixture.componentInstance;
 
     component.isCustomCommand = true;
-    component.commandSyntax = 'hit $player'
-    component.selectedActions = ['Action'];
+    component.commandSyntax = 'hit';
+    component.customCommands = {};
+    component.customCommands['command'] = 'action';
 
     component.addCommand();
 
-    let length = component.customCommands.length;
-    expect(length).toBe(1);
-    expect(component.customCommands[length-1].id).toBe(0);
-    expect(component.customCommands[length-1].command).toEqual('hit $player');
-    expect(component.customCommands[length-1].actions).toEqual(['Action']);
+    let length = Object.keys(component.customCommands).length;
+    expect(length).toBe(2);
+    expect(component.customCommands['command']).toEqual('action');
   });
 });

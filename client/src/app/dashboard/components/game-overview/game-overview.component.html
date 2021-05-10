@@ -1,6 +1,6 @@
 <mat-card class="mat-elevation-z2">
   <mat-card-header>
-    <mat-card-title>{{game.config.name}}</mat-card-title>
+    <mat-card-title>{{game.name}}</mat-card-title>
     <mat-card-subtitle>MUD Beschreibung</mat-card-subtitle>
     <span class="spacer"></span>
     <mat-chip-list>
@@ -11,7 +11,7 @@
     </mat-chip-list>
   </mat-card-header>
   <mat-card-actions>
-    <button *ngIf="game.userPermitted" routerLink="/avatarConfigurator" mat-raised-button>Beitreten</button>
-    <button *ngIf="!game.userPermitted" mat-raised-button >Beitrittsanfrage senden</button>
+    <button *ngIf="game.userPermitted" mat-raised-button (click)="alert('Coming soon')">Beitreten</button>
+    <button *ngIf="!game.userPermitted" mat-raised-button (click)="alert('Coming soon')">Beitrittsanfrage senden</button>
   </mat-card-actions>
 </mat-card>

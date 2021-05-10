@@ -1,20 +1,26 @@
 import {RoomMap} from "../../shared/model/map";
 
 interface TextMessage {
-  readonly type: 'text',
+  readonly type: 'net.bmgames.game.message.Message.Text',
   readonly text: string
 }
 
 interface MapMessage {
-  readonly type: 'map',
+  readonly type: 'net.bmgames.game.message.Message.Map',
   readonly map: RoomMap
 }
 
 interface KickMessage {
-  readonly type: 'kick',
+  readonly type: 'net.bmgames.game.message.Message.Kick',
   readonly reason: string
 }
 
-type Message = TextMessage | MapMessage | KickMessage
+interface ChatMessage {
+  readonly type: 'net.bmgames.game.message.Message.Chat',
+  readonly sender: string
+  readonly message: string
+}
 
-export {TextMessage, MapMessage, KickMessage, Message}
+type Message = TextMessage | MapMessage | KickMessage | ChatMessage
+
+export {TextMessage, MapMessage, KickMessage, ChatMessage, Message}

@@ -20,7 +20,8 @@ data class User(
     val email: String,
     val username: String,
     val passwordHash: String,
-    val registrationKey: String?
+    val registrationKey: String?,
+    val id: Int? = null
 ): Principal
 
 fun User.isMailVerified() = registrationKey == null

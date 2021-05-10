@@ -17,31 +17,40 @@ import net.bmgames.authentication.getUser
 import net.bmgames.authentication.withUser
 import net.bmgames.game.connection.IConnection
 import net.bmgames.game.message.sendMessage
-import net.bmgames.game.model.GameOverview
-import net.bmgames.game.state.isMasterOnline
+import net.bmgames.state.GameRepository
+import net.bmgames.state.PlayerRepository
 
-internal class GameEndpoint(
-    val gameManager: GameManager,
-    val gameRepo: GameRepository
-) {
+/**
+ * The interface for the game logic to the outer world.
+ * */
+internal class GameEndpoint(private val gameManager: GameManager) {
+
+    /**
+     * Collects all existing games and if adds information if they're running
+     * */
     suspend fun listGames(user: User): List<GameOverview> {
         val runningGames = gameManager.getRunningGames()
         return runningGames
             .map { (_, gameRunner) -> gameRunner.getCurrentGameState() }
-            .plus(gameRepo.listGames()
+            .plus(GameRepository.listGames()
                 .filterNot { runningGames.containsKey(it.name) })
             .map {
                 GameOverview(
-                    it.config,
-//                    isStarted = runningGames.containsKey(it.name),
+                    it.name,
                     onlinePlayers = it.onlinePlayers.size,
                     masterOnline = it.isMasterOnline(),
-                    avatarCount = it.users[user.username]?.size ?: 0,
-                    userPermitted = it.users.containsKey(user.username),
+                    avatarCount = it.allowedUsers[user.username]?.size ?: 0,
+                    userPermitted = it.allowedUsers.containsKey(user.username),
                 )
             }
     }
 
+
+    /**
+     * Connects a [WebSocketServerSession] with an [IConnection]
+     * @param socketServerSession The WebSocket session to the client
+     * @param connection The connection from the Gamerunner
+     * */
     suspend fun joinGame(socketServerSession: WebSocketServerSession, connection: IConnection) {
         GameScope.launch {
             try {
@@ -61,11 +70,11 @@ internal class GameEndpoint(
     }
 }
 
-fun Route.installGameEndpoint(
-    gameRepo: GameRepository = GameRepository,
-    gameManager: GameManager = GameManager(gameRepo)
-) {
-    val endpoint = GameEndpoint(gameManager, gameRepo)
+/**
+ * Connects the [GameEndpoint] to Ktor
+ * */
+fun Route.installGameEndpoint(gameManager: GameManager = GameManager()) {
+    val endpoint = GameEndpoint(gameManager)
 
     route("/game") {
 
@@ -76,11 +85,11 @@ fun Route.installGameEndpoint(
         }
 
         post<RequestJoin> { (gameName) ->
-            TODO()
+            call.respond("Coming soon!")
         }
 
         post<CreatePlayer> { (gameName) ->
-            TODO()
+            call.respond("Coming soon!")
         }
 
         webSocket("/play/{gameName}/{avatar}") {
@@ -90,7 +99,7 @@ fun Route.installGameEndpoint(
 
                 call.getUser().rightIfNotNull { "User not authenticated" }.bind()
 
-                val player = PlayerManager.loadPlayer(gameName, avatar).rightIfNotNull { "Player not found" }.bind()
+                val player = PlayerRepository.loadPlayer(gameName, avatar).rightIfNotNull { "Player not found" }.bind()
                 val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
 
                 gameRunner.connect(player).bind()
@@ -100,12 +109,6 @@ fun Route.installGameEndpoint(
             )
         }
 
-        /*post<JoinGame> { (gameName, avatar) ->
-            either {
-                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
-                val  = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
-            }
-        }*/
     }
 }
 
@@ -114,3 +117,4 @@ data class RequestJoin(val gameName: String)
 
 @Location("/create/{gameName}")
 data class CreatePlayer(val gameName: String)
+

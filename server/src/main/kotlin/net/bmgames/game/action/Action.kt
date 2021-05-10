@@ -1,7 +1,7 @@
 package net.bmgames.game.action
 
 import net.bmgames.game.connection.GameRunner
-import net.bmgames.game.state.Game
+import net.bmgames.state.model.Game
 
 sealed class Action
 

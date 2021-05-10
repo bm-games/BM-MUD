@@ -11,7 +11,7 @@ import net.bmgames.ServerConfig.Companion.initializeConfig
  * */
 fun main(args: Array<String>) {
     if (args.size != 1) {
-        error("Path of config is missing. Please specify it as the first command line argument.")
+        errorMsg("Path of config is missing. Please specify it as the first command line argument.")
     }
 
     val main = initializeConfig(configPath = args[0]).let(::Server)

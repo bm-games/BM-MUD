@@ -6,10 +6,9 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkObject
+import net.bmgames.state.GameRepository
 
 class GameEndpointTest : FunSpec({
-
-
 
     lateinit var gameManager: GameManager
     lateinit var endpoint: GameEndpoint
@@ -23,15 +22,10 @@ class GameEndpointTest : FunSpec({
     }
 
     beforeTest {
-        gameManager = GameManager(GameRepository)
-        endpoint = GameEndpoint(gameManager, GameRepository)
+        gameManager = GameManager()
+        endpoint = GameEndpoint(gameManager)
     }
 
-    /*test("GameRunner should load games if not running"){
-        gameManager.getRunningGames() shouldHaveSize 0
-        gameManager.getGameRunner("test")
-        gameManager.getRunningGames() shouldHaveSize 1
-    }*/
 
     test("Should list started and stopped games correctly") {
 

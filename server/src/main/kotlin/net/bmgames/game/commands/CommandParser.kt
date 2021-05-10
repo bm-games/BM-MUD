@@ -3,9 +3,9 @@ package net.bmgames.game.commands
 import arrow.core.Either
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import net.bmgames.ErrorMessage
-import net.bmgames.configurator.model.CommandConfig
-import net.bmgames.error
-import net.bmgames.game.state.Player
+import net.bmgames.state.model.CommandConfig
+import net.bmgames.errorMsg
+import net.bmgames.state.model.Player
 import net.bmgames.success
 
 /**
@@ -38,7 +38,10 @@ val masterCommands: Map<String, () -> Command<Player.Master>> = mapOf(
     "hit" to ::HitTargetCommand
 )
 
-
+/**
+ * Parses player and master commands, depending on a dungeon configuration
+ * @property commandConfig The Command config of the associated dungeon
+ * */
 class CommandParser(val commandConfig: CommandConfig) {
 
     fun parseMasterCommand(commandLine: String) = parse(commandLine, masterCommands)
@@ -49,20 +52,20 @@ class CommandParser(val commandConfig: CommandConfig) {
         val commandName = args.getOrNull(0) //TODO replace aliases
 
         if (commandName == null) {
-            return error("Empty command")
+            return errorMsg("Empty command")
         }
 
         val commandConstructor = commands[commandName]
-            ?: return error("Command not found") //TODO send available commands
+            ?: return errorMsg("Command not found") //TODO send available commands
 
         val command = commandConstructor()
         return try {
             command.parse(args.subList(1, args.size))
             success(command)
-        } catch (_: PrintHelpMessage) { //TODO maybe catch other exceptions -> https://ajalt.github.io/clikt/exceptions/#which-exceptions-exist
-            error(command.getFormattedHelp())
+        } catch (_: PrintHelpMessage) {
+            errorMsg(command.getFormattedHelp())
         } catch (_: Exception) {
-            error(command.getFormattedUsage())
+            errorMsg(command.getFormattedUsage())
         }
     }
 

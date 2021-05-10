@@ -1,9 +1,30 @@
 package net.bmgames
 
-import net.bmgames.database.*
+import net.bmgames.state.database.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
+/**
+ * All tables that are in use.
+ * */
+internal val TABLES = arrayOf(
+    UserTable,
+    AvatarTable,
+    ClassTable,
+    GameTable,
+    ItemConfigTable,
+    StartItemTable,
+    NPCConfigTable,
+    NPCItemTable,
+    NPCTable,
+    PlayerItemTable,
+    PlayerTable,
+    RaceTable,
+    RoomItemTable,
+    RoomTable,
+    CommandTable,
+    JoinRequestTable
+)
 
 
 /**
@@ -16,27 +37,10 @@ internal fun ServerConfig.connectToDB() {
         user = dbUser,
         password = dbPassword
     )
+//        Database.connect("jdbc:h2:./testdb", driver = "org.h2.Driver")
     transaction {
-        SchemaUtils.drop(
-        )
-        SchemaUtils.create(
-            UserTable,
-            AvatarTable,
-            ClassConfigTable,
-            GameTable,
-            ItemConfigTable,
-            NPCConfigtable,
-            NPCItemTable,
-            NPCTable,
-            PlayerItemTable,
-            PlayerTable,
-            RaceConfigTable,
-            RoomConfigTable,
-            RoomItemTable,
-            RoomTable,
-            VisitedRoomsTable,
-            CommandConfigTable
-        )
+//        SchemaUtils.drop(*TABLES)
+        SchemaUtils.create(*TABLES)
     }
 }
 

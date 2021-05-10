@@ -1,9 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {NPCComponent} from './npc.component';
-import {FriendlyNPCConfig} from "../../../models/FriendlyNPCConfig";
-import {HostileNPCConfig} from "../../../models/HostileNPCConfig";
 import {NPCType} from "../../../models/NPCType";
+import {FriendlyNPCConfig} from "../../../models/FriendlyNPCConfig";
 
 describe('NPCComponent', () => {
   let component: NPCComponent;
@@ -11,9 +10,9 @@ describe('NPCComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NPCComponent ]
+      declarations: [NPCComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -26,21 +25,7 @@ describe('NPCComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return 1 as next free NPCId. Already assigned IDs: 0,2', () => {
-    fixture = TestBed.createComponent(NPCComponent);
-    component = fixture.componentInstance;
-
-    component.configuredNPCs = [
-      {id: 0, type: NPCType.Friendly, name: '', items: [], loottable: [], commandOnInteraction: '', messageOnTalk: ''},
-      {id: 2, type: NPCType.Hostile, name: '', items: [], loottable: [], commandOnInteraction: '', messageOnTalk: ''}
-    ];
-
-    let calculatedId = component.getNextFreeId();
-
-    expect(calculatedId).toBe(1);
-  });
-
-  it('should add new friendly NPC', () =>{
+  it('should add new friendly NPC', () => {
     fixture = TestBed.createComponent(NPCComponent);
     component = fixture.componentInstance;
 
@@ -54,12 +39,12 @@ describe('NPCComponent', () => {
     let length = component.configuredNPCs.length;
 
     expect(length).toBe(1);
-    expect(component.configuredNPCs[length-1].id).toEqual(0);
-    expect(component.configuredNPCs[length-1].name).toEqual('NPC 1');
-    expect(component.configuredNPCs[length-1].type).toEqual(NPCType.Friendly);
+    let npc = component.configuredNPCs[length - 1];
+    expect(npc.name).toEqual('NPC 1');
+    expect(npc.type).toEqual("net.bmgames.state.model.NPC.Friendly");
   });
 
-  it('should add new hostile NPC', () =>{
+  it('should add new hostile NPC', () => {
     fixture = TestBed.createComponent(NPCComponent);
     component = fixture.componentInstance;
 
@@ -73,12 +58,12 @@ describe('NPCComponent', () => {
     let length = component.configuredNPCs.length;
 
     expect(length).toBe(1);
-    expect(component.configuredNPCs[length-1].id).toEqual(0);
-    expect(component.configuredNPCs[length-1].name).toEqual('NPC 1');
-    expect(component.configuredNPCs[length-1].type).toEqual(NPCType.Hostile);
+    let npc = component.configuredNPCs[length - 1];
+    expect(npc.name).toEqual('NPC 1');
+    expect(npc.type).toEqual("net.bmgames.state.model.NPC.Hostile");
   });
 
-  it('should show alert because input value is missing', () =>{
+  it('should show alert because input value is missing', () => {
     fixture = TestBed.createComponent(NPCComponent);
     component = fixture.componentInstance;
 
@@ -94,6 +79,6 @@ describe('NPCComponent', () => {
     let length = component.configuredNPCs.length;
 
     expect(length).toBe(0);
-    expect(window.alert).toHaveBeenCalledWith('Es wurden nicht alle Daten eingegeben');
+    expect(window.alert).toHaveBeenCalledWith('Ungültiger Name. Entweder es ist kein Name eingetragen oder es exisitert bereits ein NPC mit diesem Namen.');
   });
 });

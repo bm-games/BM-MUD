@@ -1,7 +1,7 @@
 package net.bmgames.game.action
 
-import net.bmgames.game.state.Game
-import net.bmgames.game.state.Player
+import net.bmgames.state.model.Game
+import net.bmgames.state.model.Player
 
 class EntityAction (type : type,/* room : Room,*/ entity : Player.Normal) : Update() {
 

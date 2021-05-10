@@ -10,11 +10,13 @@ import {GameRoutingModule} from "./game-routing.module";
 import { ConsoleComponent } from './components/console/console.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FormsModule} from "@angular/forms";
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
     GameComponent,
-    ConsoleComponent
+    ConsoleComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,

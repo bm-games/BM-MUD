@@ -17,7 +17,7 @@ describe('GameOverviewComponent', () => {
     fixture = TestBed.createComponent(GameOverviewComponent);
     component = fixture.componentInstance;
     component.game = {
-      config: {name: "test"},
+      name: "test",
       userPermitted: true,
       avatarCount: 2,
       masterOnline: false,

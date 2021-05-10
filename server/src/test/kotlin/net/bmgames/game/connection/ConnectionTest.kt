@@ -6,7 +6,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.launch
-import net.bmgames.error
+import net.bmgames.errorMsg
 import net.bmgames.game.commands.MoveCommand
 import net.bmgames.game.message.Message
 import net.bmgames.success
@@ -17,7 +17,7 @@ class ConnectionTest : FunSpec({
         if (command == "move") {
             success(MoveCommand())
         } else {
-            error("fail")
+            errorMsg("fail")
         }
     }
 

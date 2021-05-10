@@ -1,12 +1,15 @@
 package net.bmgames.authentication
 
 import arrow.core.Either
+import arrow.core.Either.Companion.conditionally
+import arrow.core.computations.either
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.sessions.*
 import net.bmgames.ErrorMessage
-import net.bmgames.error
+import net.bmgames.errorMsg
+import net.bmgames.state.UserRepository.getUserByMail
 import net.bmgames.success
 
 
@@ -30,14 +33,16 @@ class Authenticator(
      * @param password of the new user
      * @return
      */
-    fun registerUser(mail: String, username: String, password: String): Either<ErrorMessage, Unit> {
-        return if (userHandler.checkRegisterPossible(mail, username)) {
-            val user = User(mail, username, authHelper.hashPassword(password), null)
-            userHandler.createUser(user)
-            success
-        } else {
-            error("A user with this email or password already exists.")
-        }
+    suspend fun registerUser(mail: String, username: String, password: String): Either<ErrorMessage, Unit> = either {
+        val user = conditionally(userHandler.checkRegisterPossible(mail, username),
+            { "A user with this email or username already exists." },
+            { User(mail, username, authHelper.hashPassword(password), null) }
+        ).bind()
+
+        conditionally(userHandler.createUser(user),
+            { "User couldn't be created. Please try again." },
+            {})
+
     }
 
 
@@ -50,17 +55,17 @@ class Authenticator(
      * @return Login (Data Class Login) with User and the generated JWT which needs to get assigned.
      */
     fun loginUser(mail: String, password: String): Either<ErrorMessage, User> {
-        val user = userHandler.getUserByMail(mail)
+        val user = getUserByMail(mail)
         if (user != null) {
             if (userHandler.checkMailApproved(user.username)) {
                 if (user.passwordHash == authHelper.hashPassword(password)) {
                     return success(user)
                 }
             } else {
-                return error("Mail not verified.")
+                return errorMsg("Mail not verified.")
             }
         }
-        return error("Wrong password or no user with this credentials.")
+        return errorMsg("Wrong password or no user with this credentials.")
     }
 
     /**
@@ -87,7 +92,7 @@ class Authenticator(
             userHandler.changePassword(user.email, authHelper.hashPassword(password))
             success
         } else {
-            error("Password is incorrect.")
+            errorMsg("Password is incorrect.")
         }
     }
 

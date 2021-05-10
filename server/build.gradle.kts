@@ -13,7 +13,8 @@ val arrow_version: String by project
 plugins {
     application
     kotlin("jvm") version "1.4.32"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
+    kotlin("kapt") version "1.4.32"
+    kotlin("plugin.serialization") version "1.4.32"
 
     // Analysis & Reports
     jacoco
@@ -25,7 +26,7 @@ plugins {
 }
 
 group = "net.bmgames"
-version = "0.2.0"
+version = "0.3.0"
 application {
     mainClassName = "net.bmgames.MainKt"
     mainClass.set("net.bmgames.MainKt")
@@ -70,7 +71,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.postgresql:postgresql:42.2.5")
-//    implementation("com.h2database:h2:1.4.199")
+    implementation("com.h2database:h2:1.4.199")
 //    implementation("postgresql:postgresql:jar:9.1-901.jdbc4")
 
 //    Serialization
@@ -79,11 +80,11 @@ dependencies {
 //    Utils
     implementation("com.sun.mail:javax.mail:1.6.2")
     implementation("io.arrow-kt:arrow-fx-coroutines:$arrow_version")
+    implementation("io.arrow-kt:arrow-optics:$arrow_version")
+    kapt("io.arrow-kt:arrow-meta:$arrow_version")
 
 //    CLI Parser
     implementation("com.github.ajalt.clikt:clikt:3.1.0")
-//    implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.2")
-    implementation(kotlin("stdlib"))
 
 }
 
@@ -96,13 +97,24 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    /*jacoco{
+        filter {
+            excludeTestsMatching("net.bmgames.state.model.*Kt") //Filter out generated sources
+        }}*/
 }
 
 tasks.withType<JacocoReport> {
     reports {
         xml.isEnabled = true
-//        html.isEnabled = false
     }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.map {
+            fileTree(it).apply {
+                exclude("net/bmgames/state/model/**")
+            }
+        }))
+    }
+
 }
 
 tasks.withType<Detekt> {
@@ -131,6 +143,3 @@ tasks.withType<ShadowJar> {
     }
 
 }
-
-
-

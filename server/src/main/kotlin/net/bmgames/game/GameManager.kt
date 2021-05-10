@@ -5,23 +5,30 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import net.bmgames.authentication.User
-import net.bmgames.configurator.model.DungeonConfig
 import net.bmgames.game.connection.GameRunner
-import net.bmgames.game.state.Game
-import net.bmgames.game.state.Player
+import net.bmgames.state.GameRepository
 
+/**
+ * The Coroutine Scope where all game related tasks run
+ * */
 internal object GameScope : CoroutineScope {
     override val coroutineContext = SupervisorJob() + Dispatchers.Default
 }
 
-class GameManager(private val repository: GameRepository) {
+/**
+ * Manages all running games
+ * @property gamesRef Stores all running games threadsafe
+ * */
+class GameManager() {
     private val gamesRef: Atomic<Map<String, GameRunner>> = Atomic.unsafe(emptyMap())
 
+    /**
+     * @return A started game runner, if it exists. Otherwise it gets loaded from the database
+     * */
     internal suspend fun getGameRunner(gameName: String): GameRunner? {
         val gameRunner = gamesRef.get()[gameName]
         return if (gameRunner == null) {
-            val stoppedGameRunner = repository.loadGame(gameName)?.let(::GameRunner)
+            val stoppedGameRunner = GameRepository.loadGame(gameName)?.let(::GameRunner)
             if (stoppedGameRunner != null) {
                 GameScope.launch { stoppedGameRunner.gameLoop() }
                 gamesRef.update { games ->
@@ -35,16 +42,6 @@ class GameManager(private val repository: GameRepository) {
         }
     }
 
-    fun createGame(config: DungeonConfig, master: User) {
-        repository.save(
-            Game(
-                config,
-                Player.Master(master),
-                users = mapOf(master.username to emptyList()),
-                onlinePlayers = emptyMap()
-            )
-        )
-    }
 
     internal suspend fun getRunningGames() = gamesRef.get()
 

@@ -31,6 +31,10 @@
           <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="health" min="1" max="10" step="0.5"></mat-slider>
         </div>
         <div>
+          <label>Schadensmultiplikator:</label>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damageModifier" min="1" max="10" step="0.5"></mat-slider>
+        </div>
+        <div>
           <label>Slot:</label>
           <mat-form-field class="dropDown">
             <mat-select>
@@ -48,7 +52,7 @@
         </div>
         <div>
           <label>Multiplikator:</label>
-          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damageMultiplier" min="1" max="10" step="0.5"></mat-slider>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damageModifier" min="1" max="10" step="0.5"></mat-slider>
         </div>
       </div>
     </div>
@@ -65,13 +69,13 @@
         <thead>
         <tr>
           <th>Name</th>
-          <th>Konsumierbar</th>
+          <!--<th>Konsumierbar</th>-->
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of configuredItems">
           <td>{{item.name}}</td>
-          <td>{{item.isConsumable}}</td>
+          <!--<td>{{item.isConsumable}}</td>-->
         </tr>
         </tbody>
       </table>

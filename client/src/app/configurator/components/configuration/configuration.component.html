@@ -1,7 +1,7 @@
 <body>
   <div class="mudNameHeader">
-    <input placeholder="MUD Name"/>
-    <button>Spiel speichern</button>
+    <input placeholder="MUD Name" [(ngModel)]="mudName"/>
+    <button (click)="createConfig()">Spiel speichern</button>
   </div>
   <div>
     <nav mat-tab-nav-bar>

@@ -46,7 +46,8 @@ export class AuthService {
   }
 
   logout(): Promise<void> {
-    this.user$.next(null)
-    return this.http.get<void>(`${this.CONFIG.endpoint}/auth/logout`).toPromise()
+    return this.http.get<void>(`${this.CONFIG.endpoint}/auth/logout`)
+      .toPromise()
+      .then(() => this.user$.next(null))
   }
 }

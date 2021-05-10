@@ -3,8 +3,8 @@ package net.bmgames.game.commands
 import arrow.core.Either
 import com.github.ajalt.clikt.core.CliktCommand
 import net.bmgames.game.action.Action
-import net.bmgames.game.state.Game
-import net.bmgames.game.state.Player
+import net.bmgames.state.model.Game
+import net.bmgames.state.model.Player
 
 
 sealed class Command<P : Player>(name: String) : CliktCommand(name) {

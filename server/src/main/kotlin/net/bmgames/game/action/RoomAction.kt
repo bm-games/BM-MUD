@@ -1,6 +1,6 @@
 package net.bmgames.game.action
 
-import net.bmgames.game.state.Game
+import net.bmgames.state.model.Game
 
 class RoomAction : Update() {
     override fun update(game: Game): Game {

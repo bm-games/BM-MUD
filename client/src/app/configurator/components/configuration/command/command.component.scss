@@ -61,6 +61,25 @@
       background-color: whitesmoke;
     }
   }
+  .actionDiv{
+    height: 50px;
+    margin-bottom: 5px;
+    label{
+      float: left;
+      margin: auto;
+      width: 40%;
+    }
+    .dropDown{
+      float: right;
+      height: 30px;
+      margin-top: -15px;
+      .mat-select{
+        .mat-option{
+          height: 20px;
+        }
+      }
+    }
+  }
 }
 
 .divBtn{
