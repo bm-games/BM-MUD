@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Avatar(
     val name: String,
     val race: Race,
-    val clazz: Class
+    val clazz: Clazz
 )
 
 @Serializable
@@ -18,7 +18,7 @@ data class Race(
 )
 
 @Serializable
-data class Class(
+data class Clazz(
     val name: String,
     val description: String,
     val healthMultiplier: Float,

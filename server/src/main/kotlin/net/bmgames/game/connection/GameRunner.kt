@@ -41,7 +41,7 @@ class GameRunner internal constructor(initialGame: Game) {
     internal suspend fun connect(
         player: Player
     ): Either<ErrorMessage, IConnection> = either {
-        if (!getCurrentGameState().users.containsKey(player.user.username)) {
+        if (!getCurrentGameState().allowedUsers.containsKey(player.user.username)) {
             error("You are not invited to this game").bind()
         }
 

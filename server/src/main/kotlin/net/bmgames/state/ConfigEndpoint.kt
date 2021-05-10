@@ -4,6 +4,8 @@ package net.bmgames.state
 
 import arrow.core.Either
 import arrow.core.computations.either
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import arrow.core.rightIfNotNull
 import arrow.core.rightIfNull
 import arrow.core.toOption
@@ -43,7 +45,9 @@ fun Route.installConfigEndpoint() {
         }
         post("/createConfig") {
             either<ErrorMessage, Unit> {
-                val config = call.receive<DungeonConfig>().rightIfNotNull { "Config missing" }.bind()
+                val configJSON = call.receive<String>().rightIfNotNull { "Config missing" }.bind()
+                println(configJSON)
+                val config = Json.decodeFromString<DungeonConfig>(configJSON)
                 println(config)
                 configEndpoint.saveConfig(config).bind()
             }.fold(

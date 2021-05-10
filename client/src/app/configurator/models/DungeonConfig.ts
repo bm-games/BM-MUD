@@ -17,3 +17,7 @@ export interface DungeonConfig {
   classes: ClassConfig[];
   commandConfig: CommandConfig;
 }
+
+export type StringMap<V> = {
+  [key: string]: V
+}

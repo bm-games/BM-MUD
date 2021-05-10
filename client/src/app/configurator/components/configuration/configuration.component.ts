@@ -6,7 +6,7 @@ import {Item} from "../../models/Item";
 import {CommandConfig} from "../../models/CommandConfig";
 import {NPC} from "../../models/NPCConfig";
 import {RoomConfig} from "../../models/RoomConfig";
-import {DungeonConfig} from "../../models/DungeonConfig";
+import {DungeonConfig, StringMap} from "../../models/DungeonConfig";
 import {ConfigService} from "../../services/config.service";
 import {Router} from "@angular/router";
 
@@ -24,7 +24,7 @@ export class ConfigurationComponent implements OnInit {
   private static _allClasses: ClassConfig[] = [];
   private static _allItems: Item[] = [];
   private static _allNPCs: NPC[] = [];
-  private static _commandConfig: CommandConfig = { aliases: new Map<string, string>(), customCommands: new Map<string, string>()}
+  private static _commandConfig: CommandConfig = { aliases: {}, customCommands: {}}
   private static _allRooms: RoomConfig[] = [];
   private static _startequipment: Item[] = [];
   private static _startRoom: string;
@@ -63,9 +63,9 @@ export class ConfigurationComponent implements OnInit {
       roomMap[r.name] = roomConfig;
     });
 
-    let npcMap = new Map<string, NPC>();
+    let npcMap: StringMap<NPC> = {};
     ConfigurationComponent.allNPCs.forEach(n => {
-      npcMap.set(n.name, n);
+      npcMap[n.name] = n;
     });
     let itemMap: StringMap<Item> = {};
     ConfigurationComponent.allItems.forEach(i => {
