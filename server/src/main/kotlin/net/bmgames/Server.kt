@@ -109,7 +109,7 @@ fun Application.configureSecurity(config: ServerConfig) {
         session<User> {
             validate { session -> session }
             challenge {
-                //call.respond(HttpStatusCode.Unauthorized)
+                call.respond(HttpStatusCode.Unauthorized)
             }
         }
     }

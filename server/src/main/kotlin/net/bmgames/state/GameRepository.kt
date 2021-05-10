@@ -29,7 +29,7 @@ object GameRepository {
      * Loads every existing game.
      * */
     internal fun listGames(): List<Game> {
-        return emptyList()//TODO("Load from DB")
+        return GameDAO.all().map { it.toGame() }
     }
 
     /**
@@ -136,8 +136,8 @@ object GameRepository {
                 }
             }
         }
-        roomDAOs.forEach { (_, room) ->
-            room.items = room.items.mapNotNull { itemConfigsDAOs[it.name] }.toSized()
+        roomDAOs.forEach { (room, roomDAO) ->
+            roomDAO.items = room.items.mapNotNull { itemConfigsDAOs[it.name] }.toSized()
         }
         roomDAOs
     }
@@ -154,7 +154,7 @@ object GameRepository {
             rooms.flatMap { (room, roomDAO) ->
                 room.npcs.mapNotNull { (_, npc) ->
                     npcConfigDAOs[npc.name]?.let { config ->
-                        NPCDAO.updateOrCreate(npc.id) {
+                        npc to NPCDAO.updateOrCreate(npc.id) {
                             npcConfig = config
                             health = config.maxHealth
                             roomRef = roomDAO
@@ -163,8 +163,8 @@ object GameRepository {
                 }
             }
         }
-        npcDAOs.forEach { npc ->
-            npc.items = npc.items.mapNotNull { itemConfigsDAOs[it.name] }.toSized()
+        npcDAOs.forEach { (npc, npcDAO) ->
+            npcDAO.items = npc.items.mapNotNull { itemConfigsDAOs[it.name] }.toSized()
         }
     }
 

@@ -35,14 +35,14 @@ class RoomDAO(id: EntityID<Int>) : GameReferencingDAO(id, RoomTable) {
 
     fun toRoom(): Room =
         Room(
-            name,
-            message,
-            north,
-            east,
-            west,
-            south,
-            items.map { it.toItem() },
-            npcs.map { it.toNPC() }.associateBy { it.name }
+            name = name,
+            message = message,
+            north = north,
+            east = east,
+            south = south,
+            west = west,
+            items = items.map { it.toItem() },
+            npcs = npcs.map { it.toNPC() }.associateBy { it.name }
         )
 
 }

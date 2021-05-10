@@ -3,7 +3,6 @@ import {Item} from "./Item";
 import {RaceConfig} from "./RaceConfig";
 import {ClassConfig} from "./ClassConfig";
 import {CommandConfig} from "./CommandConfig";
-import {RoomConfig} from "./RoomConfig";
 import {RoomConfigExport} from "../components/configuration/configuration.component";
 
 export interface DungeonConfig {
@@ -17,3 +16,5 @@ export interface DungeonConfig {
   classes: ClassConfig[];
   commandConfig: CommandConfig;
 }
+
+export type StringMap<T> = {[key: string]: T}

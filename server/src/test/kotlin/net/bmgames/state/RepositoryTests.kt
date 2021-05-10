@@ -26,6 +26,7 @@ class RepositoryTests : FunSpec({
     lateinit var game: Game
 
     beforeSpec {
+//        Database.connect("jdbc:h2:./testdb;DB_CLOSE_DELAY=-1;", driver = "org.h2.Driver")
         Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;", driver = "org.h2.Driver")
         transaction { SchemaUtils.create(*TABLES) }
     }
@@ -40,7 +41,6 @@ class RepositoryTests : FunSpec({
         val gme = GAME_WITHOUT_PLAYER.copy(master = Player.Master(masterUser))
         GameRepository.save(gme)
         game = GameRepository.loadGame(gme.name)!!
-        println(game)
         game.removeIDs() shouldBe GAME_WITHOUT_PLAYER.copy(onlinePlayers = emptyMap())
     }
 
@@ -50,7 +50,7 @@ class RepositoryTests : FunSpec({
             game,
             PLAYER.copy(user = UserRepository.getUserByName(PLAYER.user.username)!!)
         )
-        player = PlayerRepository.loadPlayer(game.name, player.ingameName)!!
+        player = PlayerRepository.loadPlayer(game.name, PLAYER.ingameName)!!
         player.removeIDs() shouldBe PLAYER
     }
 })
@@ -79,19 +79,25 @@ private fun Game.removeIDs() = copy(
     races = races.map { it.copy(id = null) },
     classes = classes.map { it.copy(id = null) },
     startItems = startItems.map { it.removeIDs() },
-    npcConfigs = npcConfigs.mapValues { (_, npc) ->
-        when (npc) {
-            is NPC.Friendly -> npc.copy(id = null)
-            is NPC.Hostile -> npc.copy(id = null)
-        }
-    },
+    npcConfigs = npcConfigs.mapValues { (_, npc) -> npc.removeIDs() },
     itemConfigs = itemConfigs.mapValues { (_, it) -> it.removeIDs() },
-    rooms = rooms.mapValues { (_, it) -> it.copy(id = null) },
+    rooms = rooms.mapValues { (_, it) ->
+        it.copy(id = null,
+            npcs = it.npcs.mapValues { (_, npc) -> npc.removeIDs() },
+            items = it.items.map { it.removeIDs() }
+        )
+    },
     onlinePlayers = onlinePlayers.mapValues { (_, it) ->
         if (it is Player.Normal) it.copy(id = null) else it
     },
+    master = Player.Master(master.user.copy(id = null)),
     joinRequests = joinRequests.map { it.copy(id = null) }
 )
+
+private fun NPC.removeIDs() = when (this) {
+    is NPC.Friendly -> copy(id = null, items = items.map { it.removeIDs() })
+    is NPC.Hostile -> copy(id = null, items = items.map { it.removeIDs() })
+}
 
 private fun Item.removeIDs() = when (this) {
     is Consumable -> copy(id = null)

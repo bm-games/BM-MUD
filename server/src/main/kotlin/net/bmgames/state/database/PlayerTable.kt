@@ -24,7 +24,8 @@ class PlayerDAO(id: EntityID<Int>) : GameReferencingDAO(id, PlayerTable) {
     var room by PlayerTable.room
     var health by PlayerTable.health
     var visitedRooms: Set<String> by PlayerTable.visitedRooms
-        .transform({ it.joinToString { "\n" } }, { it.split("\n").toSet() })
+        .transform({ it.joinToString("\n") },
+            { it.split("\n").filterTo(mutableSetOf(), String::isNotEmpty) })
 
     var inventory by ItemConfigDAO via PlayerItemTable
 

@@ -72,12 +72,12 @@ val GAME_WITHOUT_PLAYER = Game(
             "Welcome!",
             npcs = mapOf("georkina" to npcs["georkina"]!!),
             items = items.values.toList(),
-            south = "room"
+            south = "Next room"
         ),
         "Next room" to Room(
             "Next room", "HIIIIIIIIIIIIIIIIIII!",
             npcs = mapOf("geork" to npcs["geork"]!!),
-            north = "start"
+            north = "Start room"
         )
     ),
 
