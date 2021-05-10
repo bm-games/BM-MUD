@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {CommandConfig} from "../../../models/CommandConfig";
+import {Component, OnInit} from '@angular/core';
 import {ConfigurationComponent} from "../configuration.component";
 import {StringMap} from "../../../models/DungeonConfig";
 

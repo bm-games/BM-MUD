@@ -22,8 +22,8 @@ class GameEndpointTest : FunSpec({
     }
 
     beforeTest {
-        gameManager = GameManager(GameRepository)
-        endpoint = GameEndpoint(gameManager, GameRepository)
+        gameManager = GameManager()
+        endpoint = GameEndpoint(gameManager)
     }
 
 

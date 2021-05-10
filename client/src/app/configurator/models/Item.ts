@@ -9,5 +9,5 @@ interface ConsumableItemConfig {
 
 type Item = ConsumableItemConfig | EquipmentConfig | WeaponConfig;
 
-export{Item, ConsumableItemConfig, EquipmentConfig, WeaponConfig}
+export {Item, ConsumableItemConfig, EquipmentConfig, WeaponConfig}
 

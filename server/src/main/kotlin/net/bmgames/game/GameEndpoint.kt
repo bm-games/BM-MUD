@@ -23,10 +23,7 @@ import net.bmgames.state.PlayerRepository
 /**
  * The interface for the game logic to the outer world.
  * */
-internal class GameEndpoint(
-    val gameManager: GameManager,
-    val gameRepo: GameRepository
-) {
+internal class GameEndpoint(private val gameManager: GameManager) {
 
     /**
      * Collects all existing games and if adds information if they're running
@@ -35,12 +32,11 @@ internal class GameEndpoint(
         val runningGames = gameManager.getRunningGames()
         return runningGames
             .map { (_, gameRunner) -> gameRunner.getCurrentGameState() }
-            .plus(gameRepo.listGames()
+            .plus(GameRepository.listGames()
                 .filterNot { runningGames.containsKey(it.name) })
             .map {
                 GameOverview(
                     it.name,
-//                    isStarted = runningGames.containsKey(it.name),
                     onlinePlayers = it.onlinePlayers.size,
                     masterOnline = it.isMasterOnline(),
                     avatarCount = it.allowedUsers[user.username]?.size ?: 0,
@@ -77,11 +73,8 @@ internal class GameEndpoint(
 /**
  * Connects the [GameEndpoint] to Ktor
  * */
-fun Route.installGameEndpoint(
-    gameRepo: GameRepository = GameRepository,
-    gameManager: GameManager = GameManager(gameRepo)
-) {
-    val endpoint = GameEndpoint(gameManager, gameRepo)
+fun Route.installGameEndpoint(gameManager: GameManager = GameManager()) {
+    val endpoint = GameEndpoint(gameManager)
 
     route("/game") {
 

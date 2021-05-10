@@ -1,9 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CommandComponent } from './command.component';
-import {ClassComponent} from "../class/class.component";
-import {ClassConfig} from "../../../models/ClassConfig";
-import {CommandConfig} from "../../../models/CommandConfig";
+import {CommandComponent} from './command.component';
 
 describe('CommandComponent', () => {
   let component: CommandComponent;
@@ -11,9 +8,9 @@ describe('CommandComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CommandComponent ]
+      declarations: [CommandComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -26,19 +23,19 @@ describe('CommandComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add new custom CommandConfig', () =>{
+  it('should add new custom CommandConfig', () => {
     fixture = TestBed.createComponent(CommandComponent);
     component = fixture.componentInstance;
 
     component.isCustomCommand = true;
     component.commandSyntax = 'hit';
-    component.customCommands = new Map<string, string>();
-    component.customCommands.set('command', 'action');
+    component.customCommands = {};
+    component.customCommands['command'] = 'action';
 
     component.addCommand();
 
-    let length = component.customCommands.size;
+    let length = Object.keys(component.customCommands).length;
     expect(length).toBe(2);
-    expect(component.customCommands.get('command')).toEqual('action');
+    expect(component.customCommands['command']).toEqual('action');
   });
 });

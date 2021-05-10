@@ -8,11 +8,11 @@ import net.bmgames.state.DungeonConfig
 import net.bmgames.state.model.*
 
 val MASTER = Player.Master(
-    User("master", "master@master.de", "1234", null)
+    User(username = "master", email = "master@master.de", passwordHash = "1234", registrationKey = null)
 )
 val PLAYER by lazy {
     Player.Normal(
-        user = User("player1", "", "", null),
+        user = User(username = "player1", email = "email@email.de", passwordHash = "asd", registrationKey = null),
         avatar = Avatar(
             name = "georkina",
             race = GAME_WITHOUT_PLAYER.races[0],
@@ -66,7 +66,7 @@ val GAME_WITHOUT_PLAYER = Game(
     },
     startItems = items.values.toList(),
 
-    startRoom = "start",
+    startRoom = "Start room",
     rooms = mapOf(
         "Start room" to Room(
             "Start room",
@@ -88,6 +88,7 @@ val GAME_WITHOUT_PLAYER = Game(
 
 val GAME_WITH_PLAYER by lazy {
     GAME_WITHOUT_PLAYER.copy(
+        name = "Game with player",
         allowedUsers = GAME_WITHOUT_PLAYER.allowedUsers.plus(
             PLAYER.user.username to listOf(PLAYER.ingameName)
         ),

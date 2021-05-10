@@ -29,7 +29,8 @@ export class ItemComponent implements OnInit {
 
   configuredItems: Item[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.configuredItems = ConfigurationComponent.allItems;
@@ -39,10 +40,10 @@ export class ItemComponent implements OnInit {
    * Generates a ItemConfig with the current UI-data inputs and adds it to the list 'configuredItems'
    * Depending on the selected ItemType, a ItemConfig, EquipmentConfig or WeaponConfig is created
    */
-  addItem(){
-    if(this.name != undefined && !this.checkContainsName()){
-      if(this.isConsumable){
-        if(this.effect != undefined){
+  addItem() {
+    if (this.name != undefined && !this.checkContainsName()) {
+      if (this.isConsumable) {
+        if (this.effect != undefined) {
 
           let consumable: ConsumableItemConfig = {
             type: "net.bmgames.state.model.Consumable",
@@ -53,12 +54,12 @@ export class ItemComponent implements OnInit {
 
           this.name = undefined;
           this.effect = undefined;
-        }else{
+        } else {
           window.alert("Es wurden nicht alle Werte eingegeben");
         }
       }
-      if(this.isEquipment){
-        if(this.health != undefined && this.name != undefined && this.damageModifier != undefined){
+      if (this.isEquipment) {
+        if (this.health != undefined && this.name != undefined && this.damageModifier != undefined) {
 
           let equip: EquipmentConfig = {
             type: "net.bmgames.state.model.Equipment",
@@ -67,7 +68,7 @@ export class ItemComponent implements OnInit {
             healthModifier: this.health,
             slot: "Head"
           }
-          switch(this.equipmentSlot){
+          switch (this.equipmentSlot) {
             case EquipmentSlot.head:
               equip.slot = "Head";
               break;
@@ -86,12 +87,12 @@ export class ItemComponent implements OnInit {
           this.name = undefined;
           this.health = undefined;
           this.damageModifier = undefined;
-        }else{
+        } else {
           window.alert("Es wurden nicht alle Werte eingegeben");
         }
       }
-      if(this.isWeapon){
-        if(this.damage != undefined && this.damageModifier != undefined && this.name != undefined) {
+      if (this.isWeapon) {
+        if (this.damage != undefined && this.damageModifier != undefined && this.name != undefined) {
 
           let weapon: WeaponConfig = {
             type: "net.bmgames.state.model.Weapon",
@@ -103,18 +104,18 @@ export class ItemComponent implements OnInit {
           this.name = undefined;
           this.damage = undefined;
           this.damageModifier = undefined;
-        }else{
+        } else {
           window.alert("Es wurden nicht alle Werte eingegeben");
         }
       }
-    }else{
-     window.alert("Ungültiger Name. Es ist kein Name eingetragen oder es existiert bereits ein Item mit diesem Namen.");
+    } else {
+      window.alert("Ungültiger Name. Es ist kein Name eingetragen oder es existiert bereits ein Item mit diesem Namen.");
     }
   }
 
-  checkContainsName(): boolean{
+  checkContainsName(): boolean {
     for (let i = 0; i < this.configuredItems.length; i++) {
-      if(this.configuredItems[i].name == this.name){
+      if (this.configuredItems[i].name == this.name) {
         return true;
       }
     }
@@ -126,7 +127,7 @@ export class ItemComponent implements OnInit {
    * @param item selected UI value
    */
   itemTypeChanged(item: string) {
-    switch(item){
+    switch (item) {
       case 'Ausrüstung':
         this.isEquipment = true;
         this.isConsumable = false;
@@ -149,7 +150,7 @@ export class ItemComponent implements OnInit {
    * Sets the effect of a consumable item depending on the current UI selection
    * @param item selected UI value
    */
-  itemEffectChanged(effect: string){
+  itemEffectChanged(effect: string) {
     this.effect = effect;
   }
 
@@ -157,8 +158,8 @@ export class ItemComponent implements OnInit {
    * Sets the EquipmentSlot (Enum) depending on the current UI selection
    * @param item selected UI value
    */
-  equipmentSlotChanged(slot: string){
-    switch(slot){
+  equipmentSlotChanged(slot: string) {
+    switch (slot) {
       case "Kopf":
         this.equipmentSlot = EquipmentSlot.head;
         break;

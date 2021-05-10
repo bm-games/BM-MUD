@@ -36,14 +36,17 @@ class GameEndpointKtTest : FunSpec({
         withAuthenticatedTestApplication(PLAYER.user) {
             handleWebSocketConversation("/api/game/play/${GAME_WITH_PLAYER.name}/${PLAYER.ingameName}")
             { incoming, _ ->
+                var closeReason: CloseReason? = null
                 for (msg in incoming) {
                     if (msg is Frame.Text) {
                         msg.shouldBeTypeOf<Frame.Text>()
                             .readText() shouldContainIgnoringCase "Welcome"
                         return@handleWebSocketConversation
+                    }else if(msg is Frame.Close) {
+                        closeReason = msg.readReason()
                     }
                 }
-                fail("Expected welcome message")
+                fail("Expected welcome message. Instead channel closed because of: ${closeReason?.message}")
             }
 
         }

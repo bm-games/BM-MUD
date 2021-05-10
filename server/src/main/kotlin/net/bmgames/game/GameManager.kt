@@ -19,7 +19,7 @@ internal object GameScope : CoroutineScope {
  * Manages all running games
  * @property gamesRef Stores all running games threadsafe
  * */
-class GameManager(private val repository: GameRepository) {
+class GameManager() {
     private val gamesRef: Atomic<Map<String, GameRunner>> = Atomic.unsafe(emptyMap())
 
     /**
@@ -28,7 +28,7 @@ class GameManager(private val repository: GameRepository) {
     internal suspend fun getGameRunner(gameName: String): GameRunner? {
         val gameRunner = gamesRef.get()[gameName]
         return if (gameRunner == null) {
-            val stoppedGameRunner = repository.loadGame(gameName)?.let(::GameRunner)
+            val stoppedGameRunner = GameRepository.loadGame(gameName)?.let(::GameRunner)
             if (stoppedGameRunner != null) {
                 GameScope.launch { stoppedGameRunner.gameLoop() }
                 gamesRef.update { games ->

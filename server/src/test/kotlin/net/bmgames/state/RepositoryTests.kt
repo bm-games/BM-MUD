@@ -1,19 +1,15 @@
 package net.bmgames.state
 
-import io.kotest.core.datatest.forAll
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import net.bmgames.TABLES
 import net.bmgames.authentication.User
 import net.bmgames.game.GAME_WITHOUT_PLAYER
-import net.bmgames.game.GAME_WITH_PLAYER
 import net.bmgames.game.PLAYER
 import net.bmgames.game.MASTER
 import net.bmgames.state.model.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
 
 /**
@@ -52,6 +48,23 @@ class RepositoryTests : FunSpec({
         )
         player = PlayerRepository.loadPlayer(game.name, PLAYER.ingameName)!!
         player.removeIDs() shouldBe PLAYER
+    }
+
+    test("Updating the game state should work correctly") {
+        val newGame = game.copy(
+            rooms = game.rooms.plus("New room" to Room(
+                "New room",
+                "",
+                "Next room",
+                items = game.startItems,
+                npcs = game.getStartRoom().npcs
+                    .mapValues { (_, npc) -> (npc as NPC.Hostile).copy(items = game.startItems) }
+            )),
+            allowedUsers = game.allowedUsers.plus(player.user.username to listOf(player.ingameName))
+        )
+        GameRepository.save(newGame)
+        val loadedGame = GameRepository.loadGame(newGame.name)?.removeIDs()
+        loadedGame shouldBe newGame.removeIDs()
     }
 })
 
