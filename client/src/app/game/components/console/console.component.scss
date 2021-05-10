@@ -15,7 +15,7 @@
   height: calc( 100% - 2rem);
 }
 #terminal {
-  background:white;
+  background:black;
   padding: 1rem;
   color: black;
 }
@@ -51,7 +51,7 @@
 }
 #terminal textarea {
   color:#f7f7f7;
-  background:#333;
+  background:black;
   border:0 none;
   outline:0 none;
   padding:0;
@@ -70,7 +70,7 @@
 #terminal pre.output::-webkit-scrollbar-thumb,
 #terminal pre.output::-webkit-scrollbar-corner,
 #terminal pre.output::-webkit-resizer {
-  background: transparent;
+  background: black;
 }
 #terminal pre.output::-webkit-scrollbar {
   width:  7px;
@@ -83,10 +83,11 @@
   border-radius: 5px;
 }
 #terminal pre.output::-webkit-scrollbar-thumb {
-  background: #4f4f4f;
+  background: grey;
   border-radius: 5px;
 }
 #terminal pre.output::-webkit-scrollbar-button {
   width:0;
   height:0;
 }
+
