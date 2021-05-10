@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">2</div>
+<div class="counter">1</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.070s</div>
+<div class="counter">0.026s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,13 +78,8 @@
 </tr>
 </thead>
 <tr>
-<td class="success">Config should be converted correctly into a game</td>
-<td class="success">0.048s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
 <td class="success">Stopped Game should be loaded from database</td>
-<td class="success">0.022s</td>
+<td class="success">0.026s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -92,46 +87,25 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2021-05-04 22:12:33.250 [pool-1-thread-1 @coroutine#50] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for GameRepository name=#6
-2021-05-04 22:12:33.250 [pool-1-thread-1 @coroutine#50] TRACE i.m.i.i.AbstractMockFactory - Building proxy for GameRepository hashcode=2c9911c4
-2021-05-04 22:12:33.253 [pool-1-thread-1 @coroutine#50] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.GameRepository itself because it is final.
-2021-05-04 22:12:33.253 [pool-1-thread-1 @coroutine#50] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.GameRepository via instantiator
-2021-05-04 22:12:33.253 [pool-1-thread-1 @coroutine#50] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.GameRepository
-2021-05-04 22:12:33.265 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-04 22:12:33.270 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=e3586fd
-2021-05-04 22:12:33.271 [pool-7-thread-1 @coroutine#51] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
-2021-05-04 22:12:33.272 [pool-7-thread-1 @coroutine#51] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
-2021-05-04 22:12:33.272 [pool-7-thread-1 @coroutine#51] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
-2021-05-04 22:12:33.275 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-04 22:12:33.275 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: loadGame$server(String)
-2021-05-04 22:12:33.275 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of loadGame$server(String): [Test]
-2021-05-04 22:12:33.276 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(#6).loadGame$server(eq(Test)))
-2021-05-04 22:12:33.277 [pool-7-thread-1 @coroutine#51] TRACE i.m.impl.recording.PermanentMocker - Child search key: GameRepository(#6).loadGame$server(eq(Test)))
-2021-05-04 22:12:33.277 [pool-7-thread-1 @coroutine#51] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for Game name=child of #6#7
-2021-05-04 22:12:33.277 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=e3586fd
-2021-05-04 22:12:33.279 [pool-7-thread-1 @coroutine#51] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.game.state.Game itself because it is final.
-2021-05-04 22:12:33.279 [pool-7-thread-1 @coroutine#51] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.game.state.Game via instantiator
-2021-05-04 22:12:33.279 [pool-7-thread-1 @coroutine#51] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
-2021-05-04 22:12:33.280 [pool-7-thread-1 @coroutine#51] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(#6).loadGame$server(eq(Test))
-2021-05-04 22:12:33.282 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-04 22:12:33.283 [pool-7-thread-1 @coroutine#51] DEBUG i.m.i.r.states.AnsweringState - Answering Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[]}, onlinePlayers={master@master.de=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null))}) on GameRepository(#6).loadGame$server(Test)
-2021-05-04 22:12:33.294 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-04 22:12:33.297 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.instantiation.JvmInstantiator - Building empty instance Game
-2021-05-04 22:12:33.298 [pool-7-thread-1 @coroutine#53] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.game.state.Game
-2021-05-04 22:12:33.302 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {[Ref(Game@1c7e5443)]=any()}
-2021-05-04 22:12:33.302 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: save$server(Game)
-2021-05-04 22:12:33.302 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of save$server(Game): [Ref(Game@1c7e5443)]
-2021-05-04 22:12:33.304 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(#6).save$server(any()))
-2021-05-04 22:12:33.306 [pool-7-thread-1 @coroutine#53] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(#6).save$server(any())
-2021-05-04 22:12:33.307 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-04 22:12:33.309 [pool-7-thread-1 @coroutine#53] DEBUG i.m.i.r.states.AnsweringState - Answering kotlin.Unit on GameRepository(#6).save$server(Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[]}, onlinePlayers={}))
-2021-05-04 22:12:33.319 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.recording.CommonCallRecorder - Starting verification
-2021-05-04 22:12:33.322 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-04 22:12:33.322 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: save$server(Game)
-2021-05-04 22:12:33.323 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of save$server(Game): [Ref(Game@4361d59d)]
-2021-05-04 22:12:33.323 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(#6).save$server(eq(Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[]}, onlinePlayers={}))))
-2021-05-04 22:12:33.324 [pool-7-thread-1 @coroutine#53] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(#6).save$server(eq(Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[]}, onlinePlayers={})))
-2021-05-04 22:12:33.336 [pool-7-thread-1 @coroutine#53] TRACE i.m.i.r.states.RecordingState - Done verification. Outcome: OK(verifiedCalls=[GameRepository(#6).save$server(Game(config=DungeonConfig(name=Dummy, commandConfig=net.bmgames.configurator.model.CommandConfig@11adab0), master=Master(user=User(email=master, username=master@master.de, passwordHash=1234, registrationKey=null)), users={master@master.de=[]}, onlinePlayers={}))])
+<pre>2021-05-10 12:47:49.178 [pool-7-thread-1 @coroutine#51] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [GameRepository(object GameRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-10 12:47:49.183 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-10 12:47:49.183 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=466ee72c
+2021-05-10 12:47:49.184 [pool-7-thread-1 @coroutine#51] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.model.Game itself because it is final.
+2021-05-10 12:47:49.184 [pool-7-thread-1 @coroutine#51] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.state.model.Game via instantiator
+2021-05-10 12:47:49.184 [pool-7-thread-1 @coroutine#51] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.state.model.Game
+2021-05-10 12:47:49.189 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-10 12:47:49.190 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: loadGame$server(String)
+2021-05-10 12:47:49.190 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of loadGame$server(String): [Test]
+2021-05-10 12:47:49.192 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).loadGame$server(eq(Test)))
+2021-05-10 12:47:49.194 [pool-7-thread-1 @coroutine#51] TRACE i.m.impl.recording.PermanentMocker - Child search key: GameRepository(object GameRepository).loadGame$server(eq(Test)))
+2021-05-10 12:47:49.196 [pool-7-thread-1 @coroutine#51] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for Game name=child of object GameRepository#6
+2021-05-10 12:47:49.196 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=466ee72c
+2021-05-10 12:47:49.196 [pool-7-thread-1 @coroutine#51] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.model.Game itself because it is final.
+2021-05-10 12:47:49.196 [pool-7-thread-1 @coroutine#51] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.state.model.Game via instantiator
+2021-05-10 12:47:49.196 [pool-7-thread-1 @coroutine#51] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.state.model.Game
+2021-05-10 12:47:49.197 [pool-7-thread-1 @coroutine#51] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).loadGame$server(eq(Test))
+2021-05-10 12:47:49.197 [pool-7-thread-1 @coroutine#51] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-10 12:47:49.198 [pool-7-thread-1 @coroutine#51] DEBUG i.m.i.r.states.AnsweringState - Answering Game(id=null, name=Test game, races=[Race(name=race, description=Its a race, health=10, damageModifier=1.5, id=null)], classes=[Clazz(name=class, description=Its a class, healthMultiplier=1.5, damage=10, attackSpeed=1, id=null)], commandConfig=CommandConfig(aliases={}, customCommands={}), startItems=[Consumable(name=Apfel, effect=heal $player 10, id=null), Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Weapon(name=Wooden Sword, damage=1, id=null)], npcConfigs={geork=Friendly(name=geork, items=[], commandOnInteraction=heal $player 1, messageOnTalk=Halloooooooooo, id=null), georkina=Hostile(name=georkina, items=[], health=100, damage=100000, id=null)}, itemConfigs={Apfel=Consumable(name=Apfel, effect=heal $player 10, id=null), Diamond Helmet=Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Wooden Sword=Weapon(name=Wooden Sword, damage=1, id=null)}, startRoom=Start room, rooms={Start room=Room(name=Start room, message=Welcome!, north=null, east=null, south=Next room, west=null, items=[Consumable(name=Apfel, effect=heal $player 10, id=null), Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Weapon(name=Wooden Sword, damage=1, id=null)], npcs={georkina=Hostile(name=georkina, items=[Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null)], health=100, damage=100000, id=null)}, id=null), Next room=Room(name=Next room, message=HIIIIIIIIIIIIIIIIIII!, north=Start room, east=null, south=null, west=null, items=[], npcs={geork=Friendly(name=geork, items=[Consumable(name=Apfel, effect=heal $player 10, id=null)], commandOnInteraction=heal $player 1, messageOnTalk=Halloooooooooo, id=null)}, id=null)}, master=Master(user=User(email=master@master.de, username=master, passwordHash=1234, registrationKey=null, id=null)), allowedUsers={master=[]}, onlinePlayers={master=Master(user=User(email=master@master.de, username=master, passwordHash=1234, registrationKey=null, id=null))}, joinRequests=[]) on GameRepository(object GameRepository).loadGame$server(Test)
 </pre>
 </span>
 </div>
@@ -143,7 +117,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.7</a> at May 4, 2021, 10:12:33 PM</p>
+<a href="http://www.gradle.org">Gradle 6.7</a> at May 10, 2021, 12:47:51 PM</p>
 </div>
 </div>
 </body>
