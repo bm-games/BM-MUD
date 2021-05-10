@@ -50,7 +50,7 @@ data class ServerConfig(
                     { Json.decodeFromString<ServerConfig>(content) }
                 ).filterOrElse(
                     { it.secretKeyHash.length == SECRET_KET_LENGTH },
-                    { Error("Secret hash key must be of length $SECRET_KET_LENGTH") }
+                    { Error(message("config.wrong-key-length").format(SECRET_KET_LENGTH)) }
                 )
             }
         }
