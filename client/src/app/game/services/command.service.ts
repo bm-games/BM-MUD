@@ -5,7 +5,7 @@ import {webSocket} from 'rxjs/webSocket';
 import {Message} from "../model/message";
 import {map} from "rxjs/operators";
 
-interface CommandConnection {
+export interface SocketConnection {
   incoming: Observable<Message>,
 
   send(command: string): void
@@ -23,7 +23,7 @@ export class CommandService {
     @Inject(CONFIG) private CONFIG: ClientConfig) {
   }
 
-  connect(game: string, avatar: string): CommandConnection {
+  connect(game: string, avatar: string): SocketConnection {
     const socket = webSocket<string>(`${this.CONFIG.websocketEndpoint}/api/game/play/${game}/${avatar}`)
 
     return {

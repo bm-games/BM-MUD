@@ -18,10 +18,9 @@ import io.ktor.websocket.*
 import net.bmgames.authentication.*
 import net.bmgames.communication.MailNotifier
 import net.bmgames.communication.Notifier
-import net.bmgames.state.installConfigEndpoint
-import net.bmgames.game.GameManager
-import net.bmgames.state.GameRepository
 import net.bmgames.game.installGameEndpoint
+import net.bmgames.state.GameRepository
+import net.bmgames.state.installConfigEndpoint
 import java.time.Duration
 
 const val WEB_SOCKETS_PING: Long = 15

@@ -83,7 +83,8 @@ val GAME_WITHOUT_PLAYER = Game(
     ),
 
     master = MASTER,
-    onlinePlayers = mapOf(MASTER.ingameName to MASTER)
+    onlinePlayers = mapOf(MASTER.ingameName to MASTER),
+    allowedUsers = mapOf(MASTER.ingameName to emptyList())
 )
 
 val GAME_WITH_PLAYER by lazy {

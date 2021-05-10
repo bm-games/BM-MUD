@@ -28,8 +28,8 @@ object GameRepository {
     /**
      * Loads every existing game.
      * */
-    internal fun listGames(): List<Game> {
-        return GameDAO.all().map { it.toGame() }
+    internal fun listGames(): List<Game> = transaction {
+        GameDAO.all().map { it.toGame() }
     }
 
     /**

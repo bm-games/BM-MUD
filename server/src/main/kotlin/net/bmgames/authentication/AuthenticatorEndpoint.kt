@@ -51,7 +51,7 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
 
         }
         get("/verify/{token}") {
-            call.parameters["token"].rightIfNotNull { "Not valid token" }
+            call.parameters["token"].rightIfNotNull { "No token supplied" }
                 .flatMap { authenticator.verifyToken(it) }
                 .fold(
                     { error -> call.respond(HttpStatusCode.BadRequest, error) },
@@ -74,7 +74,7 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
 
             get("/logout") {
                 call.sessions.clear<User>()
-                call.respondRedirect("/")
+                call.respond(HttpStatusCode.Accepted)
             }
         }
     }

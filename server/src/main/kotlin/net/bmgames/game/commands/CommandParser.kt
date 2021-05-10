@@ -4,7 +4,7 @@ import arrow.core.Either
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import net.bmgames.ErrorMessage
 import net.bmgames.state.model.CommandConfig
-import net.bmgames.error
+import net.bmgames.errorMsg
 import net.bmgames.state.model.Player
 import net.bmgames.success
 
@@ -52,20 +52,20 @@ class CommandParser(val commandConfig: CommandConfig) {
         val commandName = args.getOrNull(0) //TODO replace aliases
 
         if (commandName == null) {
-            return error("Empty command")
+            return errorMsg("Empty command")
         }
 
         val commandConstructor = commands[commandName]
-            ?: return error("Command not found") //TODO send available commands
+            ?: return errorMsg("Command not found") //TODO send available commands
 
         val command = commandConstructor()
         return try {
             command.parse(args.subList(1, args.size))
             success(command)
         } catch (_: PrintHelpMessage) {
-            error(command.getFormattedHelp())
+            errorMsg(command.getFormattedHelp())
         } catch (_: Exception) {
-            error(command.getFormattedUsage())
+            errorMsg(command.getFormattedUsage())
         }
     }
 

@@ -1,7 +1,6 @@
-import {DungeonConfig} from "../../configurator/model/dungeon-config";
 
 export interface GameOverview {
-  readonly config: DungeonConfig;
+  readonly name: string;
   readonly onlinePlayers: number;
   readonly masterOnline: boolean;
   readonly avatarCount: number;

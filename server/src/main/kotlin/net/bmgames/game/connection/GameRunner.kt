@@ -6,7 +6,7 @@ import arrow.fx.coroutines.Atomic
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import net.bmgames.ErrorMessage
-import net.bmgames.error
+import net.bmgames.errorMsg
 import net.bmgames.game.GameScope
 import net.bmgames.game.commands.Command
 import net.bmgames.game.commands.CommandParser
@@ -44,12 +44,12 @@ class GameRunner internal constructor(initialGame: Game) {
     internal suspend fun connect(player: Player): Either<ErrorMessage, IConnection> = either {
         val allowedUsers = getCurrentGameState().allowedUsers
         if (!allowedUsers.containsKey(player.user.username)) {
-            error("You are not invited to this game").bind()
+            errorMsg("You are not invited to this game").bind()
         }
 
         val connection = onlinePlayersRef.modify { connections ->
             if (connections.containsKey(player.ingameName)) {
-                connections to error("Player ${player.ingameName} already connected")
+                connections to errorMsg("Player ${player.ingameName} already connected")
             } else {
                 val parseCommand = when (player) {
                     is Player.Master -> commandParser::parseMasterCommand

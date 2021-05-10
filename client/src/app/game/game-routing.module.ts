@@ -4,7 +4,7 @@ import {GameComponent} from "./components/game.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':game/:avatar',
     component: GameComponent
   }
 ];

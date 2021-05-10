@@ -17,4 +17,8 @@ export class GameOverviewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  alert(msg: any) {
+    alert(msg)
+  }
+
 }

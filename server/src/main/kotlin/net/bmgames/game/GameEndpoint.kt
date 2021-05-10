@@ -85,11 +85,11 @@ fun Route.installGameEndpoint(gameManager: GameManager = GameManager()) {
         }
 
         post<RequestJoin> { (gameName) ->
-            TODO()
+            call.respond("Coming soon!")
         }
 
         post<CreatePlayer> { (gameName) ->
-            TODO()
+            call.respond("Coming soon!")
         }
 
         webSocket("/play/{gameName}/{avatar}") {
@@ -109,12 +109,6 @@ fun Route.installGameEndpoint(gameManager: GameManager = GameManager()) {
             )
         }
 
-        /*post<JoinGame> { (gameName, avatar) ->
-            either {
-                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
-                val  = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
-            }
-        }*/
     }
 }
 

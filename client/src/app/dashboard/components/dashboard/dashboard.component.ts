@@ -40,11 +40,13 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    this.auth.logout().catch(console.error)
+    this.auth.logout()
+      .then(() => this.router.navigateByUrl("/auth"))
+      .catch(console.error)
   }
 
   set searchedGameName(name: string) {
     this.filteredGames = this.games
-      .filter(game => game.config.name.toLowerCase().includes(name.toLowerCase()))
+      .filter(game => game.name.toLowerCase().includes(name.toLowerCase()))
   }
 }

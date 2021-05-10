@@ -11,7 +11,7 @@
              [matAutocomplete]="gameNames">
       <mat-icon matSuffix>search</mat-icon>
       <mat-autocomplete #gameNames="matAutocomplete">
-        <mat-option *ngFor="let game of games" [value]="game.config.name">{{game.config.name}}</mat-option>
+        <mat-option *ngFor="let game of games" [value]="game.name">{{game.name}}</mat-option>
       </mat-autocomplete>
     </mat-form-field>
 

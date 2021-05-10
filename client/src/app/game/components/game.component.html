@@ -1,38 +1,38 @@
 <body>
 <div>
-  <h1>MUD 1</h1>
+  <h1>{{game}}</h1>
 </div>
 <!--<as-split direction="horizontal" [restrictMove]="true" [useTransition]="true" style="height: calc(100% - 5rem)">
   <as-split-area [size]="50">-->
-    <!--Game Console -->
-    <!--<app-console [lines]="echoCmd" (lineEntered)="echoCmd.next('You said: ' + $event)"></app-console>
-  </as-split-area>
-  <as-split-area [size]="50">
-    <as-split direction="vertical" [restrictMove]="true">
-      <as-split-area [size]="60">-->
-        <!--Chat -->
-        <!--<app-console [lines]="echoChat" (lineEntered)="echoChat.next('You said: ' + $event)"></app-console>
-      </as-split-area>
-      <as-split-area [size]="40">-->
-        <!--Map-->
-        <!--<mat-grid-list [cols]="mapColumns">
-          <mat-grid-tile *ngFor="let gridValue of grid" (click)="gridRoomSelected(gridValue)"
-                         [style.background]="gridValue.color">
-            {{gridValue.index}}
-          </mat-grid-tile>
-        </mat-grid-list>
-      </as-split-area>
-    </as-split>
-  </as-split-area>
+<!--Game Console -->
+<!--<app-console [lines]="echoCmd" (lineEntered)="echoCmd.next('You said: ' + $event)"></app-console>
+</as-split-area>
+<as-split-area [size]="50">
+<as-split direction="vertical" [restrictMove]="true">
+  <as-split-area [size]="60">-->
+<!--Chat -->
+<!--<app-console [lines]="echoChat" (lineEntered)="echoChat.next('You said: ' + $event)"></app-console>
+</as-split-area>
+<as-split-area [size]="40">-->
+<!--Map-->
+<!--<mat-grid-list [cols]="mapColumns">
+  <mat-grid-tile *ngFor="let gridValue of grid" (click)="gridRoomSelected(gridValue)"
+                 [style.background]="gridValue.color">
+    {{gridValue.index}}
+  </mat-grid-tile>
+</mat-grid-list>
+</as-split-area>
+</as-split>
+</as-split-area>
 </as-split>-->
 
 <div class="userArea">
   <div class="gameConsoleArea">
-    <app-console [lines]="echoCmd" (lineEntered)="echoCmd.next('You said: ' + $event)"></app-console>
+    <app-console [lines]="commands" (lineEntered)="sendCommand($event)"></app-console>
   </div>
   <div class="rightArea">
     <div class="gameChatArea">
-      <app-console [lines]="echoChat" (lineEntered)="echoChat.next('You said: ' + $event)"></app-console>
+      <app-chat [incomingMessages]="chat" (outgoingMessages)="sendChat($event)"></app-chat>
     </div>
     <div class="gameMapArea">
       <div>

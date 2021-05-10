@@ -3,6 +3,7 @@
 package net.bmgames.state
 
 import arrow.core.Either
+import arrow.core.Either.Companion.catch
 import arrow.core.computations.either
 import arrow.core.rightIfNotNull
 import io.ktor.application.*
@@ -16,18 +17,19 @@ import kotlinx.serialization.json.Json
 import net.bmgames.ErrorMessage
 import net.bmgames.authentication.User
 import net.bmgames.authentication.getUser
-import net.bmgames.error
+import net.bmgames.errorMsg
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 import net.bmgames.success
 
 internal class ConfigEndpoint {
     fun saveConfig(config: DungeonConfig, user: User): Either<ErrorMessage, Unit> {
-        if (GameRepository.loadGame(config.name) != null) return error("Ein Spiel mit diesem Namen existiert bereits")
-        if (config.startRoom == "") return error("Es wurde kein Startraum festgelegt")
-        if (config.rooms.isEmpty()) return error("Es muss mindestens ein Raum erstellt werden")
-        if (config.races.isEmpty()) return error("Es muss mindestens eine Rasse definiert werden")
-        if (config.classes.isEmpty()) return error("Es muss mindestens eine Klasse erstellt werden")
+        if (GameRepository.loadGame(config.name) != null)
+            return errorMsg("Ein Spiel mit diesem Namen existiert bereits")
+        if (config.startRoom == "") return errorMsg("Es wurde kein Startraum festgelegt")
+        if (config.rooms.isEmpty()) return errorMsg("Es muss mindestens ein Raum erstellt werden")
+        if (config.races.isEmpty()) return errorMsg("Es muss mindestens eine Rasse definiert werden")
+        if (config.classes.isEmpty()) return errorMsg("Es muss mindestens eine Klasse erstellt werden")
 
         GameRepository.save(config.run {
             Game(
@@ -62,7 +64,9 @@ fun Route.installConfigEndpoint() {
             either<ErrorMessage, Unit> {
                 val user = call.getUser().rightIfNotNull { "Not authenticated" }.bind()
                 val configJSON = call.receive<String>().rightIfNotNull { "Config missing" }.bind()
-                val config = Json.decodeFromString<DungeonConfig>(configJSON)
+                val config = catch { Json.decodeFromString<DungeonConfig>(configJSON)}
+                    .mapLeft { "Please enter the missing values." }
+                    .bind()
                 configEndpoint.saveConfig(config, user).bind()
             }.fold(
                 { error -> call.respond(HttpStatusCode.BadRequest, error) },

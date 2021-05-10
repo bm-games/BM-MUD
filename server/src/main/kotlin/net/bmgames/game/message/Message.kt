@@ -14,7 +14,7 @@ sealed class Message {
     @Serializable
     data class Chat(
         val sender: String,
-        val text: String
+        val message: String
     ) : Message()
 
     @Serializable

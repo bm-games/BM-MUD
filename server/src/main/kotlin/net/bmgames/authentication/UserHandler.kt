@@ -4,7 +4,7 @@ import arrow.core.Either
 import net.bmgames.ErrorMessage
 import net.bmgames.communication.MailNotifier
 import net.bmgames.state.database.UserTable
-import net.bmgames.error
+import net.bmgames.errorMsg
 import net.bmgames.state.UserRepository
 import net.bmgames.state.UserRepository.getUserByMail
 import net.bmgames.state.UserRepository.getUserByName
@@ -31,10 +31,10 @@ class UserHandler(
      * @param user
      */
     internal fun createUser(user: User): Boolean {
-        val token = authHelper.generateVerificationToken()
+        val token = user.username + authHelper.generateVerificationToken()
         return try {
-            UserRepository.save(user)
-            mailNotifier.sendMailRegister(user, "${user.username}$token")
+            UserRepository.save(user.copy(registrationKey = token))
+            mailNotifier.sendMailRegister(user, token)
             true
         } catch (_: Exception) {
             false
@@ -77,16 +77,14 @@ class UserHandler(
      *
      * @param token Verification Token of the User which gets Approved
      */
-    internal fun setMailApproved(token: String): Either<ErrorMessage, Unit> {
-        val rowsUpdated = transaction {
+    internal fun setMailApproved(token: String): Either<ErrorMessage, Unit> = transaction {
+        if (UserTable.select { UserTable.registrationKey eq token }.none()) {
+            errorMsg("Token not valid.")
+        } else {
             UserTable.update({ UserTable.registrationKey eq token }) {
                 it[registrationKey] = null
             }
-        }
-        return if (rowsUpdated == 1) {
             success
-        } else {
-            error("Token not valid.")
         }
     }
 
@@ -109,6 +107,10 @@ class UserHandler(
      * @return
      */
     internal fun checkRegisterPossible(email: String, username: String): Boolean {
-        return UserTable.select { (UserTable.username eq username) or (UserTable.email eq email) }.any()
+        return transaction {
+            UserTable.select {
+                (UserTable.username eq username) or (UserTable.email eq email)
+            }.none()
+        }
     }
 }
