@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Subject} from "rxjs";
 import {RoomConfig} from "../../../configurator/models/RoomConfig";
+import {NPC} from "../../../configurator/models/NPCConfig";
+import {Item} from "../../../configurator/models/Item";
 
 
 @Component({
@@ -17,8 +19,8 @@ export class MasterComponent implements OnInit {
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: string[] = [];
-  selectedRoomItems: string[] = [];
+  selectedRoomNPCs: NPC[] = [];
+  selectedRoomItems: Item[] = [];
   selectedRoomValues: string[] = ['Stock', 'GeOrk'];
   onlinePlayers: string[] = ['Hans', 'Martin', 'Peter'];
 
