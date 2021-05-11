@@ -62,6 +62,8 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
             post("/changePassword") {
                 either<ErrorMessage, Unit> {
                     val user = call.getUser().rightIfNotNull { "User not signed in" }.bind()
+                    //val user = User("", "", "", "")
+                    //println("test")
                     call.receive<ChangePassword>()
                         .rightIfNotNull { "Parameters not supplied" }
                         .flatMap { (old, new) -> authenticator.changePassword(user, old, new) }

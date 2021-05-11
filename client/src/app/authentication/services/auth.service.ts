@@ -50,4 +50,10 @@ export class AuthService {
       .toPromise()
       .then(() => this.user$.next(null))
   }
+
+  changePassword(oldPassword: string, newPassword: string): Promise<void>{
+    return this.http.post<void>(`${this.CONFIG.endpoint}/auth/changePassword`, {oldPassword, newPassword}).toPromise()
+    console.log('change PW')
+
+  }
 }

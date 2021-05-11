@@ -11,12 +11,15 @@ import { ConsoleComponent } from './components/console/console.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FormsModule} from "@angular/forms";
 import { ChatComponent } from './components/chat/chat.component';
+import { MasterComponent } from './components/master/master.component';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
     GameComponent,
     ConsoleComponent,
-    ChatComponent
+    ChatComponent,
+    MasterComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,8 @@ import { ChatComponent } from './components/chat/chat.component';
     GameRoutingModule,
     AngularSplitModule,
     MatToolbarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatListModule
   ],
   providers: [
     GameService,

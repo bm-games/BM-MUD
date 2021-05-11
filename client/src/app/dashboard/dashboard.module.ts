@@ -13,12 +13,15 @@ import {GameOverviewComponent} from './components/game-overview/game-overview.co
 import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatDialogModule} from '@angular/material/dialog';
+import {ChangePasswordDialog} from "./components/dialog/changePasswordDialog";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    GameOverviewComponent
+    GameOverviewComponent,
+    ChangePasswordDialog
   ],
   imports: [
     CommonModule,
@@ -35,7 +38,8 @@ import {MatChipsModule} from "@angular/material/chips";
     MatCardModule,
     MatOptionModule,
     MatGridListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule
   ]
 })
 export class DashboardModule {
