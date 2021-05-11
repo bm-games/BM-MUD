@@ -5,15 +5,18 @@ import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
 import com.github.ajalt.clikt.parameters.arguments.argument
-import net.bmgames.error
+import net.bmgames.errorMsg
 import net.bmgames.game.action.*
 import net.bmgames.game.action.EntityAction.Type.Create
 import net.bmgames.game.action.EntityAction.Type.Remove
 import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.commands.findDifferentPlayerInRoom
 import net.bmgames.game.commands.getRoom
-import net.bmgames.state.model.*
+import net.bmgames.state.model.Game
+import net.bmgames.state.model.Inventory
+import net.bmgames.state.model.NPC
 import net.bmgames.state.model.Player.Normal
+import net.bmgames.state.model.Room
 import net.bmgames.success
 
 class HitCommand : PlayerCommand("hit") {
@@ -21,7 +24,7 @@ class HitCommand : PlayerCommand("hit") {
     val target: String by argument(help = "The target you want to hit")
 
     override fun toAction(player: Normal, game: Game): Either<String, List<Action>> =
-        if (!player.canHit()) error("Cool down a bit!")
+        if (!player.canHit()) errorMsg("Cool down a bit!")
         else either.eager {
             val room = player.getRoom(game).bind()
 
@@ -33,7 +36,7 @@ class HitCommand : PlayerCommand("hit") {
                 ?.let(actions::addAll)
 
             if (actions.isEmpty()) {
-                error("Couldn't find an entity with name $target")
+                errorMsg("Couldn't find an entity with name $target")
             } else {
                 success(actions)
             }.bind()

@@ -4,11 +4,10 @@ import arrow.core.Either
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.subcommands
 import net.bmgames.ErrorMessage
-import net.bmgames.state.model.CommandConfig
-import net.bmgames.error
+import net.bmgames.errorMsg
 import net.bmgames.game.commands.master.*
 import net.bmgames.game.commands.player.*
-import net.bmgames.errorMsg
+import net.bmgames.state.model.CommandConfig
 import net.bmgames.state.model.Player
 import net.bmgames.success
 
@@ -78,8 +77,7 @@ class CommandParser(commandConfig: CommandConfig) {
         }
 
         val commandConstructor = commands[commandName]
-            ?: return error("Command not found. Available commands: \n" + commands.keys.joinToString("\n"))
-            ?: return errorMsg("Command not found") //TODO send available commands
+            ?: return errorMsg("Command not found. Available commands: \n" + commands.keys.joinToString("\n"))
 
         val command = commandConstructor()
         return try {

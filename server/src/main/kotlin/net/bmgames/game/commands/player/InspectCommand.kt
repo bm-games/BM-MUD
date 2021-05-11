@@ -2,9 +2,8 @@ package net.bmgames.game.commands.player
 
 import arrow.core.Either
 import arrow.core.computations.either
-import arrow.core.rightIfNotNull
 import com.github.ajalt.clikt.parameters.arguments.argument
-import net.bmgames.error
+import net.bmgames.errorMsg
 import net.bmgames.game.action.Action
 import net.bmgames.game.action.MasterCommandAction
 import net.bmgames.game.action.sendText
@@ -85,7 +84,7 @@ class InspectCommand : PlayerCommand("inspect") {
             }
 
         if (actions.isEmpty()) {
-            error("Couldn't find an entity with name $target")
+            errorMsg("Couldn't find an entity with name $target")
         } else {
             success(actions)
         }.bind()
