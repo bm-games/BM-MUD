@@ -38,7 +38,11 @@
       </div>
       <div *ngIf="isCustomCommand">
         <div>
-          <label>Syntax definieren:</label>
+          <label
+            matTooltip="Verfügbare Befehle sind: bla"
+            matTooltipPosition="below">
+            Syntax definieren:
+          </label>
           <input placeholder="z.B. hit $player" [(ngModel)]="commandSyntax"/>
         </div>
         <div>

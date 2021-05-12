@@ -13,12 +13,17 @@ import {GameOverviewComponent} from './components/game-overview/game-overview.co
 import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
+import { FaqComponent } from './components/faq/faq.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatExpansionModule} from "@angular/material/expansion";
+
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    GameOverviewComponent
+    GameOverviewComponent,
+    FaqComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +40,9 @@ import {MatChipsModule} from "@angular/material/chips";
     MatCardModule,
     MatOptionModule,
     MatGridListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTooltipModule,
+    MatExpansionModule
   ]
 })
 export class DashboardModule {

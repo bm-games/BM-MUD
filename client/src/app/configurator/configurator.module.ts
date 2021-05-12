@@ -18,6 +18,8 @@ import { StartequipmentComponent } from './components/configuration/startequipme
 import { CommandComponent } from './components/configuration/command/command.component';
 import { ItemComponent } from './components/configuration/item/item.component';
 import {FormsModule} from "@angular/forms";
+import {MatButtonModule} from "@angular/material/button";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import {FormsModule} from "@angular/forms";
     MatListModule,
     MatGridListModule,
     MatTableModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule,
+    MatTooltipModule
   ],
   providers: [
     ConfigService
