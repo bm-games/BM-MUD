@@ -24,6 +24,7 @@ import net.bmgames.success
 
 internal class ConfigEndpoint {
     fun saveConfig(config: DungeonConfig, user: User): Either<ErrorMessage, Unit> {
+        if(config.name.isNullOrEmpty()) return errorMsg("Der Name des MUDs darf nicht leer sein")
         if (GameRepository.loadGame(config.name) != null)
             return errorMsg("Ein Spiel mit diesem Namen existiert bereits")
         if (config.startRoom == "") return errorMsg("Es wurde kein Startraum festgelegt")

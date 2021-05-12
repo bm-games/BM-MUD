@@ -22,6 +22,7 @@ export class RoomComponent implements OnInit {
   selectedRoomNPCs: NPC[] = [];
   selectedRoomItems: Item[] = [];
   selectedStartRoomName: string | undefined;
+  existingRoomSelected: boolean = false;
 
   configuredRooms: RoomConfig[] = [];
 
@@ -86,7 +87,7 @@ export class RoomComponent implements OnInit {
    * All existing neighbours getting updated.
    */
   addRoom() {
-    if(!this.checkContainsName()){
+    if(!this.checkContainsName() || this.existingRoomSelected){
       let northNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'n');
       let eastNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'e');
       let southNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 's');
@@ -124,6 +125,7 @@ export class RoomComponent implements OnInit {
   }
 
   checkContainsName(): boolean{
+    if(this.selectedGridValueIndex)
     for (let i = 0; i < this.configuredRooms.length; i++) {
       if(this.configuredRooms[i].name == this.selectedRoomName){
         return true;
@@ -258,8 +260,10 @@ export class RoomComponent implements OnInit {
     }
     if(this.grid[index].value == null){
       this.grid[index].color = "#DC3545";           // selected grid no room -> red
+      this.existingRoomSelected = false;
     }else{
       this.grid[index].color = "green";             // selected grid room -> green
+      this.existingRoomSelected = true;
     }
   }
 
