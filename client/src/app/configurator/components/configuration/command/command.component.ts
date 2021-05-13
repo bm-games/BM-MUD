@@ -29,12 +29,14 @@ export class CommandComponent implements OnInit {
 
   aliases: StringMap<string> = {}           // StringMap[Name] = 'alias'
   customCommands: StringMap<string> = {}    // StringMap[Name] = 'ActionString'
+  customCommandList: string[] = []
 
   constructor() { }
 
   ngOnInit(): void {
     this.aliases = ConfigurationComponent.commandConfig.aliases;
     this.customCommands = ConfigurationComponent.commandConfig.customCommands;
+    this.customCommandList = ConfigurationComponent.customCommandList;
 
     this.pickupAlias = this.aliases['pickup'];
     this.consumeAlias = this.aliases['consume'];
@@ -60,6 +62,8 @@ export class CommandComponent implements OnInit {
         this.customCommands[this.commandSyntax] = actionString;
 
         ConfigurationComponent.commandConfig.customCommands = this.customCommands;
+        this.customCommandList.concat([this.commandSyntax]);
+
         this.commandSyntax = undefined;
       }
       else{
