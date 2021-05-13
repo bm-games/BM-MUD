@@ -36,8 +36,6 @@ export class CommandComponent implements OnInit {
   ngOnInit(): void {
     this.aliases = ConfigurationComponent.commandConfig.aliases;
     this.customCommands = ConfigurationComponent.commandConfig.customCommands;
-    this.customCommandList = ConfigurationComponent.customCommandList;
-
     this.pickupAlias = this.aliases['pickup'];
     this.consumeAlias = this.aliases['consume'];
     this.showInventoryAlias = this.aliases['show inventory'];
