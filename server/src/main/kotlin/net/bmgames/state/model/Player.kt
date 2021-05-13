@@ -19,7 +19,6 @@ sealed class Player {
     @Serializable
     @optics
     data class Normal(
-        val id: Int? = null,
         override val user: User,
         val avatar: Avatar,
 
@@ -28,11 +27,16 @@ sealed class Player {
 
         val healthPoints: Int,
         val lastHit: Long?,
-        val visitedRooms: Set<String>
+        val visitedRooms: Set<String>,
+
+        val id: Int? = null,
     ) : Player() {
         override val ingameName = avatar.name
         val damage: Float
             get() = (avatar.clazz.damage + (inventory.weapon?.damage ?: 0)) * avatar.race.damageModifier
+
+        val maxHealthPoints: Int
+            get() = (avatar.maxHealth * inventory.healthModifier).toInt()
 
         fun canHit(): Boolean =
             lastHit == null ||
@@ -40,13 +44,3 @@ sealed class Player {
 
     }
 }
-
-/**
- * In this time range the player can hit [Clazz.attackSpeed] times
- * */
-const val HIT_TIMEFRAME = 20L * 1000L
-
-/**
- * How many normal items can be hodled by a player
- * */
-const val INVENTORY_SIZE = 10

@@ -39,4 +39,3 @@ sealed class Item {
     ) : Item()
 }
 
-fun Float.toRelativePercent() = (this - 1) * 100

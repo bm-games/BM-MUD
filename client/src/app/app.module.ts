@@ -10,6 +10,11 @@ import {DashboardModule} from "./dashboard/dashboard.module";
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {AuthService} from "./authentication/services/auth.service";
 import {environment} from "../environments/environment";
+import {CookieInterceptor} from "./authentication/services/cookie-interceptor.service";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {ErrorDialog, ErrorService} from "./shared/services/error.service";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 export const LOCAL_CONFIG: ClientConfig = {
   endpoint: environment.endpoint,
@@ -18,20 +23,25 @@ export const LOCAL_CONFIG: ClientConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, ErrorDialog
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     ConfiguratorModule,
     GameModule,
     DashboardModule,
-    AuthenticationModule
+    AuthenticationModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [
     {provide: CONFIG, useValue: LOCAL_CONFIG},
-    AuthService
+    {provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true},
+    AuthService,
+    ErrorService
   ],
   bootstrap: [AppComponent]
 })

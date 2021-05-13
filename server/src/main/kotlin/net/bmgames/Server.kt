@@ -5,6 +5,7 @@ package net.bmgames
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
+import io.ktor.features.CORS.Configuration.Companion.CorsSimpleRequestHeaders
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
 import io.ktor.http.content.*
@@ -21,6 +22,7 @@ import net.bmgames.communication.Notifier
 import net.bmgames.game.installGameEndpoint
 import net.bmgames.state.GameRepository
 import net.bmgames.state.installConfigEndpoint
+import org.jetbrains.exposed.sql.not
 import java.time.Duration
 
 const val WEB_SOCKETS_PING: Long = 15
@@ -38,16 +40,16 @@ class Server(val config: ServerConfig) {
 fun Application.installServer(server: Server) {
     installFeatures()
     configureSecurity(server.config)
-    configureRoutes(server.authenticator)
+    configureRoutes(server.authenticator, server.notifier)
 }
 
-fun Application.configureRoutes(authenticator: Authenticator) {
+fun Application.configureRoutes(authenticator: Authenticator, notifier: Notifier) {
     routing {
         route("/api") {
             installAuthEndpoint(authenticator)
             authenticate {
                 installConfigEndpoint()
-                installGameEndpoint()
+                installGameEndpoint(notifier = notifier)
             }
         }
 
@@ -82,12 +84,13 @@ fun Application.installFeatures() {
 
 fun Application.configureSecurity(config: ServerConfig) {
     install(CORS) {
-        anyHost()
         allowCredentials = true
         allowNonSimpleContentTypes = true
-        method(HttpMethod.Get)
-        method(HttpMethod.Options)
-        method(HttpMethod.Post)
+        CorsSimpleRequestHeaders.forEach(::header)
+        header("Cookie")
+
+        host("localhost:4200")
+        host("bm-games.net", subDomains = listOf("play"))
     }
 
     install(Sessions) {
@@ -100,8 +103,11 @@ fun Application.configureSecurity(config: ServerConfig) {
                 .subSequence(0, SECRET_KET_LENGTH / 2)
                 .toString()
                 .toByteArray()
-            cookie.extensions["SameSite"] = "lax"
+
+//            cookie.extensions["SameSite"] = "Lax"
+//            cookie.secure = true
             cookie.httpOnly = true
+            cookie.domain = "localhost" //TODO replace with domain for prod
             transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
         }
     }

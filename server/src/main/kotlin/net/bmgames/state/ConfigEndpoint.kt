@@ -15,6 +15,7 @@ import io.ktor.routing.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import net.bmgames.ErrorMessage
+import net.bmgames.acceptOrReject
 import net.bmgames.authentication.User
 import net.bmgames.authentication.getUser
 import net.bmgames.errorMsg
@@ -68,10 +69,7 @@ fun Route.installConfigEndpoint() {
                     .mapLeft { "Please enter the missing values." }
                     .bind()
                 configEndpoint.saveConfig(config, user).bind()
-            }.fold(
-                { error -> call.respond(HttpStatusCode.BadRequest, error) },
-                { call.respond(HttpStatusCode.Accepted) }
-            )
+            }.acceptOrReject(call)
         }
     }
 }

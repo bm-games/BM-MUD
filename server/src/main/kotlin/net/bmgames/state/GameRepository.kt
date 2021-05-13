@@ -1,14 +1,20 @@
 package net.bmgames.state
 
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import net.bmgames.state.database.*
 import net.bmgames.state.database.CommandTable.Type.Alias
 import net.bmgames.state.database.CommandTable.Type.Custom
 import net.bmgames.state.database.ItemConfigTable.Type
 import net.bmgames.state.model.*
-import net.bmgames.state.model.Equipment.Slot
+import net.bmgames.state.model.Item.*
+import net.bmgames.state.model.Item.Equipment.Slot
 import org.jetbrains.exposed.sql.Transaction
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.concurrent.ConcurrentHashMap
 
 
 /**
@@ -16,26 +22,48 @@ import org.jetbrains.exposed.sql.transactions.transaction
  * */
 object GameRepository {
 
-    /**
-     * Loads the gamestate from the database and decodes it into a game object.
-     * @return [Game] if it exists, null otherwise
-     * */
-    internal fun loadGame(name: String): Game? = transaction {
-        GameDAO.find { GameTable.name eq name }
-            .firstOrNull()?.toGame()
+    private val cache: ConcurrentHashMap<String, Game?> by lazy {
+        ConcurrentHashMap<String, Game?>().apply {
+            transaction {
+                GameDAO.all().forEach { put(it.name, it.toGame()) }
+            }
+        }
     }
 
     /**
      * Loads every existing game.
      * */
-    internal fun listGames(): List<Game> = transaction {
-        GameDAO.all().map { it.toGame() }
+    internal fun listGames(): List<Game> = cache.mapNotNullTo(mutableListOf()) { it.value }
+
+    /**
+     * Loads the gamestate from the database and decodes it into a game object.
+     * @return [Game] if it exists, null otherwise
+     * */
+    internal fun loadGame(name: String): Game? = cache.computeIfAbsent(name) {
+        transaction {
+            GameDAO.find { GameTable.name eq name }
+                .firstOrNull()?.toGame()
+        }
     }
+
+    /**
+     * Deletes the game as well as every referenced entity
+     * */
+    fun delete(gameName: String): Unit {
+        cache.remove(gameName)
+        transaction {
+            GameDAO.find { GameTable.name eq gameName }
+                .firstOrNull()?.delete()
+        }
+    }
+
 
     /**
      * Writes the game state into the database while updating or creating the sub entities like rooms or NPCs.
      * */
     internal fun save(game: Game): Unit {
+        cache[game.name] = game
+
         val gameDAO = transaction {
             GameDAO.updateOrCreate(game.id) {
                 name = game.name

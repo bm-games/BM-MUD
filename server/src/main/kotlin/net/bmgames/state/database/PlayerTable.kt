@@ -1,6 +1,9 @@
 package net.bmgames.state.database
 
-import net.bmgames.state.model.*
+import net.bmgames.state.model.Inventory
+import net.bmgames.state.model.Item
+import net.bmgames.state.model.Item.Weapon
+import net.bmgames.state.model.Player
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
@@ -44,7 +47,7 @@ class PlayerDAO(id: EntityID<Int>) : GameReferencingDAO(id, PlayerTable) {
 private fun List<Item>.toInventory(): Inventory =
     Inventory(
         weapon = filterIsInstance<Weapon>().firstOrNull(),
-        equipment = filterIsInstance<Equipment>().associateBy { it.slot },
-        items = filterIsInstance<Consumable>()
+        equipment = filterIsInstance<Item.Equipment>().associateBy { it.slot },
+        items = filterIsInstance<Item.Consumable>()
     )
 

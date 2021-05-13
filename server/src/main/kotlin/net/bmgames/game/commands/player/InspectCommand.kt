@@ -11,9 +11,12 @@ import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.commands.getRoom
 import net.bmgames.game.commands.isInRoom
 import net.bmgames.secondsRemaining
-import net.bmgames.state.model.*
+import net.bmgames.state.model.Game
+import net.bmgames.state.model.Item
+import net.bmgames.state.model.NPC
 import net.bmgames.state.model.Player.Normal
 import net.bmgames.success
+import net.bmgames.toRelativePercent
 
 class InspectCommand : PlayerCommand("inspect") {
     val target: String by argument(help = "The target you want to inspect")

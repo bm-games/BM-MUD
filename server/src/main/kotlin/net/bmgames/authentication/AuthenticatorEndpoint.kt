@@ -12,6 +12,7 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import kotlinx.serialization.Serializable
 import net.bmgames.ErrorMessage
+import net.bmgames.acceptOrReject
 
 
 fun Route.installAuthEndpoint(authenticator: Authenticator) {
@@ -34,20 +35,14 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
             call.receive<Register>()
                 .rightIfNotNull { "Register parameters not supplied" }
                 .flatMap { (mail, username, password) -> authenticator.registerUser(mail, username, password) }
-                .fold(
-                    { error -> call.respond(HttpStatusCode.BadRequest, error) },
-                    { call.respond(HttpStatusCode.Accepted) }
-                )
+                .acceptOrReject(call)
 
         }
         post("/reset") {
             call.receive<ResetPassword>()
                 .rightIfNotNull { "Parameters not supplied" }
                 .map { (mail) -> authenticator.resetPassword(mail) }
-                .fold(
-                    { error -> call.respond(HttpStatusCode.BadRequest, error) },
-                    { call.respond(HttpStatusCode.Accepted) }
-                )
+                .acceptOrReject(call)
 
         }
         get("/verify/{token}") {
@@ -66,10 +61,7 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
                         .rightIfNotNull { "Parameters not supplied" }
                         .flatMap { (old, new) -> authenticator.changePassword(user, old, new) }
                         .bind()
-                }.fold(
-                    { error -> call.respond(HttpStatusCode.BadRequest, error) },
-                    { call.respond(HttpStatusCode.Accepted) }
-                )
+                }.acceptOrReject(call)
             }
 
             get("/logout") {

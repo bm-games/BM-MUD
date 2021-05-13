@@ -13,19 +13,21 @@ import {GameOverviewComponent} from './components/game-overview/game-overview.co
 import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatDialogModule} from "@angular/material/dialog";
+import {DeleteDialog} from "./components/game-overview/delete-dialog.component";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    GameOverviewComponent
+    GameOverviewComponent,
+    DeleteDialog
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-
 
     MatToolbarModule,
     MatButtonModule,
@@ -35,7 +37,8 @@ import {MatChipsModule} from "@angular/material/chips";
     MatCardModule,
     MatOptionModule,
     MatGridListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule
   ]
 })
 export class DashboardModule {

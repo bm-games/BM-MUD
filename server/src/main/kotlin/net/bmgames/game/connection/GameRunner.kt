@@ -5,15 +5,15 @@ import arrow.core.computations.either
 import arrow.fx.coroutines.Atomic
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import net.bmgames.ErrorMessage
-import net.bmgames.errorMsg
+import net.bmgames.*
 import net.bmgames.game.GameScope
 import net.bmgames.game.commands.Command
 import net.bmgames.game.commands.CommandParser
 import net.bmgames.game.message.Message
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
-import net.bmgames.success
+import net.bmgames.state.model.onlinePlayers
+import java.util.logging.Logger
 
 /**
  * Central component which runs a concrete MUD
@@ -35,6 +35,7 @@ class GameRunner internal constructor(initialGame: Game) {
      * @return The current game state
      * */
     suspend fun getCurrentGameState() = currentGameState.get()
+    val name: String = initialGame.name
 
     /**
      * Connects a player to this game
@@ -43,8 +44,9 @@ class GameRunner internal constructor(initialGame: Game) {
      * */
     internal suspend fun connect(player: Player): Either<ErrorMessage, IConnection> = either {
         val allowedUsers = getCurrentGameState().allowedUsers
-        if (!allowedUsers.containsKey(player.user.username)) {
-            errorMsg("You are not invited to this game").bind()
+
+        guard(!allowedUsers.containsKey(player.user.username)) {
+            "You are not invited to this game"
         }
 
         val connection = onlinePlayersRef.modify { connections ->
@@ -68,10 +70,8 @@ class GameRunner internal constructor(initialGame: Game) {
                     commandQueue.send(player.ingameName to command)
                 }
             }
-            launch {
-                connection.outgoingChannel.invokeOnClose {
-                    launch { onlinePlayersRef.update { it - player.ingameName } }
-                }
+            connection.onClose {
+                launch { onlinePlayersRef.update { it - player.ingameName } }
             }
         }
 
@@ -81,8 +81,28 @@ class GameRunner internal constructor(initialGame: Game) {
     /**
      * Starts the game loop in the [GameScope] context
      * */
-    suspend fun gameLoop(): Unit {
+    internal suspend fun gameLoop(): Unit {
 //        TODO()
+    }
+
+    /**
+     * Modifies the current game state.
+     * @param f A function which updates the game
+     * */
+    suspend fun updateGameState(f: (Game) -> Game) {
+        currentGameState.update(f)
+    }
+
+    /**
+     * Kicks every player and stops the game loop.
+     * @return The last game state
+     * */
+    internal suspend fun stop(): Game {
+        this.onlinePlayersRef.getAndSet(emptyMap())
+            .forEach { (_, connection) -> connection.close("Game was stopped.") }
+        updateGameState(Game.onlinePlayers.set(emptyMap()))
+
+        return getCurrentGameState()
     }
 
 }

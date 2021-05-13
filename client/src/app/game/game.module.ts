@@ -28,8 +28,7 @@ import { ChatComponent } from './components/chat/chat.component';
   ],
   providers: [
     GameService,
-    CommandService,
-    HttpClientModule
+    CommandService
   ]
 })
 export class GameModule {

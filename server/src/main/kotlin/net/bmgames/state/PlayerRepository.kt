@@ -3,23 +3,30 @@ package net.bmgames.state
 import net.bmgames.state.database.*
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
+import net.bmgames.state.model.Player.Normal
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.concurrent.ConcurrentHashMap
 
 object PlayerRepository {
+
+    private val cache: ConcurrentHashMap<Pair<String, String>, Normal?> =
+        ConcurrentHashMap<Pair<String, String>, Normal?>()
+
     /**
      * Reads a player from the db
      * */
-    internal fun loadPlayer(gameName: String, ingameName: String): Player.Normal? {
-        return transaction {
-            val query = PlayerTable.innerJoin(GameTable).innerJoin(AvatarTable)
-                .slice(PlayerTable.columns)
-                .select { GameTable.name eq gameName and (AvatarTable.name eq ingameName) }
-                .withDistinct()
+    internal fun loadPlayer(gameName: String, ingameName: String): Normal? =
+        cache.computeIfAbsent(gameName to ingameName) {
+            transaction {
+                val query = PlayerTable.innerJoin(GameTable).innerJoin(AvatarTable)
+                    .slice(PlayerTable.columns)
+                    .select { GameTable.name eq gameName and (AvatarTable.name eq ingameName) }
+                    .withDistinct()
 
-            PlayerDAO.wrapRows(query).firstOrNull()?.toPlayer()
+                PlayerDAO.wrapRows(query).firstOrNull()?.toPlayer()
+            }
         }
-    }
 
     /**
      * Updates or creates the player in a game
@@ -28,7 +35,9 @@ object PlayerRepository {
      * @throws NullPointerException If a precondition is not met
      * @throws SqlException //TODO
      * */
-    internal fun savePlayer(game: Game, player: Player.Normal): Unit {
+    internal fun savePlayer(game: Game, player: Normal): Unit {
+        cache[game.name to player.ingameName] = player
+
         val playerDAO = transaction {
             if (game.id == null) GameRepository.save(game)
             val gameDAO = GameDAO[game.id!!]
