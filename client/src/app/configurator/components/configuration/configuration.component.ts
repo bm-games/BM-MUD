@@ -35,7 +35,7 @@ export class ConfigurationComponent implements OnInit {
   private static _allRooms: RoomConfig[] = [];
   private static _startequipment: Item[] = [];
   private static _startRoom: string;
-  private static _customCommandList: string[]
+  private static _customCommandList: string[] = [];
 
   constructor(private configService: ConfigService, private titleService: Title, private router: Router) { }
 

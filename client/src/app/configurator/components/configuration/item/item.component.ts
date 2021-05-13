@@ -31,16 +31,17 @@ export class ItemComponent implements OnInit {
 
   getCommandsForItems() : string[] {
     let commandArray : string[] = ['Heilen', 'Gesundheit abziehen']
-    commandArray.concat(ConfigurationComponent.customCommandList);
+    ConfigurationComponent.customCommandList.forEach(c => commandArray.push(c))
     return commandArray;
-
   }
+
   constructor() {
   }
 
   ngOnInit(): void {
     this.configuredItems = ConfigurationComponent.allItems;
     this.commandsForItems = this.getCommandsForItems();
+    console.log(this.commandsForItems)
   }
 
   /**

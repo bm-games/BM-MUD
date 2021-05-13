@@ -62,9 +62,9 @@ export class CommandComponent implements OnInit {
         this.customCommands[this.commandSyntax] = actionString;
 
         ConfigurationComponent.commandConfig.customCommands = this.customCommands;
-        this.customCommandList.concat([this.commandSyntax]);
-
+        ConfigurationComponent.customCommandList.push(this.commandSyntax);
         this.commandSyntax = undefined;
+        console.log(ConfigurationComponent.customCommandList)
       }
       else{
         window.alert("Es wurden nicht alle Werte eingegeben");

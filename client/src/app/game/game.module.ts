@@ -13,6 +13,10 @@ import {FormsModule} from "@angular/forms";
 import { ChatComponent } from './components/chat/chat.component';
 import { MasterComponent } from './components/master/master.component';
 import {MatListModule} from '@angular/material/list';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatSelectModule} from '@angular/material/select';
+import {MatSliderModule} from "@angular/material/slider";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import {MatListModule} from '@angular/material/list';
     AngularSplitModule,
     MatToolbarModule,
     MatGridListModule,
-    MatListModule
+    MatListModule,
+    MatTabsModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatTooltipModule
   ],
   providers: [
     GameService,

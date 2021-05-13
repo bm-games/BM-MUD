@@ -45,41 +45,177 @@ body {
   width: 49%;
 }
 
-.gameMapArea{
-  height: 50%;
-  .gameMap{
-    width: 40%;
-    margin: auto;
-    float: right;
-    border: 1px solid black;
-    mat-grid-list{
-      background-color: whitesmoke;
-    }
-  }
-}
 .gameMapContents{
   float: right;
   width: 100%;
   height: 50%;
-  .mat-list{
-    background-color: whitesmoke;
-    overflow: scroll;
-    height: 100%;
+  .mat-tab-group{
+    height: 90%;
+  }
+  .tabContent{
+    height: 300px;
+    overflow: hidden;
+    .currentlyInside{
+      width: 40%;
+      float: left;
+      margin-left: 5px;
+    }
+    .allAvailable{
+      width: 35%;
+      float: left;
+      margin-left: 5px;
+    }
+    .mat-selection-list{
+      overflow: scroll;
+      height: 300px;
+    }
+    button{
+      margin-top: 132px;
+      margin-left: 5px;
+      background-color: #DC3545;
+      border-radius: 5px;
+      color: white;
+      height: 35px;
+      border: none;
+      float: left;
+    }
+    .header{
+      width: 55%;
+      float: right;
+      text-align: center;
+      .mat-form-field{
+        margin-top: 10px;
+      }
+    }
+    .body{
+      width: 55%;
+      height: 70%;
+      float: right;
+      div{
+        height: 100%;
+      }
+    }
+    .kickBtnDiv{
+      text-align: center;
+      button{
+        float: none;
+        margin: 100px auto auto;
+      }
+    }
+    .teleportPlayerDiv{
+      text-align: center;
+      label{
+        margin-top: 100px;
+        margin-right: 20px;
+      }
+      .dropDown{
+        margin-top: 80px;
+      }
+    }
+    .hitPlayerDiv{
+      text-align: center;
+      button{
+        float: none;
+        margin: 80px auto auto;
+      }
+      label{
+        margin-top: 20px;
+        margin-right: 20px;
+      }
+    }
+    .deleteRoomDiv{
+      text-align: center;
+      height: 100%;
+      label{
+        margin-top: 20px;
+      }
+      button{
+        float: none;
+        margin: 80px auto auto;
+      }
+    }
+  }
+  .tabContentRoom{
+    height: 300px;
+    overflow: hidden;
+    .leftSide{
+      float: left;
+      width: 30%;
+      height: 100%;
+      text-align: center;
+      input{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 90%;
+        font-size: 12pt;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        border-bottom: 1px solid black;
+      }
+      textarea{
+        width: 90%;
+        resize: none;
+        height: 50%;
+        outline: none;
+        font-size: 12pt;
+        background-color: whitesmoke;
+      }
+    }
+    .rightSide{
+      float: right;
+      width: 70%;
+      height: 100%;
+      .mat-selection-list{
+        width: 50%;
+        overflow: scroll;
+        height: 300px;
+      }
+      .npcList{
+        float: left;
+      }
+      .itemList{
+        float: right;
+      }
+    }
   }
 }
 
-.playersOnline{
+.playersOnlineDiv{
   float: left;
   width: 50%;
   height: 90%;
   .mat-list{
     background-color: whitesmoke;
     overflow: scroll;
-    height: 100%;
+    height: 90%;
+  }
+  button{
+    margin-top: 10px;
+    background-color: #DC3545;
+    border-radius: 5px;
+    color: white;
+    height: 35px;
+    border: none;
+    float: right;
+  }
+  input{
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 12pt;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
   }
 }
 .divRightTop{
-  height: 100%;
+  height: 50%;
+  .gameMap {
+    width: 40%;
+    margin: auto;
+    float: right;
+  }
 }
 
 .gameArea{
