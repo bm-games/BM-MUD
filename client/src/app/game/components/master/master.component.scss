@@ -105,11 +105,14 @@ body {
     .teleportPlayerDiv{
       text-align: center;
       label{
-        margin-top: 100px;
         margin-right: 20px;
       }
-      .dropDown{
-        margin-top: 80px;
+      .lblAndDropDown{
+        margin-top: 10px;
+        height: min-content;
+      }
+      .btn{
+        margin-top: -90px;
       }
     }
     .hitPlayerDiv{
@@ -138,6 +141,13 @@ body {
   .tabContentRoom{
     height: 300px;
     overflow: hidden;
+    button{
+      background-color: #DC3545;
+      border-radius: 5px;
+      color: white;
+      height: 35px;
+      border: none;
+    }
     .leftSide{
       float: left;
       width: 30%;
@@ -203,6 +213,7 @@ body {
     margin-top: 10px;
     margin-left: 20px;
     font-size: 12pt;
+    width: 40%;
     border: 0;
     outline: 0;
     background: transparent;
