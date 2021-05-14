@@ -3,7 +3,7 @@ package net.bmgames.game.commands.player
 import arrow.core.Either
 import arrow.core.computations.either
 import com.github.ajalt.clikt.parameters.arguments.argument
-import net.bmgames.errorMsg
+import net.bmgames.*
 import net.bmgames.game.action.Action
 import net.bmgames.game.action.MasterCommandAction
 import net.bmgames.game.action.sendText
@@ -12,12 +12,13 @@ import net.bmgames.game.commands.getRoom
 import net.bmgames.game.commands.isInRoom
 import net.bmgames.secondsRemaining
 import net.bmgames.state.model.*
+import net.bmgames.state.model.Game
+import net.bmgames.state.model.Item
+import net.bmgames.state.model.NPC
 import net.bmgames.state.model.Player.Normal
-import net.bmgames.success
-import net.bmgames.toRelativePercent
 
 class InspectCommand : PlayerCommand("inspect") {
-    val target: String by argument(help = "The target you want to inspect")
+    val target: String by argument(help = message("game.inspect-target"))
 
     override fun toAction(player: Normal, game: Game): Either<String, List<Action>> = either.eager {
         val room = player.getRoom(game).bind()
@@ -28,7 +29,7 @@ class InspectCommand : PlayerCommand("inspect") {
                 with(this as Normal) {
                     actions.add(
                         player.sendText(
-                            "Player $ingameName has race ${avatar.race.name} and class ${avatar.clazz.name}."
+                            message("game.player").format(ingameName,avatar.race.name,avatar.clazz.name)
                         )
                     )
                 }
@@ -38,9 +39,10 @@ class InspectCommand : PlayerCommand("inspect") {
                 is NPC.Friendly -> {
                     actions.add(
                         player.sendText(
-                            """${name}: "$messageOnTalk"
-                            | I have some items for you: ${items.joinToString(" ") { item -> item.name }}
-                        """.trimMargin()
+                            message("game.npc-friendly").format(
+                                name,
+                                messageOnTalk,
+                                items.joinToString(" ") { item -> item.name })
                         )
                     )
                     if (commandOnInteraction.isNotEmpty()) {
@@ -50,9 +52,10 @@ class InspectCommand : PlayerCommand("inspect") {
                 is NPC.Hostile -> {
                     actions.add(
                         player.sendText(
-                            """${name}: "I will hit you in ${nextAttackTimePoint().secondsRemaining()} if you don't run!
-                            | If you kill me, you get these items: ${items.joinToString(" ") { item -> item.name }}
-                        """.trimMargin()
+                            message("game.npc-hostile").format(
+                                name,
+                                nextAttackTimePoint().secondsRemaining(),
+                                items.joinToString(" ") { item -> item.name })
                         )
                     )
                 }
@@ -62,22 +65,23 @@ class InspectCommand : PlayerCommand("inspect") {
             .forEach { item ->
                 when (item) {
                     is Consumable -> {
-                        actions.add(player.sendText("$target is consumable."))
+                        actions.add(player.sendText(message("game.is-consumable").format(target)))
                     }
                     is Equipment -> {
                         actions.add(
                             player.sendText(
-                                """You can wear $target on your ${item.slot}. 
-                                | It will increase your health by ${item.healthModifier.toRelativePercent()}% 
-                                | and your damage by ${item.damageModifier.toRelativePercent()}%.
-                                """.trimMargin()
+                                message("game.equipment").format(
+                                    target,
+                                    item.slot,
+                                    item.healthModifier.toRelativePercent(),
+                                    item.damageModifier.toRelativePercent())
                             )
                         )
                     }
                     is Weapon -> {
                         actions.add(
                             player.sendText(
-                                "If you wield $target you will deal ${item.damage} damage."
+                                message("game.wield-weapon").format(target,item.damage)
                             )
                         )
                     }
@@ -85,7 +89,7 @@ class InspectCommand : PlayerCommand("inspect") {
             }
 
         if (actions.isEmpty()) {
-            errorMsg("Couldn't find an entity with name $target")
+            errorMsg(message("game.entity-not-found").format(target))
         } else {
             success(actions)
         }.bind()

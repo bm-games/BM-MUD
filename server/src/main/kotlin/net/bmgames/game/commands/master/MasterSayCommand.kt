@@ -8,6 +8,7 @@ import net.bmgames.game.action.Action
 import net.bmgames.game.action.MessageAction
 import net.bmgames.game.commands.MasterCommand
 import net.bmgames.game.message.Message
+import net.bmgames.message
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 
@@ -21,6 +22,6 @@ class MasterSayCommand : MasterCommand("say") {
         try {
             Either.Right(listOf<Action>(MessageAction(player, Message.Text(message))))
         } catch (e: Error) {
-            Either.Left("Couldn't use say function")
+            Either.Left(message("game.say-function"))
         }
 }

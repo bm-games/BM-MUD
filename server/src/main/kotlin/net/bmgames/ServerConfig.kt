@@ -6,6 +6,7 @@ import arrow.core.computations.either
 import arrow.core.filterOrElse
 import arrow.core.flatMap
 import arrow.core.identity
+import net.bmgames.message
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -48,11 +49,11 @@ data class ServerConfig(
     companion object {
         internal fun readConfig(path: String): Either<Error, ServerConfig> {
             return catch(
-                { Error("Couldn't find config file.", it) },
+                { Error(message("config.config-not-found" ),it) },
                 { File(path).readText() }
             ).flatMap { content ->
                 catch(
-                    { Error("Couldn't parse config.", it) },
+                    { Error(message("config.cannot-parse-config"), it) },
                     { Json.decodeFromString<ServerConfig>(content) }
                 ).filterOrElse(
                     { it.secretKeyHash.length == SECRET_KET_LENGTH },
@@ -79,7 +80,7 @@ data class ServerConfig(
         internal fun initializeConfig(configPath: String): ServerConfig =
             readConfig(configPath)
                 .fold({ error ->
-                    if (DEMO_CONFIG.writeConfig(configPath)) println("A demo config was generated at $configPath.")
+                    if (DEMO_CONFIG.writeConfig(configPath)) println(message("config.config-generated").format(configPath))
                     throw error
                 }, ::identity)
 

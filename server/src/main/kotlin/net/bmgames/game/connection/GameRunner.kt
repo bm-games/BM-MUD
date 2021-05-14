@@ -58,13 +58,12 @@ class GameRunner internal constructor(initialGame: Game) {
         val allowedUsers = getCurrentGameState().allowedUsers
 
         guard(!allowedUsers.containsKey(player.user.username)) {
-            "You are not invited to this game"
+            message("game.not-invited")
         }
 
         val connection = onlinePlayersRef.modify { connections ->
             if (connections.containsKey(player.ingameName)) {
-                connections to errorMsg("Player ${player.ingameName} already connected")
-            } else {
+                connections to errorMsg(message("game.player-already-connected").format(player.ingameName))             } else {
                 val parseCommand = when (player) {
                     is Master -> commandParser::parseMasterCommand
                     is Normal -> commandParser::parsePlayerCommand
@@ -79,7 +78,7 @@ class GameRunner internal constructor(initialGame: Game) {
         //TODO broadcast that player joined
 
         GameScope.launch {
-            connection.outgoingChannel.send(Message.Text("Welcome!"))
+            connection.outgoingChannel.send(Message.Text(message("game.welcome")))
             launch {
                 for (command in connection.incoming) {
                     commandQueue.send(player.ingameName to command)
@@ -141,7 +140,7 @@ class GameRunner internal constructor(initialGame: Game) {
      * */
     internal suspend fun stop(): Game {
         this.onlinePlayersRef.getAndSet(emptyMap())
-            .forEach { (_, connection) -> connection.close("Game was stopped.") }
+            .forEach { (_, connection) -> connection.close(message("game.game-stopped")) }
         updateGameState(Game.onlinePlayers.set(emptyMap()))
 
         return getCurrentGameState()

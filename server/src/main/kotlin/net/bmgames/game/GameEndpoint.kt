@@ -13,8 +13,7 @@ import io.ktor.routing.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
 import kotlinx.coroutines.launch
-import net.bmgames.ErrorMessage
-import net.bmgames.acceptOrReject
+import net.bmgames.*
 import net.bmgames.authentication.User
 import net.bmgames.authentication.getUser
 import net.bmgames.authentication.withUser
@@ -23,8 +22,6 @@ import net.bmgames.game.GameOverview.Permission
 import net.bmgames.game.connection.GameRunner
 import net.bmgames.game.connection.IConnection
 import net.bmgames.game.message.sendMessage
-import net.bmgames.guard
-import net.bmgames.modify
 import net.bmgames.state.GameRepository
 import net.bmgames.state.PlayerRepository
 import net.bmgames.state.model.*
@@ -78,9 +75,9 @@ internal class GameEndpoint(
                     }
                 }
             } catch (e: ClosedReceiveChannelException) {
-                connection.close("The connection was closed. Reason: ${e.message}")
+                connection.close(message("message.connection-closed").format(e.message))
             } catch (e: Throwable) {
-                connection.close("The connection was closed by an error. Reason: ${e.message}")
+                connection.close(message("message.connection-closed-error").format(e.message))
             }
         }
         val outgoing = GameScope.launch {
@@ -103,12 +100,8 @@ internal class GameEndpoint(
         with(gameRunner.getCurrentGameState()) {
             notifier.send(
                 recipient = master.user,
-                subject = "${user.username} wants to join $name",
-                message = """Hi ${master.ingameName}, \n
-                |Player ${user.username} wants to join your MUD $name!\n
-                |Accept or reject his request in your master console.\n\n
-                |See you there!
-            """.trimMargin()
+                subject = message("message.want-to-join").format(user.username,name),
+                message = message("message.join-request").format(master.ingameName,user.username,name)
             )
         }
     }
@@ -167,21 +160,21 @@ fun Route.installGameEndpoint(
 
         post<RequestJoin> { (gameName) ->
             either<ErrorMessage, Unit> {
-                val user = call.getUser().rightIfNotNull { "User not authenticated" }.bind()
-                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
-                guard(gameRunner.getCurrentGameState().joinRequests.contains(user)) { "Already sent join request" }
+                val user = call.getUser().rightIfNotNull {message("message.user-not-authenticated")}.bind()
+                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull {message("message.game-not-found")}.bind()
+                guard(gameRunner.getCurrentGameState().joinRequests.contains(user)) {message("message.join-request-sent")}
                 endpoint.requestJoin(gameRunner, user)
             }.acceptOrReject(call)
         }
 
         post<CreatePlayer> { (gameName) ->
             either<ErrorMessage, Unit> {
-                val user = call.getUser().rightIfNotNull { "User not authenticated" }.bind()
-                val avatar = call.receive<Avatar>().rightIfNotNull { "Avatar not supplied" }.bind()
-                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
+                val user = call.getUser().rightIfNotNull {message("message.user-not-authenticated")}.bind()
+                val avatar = call.receive<Avatar>().rightIfNotNull {message("message.avatar-not-supplied")}.bind()
+                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull {message("message.game-not-found")}.bind()
                 val avatarExists = gameRunner.getCurrentGameState().allowedUsers
                     .any { (_, avatars) -> avatars.contains(avatar.name) }
-                guard(avatarExists) { "An avatar with this name already exists" }
+                guard(avatarExists) {message("message.avatar-exists")}
 
                 endpoint.createPlayer(gameRunner, user, avatar)
             }.acceptOrReject(call)
@@ -189,9 +182,9 @@ fun Route.installGameEndpoint(
 
         delete<DeleteGame> { (gameName) ->
             either<ErrorMessage, Unit> {
-                val user = call.getUser().rightIfNotNull { "User not authenticated" }.bind()
-                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
-                guard(gameRunner.getCurrentGameState().master.user != user) { "Not authorized" }
+                val user = call.getUser().rightIfNotNull {message("message.user-not-authenticated")}.bind()
+                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull {message("message.game-not-found")}.bind()
+                guard(gameRunner.getCurrentGameState().master.user != user) {message("message.not-authorized")}
 
                 endpoint.deleteGame(gameRunner)
             }.acceptOrReject(call)
@@ -199,13 +192,13 @@ fun Route.installGameEndpoint(
 
         webSocket("/play/{gameName}/{avatar}") {
             either<ErrorMessage, IConnection> {
-                val gameName = call.parameters["gameName"].rightIfNotNull { "Missing game name" }.bind()
-                val avatar = call.parameters["avatar"].rightIfNotNull { "Missing avatar" }.bind()
+                val gameName = call.parameters["gameName"].rightIfNotNull {message("message.missing-game-name")}.bind()
+                val avatar = call.parameters["avatar"].rightIfNotNull {message("message.missing-avatar")}.bind()
 
-                call.getUser().rightIfNotNull { "User not authenticated" }.bind()
+                call.getUser().rightIfNotNull {message("message.user-not-authenticated")}.bind()
 
-                val player = PlayerRepository.loadPlayer(gameName, avatar).rightIfNotNull { "Player not found" }.bind()
-                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull { "Game not found" }.bind()
+                val player = PlayerRepository.loadPlayer(gameName, avatar).rightIfNotNull {message("message.player-not-found")}.bind()
+                val gameRunner = gameManager.getGameRunner(gameName).rightIfNotNull {message("message.game-not-found")}.bind()
 
                 gameRunner.connect(player).bind()
             }.fold(

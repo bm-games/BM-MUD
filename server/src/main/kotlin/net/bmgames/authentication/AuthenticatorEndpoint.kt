@@ -13,6 +13,7 @@ import io.ktor.sessions.*
 import kotlinx.serialization.Serializable
 import net.bmgames.ErrorMessage
 import net.bmgames.acceptOrReject
+import net.bmgames.message
 
 
 fun Route.installAuthEndpoint(authenticator: Authenticator) {
@@ -20,7 +21,7 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
     route("/auth") {
         post("/login") {
             call.receive<Login>()
-                .rightIfNotNull { "Login parameters not supplied" }
+                .rightIfNotNull {message("auth.login-parameters")}
                 .flatMap { (mail, password) -> authenticator.loginUser(mail, password) }
                 .fold(
                     { error -> call.respond(HttpStatusCode.BadRequest, error) },
@@ -33,20 +34,20 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
         }
         post("/register") {
             call.receive<Register>()
-                .rightIfNotNull { "Register parameters not supplied" }
+                .rightIfNotNull {message("auth.register-parameters")}
                 .flatMap { (mail, username, password) -> authenticator.registerUser(mail, username, password) }
                 .acceptOrReject(call)
 
         }
         post("/reset") {
             call.receive<ResetPassword>()
-                .rightIfNotNull { "Parameters not supplied" }
+                .rightIfNotNull {message("auth.parameters")}
                 .map { (mail) -> authenticator.resetPassword(mail) }
                 .acceptOrReject(call)
 
         }
         get("/verify/{token}") {
-            call.parameters["token"].rightIfNotNull { "No token supplied" }
+            call.parameters["token"].rightIfNotNull {message("auth.token")}
                 .flatMap { authenticator.verifyToken(it) }
                 .fold(
                     { error -> call.respond(HttpStatusCode.BadRequest, error) },
@@ -56,9 +57,9 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
         authenticate {
             post("/changePassword") {
                 either<ErrorMessage, Unit> {
-                    val user = call.getUser().rightIfNotNull { "User not signed in" }.bind()
+                    val user = call.getUser().rightIfNotNull {message("auth.not-signed-in")}.bind()
                     call.receive<ChangePassword>()
-                        .rightIfNotNull { "Parameters not supplied" }
+                        .rightIfNotNull {message("auth.parameters")}
                         .flatMap { (old, new) -> authenticator.changePassword(user, old, new) }
                         .bind()
                 }.acceptOrReject(call)

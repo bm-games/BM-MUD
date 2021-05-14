@@ -80,7 +80,7 @@ class UserHandler(
      */
     internal fun setMailApproved(token: String): Either<ErrorMessage, Unit> = transaction {
         if (UserTable.select { UserTable.registrationKey eq token }.none()) {
-            errorMsg(message("user.token-not-valid"))
+            errorMsg(message("auth.user-token-not-valid"))
         } else {
             UserTable.update({ UserTable.registrationKey eq token }) {
                 it[registrationKey] = null
