@@ -63,7 +63,8 @@ class GameRunner internal constructor(initialGame: Game) {
 
         val connection = onlinePlayersRef.modify { connections ->
             if (connections.containsKey(player.ingameName)) {
-                connections to errorMsg(message("game.player-already-connected").format(player.ingameName))             } else {
+                connections to errorMsg(message("game.player-already-connected", player.ingameName))
+            } else {
                 val parseCommand = when (player) {
                     is Master -> commandParser::parseMasterCommand
                     is Normal -> commandParser::parsePlayerCommand

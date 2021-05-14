@@ -7,4 +7,4 @@ fun message(@PropertyKey(resourceBundle = "Language") id: String) =
     ResourceBundle.getBundle("Language").getString(id) ?: "###$id###"
 
 fun message(@PropertyKey(resourceBundle = "Language") id: String, vararg args: Any?) =
-    message(id).format(args)
+    message(id).format(*args)

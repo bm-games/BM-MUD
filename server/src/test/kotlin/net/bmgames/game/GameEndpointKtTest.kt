@@ -5,7 +5,7 @@ import io.kotest.assertions.ktor.shouldHaveStatus
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.nulls.shouldNotBeNull
-import io.kotest.matchers.string.shouldContainIgnoringCase
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
@@ -15,6 +15,7 @@ import io.mockk.every
 import io.mockk.mockkObject
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import net.bmgames.message
 import net.bmgames.state.GameRepository
 import net.bmgames.state.PlayerRepository
 import net.bmgames.withAuthenticatedTestApplication
@@ -40,9 +41,9 @@ class GameEndpointKtTest : FunSpec({
                 for (msg in incoming) {
                     if (msg is Frame.Text) {
                         msg.shouldBeTypeOf<Frame.Text>()
-                            .readText() shouldContainIgnoringCase "Welcome"
+                            .readText() shouldBe message("game.welcome")
                         return@handleWebSocketConversation
-                    }else if(msg is Frame.Close) {
+                    } else if (msg is Frame.Close) {
                         closeReason = msg.readReason()
                     }
                 }
