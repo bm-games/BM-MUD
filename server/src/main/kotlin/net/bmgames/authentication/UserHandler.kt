@@ -5,6 +5,7 @@ import net.bmgames.ErrorMessage
 import net.bmgames.communication.MailNotifier
 import net.bmgames.state.database.UserTable
 import net.bmgames.errorMsg
+import net.bmgames.message
 import net.bmgames.state.UserRepository
 import net.bmgames.state.UserRepository.getUserByMail
 import net.bmgames.state.UserRepository.getUserByName
@@ -79,7 +80,7 @@ class UserHandler(
      */
     internal fun setMailApproved(token: String): Either<ErrorMessage, Unit> = transaction {
         if (UserTable.select { UserTable.registrationKey eq token }.none()) {
-            errorMsg("Token not valid.")
+            errorMsg(message("user.token-not-valid"))
         } else {
             UserTable.update({ UserTable.registrationKey eq token }) {
                 it[registrationKey] = null

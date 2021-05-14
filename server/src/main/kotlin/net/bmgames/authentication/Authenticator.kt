@@ -66,7 +66,7 @@ class Authenticator(
                 return errorMsg(message("auth.mail-not-verified"))
             }
         }
-        return errorMsg("Wrong password or no user with this credentials.")
+        return errorMsg(message("auth.wrong-password-or-no-user"))
     }
 
     /**
@@ -93,7 +93,7 @@ class Authenticator(
             userHandler.changePassword(user.email, authHelper.hashPassword(password))
             success
         } else {
-            errorMsg("Password is incorrect.")
+            errorMsg(message("auth.incorrect-password"))
         }
     }
 
