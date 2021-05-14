@@ -3,10 +3,8 @@
 package net.bmgames.game
 
 import arrow.core.computations.either
-import arrow.core.invalid
 import arrow.core.rightIfNotNull
 import io.ktor.application.*
-import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
 import io.ktor.locations.*
 import io.ktor.request.*
@@ -14,7 +12,6 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
-import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.launch
 import net.bmgames.ErrorMessage
 import net.bmgames.acceptOrReject
@@ -107,9 +104,10 @@ internal class GameEndpoint(
             notifier.send(
                 recipient = master.user,
                 subject = "${user.username} wants to join $name",
-                message = """Hi ${master.ingameName},
-                |player ${user.username} wants to join your MUD $name!
-                |Accept or reject his request in your master console.
+                message = """Hi ${master.ingameName}, \n
+                |Player ${user.username} wants to join your MUD $name!\n
+                |Accept or reject his request in your master console.\n\n
+                |See you there!
             """.trimMargin()
             )
         }
@@ -127,14 +125,14 @@ internal class GameEndpoint(
                 room = startRoom,
                 healthPoints = avatar.maxHealth,
                 lastHit = null,
-                visitedRooms = setOf(startRoom)
+                visitedRooms = hashSetOf(startRoom)
             ).also {
                 PlayerRepository.savePlayer(this, it)
             }
         }
         gameRunner.updateGameState(Game.allowedUsers.modify { users ->
             users.plus(
-                user.username to users.getOrDefault(user.username, emptyList()).plus(newPlayer.ingameName)
+                user.username to users.getOrDefault(user.username, emptySet()).plus(newPlayer.ingameName)
             )
         })
 
@@ -145,7 +143,7 @@ internal class GameEndpoint(
      * */
     suspend fun deleteGame(gameRunner: GameRunner): Unit {
         gameManager.stopGame(gameRunner)
-        GameRepository.delete(gameRunner.name)
+        GameRepository.delete(gameRunner.getCurrentGameState())
     }
 
 }

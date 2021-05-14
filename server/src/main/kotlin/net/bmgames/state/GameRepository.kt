@@ -1,18 +1,17 @@
 package net.bmgames.state
 
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import net.bmgames.state.database.*
 import net.bmgames.state.database.CommandTable.Type.Alias
 import net.bmgames.state.database.CommandTable.Type.Custom
 import net.bmgames.state.database.ItemConfigTable.Type
 import net.bmgames.state.model.*
-import net.bmgames.state.model.Item.*
-import net.bmgames.state.model.Item.Equipment.Slot
+import net.bmgames.state.model.Equipment.Slot
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.Transaction
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.concurrent.ConcurrentHashMap
 
@@ -47,13 +46,36 @@ object GameRepository {
     }
 
     /**
-     * Deletes the game as well as every referenced entity
+     * Deletes the game as well as every referenced entity. This also includes all players.
      * */
-    fun delete(gameName: String): Unit {
-        cache.remove(gameName)
+    fun delete(game: Game): Unit {
+        cache.remove(game.name)
+
         transaction {
-            GameDAO.find { GameTable.name eq gameName }
-                .firstOrNull()?.delete()
+            game.rooms.forEach { (_, room) ->
+                room.npcs.mapNotNull { (_, npc) -> npc.id }
+                    .forEach { id ->
+                        NPCItemTable.deleteWhere { NPCItemTable.npcId eq id }
+                    }
+                NPCTable.deleteWhere { NPCTable.roomId eq room.id }
+                RoomItemTable.deleteWhere { RoomItemTable.roomId eq room.id }
+            }
+
+            PlayerRepository.deletePlayersInGame(game.id)
+
+            mapOf<Table, () -> Column<EntityID<Int>>>(
+                ClassTable to ClassTable::game,
+                CommandTable to CommandTable::game,
+                StartItemTable to StartItemTable::game,
+                ItemConfigTable to ItemConfigTable::game,
+                JoinRequestTable to JoinRequestTable::game,
+                NPCConfigTable to NPCConfigTable::game,
+                RaceTable to RaceTable::game,
+                RoomTable to RoomTable::game,
+                GameTable to GameTable::id
+            ).forEach { (table, column) ->
+                table.deleteWhere { column() eq game.id }
+            }
         }
     }
 
@@ -62,8 +84,6 @@ object GameRepository {
      * Writes the game state into the database while updating or creating the sub entities like rooms or NPCs.
      * */
     internal fun save(game: Game): Unit {
-        cache[game.name] = game
-
         val gameDAO = transaction {
             GameDAO.updateOrCreate(game.id) {
                 name = game.name
@@ -88,6 +108,10 @@ object GameRepository {
                 gameDAO.startItems = game.startItems.mapNotNull { itemConfigsDAOs[it.name] }.toSized()
             }
         }
+
+        cache.remove(game.name)
+        loadGame(game.name)
+
     }
 
     private fun saveNPCConfigs(
@@ -184,7 +208,7 @@ object GameRepository {
                     npcConfigDAOs[npc.name]?.let { config ->
                         npc to NPCDAO.updateOrCreate(npc.id) {
                             npcConfig = config
-                            health = config.maxHealth
+                            health = NPC.hostile.health.getOrNull(npc)
                             roomRef = roomDAO
                         }
                     }

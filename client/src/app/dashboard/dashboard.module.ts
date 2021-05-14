@@ -15,6 +15,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDialogModule} from "@angular/material/dialog";
 import {DeleteDialog} from "./components/game-overview/delete-dialog.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -23,23 +24,24 @@ import {DeleteDialog} from "./components/game-overview/delete-dialog.component";
     GameOverviewComponent,
     DeleteDialog
   ],
-  imports: [
-    CommonModule,
-    DashboardRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
+    imports: [
+        CommonModule,
+        DashboardRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
 
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatOptionModule,
-    MatGridListModule,
-    MatChipsModule,
-    MatDialogModule
-  ]
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatCardModule,
+        MatOptionModule,
+        MatGridListModule,
+        MatChipsModule,
+        MatDialogModule,
+        MatTooltipModule
+    ]
 })
 export class DashboardModule {
 }

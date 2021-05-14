@@ -94,6 +94,7 @@ fun Application.configureSecurity(config: ServerConfig) {
         allowCredentials = true
         allowNonSimpleContentTypes = true
         CorsSimpleRequestHeaders.forEach(::header)
+        method(HttpMethod.Delete)
         header("Cookie")
 
         host("localhost:4200")

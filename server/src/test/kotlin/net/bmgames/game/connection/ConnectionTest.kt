@@ -7,15 +7,17 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.launch
 import net.bmgames.errorMsg
+import net.bmgames.game.commands.Command
 import net.bmgames.game.commands.player.MoveCommand
 import net.bmgames.game.message.Message
+import net.bmgames.state.model.Player
 import net.bmgames.success
 
 class ConnectionTest : FunSpec({
 
     val connection = Connection { command ->
         if (command == "move") {
-            success(MoveCommand())
+            success(MoveCommand() as Command<Player>)
         } else {
             errorMsg("fail")
         }

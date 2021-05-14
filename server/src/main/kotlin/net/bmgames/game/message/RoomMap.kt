@@ -1,7 +1,25 @@
 package net.bmgames.game.message
 
 import kotlinx.serialization.Serializable
-import net.bmgames.state.model.Player
+import net.bmgames.game.message.Tile.Type.NotVisited
+import net.bmgames.game.message.Tile.Type.Visited
+import net.bmgames.state.model.Room
+
+/**
+ * The radius in which the player sees the visited rooms around him.
+ * */
+private const val MAP_RADIUS: Int = 1
+
+/**
+ * The width of the map. Calculated from [MAP_RADIUS]
+ * */
+private const val MAP_WIDTH: Int = MAP_RADIUS * 2 + 1
+
+/**
+ * The height of the map. Calculated from [MAP_RADIUS]
+ * */
+private const val MAP_HEIGHT: Int = MAP_RADIUS * 2 + 1
+
 
 @Serializable
 data class RoomMap(
@@ -14,7 +32,54 @@ data class Tile(
     val east: Boolean,
     val south: Boolean,
     val west: Boolean,
-    val color: String
-)
+    val type: Type
+) {
+    enum class Type { Visited, NotVisited }
+}
 
-fun Player.Normal.getVisitedRooms(): RoomMap = RoomMap(emptyList()) //TODO
+fun Set<String>.toMap(getRoom: (String) -> Room?, currentRoom: Room): RoomMap {
+    val map: MutableList<MutableList<Tile?>> =
+        (0 until MAP_WIDTH).mapTo(mutableListOf()) {
+            (0 until MAP_HEIGHT).mapTo(mutableListOf()) { null }
+        }
+    map.addRooms(MAP_RADIUS, MAP_RADIUS, this, { it?.let(getRoom) }, currentRoom)
+    return RoomMap(map)
+}
+
+internal fun MutableList<MutableList<Tile?>>.addRooms(
+    x: Int,
+    y: Int,
+    visitedRooms: Set<String>,
+    getRoom: (String?) -> Room?,
+    room: Room,
+): Unit {
+    if (x !in 0 until MAP_WIDTH || y !in 0 until MAP_HEIGHT) {
+        return
+    } else if (this[x][y] != null) {
+        return
+    } else if (!visitedRooms.contains(room.name)) {
+        this[x][y] = with(room) {
+            Tile(
+                north = north != null,
+                east = east != null,
+                south = south != null,
+                west = west != null,
+                NotVisited
+            )
+        }
+    } else {
+        this[x][y] = with(room) {
+            Tile(
+                north = north != null,
+                east = east != null,
+                south = south != null,
+                west = west != null,
+                Visited
+            )
+        }
+        getRoom(room.north)?.also { addRooms(x, y - 1, visitedRooms, getRoom, it) }
+        getRoom(room.east)?.also { addRooms(x + 1, y, visitedRooms, getRoom, it) }
+        getRoom(room.south)?.also { addRooms(x, y + 1, visitedRooms, getRoom, it) }
+        getRoom(room.west)?.also { addRooms(x - 1, y, visitedRooms, getRoom, it) }
+    }
+}

@@ -9,7 +9,7 @@ import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 
 
-sealed class Command<P : Player>(name: String) : CliktCommand(name) {
+sealed class Command<in P : Player>(name: String) : CliktCommand(name) {
     /**
      * Check if this command can execute depending on the issuer and the current game state.
      * @param game The current game state

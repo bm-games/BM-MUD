@@ -8,10 +8,10 @@
     </mat-card-title>
     <span class="spacer"></span>
     <mat-chip-list>
-      <mat-chip>{{game.onlinePlayers}} Spieler online</mat-chip>
-      <mat-chip *ngIf="!game.masterOnline" color="warn" selected>Master offline</mat-chip>
-      <mat-chip *ngIf="game.masterOnline">Master online</mat-chip>
       <mat-chip *ngIf="game.userPermitted">{{game.avatarCount}} Avatare</mat-chip>
+      <mat-chip>{{game.onlinePlayers}} Spieler online</mat-chip>
+      <mat-chip *ngIf="!game.masterOnline" color="accent" selected>Master offline</mat-chip>
+      <mat-chip *ngIf="game.masterOnline">Master online</mat-chip>
     </mat-chip-list>
   </mat-card-header>
   <mat-card-actions style="display: flex">
@@ -22,10 +22,14 @@
       Anfrage ausstehend
     </button>
     <span class="spacer"></span>
-    <button mat-icon-button (click)="copy()">
+    <button matTooltip="Kopie erstellen"
+            mat-icon-button (click)="copy()">
       <mat-icon>content_copy</mat-icon>
     </button>
-    <button *ngIf="game.isMaster" mat-icon-button color="warn" (click)="delete()">
+    <button *ngIf="game.isMaster"
+            matTooltip="MUD löschen"
+            mat-icon-button color="warn"
+            (click)="delete()">
       <mat-icon>delete</mat-icon>
     </button>
 

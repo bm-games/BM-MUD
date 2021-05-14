@@ -1,8 +1,8 @@
 package net.bmgames.state.database
 
 import net.bmgames.state.model.Item
-import net.bmgames.state.model.Item.*
-import net.bmgames.state.model.Item.Equipment.Slot
+import net.bmgames.state.model.*
+import net.bmgames.state.model.Equipment.Slot
 import net.bmgames.state.database.ItemConfigTable.Type
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

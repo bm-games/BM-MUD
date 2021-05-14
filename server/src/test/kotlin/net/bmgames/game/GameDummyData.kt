@@ -6,7 +6,6 @@ import kotlinx.serialization.json.Json
 import net.bmgames.authentication.User
 import net.bmgames.state.DungeonConfig
 import net.bmgames.state.model.*
-import net.bmgames.state.model.Item.*
 
 
 val MASTER = Player.Master(
@@ -20,23 +19,26 @@ val PLAYER by lazy {
             race = GAME_WITHOUT_PLAYER.races[0],
             clazz = GAME_WITHOUT_PLAYER.classes[0]
         ),
-        inventory = Inventory(null, emptyMap(), emptyList()),
+        inventory = Inventory(),
         room = GAME_WITHOUT_PLAYER.startRoom,
         healthPoints = 10,
         lastHit = null,
-        visitedRooms = emptySet()
+        visitedRooms = hashSetOf(GAME_WITHOUT_PLAYER.startRoom)
     )
 }
 
-val items = mapOf(
-    "Apfel" to Consumable("Apfel", "heal \$player 10"),
-    "Diamond Helmet" to Equipment("Diamond Helmet", 10f, 1f, Equipment.Slot.Head),
-    "Wooden Sword" to Weapon("Wooden Sword", 1),
-)
+val ITEMS = listOf(
+    Consumable("Apfel", "heal \$player 10"),
+    Equipment("Diamond Helmet", 10f, 1f, Equipment.Slot.Head),
+    Equipment("Diamond Chest", 10f, 1f, Equipment.Slot.Chest),
+    Equipment("Diamond Legs", 10f, 1f, Equipment.Slot.Legs),
+    Equipment("Diamond Shoes", 10f, 1f, Equipment.Slot.Boots),
+    Weapon("Wooden Sword", 1),
+).associateBy { it.name }
 
 val npcs = mapOf(
-    "geork" to NPC.Friendly("geork", listOf(items["Apfel"]!!), "heal \$player 1", "Halloooooooooo"),
-    "georkina" to NPC.Hostile("georkina", listOf(items["Diamond Helmet"]!!), 100, 100000),
+    "geork" to NPC.Friendly("geork", listOf(ITEMS["Apfel"]!!), "heal \$player 1", "Halloooooooooo"),
+    "georkina" to NPC.Hostile("georkina", listOf(ITEMS["Diamond Helmet"]!!), 100, 100000),
 )
 
 val GAME_WITHOUT_PLAYER = Game(
@@ -58,15 +60,18 @@ val GAME_WITHOUT_PLAYER = Game(
             attackSpeed = 1
         )
     ),
-    commandConfig = CommandConfig(),
-    itemConfigs = items,
+    commandConfig = CommandConfig(
+        aliases = mapOf("say" to "sagen"),
+        customCommands = mapOf("karussel" to "move north\nmove west\nmove south\nmove east"),
+    ),
+    itemConfigs = ITEMS,
     npcConfigs = npcs.mapValues { (_, it) ->
         when (it) {
             is NPC.Hostile -> it.copy(items = emptyList())
             is NPC.Friendly -> it.copy(items = emptyList())
         }
     },
-    startItems = items.values.toList(),
+    startItems = ITEMS.values.toList(),
 
     startRoom = "Start room",
     rooms = mapOf(
@@ -74,7 +79,7 @@ val GAME_WITHOUT_PLAYER = Game(
             "Start room",
             "Welcome!",
             npcs = mapOf("georkina" to npcs["georkina"]!!),
-            items = items.values.toList(),
+            items = ITEMS.values.toList(),
             south = "Next room"
         ),
         "Next room" to Room(
@@ -86,14 +91,14 @@ val GAME_WITHOUT_PLAYER = Game(
 
     master = MASTER,
     onlinePlayers = mapOf(MASTER.ingameName to MASTER),
-    allowedUsers = mapOf(MASTER.ingameName to emptyList())
+    allowedUsers = mapOf(MASTER.ingameName to emptySet())
 )
 
 val GAME_WITH_PLAYER by lazy {
     GAME_WITHOUT_PLAYER.copy(
         name = "Game with player",
         allowedUsers = GAME_WITHOUT_PLAYER.allowedUsers.plus(
-            PLAYER.user.username to listOf(PLAYER.ingameName)
+            PLAYER.user.username to setOf(PLAYER.ingameName)
         ),
         onlinePlayers = GAME_WITHOUT_PLAYER.onlinePlayers + (PLAYER.ingameName to PLAYER)
     )

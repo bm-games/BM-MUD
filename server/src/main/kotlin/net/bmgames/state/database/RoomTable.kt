@@ -42,7 +42,8 @@ class RoomDAO(id: EntityID<Int>) : GameReferencingDAO(id, RoomTable) {
             south = south,
             west = west,
             items = items.map { it.toItem() },
-            npcs = npcs.map { it.toNPC() }.associateBy { it.name }
+            npcs = npcs.map { it.toNPC() }.associateBy { it.name },
+            id = id.value
         )
 
 }

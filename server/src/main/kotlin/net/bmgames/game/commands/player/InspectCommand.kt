@@ -11,9 +11,7 @@ import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.commands.getRoom
 import net.bmgames.game.commands.isInRoom
 import net.bmgames.secondsRemaining
-import net.bmgames.state.model.Game
-import net.bmgames.state.model.Item
-import net.bmgames.state.model.NPC
+import net.bmgames.state.model.*
 import net.bmgames.state.model.Player.Normal
 import net.bmgames.success
 import net.bmgames.toRelativePercent
@@ -63,10 +61,10 @@ class InspectCommand : PlayerCommand("inspect") {
         room.items.filter { it.name == target }
             .forEach { item ->
                 when (item) {
-                    is Item.Consumable -> {
+                    is Consumable -> {
                         actions.add(player.sendText("$target is consumable."))
                     }
-                    is Item.Equipment -> {
+                    is Equipment -> {
                         actions.add(
                             player.sendText(
                                 """You can wear $target on your ${item.slot}. 
@@ -76,7 +74,7 @@ class InspectCommand : PlayerCommand("inspect") {
                             )
                         )
                     }
-                    is Item.Weapon -> {
+                    is Weapon -> {
                         actions.add(
                             player.sendText(
                                 "If you wield $target you will deal ${item.damage} damage."

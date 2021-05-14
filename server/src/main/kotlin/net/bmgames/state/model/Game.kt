@@ -24,7 +24,7 @@ data class Game(
     val rooms: Map<String, Room>,
 
     val master: Player.Master,
-    val allowedUsers: Map<String, List<String>>,
+    val allowedUsers: Map<String, Set<String>>,
     val onlinePlayers: Map<String, Player> = emptyMap(),
     val joinRequests: List<User> = emptyList()
 ) {

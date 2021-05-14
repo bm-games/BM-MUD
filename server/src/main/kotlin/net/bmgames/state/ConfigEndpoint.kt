@@ -44,13 +44,16 @@ internal class ConfigEndpoint {
                 startRoom = startRoom,
                 rooms = rooms,
                 master = Player.Master(user),
-                allowedUsers = mapOf(user.username to emptyList()),
+                allowedUsers = mapOf(user.username to emptySet()),
             )
         })
         return success
     }
 
-    fun getConfig(name: String): DungeonConfig? = TODO()
+    fun getConfig(name: String): DungeonConfig? =
+        GameRepository.loadGame(name)?.run {
+            DungeonConfig(name, races, classes, commandConfig, npcConfigs, itemConfigs, startItems, startRoom, rooms)
+        }
 }
 
 fun Route.installConfigEndpoint() {
@@ -65,8 +68,8 @@ fun Route.installConfigEndpoint() {
             either<ErrorMessage, Unit> {
                 val user = call.getUser().rightIfNotNull { "Not authenticated" }.bind()
                 val configJSON = call.receive<String>().rightIfNotNull { "Config missing" }.bind()
-                val config = catch { Json.decodeFromString<DungeonConfig>(configJSON)}
-                    .mapLeft { "Please enter the missing values." }
+                val config = catch { Json.decodeFromString<DungeonConfig>(configJSON) }
+                    .mapLeft { it.printStackTrace();"Please enter the missing values." }
                     .bind()
                 configEndpoint.saveConfig(config, user).bind()
             }.acceptOrReject(call)

@@ -1,17 +1,37 @@
 import {Component, Inject, Injectable} from '@angular/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
-import {colors} from "@angular/cli/utilities/color";
+import {FullscreenOverlayContainer, Overlay} from "@angular/cdk/overlay";
+import {ComponentPortal} from "@angular/cdk/portal";
+import {MatSpinner} from "@angular/material/progress-spinner";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ErrorService {
+export class FeedbackService {
 
-  constructor(public dialog: MatDialog) {
+  private loadingOverlay = this.overlay.create({
+    hasBackdrop: true,
+    // backdropClass: 'dark-backdrop',
+    positionStrategy: this.overlay.position()
+      .global()
+      .centerHorizontally()
+      .centerVertically()
+  })
+
+  constructor(private dialog: MatDialog,
+              private overlay: Overlay) {
   }
 
-  alert(error: HttpErrorResponse) {
+  showLoadingOverlay() {
+    this.loadingOverlay.attach(new ComponentPortal(MatSpinner))
+  }
+
+  stopLoadingOverlay() {
+    this.loadingOverlay.detach()
+  }
+
+  showError(error: HttpErrorResponse) {
     this.dialog.open(ErrorDialog, {data: {error: error}});
   }
 }

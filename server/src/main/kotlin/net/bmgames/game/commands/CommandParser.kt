@@ -64,11 +64,17 @@ class CommandParser(commandConfig: CommandConfig) {
             commandConfig.aliases[original] ?: original
         }
 
+    @Suppress("UNCHECKED_CAST")
+    fun parseMasterCommand(commandLine: String) = parse(commandLine, masterCommands).map { it as Command<Player> }
 
-    fun parseMasterCommand(commandLine: String) = parse(commandLine, masterCommands)
-    fun parsePlayerCommand(commandLine: String) = parse(commandLine, playerCommands)
+    @Suppress("UNCHECKED_CAST")
+    fun parsePlayerCommand(commandLine: String) = parse(commandLine, playerCommands).map { it as Command<Player> }
 
-    private fun parse(commandLine: String, commands: Map<String, () -> Command<*>>): Either<ErrorMessage, Command<*>> {
+    private fun <P : Player> parse(
+        commandLine: String,
+        commands: Map<String, () -> Command<P>>
+    ): Either<ErrorMessage, Command<P>> {
+
         val args = commandLine.trim().split(Regex("[ \t]+"))
         val commandName = args.getOrNull(0)
 

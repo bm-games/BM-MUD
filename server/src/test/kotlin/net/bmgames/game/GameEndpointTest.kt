@@ -6,12 +6,17 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkObject
+import net.bmgames.authentication.User
+import net.bmgames.communication.Notifier
+import net.bmgames.game.GameOverview.Permission.Yes
 import net.bmgames.state.GameRepository
 
 class GameEndpointTest : FunSpec({
 
     lateinit var gameManager: GameManager
     lateinit var endpoint: GameEndpoint
+    lateinit var notifier: Notifier
+
 
     beforeSpec {
         mockkObject(GameRepository)
@@ -19,11 +24,17 @@ class GameEndpointTest : FunSpec({
         every { GameRepository.loadGame("dummy") } returns GAME_WITHOUT_PLAYER
 
         every { GameRepository.listGames() } returns listOf(GAME_WITHOUT_PLAYER, GAME_WITH_PLAYER)
+
+        notifier = object : Notifier {
+            override fun send(recipient: User, subject: String, message: String) {
+
+            }
+        }
     }
 
     beforeTest {
         gameManager = GameManager()
-        endpoint = GameEndpoint(gameManager)
+        endpoint = GameEndpoint(gameManager, notifier)
     }
 
 
@@ -42,10 +53,10 @@ class GameEndpointTest : FunSpec({
     test("Should list games for user correctly") {
 
         val game = endpoint.listGames(PLAYER.user)
-            .find { it.userPermitted }
+            .find { it.userPermitted == Yes }
         game.shouldNotBeNull()
         game.avatarCount shouldBe 1
-        game.userPermitted shouldBe true
+        game.userPermitted shouldBe Yes
     }
 
 })
