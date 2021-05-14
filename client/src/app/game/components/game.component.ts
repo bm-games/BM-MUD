@@ -22,8 +22,8 @@ export class GameComponent implements OnInit {
   game!: string;
   avatar!: string;
 
-  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen' }, null],
-                          [null, null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen'}]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
+  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [], name: '' }, null],
+                          [null, null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [], name: ''}]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
 
   //Grid
   // -> neighbours of a gridValue are: index -> [-1],[+1],[-mapColumns},[+mapColumns]

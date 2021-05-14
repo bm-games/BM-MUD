@@ -6,6 +6,7 @@ import {Item} from "../../../configurator/models/Item";
 import {CommandService, SocketConnection} from "../../services/command.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ChatMessage} from "../chat/chat.component";
+import {RoomMap, Tile} from "../../../shared/model/map";
 
 
 @Component({
@@ -44,6 +45,9 @@ export class MasterComponent implements OnInit {
   disableNewRoomTab: boolean = true;
   selectedTabIndexRoomInformation: number = 1;
 
+  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [], name: '' }],
+      [null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [], name: '' }]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
+
   //Grid
   // -> neighbours of a gridValue are: index -> [-1],[+1],[-mapColumns},[+mapColumns]
   mapColumns = 8;
@@ -81,17 +85,29 @@ export class MasterComponent implements OnInit {
 
   ngOnInit(): void {
     // initialize grid with rooms
-    for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
+    this.mapColumns = this.map.tiles[0].length
+    /*for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
       this.grid[i] = {
         index: i,
         value: null,
         color: "#C0C0C0"
       }
+    }*/
+
+    for (let i = 0; i < this.map.tiles[0].length; i++) {
+      for (let j = 0; j < this.map.tiles[1].length; j++) {
+        let tile = this.map.tiles[i][j]
+        let gridIndex = this.mapColumns * i + j;
+        console.log(gridIndex)
+        console.log(tile)
+        if(tile != null){
+          this.grid[gridIndex] = {index: gridIndex, value: tile, color: tile.color}
+        }else{
+          this.grid[gridIndex] = {index: gridIndex, value: null, color: '#C0C0C0'}
+        }
+      }
     }
-    this.allDungeonNPCs.push({ name: 'testtttt', commandOnInteraction: '', messageOnTalk: 'hallo', items: [], type: "net.bmgames.state.model.NPC.Friendly"})
-    this.allDungeonItems.push({ name: 'testtttt', effect: 'effect', type: "net.bmgames.state.model.Consumable"})
-    this.allDungeonItems.push({ name: 'fd', slot: 'Head', healthModifier: 2, damageModifier: 3, type: "net.bmgames.state.model.Equipment"})
-    this.allDungeonItems.push({ name: 'sdd', damage: 3, type: "net.bmgames.state.model.Weapon"})
+    console.log("test")
   }
 
   /**
@@ -231,7 +247,6 @@ export class MasterComponent implements OnInit {
 
   setInputValuesToSelected(index: number){
     let name = this.grid[index].value?.name;
-    let msg = this.grid[index].value?.message;
     let npcs = this.grid[index].value?.npcs;
     let items = this.grid[index].value?.items;
 
@@ -240,11 +255,6 @@ export class MasterComponent implements OnInit {
       this.selectedRoomName = '';
     }else{
       this.selectedRoomName = name;
-    }
-    if(msg == undefined){
-      this.selectedRoomMessage = '';
-    }else{
-      this.selectedRoomMessage = msg;
     }
     if(npcs == undefined){
       this.selectedRoomNPCs = [];
@@ -285,6 +295,6 @@ export class MasterComponent implements OnInit {
 
 export interface gridValue {
   index: number;
-  value: null | RoomConfig;
+  value: null | Tile;
   color: string;
 }
