@@ -18,6 +18,12 @@ import java.io.File
  * */
 const val SECRET_KET_LENGTH = 32
 
+
+/**
+ * Keep alive ping of a websocket connection
+ * */
+const val WEB_SOCKETS_PING: Long = 15
+
 /**
  * This Config configures the server
  * @property secretKeyHash Used for encrypting user passwords and sessions.

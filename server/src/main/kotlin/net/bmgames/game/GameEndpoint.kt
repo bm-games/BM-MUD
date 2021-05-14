@@ -154,7 +154,7 @@ internal class GameEndpoint(
  * Connects the [GameEndpoint] to Ktor
  * */
 fun Route.installGameEndpoint(
-    gameManager: GameManager = GameManager(),
+    gameManager: GameManager,
     notifier: Notifier
 ) {
     val endpoint = GameEndpoint(gameManager, notifier)
