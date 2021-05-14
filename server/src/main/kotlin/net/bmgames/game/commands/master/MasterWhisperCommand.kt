@@ -6,13 +6,14 @@ import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.transformAll
 import net.bmgames.game.action.Action
 import net.bmgames.game.commands.MasterCommand
+import net.bmgames.message
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 
 
 class MasterWhisperCommand : MasterCommand("whisper") {
-    val target: String by argument(help = "The player you want to whisper to")
-    val message: String by argument(help = "The message you want to send")
+    val target: String by argument(help = message("game.whisper-to"))
+    val message: String by argument(help = message("game.whisper-message"))
         .multiple(true)
         .transformAll { it.joinToString(" ") }
 

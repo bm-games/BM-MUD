@@ -7,6 +7,7 @@ import net.bmgames.ErrorMessage
 import net.bmgames.errorMsg
 import net.bmgames.game.commands.master.*
 import net.bmgames.game.commands.player.*
+import net.bmgames.message
 import net.bmgames.state.model.CommandConfig
 import net.bmgames.state.model.Player
 import net.bmgames.success
@@ -73,11 +74,11 @@ class CommandParser(commandConfig: CommandConfig) {
         val commandName = args.getOrNull(0)
 
         if (commandName == null) {
-            return errorMsg("Empty command")
+            return errorMsg(message("game.empty-command"))
         }
 
         val commandConstructor = commands[commandName]
-            ?: return errorMsg("Command not found. Available commands: \n" + commands.keys.joinToString("\n"))
+            ?: return errorMsg(message("game.command-not-found").format(commands.keys.joinToString("\n")))
 
         val command = commandConstructor()
         return try {

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
  * */
 fun main(args: Array<String>) {
     if (args.size != 1) {
-        errorMsg("Path of config is missing. Please specify it as the first command line argument.")
+        errorMsg(message("config.path-missing"))
     }
 
     val mudServer = initializeConfig(configPath = args[0]).let(::Server)
@@ -22,7 +22,7 @@ fun main(args: Array<String>) {
         .start(false)
 
     Runtime.getRuntime().addShutdownHook(Thread {
-        println("Going down - stopping all games...")
+        println(message("config.shutdown"))
         netty.stop(
             gracePeriod = 1,
             timeout = 15,

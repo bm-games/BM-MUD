@@ -10,6 +10,7 @@ import net.bmgames.game.action.Action
 import net.bmgames.game.action.MoveAction
 import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.commands.getRoom
+import net.bmgames.message
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 import net.bmgames.state.model.Room
@@ -21,12 +22,12 @@ import net.bmgames.success
 class MoveCommand : PlayerCommand("move") {
 
     enum class Direction { NORTH, EAST, SOUTH, WEST }
-    val direction: Direction by argument(help = "The direction you want to move to").enum()
+    val direction: Direction by argument(help = message("game.direction")).enum()
 
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> = either.eager {
         val room = player.getRoom(game).bind()
         val actions = mutableListOf<Action>()
-        val destinationRoom : Room?;
+        val destinationRoom : Room?
             when(direction) {
                 Direction.NORTH -> {
                     destinationRoom = room.north?.let { game.getRoom(it) }
@@ -42,7 +43,7 @@ class MoveCommand : PlayerCommand("move") {
                 }
             }
         if(destinationRoom == null)
-            errorMsg("Destination does not exist")
+            errorMsg(message("game.destination"))
         else{
             actions.add(MoveAction(player.left(), room, destinationRoom))
             success(actions)

@@ -12,6 +12,7 @@ import net.bmgames.game.action.EntityAction.Type.Remove
 import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.commands.findDifferentPlayerInRoom
 import net.bmgames.game.commands.getRoom
+import net.bmgames.message
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Inventory
 import net.bmgames.state.model.NPC
@@ -21,10 +22,10 @@ import net.bmgames.success
 
 class HitCommand : PlayerCommand("hit") {
 
-    val target: String by argument(help = "The target you want to hit")
+    val target: String by argument(help = message("game.hit-target"))
 
     override fun toAction(player: Normal, game: Game): Either<String, List<Action>> =
-        if (!player.canHit()) errorMsg("Cool down a bit!")
+        if (!player.canHit()) errorMsg(message("game.cooldown"))
         else either.eager {
             val room = player.getRoom(game).bind()
 
@@ -36,7 +37,7 @@ class HitCommand : PlayerCommand("hit") {
                 ?.let(actions::addAll)
 
             if (actions.isEmpty()) {
-                errorMsg("Couldn't find an entity with name $target")
+                errorMsg(message("game.entity-not-found").format(target))
             } else {
                 success(actions)
             }.bind()
@@ -48,13 +49,11 @@ class HitCommand : PlayerCommand("hit") {
         return if (newHealth <= 0) {
             listOf(
                 sendText(
-                    """You have slain ${player.ingameName}. 
-                    |${player.ingameName}'s items have dropped on the floor."""
+                    message("game.slay-someone").format(player.ingameName,player.ingameName)
                         .trimMargin()
                 ),
                 player.sendText(
-                    """You have been slain by $ingameName. 
-                    |Your items have dropped and you're back at the start."""
+                    message("game.been-slain").format(ingameName)
                         .trimMargin()
                 ),
                 MoveAction(player.left(), room, game.getStartRoom()),
@@ -62,8 +61,8 @@ class HitCommand : PlayerCommand("hit") {
             ) + player.inventory.allItems().map { EntityAction(Create, room, it.right()) }
         } else {
             listOf(
-                sendText("${player.ingameName} has ${newHealth.toInt()} HP left."),
-                player.sendText("You have been hit by $ingameName. You have ${newHealth.toInt()} left."),
+                sendText(message("game.hp-left").format(player.ingameName,newHealth.toInt())),
+                player.sendText(message("game.hit-by").format(ingameName,newHealth.toInt())),
                 HealthAction(player.left(), -damage.toInt())
             )
         }
@@ -74,12 +73,12 @@ class HitCommand : PlayerCommand("hit") {
             val newHealth = npc.health - damage
             if (newHealth <= 0) {
                 listOf(
-                    sendText("You have slain ${npc.name}. ${npc.name}'s items have dropped on the floor."),
+                    sendText(message("game.slay-someone").format(npc.name,npc.name)),
                     EntityAction(Remove, room, npc.left())
                 ) + npc.items.map { EntityAction(Create, room, it.right()) }
             } else {
                 listOf(
-                    sendText("${npc.name} has ${newHealth.toInt()} HP left."),
+                    sendText(message("game.hp-left").format(npc.name,newHealth.toInt())),
                     HealthAction(npc.right(), -damage.toInt())
                 )
             }

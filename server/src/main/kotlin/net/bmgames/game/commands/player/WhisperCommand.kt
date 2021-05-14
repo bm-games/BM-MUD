@@ -8,14 +8,15 @@ import net.bmgames.game.action.Action
 import net.bmgames.game.action.MessageAction
 import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.message.Message.Chat
+import net.bmgames.message
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 import net.bmgames.toEither
 import net.bmgames.toList
 
 class WhisperCommand : PlayerCommand("whisper") {
-    val target: String by argument(help = "The player you want to whisper to")
-    val message: String by argument(help = "The message you want to send")
+    val target: String by argument(help = message("game.whisper-to"))
+    val message: String by argument(help = message("game.whisper-message"))
         .multiple(true)
         .transformAll { it.joinToString(" ") }
 

@@ -1,6 +1,7 @@
 package net.bmgames.game.commands
 
 import arrow.core.rightIfNotNull
+import net.bmgames.message
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 import net.bmgames.state.model.Player.Normal
@@ -8,7 +9,7 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
 fun Normal.getRoom(game: Game) =
-    game.getRoom(room).rightIfNotNull { "Geork: I don't know how you got here, but your room doesn't exist." }
+    game.getRoom(room).rightIfNotNull {message("game.geork")}
 
 @OptIn(ExperimentalContracts::class)
 fun Player.isInRoom(roomName: String): Boolean {
