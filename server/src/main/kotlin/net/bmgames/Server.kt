@@ -23,6 +23,7 @@ import net.bmgames.communication.Notifier
 import net.bmgames.game.GameManager
 import net.bmgames.game.installGameEndpoint
 import net.bmgames.state.installConfigEndpoint
+import org.jetbrains.exposed.sql.not
 import java.time.Duration
 
 
@@ -33,7 +34,7 @@ class Server(val config: ServerConfig) {
 
     val notifier: Notifier by lazy { mailNotifier }
     val authenticator = Authenticator(authHelper, userHandler)
-    val gameManager = GameManager()
+    val gameManager = GameManager(notifier)
 }
 
 fun Application.installServer(server: Server) {

@@ -6,7 +6,7 @@ import net.bmgames.state.model.Game
 sealed class Action
 
 abstract class Effect : Action() {
-    abstract fun run(gameRunner: GameRunner)
+    abstract suspend fun run(gameRunner: GameRunner)
 }
 
 abstract class Update : Action() {

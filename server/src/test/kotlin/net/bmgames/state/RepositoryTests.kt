@@ -13,6 +13,7 @@ import net.bmgames.game.ITEMS
 import net.bmgames.state.database.PlayerDAO
 import net.bmgames.state.database.PlayerTable
 import net.bmgames.state.model.*
+import net.bmgames.state.model.Direction.NORTH
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -66,7 +67,7 @@ class RepositoryTests : FunSpec({
             rooms = game.rooms.plus("New room" to Room(
                 "New room",
                 "Hi",
-                "Next room",
+                neighbours = mapOf(NORTH to "Next room"),
                 items = game.startItems,
                 npcs = game.getStartRoom().npcs
                     .mapValues { (_, npc) -> (npc as NPC.Hostile).copy(items = game.startItems, id = null) }

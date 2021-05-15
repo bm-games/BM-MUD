@@ -5,8 +5,6 @@ import net.bmgames.game.connection.GameRunner
 import net.bmgames.game.message.Message
 import net.bmgames.state.model.Player
 
-data class NotifyUserAction(val user: User, val message: String) : Effect() {
-    override fun run(gameRunner: GameRunner) {
-        TODO("Not yet implemented")
-    }
+data class NotifyUserAction(val user: User, val subject: String, val message: String) : Effect() {
+    override suspend fun run(gameRunner: GameRunner) = gameRunner.notifier.send(user, subject, message)
 }

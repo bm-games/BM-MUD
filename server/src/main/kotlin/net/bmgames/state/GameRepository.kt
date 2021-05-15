@@ -6,6 +6,7 @@ import net.bmgames.state.database.CommandTable.Type.Alias
 import net.bmgames.state.database.CommandTable.Type.Custom
 import net.bmgames.state.database.ItemConfigTable.Type
 import net.bmgames.state.model.*
+import net.bmgames.state.model.Direction.*
 import net.bmgames.state.model.Equipment.Slot
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.Column
@@ -181,10 +182,10 @@ object GameRepository {
                     gameRef = gameDAO
                     name = room.name
                     message = room.message
-                    north = room.north
-                    east = room.east
-                    west = room.west
-                    south = room.south
+                    north = room.neighbours[NORTH]
+                    west = room.neighbours[WEST]
+                    east = room.neighbours[EAST]
+                    south = room.neighbours[SOUTH]
                 }
             }
         }

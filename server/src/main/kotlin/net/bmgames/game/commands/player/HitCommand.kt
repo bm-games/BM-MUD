@@ -56,7 +56,7 @@ class HitCommand : PlayerCommand("hit") {
                     message("game.been-slain").format(ingameName)
                         .trimMargin()
                 ),
-                MoveAction(player.left(), room, game.getStartRoom()),
+                MoveAction(player, room, game.getStartRoom()),
                 InventoryAction(player, Inventory(null, emptyMap(), game.startItems))
             ) + player.inventory.allItems().map { EntityAction(Create, room, it.right()) }
         } else {
@@ -79,7 +79,7 @@ class HitCommand : PlayerCommand("hit") {
             } else {
                 listOf(
                     sendText(message("game.hp-left").format(npc.name,newHealth.toInt())),
-                    HealthAction(npc.right(), -damage.toInt())
+                    HealthAction((room to npc).right(), -damage.toInt())
                 )
             }
         } else {

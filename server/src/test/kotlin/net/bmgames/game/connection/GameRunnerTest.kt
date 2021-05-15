@@ -9,18 +9,19 @@ import io.kotest.matchers.types.shouldBeTypeOf
 import net.bmgames.game.GAME_WITH_PLAYER
 import net.bmgames.game.PLAYER
 import net.bmgames.game.GAME_WITHOUT_PLAYER
+import net.bmgames.game.NOOP_NOTIFIER
 import net.bmgames.message
 
 class GameRunnerTest : FunSpec({
 
     test("Allowed player should be able to join") {
-        val runner = GameRunner(GAME_WITH_PLAYER)
+        val runner = GameRunner(GAME_WITH_PLAYER, NOOP_NOTIFIER)
         val connection = runner.connect(PLAYER)
         connection.shouldBeRight()
     }
 
     test("Uninvited player should not be able to join") {
-        val runner = GameRunner(GAME_WITHOUT_PLAYER)
+        val runner = GameRunner(GAME_WITHOUT_PLAYER, NOOP_NOTIFIER)
         val connection = runner.connect(PLAYER)
         connection.shouldBeLeft()
         connection.value shouldBe message("game.not-invited")
@@ -28,7 +29,7 @@ class GameRunnerTest : FunSpec({
 
 
     test("Connected player should not join a second time") {
-        val runner = GameRunner(GAME_WITH_PLAYER)
+        val runner = GameRunner(GAME_WITH_PLAYER, NOOP_NOTIFIER)
         runner.connect(PLAYER).shouldBeRight()
         val invalid = runner.connect(PLAYER)
         invalid.shouldBeLeft()

@@ -1,13 +1,13 @@
 package net.bmgames.game.action
 
-import net.bmgames.state.model.Game
-import net.bmgames.state.model.Inventory
-import net.bmgames.state.model.Item
-import net.bmgames.state.model.Player
+import net.bmgames.atIndex
+import net.bmgames.state.model.*
 
 data class InventoryAction(val player: Player.Normal, val inventory: Inventory) : Update() {
 
-    override fun update(game: Game): Game {
-        TODO("Not yet implemented")
-    }
+    override fun update(game: Game): Game =
+        Game.onlinePlayers.atIndex(player.ingameName)
+            .compose(Player.normal.inventory)
+            .set(game, inventory)
+
 }

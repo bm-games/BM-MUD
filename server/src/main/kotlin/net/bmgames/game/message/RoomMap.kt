@@ -3,6 +3,7 @@ package net.bmgames.game.message
 import kotlinx.serialization.Serializable
 import net.bmgames.game.message.Tile.Type.NotVisited
 import net.bmgames.game.message.Tile.Type.Visited
+import net.bmgames.state.model.Direction.*
 import net.bmgames.state.model.Room
 
 /**
@@ -60,26 +61,26 @@ internal fun MutableList<MutableList<Tile?>>.addRooms(
     } else if (!visitedRooms.contains(room.name)) {
         this[x][y] = with(room) {
             Tile(
-                north = north != null,
-                east = east != null,
-                south = south != null,
-                west = west != null,
-                NotVisited
+                north = neighbours[NORTH] != null,
+                west = neighbours[WEST] != null,
+                east = neighbours[EAST] != null,
+                south = neighbours[SOUTH] != null,
+                type = NotVisited
             )
         }
     } else {
         this[x][y] = with(room) {
             Tile(
-                north = north != null,
-                east = east != null,
-                south = south != null,
-                west = west != null,
-                Visited
+                north = neighbours[NORTH] != null,
+                west = neighbours[WEST] != null,
+                east = neighbours[EAST] != null,
+                south = neighbours[SOUTH] != null,
+                type = Visited
             )
         }
-        getRoom(room.north)?.also { addRooms(x, y - 1, visitedRooms, getRoom, it) }
-        getRoom(room.east)?.also { addRooms(x + 1, y, visitedRooms, getRoom, it) }
-        getRoom(room.south)?.also { addRooms(x, y + 1, visitedRooms, getRoom, it) }
-        getRoom(room.west)?.also { addRooms(x - 1, y, visitedRooms, getRoom, it) }
+        getRoom(room.neighbours[NORTH])?.also { addRooms(x, y - 1, visitedRooms, getRoom, it) }
+        getRoom(room.neighbours[WEST])?.also { addRooms(x - 1, y, visitedRooms, getRoom, it) }
+        getRoom(room.neighbours[EAST])?.also { addRooms(x + 1, y, visitedRooms, getRoom, it) }
+        getRoom(room.neighbours[SOUTH])?.also { addRooms(x, y + 1, visitedRooms, getRoom, it) }
     }
 }

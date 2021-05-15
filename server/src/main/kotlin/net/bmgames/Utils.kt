@@ -1,10 +1,15 @@
 package net.bmgames
 
 import arrow.core.Either
+import arrow.core.Option
 import arrow.core.computations.EitherEffect
 import arrow.core.left
 import arrow.core.right
-import arrow.optics.Lens
+import arrow.optics.Optional
+import arrow.optics.dsl.at
+import arrow.optics.dsl.index
+import arrow.optics.typeclasses.At
+import arrow.optics.typeclasses.Index
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
@@ -35,10 +40,10 @@ suspend inline fun Either<ErrorMessage, Unit>.acceptOrReject(call: ApplicationCa
     )
 
 
-
 fun Long.secondsRemaining(): Int = (this - System.currentTimeMillis()).toInt()
-
 fun Float.toRelativePercent() = (this - 1) * 100
-fun <S, A> Lens<S, A>.modify(f: (A) -> A): (S) -> S = { s -> modify(s, f) }
 
-fun <S, A> Lens<S, A>.set(a: A): (S) -> S = { s -> set(s, a) }
+fun <S, A> Optional<S, A>.modify(f: (A) -> A): (S) -> S = { s -> modify(s, f) }
+fun <S, A> Optional<S, A>.set(focus: A): (S) -> S = { set(it, focus) }
+fun <T, K, V> Optional<T, Map<K, V>>.atIndex(key: K): Optional<T, V> = index(Index.map(), key)
+fun <T, K, V> Optional<T, Map<K, V>>.at(key: K): Optional<T, Option<V>> = at(At.map(), key)

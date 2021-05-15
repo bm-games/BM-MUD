@@ -5,6 +5,8 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import net.bmgames.game.message.Tile.Type.NotVisited
 import net.bmgames.game.message.Tile.Type.Visited
+import net.bmgames.state.model.Direction
+import net.bmgames.state.model.Direction.*
 import net.bmgames.state.model.Room
 
 class RoomMapKtTest : FunSpec({
@@ -12,10 +14,12 @@ class RoomMapKtTest : FunSpec({
     val allRooms = (0..8).map { i ->
         Room(
             name = i.toString(), message = "",
-            north = if ((i % 3) == 1) (i - 3).toString() else null,
-            south = if ((i % 3) == 1) (i + 3).toString() else null,
-            east = if (i in 3..5) (i + 1).toString() else null,
-            west = if (i in 3..5) (i - 1).toString() else null,
+            neighbours = mutableMapOf<Direction, String>().apply {
+                if ((i % 3) == 1) put(NORTH, (i - 3).toString())
+                if ((i % 3) == 1) put(SOUTH, (i + 3).toString())
+                if (i in 3..5) put(EAST, (i + 1).toString())
+                if (i in 3..5) put(WEST, (i - 1).toString())
+            }
         )
     }.associateBy { it.name }
 

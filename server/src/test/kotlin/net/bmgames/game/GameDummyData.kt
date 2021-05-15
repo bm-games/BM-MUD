@@ -4,8 +4,11 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.bmgames.authentication.User
+import net.bmgames.communication.Notifier
 import net.bmgames.state.DungeonConfig
 import net.bmgames.state.model.*
+import net.bmgames.state.model.Direction.NORTH
+import net.bmgames.state.model.Direction.SOUTH
 
 
 val MASTER = Player.Master(
@@ -80,12 +83,12 @@ val GAME_WITHOUT_PLAYER = Game(
             "Welcome!",
             npcs = mapOf("georkina" to npcs["georkina"]!!),
             items = ITEMS.values.toList(),
-            south = "Next room"
+            neighbours = mapOf(SOUTH to "Next room")
         ),
         "Next room" to Room(
             "Next room", "HIIIIIIIIIIIIIIIIIII!",
             npcs = mapOf("geork" to npcs["geork"]!!),
-            north = "Start room"
+            neighbours = mapOf(NORTH to "Start room")
         )
     ),
 
@@ -102,6 +105,10 @@ val GAME_WITH_PLAYER by lazy {
         ),
         onlinePlayers = GAME_WITHOUT_PLAYER.onlinePlayers + (PLAYER.ingameName to PLAYER)
     )
+}
+
+val NOOP_NOTIFIER = object : Notifier {
+    override fun send(recipient: User, subject: String, message: String) {}
 }
 
 fun main() {

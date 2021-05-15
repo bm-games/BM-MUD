@@ -6,6 +6,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkObject
+import io.mockk.unmockkAll
 import net.bmgames.authentication.User
 import net.bmgames.communication.Notifier
 import net.bmgames.game.GameOverview.Permission.Yes
@@ -15,7 +16,6 @@ class GameEndpointTest : FunSpec({
 
     lateinit var gameManager: GameManager
     lateinit var endpoint: GameEndpoint
-    lateinit var notifier: Notifier
 
 
     beforeSpec {
@@ -25,16 +25,11 @@ class GameEndpointTest : FunSpec({
 
         every { GameRepository.listGames() } returns listOf(GAME_WITHOUT_PLAYER, GAME_WITH_PLAYER)
 
-        notifier = object : Notifier {
-            override fun send(recipient: User, subject: String, message: String) {
-
-            }
-        }
     }
 
     beforeTest {
-        gameManager = GameManager()
-        endpoint = GameEndpoint(gameManager, notifier)
+        gameManager = GameManager(NOOP_NOTIFIER)
+        endpoint = GameEndpoint(gameManager, NOOP_NOTIFIER)
     }
 
 
@@ -57,6 +52,10 @@ class GameEndpointTest : FunSpec({
         game.shouldNotBeNull()
         game.avatarCount shouldBe 1
         game.userPermitted shouldBe Yes
+    }
+
+    afterSpec {
+        unmockkAll()
     }
 
 })

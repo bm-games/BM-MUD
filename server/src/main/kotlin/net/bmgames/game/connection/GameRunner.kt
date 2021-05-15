@@ -10,6 +10,7 @@ import arrow.optics.typeclasses.At
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import net.bmgames.*
+import net.bmgames.communication.Notifier
 import net.bmgames.game.GameScope
 import net.bmgames.game.action.Action
 import net.bmgames.game.action.Effect
@@ -36,10 +37,10 @@ import java.util.logging.Logger
  *  Every connection is indexed by the unique ingame name of the player
  *
  * */
-class GameRunner internal constructor(initialGame: Game) {
+class GameRunner internal constructor(initialGame: Game, val notifier: Notifier) {
     private val currentGameState: Atomic<Game> = Atomic.unsafe(initialGame)
-    private val commandParser = CommandParser(initialGame.commandConfig)
-    private val commandQueue = Channel<Pair<String, Command<Player>>>()
+    internal val commandParser = CommandParser(initialGame.commandConfig)
+    internal val commandQueue = Channel<Pair<String, Command<Player>>>()
 
     private val onlinePlayersRef: Atomic<Map<String, Connection>> = Atomic.unsafe(emptyMap())
 
@@ -145,6 +146,10 @@ class GameRunner internal constructor(initialGame: Game) {
         updateGameState(Game.onlinePlayers.set(emptyMap()))
 
         return getCurrentGameState()
+    }
+
+    internal suspend fun getConnection(playerName: String): Connection? {
+        return onlinePlayersRef.get()[playerName]
     }
 
 }

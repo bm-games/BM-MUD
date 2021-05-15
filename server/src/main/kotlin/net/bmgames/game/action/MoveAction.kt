@@ -1,13 +1,13 @@
 package net.bmgames.game.action
 
-import arrow.core.Either
-import net.bmgames.state.model.Game
-import net.bmgames.state.model.NPC
-import net.bmgames.state.model.Player
-import net.bmgames.state.model.Room
+import net.bmgames.atIndex
+import net.bmgames.state.model.*
 
-data class MoveAction(val entity: Either<Player.Normal, NPC>, val from: Room, val to: Room) : Update() {
-    override fun update(game: Game): Game {
-        TODO("Not yet implemented")
-    }
+data class MoveAction(val player: Player.Normal, val from: Room, val to: Room) : Update() {
+    override fun update(game: Game): Game =
+        if (game.rooms.containsKey(to.name))
+            Game.onlinePlayers.atIndex(player.ingameName)
+                .compose(Player.normal.room)
+                .set(game, to.name)
+        else game
 }
