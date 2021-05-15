@@ -20,6 +20,10 @@ export class GameService {
     return this.http.get<GameOverview[]>(this.CONFIG.endpoint + '/game/list')
   }
 
+  createAvatar(gameName: string, race: string, damage: number, health: number, avatarname: string){
+
+  }
+
   delete(gameName: string): Promise<void> {
     return this.http.delete(`${this.CONFIG.endpoint}/game/delete/${gameName}`)
       .toPromise().then(() => {
