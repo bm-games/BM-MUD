@@ -5,6 +5,7 @@ package net.bmgames
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
+import io.ktor.features.CORS.Configuration.Companion.CorsSimpleRequestHeaders
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
 import io.ktor.http.content.*
@@ -15,15 +16,16 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
 import io.ktor.websocket.*
+import kotlinx.coroutines.runBlocking
 import net.bmgames.authentication.*
 import net.bmgames.communication.MailNotifier
 import net.bmgames.communication.Notifier
+import net.bmgames.game.GameManager
 import net.bmgames.game.installGameEndpoint
-import net.bmgames.state.GameRepository
 import net.bmgames.state.installConfigEndpoint
+import org.jetbrains.exposed.sql.not
 import java.time.Duration
 
-const val WEB_SOCKETS_PING: Long = 15
 
 class Server(val config: ServerConfig) {
     private val mailNotifier by lazy { MailNotifier(config) }
@@ -32,22 +34,30 @@ class Server(val config: ServerConfig) {
 
     val notifier: Notifier by lazy { mailNotifier }
     val authenticator = Authenticator(authHelper, userHandler)
-    val gameRepository = GameRepository
+    val gameManager = GameManager(notifier)
 }
 
 fun Application.installServer(server: Server) {
     installFeatures()
     configureSecurity(server.config)
-    configureRoutes(server.authenticator)
+    configureRoutes(server)
+
+    environment.monitor.subscribe(ApplicationStopped) {
+        with(server.gameManager) {
+            runBlocking {
+                getRunningGames().forEach { (_, game) -> stopGame(game) }
+            }
+        }
+    }
 }
 
-fun Application.configureRoutes(authenticator: Authenticator) {
+fun Application.configureRoutes(server: Server) {
     routing {
         route("/api") {
-            installAuthEndpoint(authenticator)
+            installAuthEndpoint(server.authenticator)
             authenticate {
                 installConfigEndpoint()
-                installGameEndpoint()
+                installGameEndpoint(server.gameManager, server.notifier)
             }
         }
 
@@ -82,12 +92,14 @@ fun Application.installFeatures() {
 
 fun Application.configureSecurity(config: ServerConfig) {
     install(CORS) {
-        anyHost()
         allowCredentials = true
         allowNonSimpleContentTypes = true
-        method(HttpMethod.Get)
-        method(HttpMethod.Options)
-        method(HttpMethod.Post)
+        CorsSimpleRequestHeaders.forEach(::header)
+        method(HttpMethod.Delete)
+        header("Cookie")
+
+        host("localhost:4200")
+        host("bm-games.net", subDomains = listOf("play"))
     }
 
     install(Sessions) {
@@ -100,8 +112,11 @@ fun Application.configureSecurity(config: ServerConfig) {
                 .subSequence(0, SECRET_KET_LENGTH / 2)
                 .toString()
                 .toByteArray()
-            cookie.extensions["SameSite"] = "lax"
+
+//            cookie.extensions["SameSite"] = "Lax"
+//            cookie.secure = true
             cookie.httpOnly = true
+            cookie.domain = "localhost" //TODO replace with domain for prod
             transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
         }
     }

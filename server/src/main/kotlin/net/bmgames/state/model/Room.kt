@@ -11,11 +11,10 @@ import kotlinx.serialization.Serializable
 data class Room(
     val name: String,
     val message: String,
-    val north: String? = null,
-    val east: String? = null,
-    val south: String? = null,
-    val west: String? = null,
+    val neighbours: Map<Direction, String>,
     val items: List<Item> = emptyList(),
     val npcs: Map<String, NPC> = emptyMap(),
     val id: Int? = null,
-)
+) {
+    fun getNeighbour(game: Game, direction: Direction): Room? = neighbours[direction]?.let(game::getRoom)
+}

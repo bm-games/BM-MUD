@@ -1,5 +1,7 @@
 package net.bmgames.state.database
 
+import net.bmgames.state.model.Direction
+import net.bmgames.state.model.Direction.*
 import net.bmgames.state.model.Room
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -37,12 +39,15 @@ class RoomDAO(id: EntityID<Int>) : GameReferencingDAO(id, RoomTable) {
         Room(
             name = name,
             message = message,
-            north = north,
-            east = east,
-            south = south,
-            west = west,
+            neighbours = mutableMapOf<Direction, String>().apply {
+                north?.also { put(NORTH, it) }
+                west?.also { put(WEST, it) }
+                east?.also { put(EAST, it) }
+                south?.also { put(SOUTH, it) }
+            },
             items = items.map { it.toItem() },
-            npcs = npcs.map { it.toNPC() }.associateBy { it.name }
+            npcs = npcs.map { it.toNPC() }.associateBy { it.name },
+            id = id.value
         )
 
 }

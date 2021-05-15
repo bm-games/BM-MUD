@@ -16,15 +16,15 @@ data class Game(
     val races: List<Race>,
     val classes: List<Clazz>,
     val commandConfig: CommandConfig,
-    val startItems: List<Item> = emptyList(),
-    val npcConfigs: Map<String, NPC> = emptyMap(),
-    val itemConfigs: Map<String, Item> = emptyMap(),
+    val startItems: List<Item>,
+    val npcConfigs: Map<String, NPC>,
+    val itemConfigs: Map<String, Item>,
 
     val startRoom: String,
     val rooms: Map<String, Room>,
 
     val master: Player.Master,
-    val allowedUsers: Map<String, List<String>> = emptyMap(),
+    val allowedUsers: Map<String, Set<String>>,
     val onlinePlayers: Map<String, Player> = emptyMap(),
     val joinRequests: List<User> = emptyList()
 ) {

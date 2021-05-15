@@ -32,8 +32,7 @@ import {MatListModule} from '@angular/material/list';
   ],
   providers: [
     GameService,
-    CommandService,
-    HttpClientModule
+    CommandService
   ]
 })
 export class GameModule {

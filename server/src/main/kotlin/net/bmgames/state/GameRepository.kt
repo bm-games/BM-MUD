@@ -6,9 +6,15 @@ import net.bmgames.state.database.CommandTable.Type.Alias
 import net.bmgames.state.database.CommandTable.Type.Custom
 import net.bmgames.state.database.ItemConfigTable.Type
 import net.bmgames.state.model.*
+import net.bmgames.state.model.Direction.*
 import net.bmgames.state.model.Equipment.Slot
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.Transaction
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.concurrent.ConcurrentHashMap
 
 
 /**
@@ -16,21 +22,64 @@ import org.jetbrains.exposed.sql.transactions.transaction
  * */
 object GameRepository {
 
-    /**
-     * Loads the gamestate from the database and decodes it into a game object.
-     * @return [Game] if it exists, null otherwise
-     * */
-    internal fun loadGame(name: String): Game? = transaction {
-        GameDAO.find { GameTable.name eq name }
-            .firstOrNull()?.toGame()
+    private val cache: ConcurrentHashMap<String, Game?> by lazy {
+        ConcurrentHashMap<String, Game?>().apply {
+            transaction {
+                GameDAO.all().forEach { put(it.name, it.toGame()) }
+            }
+        }
     }
 
     /**
      * Loads every existing game.
      * */
-    internal fun listGames(): List<Game> = transaction {
-        GameDAO.all().map { it.toGame() }
+    internal fun listGames(): List<Game> = cache.mapNotNullTo(mutableListOf()) { it.value }
+
+    /**
+     * Loads the gamestate from the database and decodes it into a game object.
+     * @return [Game] if it exists, null otherwise
+     * */
+    internal fun loadGame(name: String): Game? = cache.computeIfAbsent(name) {
+        transaction {
+            GameDAO.find { GameTable.name eq name }
+                .firstOrNull()?.toGame()
+        }
     }
+
+    /**
+     * Deletes the game as well as every referenced entity. This also includes all players.
+     * */
+    fun delete(game: Game): Unit {
+        cache.remove(game.name)
+
+        transaction {
+            game.rooms.forEach { (_, room) ->
+                room.npcs.mapNotNull { (_, npc) -> npc.id }
+                    .forEach { id ->
+                        NPCItemTable.deleteWhere { NPCItemTable.npcId eq id }
+                    }
+                NPCTable.deleteWhere { NPCTable.roomId eq room.id }
+                RoomItemTable.deleteWhere { RoomItemTable.roomId eq room.id }
+            }
+
+            PlayerRepository.deletePlayersInGame(game.id)
+
+            mapOf<Table, () -> Column<EntityID<Int>>>(
+                ClassTable to ClassTable::game,
+                CommandTable to CommandTable::game,
+                StartItemTable to StartItemTable::game,
+                ItemConfigTable to ItemConfigTable::game,
+                JoinRequestTable to JoinRequestTable::game,
+                NPCConfigTable to NPCConfigTable::game,
+                RaceTable to RaceTable::game,
+                RoomTable to RoomTable::game,
+                GameTable to GameTable::id
+            ).forEach { (table, column) ->
+                table.deleteWhere { column() eq game.id }
+            }
+        }
+    }
+
 
     /**
      * Writes the game state into the database while updating or creating the sub entities like rooms or NPCs.
@@ -60,6 +109,10 @@ object GameRepository {
                 gameDAO.startItems = game.startItems.mapNotNull { itemConfigsDAOs[it.name] }.toSized()
             }
         }
+
+        cache.remove(game.name)
+        loadGame(game.name)
+
     }
 
     private fun saveNPCConfigs(
@@ -129,10 +182,10 @@ object GameRepository {
                     gameRef = gameDAO
                     name = room.name
                     message = room.message
-                    north = room.north
-                    east = room.east
-                    west = room.west
-                    south = room.south
+                    north = room.neighbours[NORTH]
+                    west = room.neighbours[WEST]
+                    east = room.neighbours[EAST]
+                    south = room.neighbours[SOUTH]
                 }
             }
         }
@@ -156,7 +209,7 @@ object GameRepository {
                     npcConfigDAOs[npc.name]?.let { config ->
                         npc to NPCDAO.updateOrCreate(npc.id) {
                             npcConfig = config
-                            health = config.maxHealth
+                            health = NPC.hostile.health.getOrNull(npc)
                             roomRef = roomDAO
                         }
                     }

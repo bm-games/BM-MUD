@@ -4,9 +4,12 @@ import net.bmgames.authentication.User
 import net.bmgames.state.database.UserDAO
 import net.bmgames.state.database.UserTable
 import net.bmgames.state.database.updateOrCreate
+import net.bmgames.state.model.Player
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.concurrent.ConcurrentHashMap
 
 object UserRepository {
+
     /**
      * Saves or updates the user
      * */

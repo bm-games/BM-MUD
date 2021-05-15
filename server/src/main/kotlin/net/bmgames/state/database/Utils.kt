@@ -37,14 +37,6 @@ open class GameReferencingDAO(id: EntityID<Int>, table: GameReferencingTable) : 
     var gameRef by GameDAO referencedOn table.game
 }
 
-
-fun <T> tryOrNull(f: () -> T): T? =
-    try {
-        f()
-    } catch (_: Exception) {
-        null
-    }
-
 fun <ID : Comparable<ID>, E : Entity<ID>> EntityClass<ID, E>.updateOrCreate(id: ID?, update: E.() -> Unit): E =
     if (id != null) {
         get(id).apply(update)

@@ -1,17 +1,37 @@
 <mat-card class="mat-elevation-z2">
   <mat-card-header>
-    <mat-card-title>{{game.name}}</mat-card-title>
-    <mat-card-subtitle>MUD Beschreibung</mat-card-subtitle>
+    <mat-card-title>
+      {{game.name}}
+      <button mat-card-avatar mat-icon-button (click)="info()">
+        <mat-icon>info</mat-icon>
+      </button>
+    </mat-card-title>
     <span class="spacer"></span>
     <mat-chip-list>
-      <mat-chip>{{game.onlinePlayers}} Spieler online</mat-chip>
-      <mat-chip *ngIf="game.masterOnline" color="warn" selected>Master offline</mat-chip>
-      <mat-chip *ngIf="!game.masterOnline">Master online</mat-chip>
       <mat-chip *ngIf="game.userPermitted">{{game.avatarCount}} Avatare</mat-chip>
+      <mat-chip>{{game.onlinePlayers}} Spieler online</mat-chip>
+      <mat-chip *ngIf="!game.masterOnline" color="accent" selected>Master offline</mat-chip>
+      <mat-chip *ngIf="game.masterOnline">Master online</mat-chip>
     </mat-chip-list>
   </mat-card-header>
-  <mat-card-actions>
-    <button *ngIf="game.userPermitted" mat-raised-button (click)="alert('Coming soon')">Beitreten</button>
-    <button *ngIf="!game.userPermitted" mat-raised-button (click)="alert('Coming soon')">Beitrittsanfrage senden</button>
+  <mat-card-actions style="display: flex">
+    <button *ngIf="game.userPermitted === 'Yes'" mat-raised-button (click)="join()">Beitreten</button>
+    <button *ngIf="game.userPermitted === 'No'" mat-raised-button (click)="requestJoin()">Beitrittsanfrage senden
+    </button>
+    <button *ngIf="game.userPermitted === 'Pending'" mat-raised-button disabled>
+      Anfrage ausstehend
+    </button>
+    <span class="spacer"></span>
+    <button matTooltip="Kopie erstellen"
+            mat-icon-button (click)="copy()">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+    <button *ngIf="game.isMaster"
+            matTooltip="MUD löschen"
+            mat-icon-button color="warn"
+            (click)="delete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+
   </mat-card-actions>
 </mat-card>

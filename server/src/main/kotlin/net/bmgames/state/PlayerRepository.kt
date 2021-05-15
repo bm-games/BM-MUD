@@ -2,16 +2,21 @@ package net.bmgames.state
 
 import net.bmgames.state.database.*
 import net.bmgames.state.model.Game
-import net.bmgames.state.model.Player
+import net.bmgames.state.model.Player.Normal
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object PlayerRepository {
+
+//    private val cache: ConcurrentHashMap<Pair<String, String>, Normal?> =
+//        ConcurrentHashMap<Pair<String, String>, Normal?>()
+
     /**
      * Reads a player from the db
      * */
-    internal fun loadPlayer(gameName: String, ingameName: String): Player.Normal? {
-        return transaction {
+    internal fun loadPlayer(gameName: String, ingameName: String): Normal? =
+//        cache.computeIfAbsent(gameName to ingameName) {
+        transaction {
             val query = PlayerTable.innerJoin(GameTable).innerJoin(AvatarTable)
                 .slice(PlayerTable.columns)
                 .select { GameTable.name eq gameName and (AvatarTable.name eq ingameName) }
@@ -19,7 +24,7 @@ object PlayerRepository {
 
             PlayerDAO.wrapRows(query).firstOrNull()?.toPlayer()
         }
-    }
+//        }
 
     /**
      * Updates or creates the player in a game
@@ -28,7 +33,9 @@ object PlayerRepository {
      * @throws NullPointerException If a precondition is not met
      * @throws SqlException //TODO
      * */
-    internal fun savePlayer(game: Game, player: Player.Normal): Unit {
+    internal fun savePlayer(game: Game, player: Normal): Unit {
+//        cache[game.name to player.ingameName] = player
+
         val playerDAO = transaction {
             if (game.id == null) GameRepository.save(game)
             val gameDAO = GameDAO[game.id!!]
@@ -54,6 +61,24 @@ object PlayerRepository {
             playerDAO.inventory = (player.inventory.items + player.inventory.equipment.values + player.inventory.weapon)
                 .mapNotNull { item -> item?.id?.let { ItemConfigDAO[it] } }
                 .toSized()
+        }
+    }
+
+    /**
+     * Delete all Players belonging to this game
+     * */
+    fun deletePlayersInGame(gameId: Int?) = transaction {
+        val avatars = (PlayerTable innerJoin AvatarTable)
+            .slice(PlayerTable.id, AvatarTable.id)
+            .select { (PlayerTable.game eq gameId) and (PlayerTable.id eq AvatarTable.id) }
+            .map {
+                PlayerItemTable.deleteWhere { PlayerItemTable.playerId eq it[PlayerTable.id] }
+                return@map it[AvatarTable.id]
+            }
+
+        PlayerTable.deleteWhere { PlayerTable.game eq gameId }
+        avatars.forEach { id ->
+            AvatarTable.deleteWhere { AvatarTable.id eq id }
         }
     }
 

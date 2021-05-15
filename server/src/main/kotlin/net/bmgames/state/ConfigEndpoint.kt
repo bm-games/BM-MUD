@@ -14,22 +14,20 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import net.bmgames.ErrorMessage
+import net.bmgames.*
 import net.bmgames.authentication.User
 import net.bmgames.authentication.getUser
-import net.bmgames.errorMsg
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
-import net.bmgames.success
 
 internal class ConfigEndpoint {
     fun saveConfig(config: DungeonConfig, user: User): Either<ErrorMessage, Unit> {
         if (GameRepository.loadGame(config.name) != null)
-            return errorMsg("Ein Spiel mit diesem Namen existiert bereits")
-        if (config.startRoom == "") return errorMsg("Es wurde kein Startraum festgelegt")
-        if (config.rooms.isEmpty()) return errorMsg("Es muss mindestens ein Raum erstellt werden")
-        if (config.races.isEmpty()) return errorMsg("Es muss mindestens eine Rasse definiert werden")
-        if (config.classes.isEmpty()) return errorMsg("Es muss mindestens eine Klasse erstellt werden")
+            return errorMsg(message("config.game-name-used"))
+        if (config.startRoom == "") return errorMsg(message("config.no-starting-room"))
+        if (config.rooms.isEmpty()) return errorMsg(message("config.at-least-one-room"))
+        if (config.races.isEmpty()) return errorMsg(message("config.at-least-one-race"))
+        if (config.classes.isEmpty()) return errorMsg(message("config.at-least-one-class"))
 
         GameRepository.save(config.run {
             Game(
@@ -43,13 +41,16 @@ internal class ConfigEndpoint {
                 startRoom = startRoom,
                 rooms = rooms,
                 master = Player.Master(user),
-                allowedUsers = mapOf(user.username to emptyList()),
+                allowedUsers = mapOf(user.username to emptySet()),
             )
         })
         return success
     }
 
-    fun getConfig(name: String): DungeonConfig? = TODO()
+    fun getConfig(name: String): DungeonConfig? =
+        GameRepository.loadGame(name)?.run {
+            DungeonConfig(name, races, classes, commandConfig, npcConfigs, itemConfigs, startItems, startRoom, rooms)
+        }
 }
 
 fun Route.installConfigEndpoint() {
@@ -62,16 +63,13 @@ fun Route.installConfigEndpoint() {
         }
         post("/createConfig") {
             either<ErrorMessage, Unit> {
-                val user = call.getUser().rightIfNotNull { "Not authenticated" }.bind()
-                val configJSON = call.receive<String>().rightIfNotNull { "Config missing" }.bind()
+                val user = call.getUser().rightIfNotNull {message("config.not-authenticated")}.bind()
+                val configJSON = call.receive<String>().rightIfNotNull {message("config.config-missing")}.bind()
                 val config = catch { Json.decodeFromString<DungeonConfig>(configJSON)}
-                    .mapLeft { "Please enter the missing values." }
+                    .mapLeft {it.printStackTrace(); message("config.missing-values")}
                     .bind()
                 configEndpoint.saveConfig(config, user).bind()
-            }.fold(
-                { error -> call.respond(HttpStatusCode.BadRequest, error) },
-                { call.respond(HttpStatusCode.Accepted) }
-            )
+            }.acceptOrReject(call)
         }
     }
 }

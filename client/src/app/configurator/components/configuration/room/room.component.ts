@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConfigurationComponent} from "../configuration.component";
 import {NPC} from "../../../models/NPCConfig";
 import {Item} from "../../../models/Item";
 import {RoomConfig} from "../../../models/RoomConfig";
-import {StringMap} from "../../../models/DungeonConfig";
+
 
 @Component({
   selector: 'app-room',
