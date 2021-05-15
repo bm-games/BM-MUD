@@ -32,8 +32,12 @@ export class AvatarconfiguratorComponent implements OnInit {
 
   constructor() { }
 
+  submitAvatar(): void {
+
+  }
+
   ngOnInit(): void {
-    //getDungeonConfigOderSoIGuess
+    // getDungeonConfigOderSoIGuess
     this.getClassesAndRaces();
     this.setRaceInitial();
     this.setClassInitial();
@@ -91,5 +95,6 @@ export class AvatarconfiguratorComponent implements OnInit {
     }
     return;
   }
+
 
 }
