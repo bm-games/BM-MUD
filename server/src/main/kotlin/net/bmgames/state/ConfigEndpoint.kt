@@ -59,7 +59,7 @@ fun Route.installConfigEndpoint() {
         get<GetConfig> { (name) ->
             configEndpoint.getConfig(name)
                 ?.let { config -> call.respond(config) }
-                ?: call.respond(HttpStatusCode.BadRequest)
+                ?: call.respond(HttpStatusCode.BadRequest, message("config.game-not-found"))
         }
         post("/createConfig") {
             either<ErrorMessage, Unit> {

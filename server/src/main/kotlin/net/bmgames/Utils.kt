@@ -33,10 +33,15 @@ suspend fun <E, A> EitherEffect<E, A>.guard(condition: Boolean, error: () -> E) 
     if (condition) control().shift<A>(error().left())
 }
 
-suspend inline fun Either<ErrorMessage, Unit>.acceptOrReject(call: ApplicationCall) =
+suspend inline fun <reified T> Either<ErrorMessage, T>.acceptOrReject(call: ApplicationCall) =
     fold(
         { error -> call.respond(HttpStatusCode.BadRequest, error) },
-        { call.respond(HttpStatusCode.Accepted) }
+        { result ->
+            if (result == null) call.respond(HttpStatusCode.Accepted) else call.respond(
+                HttpStatusCode.Accepted,
+                result
+            )
+        }
     )
 
 

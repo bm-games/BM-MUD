@@ -60,10 +60,12 @@ export class ConfigurationComponent implements OnInit {
         items: r.items,
         //npcs: r.npcs,
         npcs: npcStringMap,
-        north: north,
-        east: east,
-        south: south,
-        west: west,
+        neighbours: {
+          North: north || undefined,
+          East: east || undefined,
+          South: south || undefined,
+          West: west || undefined,
+        },
         message: r.message
       };
     });
@@ -181,10 +183,14 @@ export interface RoomConfigExport {
   //readonly type: 'net.bmgames.state.model.Room';
   name: string;
   message: string;
-  north?: string;
-  east?: string;
-  south?: string;
-  west?: string;
+  neighbours: {
+    North?: string,
+    West?: string,
+    East?: string,
+    South?: string,
+  }
   npcs: StringMap<NPC>;
   items: Item[];
 }
+
+type Direction = "North" | "West" | "East" | "South"

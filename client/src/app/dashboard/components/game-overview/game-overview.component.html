@@ -15,15 +15,14 @@
     </mat-chip-list>
   </mat-card-header>
   <mat-card-actions style="display: flex">
-    <button *ngIf="game.userPermitted === 'Yes'" mat-raised-button (click)="join()">Beitreten</button>
+    <button *ngIf="game.userPermitted === 'Yes'" mat-raised-button routerLink="/game/overview/{{game.name}}">Beitreten</button>
     <button *ngIf="game.userPermitted === 'No'" mat-raised-button (click)="requestJoin()">Beitrittsanfrage senden
     </button>
     <button *ngIf="game.userPermitted === 'Pending'" mat-raised-button disabled>
       Anfrage ausstehend
     </button>
     <span class="spacer"></span>
-    <button matTooltip="Kopie erstellen"
-            mat-icon-button (click)="copy()">
+    <button matTooltip="Kopie erstellen" mat-icon-button (click)="copy()">
       <mat-icon>content_copy</mat-icon>
     </button>
     <button *ngIf="game.isMaster"
@@ -32,6 +31,5 @@
             (click)="delete()">
       <mat-icon>delete</mat-icon>
     </button>
-
   </mat-card-actions>
 </mat-card>

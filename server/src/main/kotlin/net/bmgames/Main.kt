@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
  * */
 fun main(args: Array<String>) {
     if (args.size != 1) {
-        errorMsg(message("config.path-missing"))
+        error(message("config.path-missing"))
     }
 
     val mudServer = initializeConfig(configPath = args[0]).let(::Server)

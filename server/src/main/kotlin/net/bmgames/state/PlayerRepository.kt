@@ -82,5 +82,14 @@ object PlayerRepository {
         }
     }
 
+    fun getPlayersForUser(username: String, game: Game): List<Normal> {
+        val user = UserRepository.getUserByName(username) ?: return emptyList()
+        return transaction {
+            PlayerDAO
+                .find { PlayerTable.game eq game.id and (PlayerTable.user eq user.id) }
+                .map { it.toPlayer() }
+        }
+    }
+
 }
 

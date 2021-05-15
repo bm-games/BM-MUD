@@ -26,11 +26,11 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     ChangePasswordDialog,
     DeleteDialog
   ],
-    imports: [
-        CommonModule,
-        DashboardRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
+  imports: [
+    CommonModule,
+    DashboardRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
 
     MatToolbarModule,
     MatButtonModule,
@@ -42,8 +42,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatGridListModule,
     MatChipsModule,
     MatDialogModule,
-        MatTooltipModule
- 
+    MatTooltipModule
+  ]
 })
 export class DashboardModule {
 }

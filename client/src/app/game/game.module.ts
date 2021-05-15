@@ -2,24 +2,34 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {GameService} from "./services/game.service";
 import {CommandService} from "./services/command.service";
-import {HttpClientModule} from "@angular/common/http";
 import {GameComponent} from './components/game.component';
 import {AngularSplitModule} from 'angular-split';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {GameRoutingModule} from "./game-routing.module";
-import { ConsoleComponent } from './components/console/console.component';
+import {ConsoleComponent} from './components/console/console.component';
 import {MatGridListModule} from "@angular/material/grid-list";
-import {FormsModule} from "@angular/forms";
-import { ChatComponent } from './components/chat/chat.component';
-import { MasterComponent } from './components/master/master.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ChatComponent} from './components/chat/chat.component';
+import {MasterComponent} from './components/master/master.component';
 import {MatListModule} from '@angular/material/list';
+import {AvatarConfigComponent} from "./components/avatar/avatar-config.component";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatCardModule} from "@angular/material/card";
+import { OverviewComponent } from './components/overview/overview.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
     GameComponent,
     ConsoleComponent,
     ChatComponent,
-    MasterComponent
+    MasterComponent,
+    AvatarConfigComponent,
+    OverviewComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +38,15 @@ import {MatListModule} from '@angular/material/list';
     AngularSplitModule,
     MatToolbarModule,
     MatGridListModule,
-    MatListModule
+    MatListModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatIconModule
   ],
   providers: [
     GameService,

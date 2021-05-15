@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {GameOverview} from "../model/game-overview";
 import {ClientConfig, CONFIG} from "../../client-config";
 import {AuthService} from "../../authentication/services/auth.service";
+import {GameDetail} from "../model/game-detail";
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +36,10 @@ export class GameService {
       .toPromise().then(() => {
       })
   }
+
+  getGameDetail(gameName: string): Promise<GameDetail> {
+    return this.http.get<GameDetail>(`${this.CONFIG.endpoint}/game/detail/${gameName}`)
+      .toPromise()
+  }
+
 }
