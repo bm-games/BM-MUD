@@ -1,7 +1,7 @@
 <body>
 <div class="mudNameHeader">
   <button class="leaveGameBtn">Spiel verlassen</button>
-  <h1 [textContent]="mudName" ></h1>
+  <h1 [textContent]="game" ></h1>
 </div>
 
 <div class="userArea">
@@ -14,31 +14,157 @@
     </div>
   </div>
   <div class="rightArea">
-    <div class="gameMapArea">
       <div class="divRightTop">
-        <div class="playersOnline">
-          <label>Players online:</label>
+        <div class="playersOnlineDiv">
+          <label>Spieler online:</label>
           <mat-list>
-            <mat-list-item *ngFor="let value of selectedRoomValues">
+            <mat-list-item *ngFor="let value of onlinePlayers">
               {{value}}
             </mat-list-item>
           </mat-list>
+          <label>Spieler einladen:</label>
+          <input [(ngModel)]="playerToInviteName" placeholder="Username"/>
+          <button (click)="invitePlayer()">Senden</button>
         </div>
         <div class="gameMap">
+          <label>Raumsystem:</label>
           <mat-grid-list [cols]="mapColumns">
             <mat-grid-tile *ngFor="let gridValue of grid" (click)="gridRoomSelected(gridValue)"
                            [style.background]="gridValue.color">
             </mat-grid-tile>
           </mat-grid-list>
         </div>
-      </div>
     </div>
     <div class="gameMapContents">
-      <mat-list>
-        <mat-list-item *ngFor="let value of onlinePlayers">
-          {{value}}
-        </mat-list-item>
-      </mat-list>
+      <h2>Ausgewählter Raum:</h2>
+      <mat-tab-group [(selectedIndex)]="selectedTabIndexRoomInformation">
+        <mat-tab label="Neuer Raum" [disabled]="disableNewRoomTab">
+          <div class="tabContentRoom">
+            <div class="leftSide">
+              <input [(ngModel)]="selectedRoomName" placeholder="Name"/>
+              <textarea [(ngModel)]="selectedRoomMessage" placeholder="Beschreibung"></textarea>
+              <button (click)="addNewRoom()">Speichern</button>
+            </div>
+            <div class="rightSide">
+                <mat-selection-list class="npcList" [(ngModel)]="selectedRoomNPCs">
+                  <label>NPCs:</label>
+                  <mat-list-option *ngFor="let value of allDungeonNPCs">
+                    {{value.name}}
+                  </mat-list-option>
+                </mat-selection-list>
+                <mat-selection-list class="itemList" [(ngModel)]="selectedRoomItems">
+                  <label>Items:</label>
+                  <mat-list-option *ngFor="let value of allDungeonItems">
+                    {{value.name}}
+                  </mat-list-option>
+                </mat-selection-list>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="NPCs" [disabled]="!disableNewRoomTab">
+          <div class="tabContent">
+            <div class="currentlyInside">
+              <label>Aktuell im Raum:</label>
+              <mat-selection-list [(ngModel)]="selectedRoomNPCs" (selectionChange)="removeNPCFromRoom()">
+                <mat-list-option *ngFor="let value of selectedRoomNPCs" [value]="value">
+                  {{value.name}}
+                </mat-list-option>
+              </mat-selection-list>
+            </div>
+            <div class="allAvailable">
+              <label>Alle verfügbaren NPCs:</label>
+              <mat-selection-list [(ngModel)]="npcsToAdd">
+                <mat-list-option *ngFor="let value of allDungeonNPCs" [value]="value">
+                  {{value.name}}
+                </mat-list-option>
+              </mat-selection-list>
+            </div>
+            <button class="add" (click)="addNPCToRoom()">Hinzufügen</button>
+          </div>
+        </mat-tab>
+        <mat-tab label="Items" [disabled]="!disableNewRoomTab">
+          <div class="tabContent">
+            <div class="currentlyInside">
+              <label>Aktuell im Raum:</label>
+              <mat-selection-list [(ngModel)]="selectedRoomItems" (selectionChange)="removeItemFromRoom()">
+                <mat-list-option *ngFor="let value of selectedRoomItems" [value]="value">
+                  {{value.name}}
+                </mat-list-option>
+              </mat-selection-list>
+            </div>
+            <div class="allAvailable">
+              <label>Alle verfügbaren Items:</label>
+              <mat-selection-list [(ngModel)]="itemsToAdd">
+                <mat-list-option *ngFor="let value of allDungeonItems" [value]="value">
+                  {{value.name}}
+                </mat-list-option>
+              </mat-selection-list>
+            </div>
+            <button class="add" (click)="addItemToRoom()">Hinzufügen</button>
+          </div>
+        </mat-tab>
+        <mat-tab label="Spieler" [disabled]="!disableNewRoomTab">
+          <div class="tabContent">
+            <div class="currentlyInside">
+              <label>Spieler im Raum:</label>
+              <mat-selection-list multiple="false" [(ngModel)]="selectedPlayerInRoom">
+                <mat-list-option *ngFor="let player of selectedRoomPlayers" [value]="player">
+                  {{player}}
+                </mat-list-option>
+              </mat-selection-list>
+            </div>
+            <div class="header">
+              <mat-form-field>
+                <mat-label>Aktion:</mat-label>
+                <mat-select [(ngModel)]="selectedCommandOnPlayer">
+                  <mat-option *ngFor="let command of commandsOnPlayer" [value]="command">
+                    {{command}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="body">
+              <div class="actionsOnPlayer">
+                <div class="kickBtnDiv" *ngIf="selectedCommandOnPlayer=='Spieler rauswerfen'">
+                  <button (click)="kickPlayer()">Spieler rauswerfen</button>
+                </div>
+                <div class="teleportPlayerDiv" *ngIf="selectedCommandOnPlayer=='Spieler teleportieren'">
+                  <div class="lblAndDropDown">
+                    <label>Teleportieren nach:</label>
+                    <mat-form-field class="dropDown">
+                      <mat-select [(ngModel)]="selectedRoomToTeleportTo">
+                        <mat-option *ngFor="let room of allDungeonRooms" [value]="room">
+                          {{room}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="btn">
+                    <button (click)="teleportPlayer()">Ausführen</button>
+                  </div>
+                </div>
+                <div class="hitPlayerDiv" *ngIf="selectedCommandOnPlayer=='Charakter LP abziehen'">
+                  <label>Schaden:</label>
+                  <mat-slider class="slider" min="1" max="100" step="1" thumbLabel [displayWith]="sliderValue" #slider></mat-slider>
+                  <div>
+                    <button (click)="hitPlayer(slider.value)">Ausführen</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Raum löschen" [disabled]="!disableNewRoomTab">
+          <div class="tabContent">
+            <div class="deleteRoomDiv">
+              <label>Diesen Raum löschen? (Nur möglich wenn sich keine Charaktere in diesem Raum befinden)</label>
+              <div>
+                <button>Raum löschen</button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   </div>
 </div>

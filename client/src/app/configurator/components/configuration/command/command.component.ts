@@ -36,8 +36,6 @@ export class CommandComponent implements OnInit {
   ngOnInit(): void {
     this.aliases = ConfigurationComponent.commandConfig.aliases;
     this.customCommands = ConfigurationComponent.commandConfig.customCommands;
-    this.customCommandList = ConfigurationComponent.customCommandList;
-
     this.pickupAlias = this.aliases['pickup'];
     this.consumeAlias = this.aliases['consume'];
     this.showInventoryAlias = this.aliases['show inventory'];
@@ -62,9 +60,9 @@ export class CommandComponent implements OnInit {
         this.customCommands[this.commandSyntax] = actionString;
 
         ConfigurationComponent.commandConfig.customCommands = this.customCommands;
-        this.customCommandList.concat([this.commandSyntax]);
-
+        ConfigurationComponent.customCommandList.push(this.commandSyntax);
         this.commandSyntax = undefined;
+        console.log(ConfigurationComponent.customCommandList)
       }
       else{
         window.alert("Es wurden nicht alle Werte eingegeben");

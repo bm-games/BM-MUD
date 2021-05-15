@@ -16,13 +16,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./configuration.component.scss']
 })
 export class ConfigurationComponent implements OnInit {
-  static get customCommandList(): string[] {
-    return this._customCommandList;
-  }
 
-  static set customCommandList(value: string[]) {
-    this._customCommandList = value;
-  }
 
   title = "BM-MUD: Configurator";
   mudName: string = '';
@@ -35,7 +29,7 @@ export class ConfigurationComponent implements OnInit {
   private static _allRooms: RoomConfig[] = [];
   private static _startequipment: Item[] = [];
   private static _startRoom: string;
-  private static _customCommandList: string[]
+  private static _customCommandList: string[] = [];
 
   constructor(private configService: ConfigService, private titleService: Title, private router: Router) { }
 
@@ -170,6 +164,14 @@ export class ConfigurationComponent implements OnInit {
 
   static set allClasses(value: ClassConfig[]) {
     this._allClasses = value;
+  }
+
+  static get customCommandList(): string[] {
+    return this._customCommandList;
+  }
+
+  static set customCommandList(value: string[]) {
+    this._customCommandList = value;
   }
 
 }
