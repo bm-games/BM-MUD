@@ -55,7 +55,8 @@ class GameDAO(id: EntityID<Int>) : IntEntity(id) {
         rooms = rooms.map { it.toRoom() }.associateBy { it.name },
         master = Player.Master(masterUser.toUser()),
         allowedUsers = players.groupBy({ it.user.username }, { it.avatar.name })
-            .let { it.plus(masterUser.username to it.getOrDefault(masterUser.username, emptyList())) },
+            .mapValues { it.value.toHashSet() }
+            .let { it.plus(masterUser.username to it.getOrDefault(masterUser.username, emptySet())) },
         onlinePlayers = emptyMap(),
         joinRequests = joinRequests.map { it.toUser() },
         id = id.value

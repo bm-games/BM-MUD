@@ -26,14 +26,22 @@ export class ItemComponent implements OnInit {
   itemTypes: string[] = ['Konsumierbares Item', 'Ausrüstung', 'Waffe'];
   itemCommands: string[] = ['Heilen', 'Gesundheit abziehen'];
   equipmentSlots: string[] = ['Kopf', 'Brust', 'Beine', 'Stiefel'];
-
+  commandsForItems: string[] = [];
   configuredItems: Item[] = [];
+
+  getCommandsForItems() : string[] {
+    let commandArray : string[] = ['Heilen', 'Gesundheit abziehen']
+    ConfigurationComponent.customCommandList.forEach(c => commandArray.push(c))
+    return commandArray;
+  }
 
   constructor() {
   }
 
   ngOnInit(): void {
     this.configuredItems = ConfigurationComponent.allItems;
+    this.commandsForItems = this.getCommandsForItems();
+    console.log(this.commandsForItems)
   }
 
   /**

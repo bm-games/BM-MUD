@@ -11,7 +11,7 @@ export class CommandComponent implements OnInit {
 
   commandTypes: string[] = ['Standard Befehle', 'Eigener Befehl'];
   selectedCommandType: string = 'Standard Befehle';
-  allActions: string[] = ['Kein Command', 'move player north', 'move player east', 'move player south', 'move player west', 'look', 'show inventory', 'pickup', 'hit'];
+  allActions: string[] = ['Kein Command', 'move player north', 'move player east', 'move player south', 'move player west', 'reduce player hp by 10', 'increase player hp by 10'];
   selectedAction1: string = 'Kein Command';
   selectedAction2: string = 'Kein Command';
   selectedAction3: string = 'Kein Command';
@@ -24,23 +24,25 @@ export class CommandComponent implements OnInit {
   showInventoryAlias: string | undefined;
   goAlias: string | undefined;
   lookAlias: string | undefined;
+  hitAlias: string | undefined;
 
   isCustomCommand = false;
 
   aliases: StringMap<string> = {}           // StringMap[Name] = 'alias'
   customCommands: StringMap<string> = {}    // StringMap[Name] = 'ActionString'
+  customCommandList: string[] = []
 
   constructor() { }
 
   ngOnInit(): void {
     this.aliases = ConfigurationComponent.commandConfig.aliases;
     this.customCommands = ConfigurationComponent.commandConfig.customCommands;
-
     this.pickupAlias = this.aliases['pickup'];
     this.consumeAlias = this.aliases['consume'];
     this.showInventoryAlias = this.aliases['show inventory'];
     this.goAlias = this.aliases['go'];
     this.lookAlias = this.aliases['look'];
+    this.hitAlias = this.aliases['hit'];
   }
 
   /**
@@ -60,7 +62,9 @@ export class CommandComponent implements OnInit {
         this.customCommands[this.commandSyntax] = actionString;
 
         ConfigurationComponent.commandConfig.customCommands = this.customCommands;
+        ConfigurationComponent.customCommandList.push(this.commandSyntax);
         this.commandSyntax = undefined;
+        console.log(ConfigurationComponent.customCommandList)
       }
       else{
         window.alert("Es wurden nicht alle Werte eingegeben");
@@ -71,12 +75,14 @@ export class CommandComponent implements OnInit {
       if(this.showInventoryAlias == undefined) this.showInventoryAlias = "show inventory";
       if(this.goAlias == undefined) this.goAlias = "go";
       if(this.lookAlias == undefined) this.lookAlias = "look";
+      if(this.hitAlias == undefined) this.hitAlias = "hit";
 
       this.aliases['pickup'] = this.pickupAlias;
       this.aliases['consume'] = this.consumeAlias;
       this.aliases['show inventory'] = this.showInventoryAlias;
       this.aliases['go'] = this.goAlias;
       this.aliases['look'] = this.lookAlias;
+      this.aliases['hit'] = this.hitAlias;
 
       ConfigurationComponent.commandConfig.aliases = this.aliases;
     }

@@ -15,9 +15,9 @@ export class ConfigService {
     private http: HttpClient) {
   }
 
-  getDungeonConfig(name: string): Observable<DungeonConfig | null> {
+  getDungeonConfig(name: string): Promise<DungeonConfig> {
     return this.http.get<DungeonConfig>(`${this.CONFIG.endpoint}/configurator/get/${name}`)
-      .pipe(catchError(() => of(null)));
+      .toPromise();
   }
 
   createDungeon(dungeonConfig: DungeonConfig): Promise<void> {

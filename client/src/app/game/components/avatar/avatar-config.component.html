@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>Avatar-Konfigurator</h2>
+<mat-dialog-content class="dialog">
+  <div class="Area">
+    <div class="inputArea" [formGroup]="form">
+      <div class="inputAreaHeader">
+        <mat-form-field style="width: 75%">
+          <mat-label>Name</mat-label>
+          <input type="email" matInput formControlName="name">
+          <mat-error *ngIf="form.get('name')?.hasError('minlength') && form.get('name')?.dirty">
+            Der Name muss mindestens 2 Zeichen lang sein.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="inputAreaBody">
+        <div>
+          <label>Klasse:</label>
+          <mat-form-field class="dropDown">
+            <mat-select formControlName="clazz" name="name">
+              <mat-option *ngFor="let clazz of classes" [value]="clazz">
+                {{clazz.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <label>Rasse:</label>
+          <mat-form-field class="dropDown">
+            <mat-select formControlName="race">
+              <mat-option *ngFor="let race of races" [value]="race">
+                {{race.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="dataArea">
+      <div class="dataAreaHeader">
+        <label class="labelHeader">Avatar Eigenschaften</label>
+      </div>
+      <div class="outputArea">
+        <div>
+          <mat-card *ngIf="health">
+            <mat-card-title>Gesundheit</mat-card-title>
+            <mat-card-content>
+              {{health}}
+            </mat-card-content>
+          </mat-card>
+          <mat-card *ngIf="damage">
+            <mat-card-title>Angriff</mat-card-title>
+            <mat-card-content>
+              {{damage}}
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="submitAvatar()" [disabled]="!form.valid">Avatar erstellen</button>
+</mat-dialog-actions>
+

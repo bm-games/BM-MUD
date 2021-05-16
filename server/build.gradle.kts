@@ -26,7 +26,7 @@ plugins {
 }
 
 group = "net.bmgames"
-version = "0.3.0"
+version = "0.4.0"
 application {
     mainClassName = "net.bmgames.MainKt"
     mainClass.set("net.bmgames.MainKt")

@@ -1,0 +1,95 @@
+.dialog{
+  overflow: unset;
+  width: 55rem;
+}
+
+.Area{
+  height: 80%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+//left box
+.inputArea{
+  width: 50%;
+  height: 100%;
+  border: 2px solid gray;
+  input {
+    font-size: 16pt;
+  }
+}
+
+.inputAreaHeader{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 80%;
+  margin: auto auto 100px;
+  border-bottom: 1px solid gray;
+}
+
+
+.inputAreaBody{
+  width: 60%;
+  margin: auto auto 30px;
+  height: 60%;
+  div{
+    height: 100px;
+    label{
+      font-size: 16pt;
+      width: 50%;
+    }
+    .dropDown{
+      float: right;
+      width: 50%;
+    }
+    .slider{
+      float: right;
+      width: 50%;
+      color: black;
+    }
+  }
+}
+
+//right box
+.dataArea{
+  width: 50%;
+  border-right: 2px solid gray;
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
+}
+
+.outputArea{
+  width: 60%;
+  margin: auto auto 30px;
+  height: 60%;
+  div {
+    height: 100px;
+
+    label {
+      font-size: 16pt;
+      width: 50%;
+    }
+    mat-card{
+      background-color: whitesmoke;
+      margin-bottom: 20px;
+    }
+  }
+}
+.dataAreaHeader{
+  position: relative;
+  border-bottom: 1px solid gray;
+  height: 100px;
+  width: 80%;
+  margin: auto auto 100px;
+  display: flex;
+  align-items: center;
+  .labelHeader{
+    font-size: 20pt;
+    margin: auto;
+    display: block;
+    text-align: center;
+  }
+}

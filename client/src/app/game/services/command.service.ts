@@ -1,9 +1,9 @@
 import {Inject, Injectable} from '@angular/core';
 import {ClientConfig, CONFIG} from "../../client-config";
-import {Observable, Subject} from "rxjs";
+import {identity, Observable, Subject} from "rxjs";
 import {webSocket} from 'rxjs/webSocket';
 import {Message} from "../model/message";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 
 export interface SocketConnection {
   incoming: Observable<Message>,
@@ -23,11 +23,30 @@ export class CommandService {
     @Inject(CONFIG) private CONFIG: ClientConfig) {
   }
 
-  connect(game: string, avatar: string): SocketConnection {
-    const socket = webSocket<string>(`${this.CONFIG.websocketEndpoint}/api/game/play/${game}/${avatar}`)
+  connectAsPlayer(game: string, avatar: string): SocketConnection {
+    return this.connect(`${this.CONFIG.websocketEndpoint}/game/play/${game}/${avatar}`)
+  }
+
+  connectAsMaster(game: string): SocketConnection {
+    return this.connect(`${this.CONFIG.websocketEndpoint}/game/control/${game}`)
+  }
+
+
+  private connect(url: string): SocketConnection {
+    const close$ = new Subject<string>()
+    const socket = webSocket<string>({
+      url,
+      serializer: identity,
+      deserializer: ({data}) => data,
+      closeObserver: {
+        next(closeEvent) {
+          close$.next(closeEvent.reason)
+        }
+      }
+    })
 
     return {
-      incoming: socket.pipe(map(msg => JSON.parse(msg))),
+      incoming: socket.pipe(map(message => JSON.parse(message))),
       send(command: string) {
         socket.next(command);
       },
@@ -36,6 +55,5 @@ export class CommandService {
       }
     }
   }
-
 
 }

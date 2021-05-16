@@ -9,6 +9,7 @@ import io.ktor.response.*
 import io.ktor.sessions.*
 import net.bmgames.ErrorMessage
 import net.bmgames.errorMsg
+import net.bmgames.message
 import net.bmgames.state.UserRepository.getUserByMail
 import net.bmgames.success
 
@@ -35,12 +36,12 @@ class Authenticator(
      */
     suspend fun registerUser(mail: String, username: String, password: String): Either<ErrorMessage, Unit> = either {
         val user = conditionally(userHandler.checkRegisterPossible(mail, username),
-            { "A user with this email or username already exists." },
+            { message("auth.user-exists") },
             { User(mail, username, authHelper.hashPassword(password), null) }
         ).bind()
 
         conditionally(userHandler.createUser(user),
-            { "User couldn't be created. Please try again." },
+            { message("auth.user-creation-failed") },
             {})
 
     }
@@ -62,10 +63,10 @@ class Authenticator(
                     return success(user)
                 }
             } else {
-                return errorMsg("Mail not verified.")
+                return errorMsg(message("auth.mail-not-verified"))
             }
         }
-        return errorMsg("Wrong password or no user with this credentials.")
+        return errorMsg(message("auth.wrong-password-or-no-user"))
     }
 
     /**
@@ -92,7 +93,7 @@ class Authenticator(
             userHandler.changePassword(user.email, authHelper.hashPassword(password))
             success
         } else {
-            errorMsg("Password is incorrect.")
+            errorMsg(message("auth.incorrect-password"))
         }
     }
 

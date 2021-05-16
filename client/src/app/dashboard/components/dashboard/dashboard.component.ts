@@ -6,7 +6,8 @@ import {GameService} from "../../../game/services/game.service";
 import {GameOverview} from "../../../game/model/game-overview";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {ChangePasswordDialog} from "../dialog/changePasswordDialog";
+import {ChangePasswordDialog} from "../password/change-password-dialog";
+import {FeedbackService} from "../../../shared/services/feedback.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -25,16 +26,21 @@ export class DashboardComponent implements OnInit {
               private gameService: GameService,
               private auth: AuthService,
               private router: Router,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private feedback: FeedbackService) {
   }
 
   ngOnInit(): void {
     this.setTitle(this.title);
 
-    this.gameService.getAvailableGames().subscribe(games => {
-      this.games = games
-      this.searchedGameName = ""
-    })
+    this.feedback.showLoadingOverlay()
+    this.gameService.getAvailableGames().toPromise()
+      .then(games => {
+        this.games = games
+        this.searchedGameName = ""
+      })
+      .catch(error=> this.feedback.showError(error))
+      .finally(() => this.feedback.stopLoadingOverlay())
     this.auth.user.subscribe(user => this.user = user)
   }
 

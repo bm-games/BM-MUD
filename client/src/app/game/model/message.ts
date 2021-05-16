@@ -5,14 +5,14 @@ interface TextMessage {
   readonly text: string
 }
 
+interface CloseMessage {
+  readonly type: 'net.bmgames.game.message.Message.Close',
+  readonly reason: string
+}
+
 interface MapMessage {
   readonly type: 'net.bmgames.game.message.Message.Map',
   readonly map: RoomMap
-}
-
-interface KickMessage {
-  readonly type: 'net.bmgames.game.message.Message.Kick',
-  readonly reason: string
 }
 
 interface ChatMessage {
@@ -21,6 +21,6 @@ interface ChatMessage {
   readonly message: string
 }
 
-type Message = TextMessage | MapMessage | KickMessage | ChatMessage
+type Message = TextMessage | MapMessage | ChatMessage | CloseMessage
 
-export {TextMessage, MapMessage, KickMessage, ChatMessage, Message}
+export {TextMessage, MapMessage, ChatMessage, CloseMessage, Message}

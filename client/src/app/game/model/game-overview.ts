@@ -1,8 +1,9 @@
-
 export interface GameOverview {
   readonly name: string;
+  readonly description: string;
   readonly onlinePlayers: number;
   readonly masterOnline: boolean;
   readonly avatarCount: number;
-  readonly userPermitted: boolean;
+  readonly userPermitted: "No" | "Yes" | "Pending";
+  readonly isMaster: boolean;
 }
