@@ -8,8 +8,9 @@ interface Tile {
   readonly south: boolean;
   readonly west: boolean;
   readonly color: string;
-  readonly items: Item[];
-  readonly npcs: NPC[];
+  readonly items: string[];
+  readonly npcs: string[];
+  readonly players: string[];
 }
 
 interface RoomMap {

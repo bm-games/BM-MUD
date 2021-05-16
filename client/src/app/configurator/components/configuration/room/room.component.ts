@@ -95,7 +95,7 @@ export class RoomComponent implements OnInit {
       this.grid[this.selectedGridValueIndex] = {
         index: this.selectedGridValueIndex,
         value: {
-          id: this.selectedGridValueIndex,           // replace this with real id
+          id: this.selectedGridValueIndex,
           name: this.selectedRoomName,
           message: this.selectedRoomMessage,
           npcs: this.selectedRoomNPCs,
@@ -275,6 +275,76 @@ export class RoomComponent implements OnInit {
     if(name != null){
       this.selectedStartRoomName = name;
       ConfigurationComponent.startRoom = name;
+    }
+  }
+
+  incrementMapSize(){
+    let size = this.mapColumns;
+    let oldSize = size;
+    size++;
+    if(size <= 15){
+      this.mapColumns = size;
+      this.grid.forEach(gridValue => {
+        if(gridValue.value != null){
+          let shift = Math.floor(gridValue.index/oldSize)
+          let newIndex = gridValue.index + shift
+          let room = this.getRoomConfigById(gridValue.index)
+          if(room != undefined) room.id = newIndex
+        }
+      })
+      this.updateMap()
+    }else{
+      alert("Die maximale Größe wurde erreicht: " + (size - 1))
+    }
+  }
+
+  decrementMapSize(){
+    let size = this.mapColumns;
+    let oldSize = size;
+    size--;
+    if(size >= 1){
+      let canDecrement = true;
+      for (let i = 1; i <= oldSize; i++) {
+        if(this.grid[(i*oldSize)-1].value != null || this.grid[(oldSize*oldSize) - i].value != null){
+          canDecrement = false;
+        }
+      }
+      if(canDecrement){
+        this.mapColumns = size;
+        this.grid.forEach(gridValue => {
+          if(gridValue.value != null){
+            let shift = Math.floor(gridValue.index/oldSize)
+            let newIndex = gridValue.index - shift
+            let room = this.getRoomConfigById(gridValue.index)
+            if(room != undefined) room.id = newIndex
+          }
+        })
+        this.updateMap()
+      }else{
+        alert("Es kann nicht verkleinert werden, da sich ein Raum in dem Bereich befindet, der gelöscht wird.")
+      }
+    }else{
+      alert("Die minimale Größe wurde erreicht: " + (size + 1))
+    }
+  }
+
+  updateMap(){
+    this.grid = []
+    for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
+      let room = this.getRoomConfigById(i);
+      if(room != undefined){
+        this.grid[i] = {
+          index: i,
+          value: room,
+          color: "lightgreen"
+        }
+      }else{
+        this.grid[i] = {
+          index: i,
+          value: null,
+          color: "#C0C0C0"
+        }
+      }
     }
   }
 }

@@ -27,10 +27,10 @@ export class MasterComponent implements OnInit {
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: NPC[] = []
-  npcsToAdd: NPC[] = [];
-  selectedRoomItems: Item[] = []
-  itemsToAdd: Item[] = []
+  selectedRoomNPCs: string[] = []
+  npcsToAdd: string[] = [];
+  selectedRoomItems: string[] = []
+  itemsToAdd: string[] = []
   selectedRoomPlayers: string[] = []
   selectedPlayerInRoom: string | undefined;
   onlinePlayers: string[] = []
@@ -38,16 +38,17 @@ export class MasterComponent implements OnInit {
   playerToInviteName: string | undefined;
   selectedCommandOnPlayer!: string;
   selectedRoomToTeleportTo!: string;
-  allDungeonNPCs: NPC[] = [];
-  allDungeonItems: Item[] = [];
+  allDungeonNPCs: string[] = [];
+  allDungeonItems: string[] = [];
   allDungeonRooms: string[] = [];
+  allDungeonPlayers: string[] = [];
 
   disableNewRoomTab: boolean = true;
   selectedTabIndexRoomInformation: number = 1;
 
-  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [{ name: 'npc1', commandOnInteraction: '', messageOnTalk: 'hallo', items: [], type: "net.bmgames.state.model.NPC.Friendly"}, { name: 'npc2', health: 3, damage: 3, items: [], type: "net.bmgames.state.model.NPC.Hostile"}], name: 'room 1' }],
-      [null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [{name: 'item 1', effect: 'heilen', type: 'net.bmgames.state.model.Consumable'}], npcs: [], name: 'Keller' }],
-      [{ north: false, east: false, south: false, west: false, color: 'lightgreen', items: [{name: 'item 1', effect: 'heilen', type: 'net.bmgames.state.model.Consumable'}], npcs: [], name: 'Kraftwerk' }, null, null]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
+  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: ['npc1', 'npc2'], name: 'room 1', players: ['Hans']}],
+                          [null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: ['item 1'], npcs: [], name: 'Keller', players: [] }],
+                          [{ north: false, east: false, south: false, west: false, color: 'lightgreen', items: ['iiiiteeem'], npcs: [], name: 'Kraftwerk', players: [] }, null, null]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
 
   //Grid
   // -> neighbours of a gridValue are: index -> [-1],[+1],[-mapColumns},[+mapColumns]
@@ -70,6 +71,7 @@ export class MasterComponent implements OnInit {
             break;
           case "net.bmgames.game.message.Message.Map":
             console.log(msg)
+            //set "this.onlinePlayers"
             //TODO update map
             break;
           case "net.bmgames.game.message.Message.Kick":
@@ -87,13 +89,6 @@ export class MasterComponent implements OnInit {
   ngOnInit(): void {
     // initialize grid with rooms
     this.mapColumns = this.map.tiles[0].length
-    /*for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
-      this.grid[i] = {
-        index: i,
-        value: null,
-        color: "#C0C0C0"
-      }
-    }*/
 
     for (let i = 0; i < this.map.tiles[0].length; i++) {
       for (let j = 0; j < this.map.tiles[1].length; j++) {
@@ -105,16 +100,36 @@ export class MasterComponent implements OnInit {
           this.grid[gridIndex] = {index: gridIndex, value: tile, color: tile.color}
           this.allDungeonRooms.push(tile.name)
           tile.npcs.forEach(n => {
-            if(!this.checkContainsNPC(n.name, this.allDungeonNPCs)) this.allDungeonNPCs.push(n)
+            if(!this.checkContainsNPC(n, this.allDungeonNPCs)) this.allDungeonNPCs.push(n)
           })
           tile.items.forEach(i => {
-            if(!this.checkContainsItem(i.name, this.allDungeonItems)) this.allDungeonItems.push(i)
+            if(!this.checkContainsItem(i, this.allDungeonItems)) this.allDungeonItems.push(i)
+          })
+          tile.players.forEach(p => {
+            if(!this.checkContainsPlayer(p, this.allDungeonPlayers)) this.allDungeonPlayers.push(p)
           })
         }else{
           this.grid[gridIndex] = {index: gridIndex, value: null, color: '#C0C0C0'}
         }
       }
     }
+  }
+
+  sendChat({msg, senderOrRecipient}: ChatMessage): void {
+    if (senderOrRecipient) {
+      this.connection.send(`whisper ${senderOrRecipient} ${msg}`)
+    } else {
+      this.connection.send(`say ${msg}`)
+    }
+  }
+
+  sendCommand(command: string): void {
+    console.log(command)
+    this.connection.send(command)
+  }
+
+  leaveGame(){
+    //TODO
   }
 
   /**
@@ -130,39 +145,14 @@ export class MasterComponent implements OnInit {
    * Adds the selected NPCs to the selected room
    */
   addNPCToRoom(){
-    console.log(this.npcsToAdd)
     this.npcsToAdd.forEach(n => {
-      if(!this.checkContainsNPC(n.name, this.selectedRoomNPCs)){
+      if(!this.checkContainsNPC(n, this.selectedRoomNPCs)){
         this.selectedRoomNPCs.push(n)
+        let commandString = 'spawn npc ' + n + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
+        this.sendCommand(commandString)
       }
     })
     this.npcsToAdd = []
-
-    //save this.selectedRoomNPCs to the rooms npcs
-    //TODO
-  }
-
-  /**
-   * iterates trough the list in the params and checks whether the list contains the npc (by name) or not
-   * @param npcName the name of the npc that should be checked
-   * @param list the list to check if it contains the npcName
-   */
-  checkContainsNPC(npcName: string, list: NPC[]) : boolean{
-    for (let i = 0; i < list.length; i++) {
-      if(list[i].name == npcName) return true
-    }
-    return false
-  }
-  /**
-   * iterates trough the list in the params and checks whether the list contains the item (by name) or not
-   * @param itemName the name of the item that should be checked
-   * @param list the list to check if it contains the itemName
-   */
-  checkContainsItem(itemName: string, list: Item[]) : boolean{
-    for (let i = 0; i < list.length; i++) {
-      if(list[i].name == itemName) return true
-    }
-    return false
   }
 
   /**
@@ -178,35 +168,38 @@ export class MasterComponent implements OnInit {
    * Adds the selected NPC to the selected room
    */
   addItemToRoom(){
-    console.log(this.itemsToAdd)
     this.itemsToAdd.forEach(n => {
-      if(!this.checkContainsItem(n.name, this.selectedRoomItems)){
+      if(!this.checkContainsItem(n, this.selectedRoomItems)){
         this.selectedRoomItems.push(n)
+        let commandString = 'spawn item ' + n + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
+        this.sendCommand(commandString)
       }
     })
     this.itemsToAdd = []
-
-    //save this.selectedRoomNPCs to the rooms items
-    //TODO
   }
 
   /**
    * Sends a kick command to the server which kicks the player out of the dungeon
-   * @param playerName username of the player to kick out of the dungeon
    */
-  kickPlayer(playerName?: string){
-    console.log(this.selectedPlayerInRoom)
-    //send kick command
-    //TODO
+  kickPlayer(){
+    if(this.selectedPlayerInRoom != undefined){
+      let commandString = 'kick ' + this.selectedPlayerInRoom
+      this.sendCommand(commandString)
+    }else{
+      alert("Es wurde kein Spieler ausgewählt")
+    }
   }
 
   /**
    * Sends a teleport command to the server which teleports the player to the selected room
    */
   teleportPlayer(){
-    console.log(this.selectedPlayerInRoom)
-    console.log(this.selectedRoomToTeleportTo)
-    //TODO
+    if(this.selectedPlayerInRoom != undefined){
+      let commandString = 'teleport ' + this.selectedPlayerInRoom + ' ' + this.selectedRoomToTeleportTo
+      this.sendCommand(commandString)
+    }else{
+      alert("Es wurde kein Spieler ausgewählt")
+    }
   }
 
   /**
@@ -214,9 +207,12 @@ export class MasterComponent implements OnInit {
    * @param damage the number healthpoints that are going to be subtracted from players health
    */
   hitPlayer(damage: number | null){
-    console.log(this.selectedPlayerInRoom)
-    console.log(damage)
-    //TODO
+    if(this.selectedPlayerInRoom != undefined && damage != null){
+      let commandString = 'hit ' + this.selectedPlayerInRoom + ' ' + damage
+      this.sendCommand(commandString)
+    }else{
+      alert("Es wurde kein Spieler ausgewählt")
+    }
   }
 
   /**
@@ -242,11 +238,29 @@ export class MasterComponent implements OnInit {
     console.log('Süden: ' + this.searchForNeighbour(this.selectedGridValueIndex, 's'))
     console.log('Westen: ' + this.searchForNeighbour(this.selectedGridValueIndex, 'w'))
 
+    if(this.selectedRoomName != '' && this.selectedRoomMessage != ''){
+      if(!this.checkContainsRoom(this.selectedRoomName, this.allDungeonRooms)){
+        let commandString = 'createroom ' + this.selectedRoomName + ' ' + this.selectedRoomMessage
+        this.sendCommand(commandString)
+        this.selectedRoomNPCs.forEach(n => {
+          commandString = 'spawn npc ' + n + ' ' + this.selectedRoomName + ' 1'
+          this.sendCommand(commandString)
+        })
+        this.selectedRoomItems.forEach(i => {
+          commandString = 'spawn item ' + i + ' ' + this.selectedRoomName + ' 1'
+          this.sendCommand(commandString)
+        })
+      }else{
+        alert("Es gibt bereits einen Raum mit dem Namen: " +  this.selectedRoomName)
+      }
+    }else{
+      alert("Es wurden nicht alle Daten eingegeben")
+    }
+
     this.selectedRoomName = ''
     this.selectedRoomMessage = ''
     this.selectedRoomNPCs = []
     this.selectedRoomItems = []
-    //TODO
   }
 
   /**
@@ -256,6 +270,43 @@ export class MasterComponent implements OnInit {
     console.log("Invite player: " + this.playerToInviteName)
     this.playerToInviteName = undefined
     //TODO
+  }
+
+  /**
+   * iterates trough the list in the params and checks whether the list contains the npc (by name) or not
+   * @param npcName the name of the npc that should be checked
+   * @param list the list to check if it contains the npcName
+   */
+  checkContainsNPC(npcName: string, list: string[]) : boolean{
+    for (let i = 0; i < list.length; i++) {
+      if(list[i] == npcName) return true
+    }
+    return false
+  }
+  /**
+   * iterates trough the list in the params and checks whether the list contains the item (by name) or not
+   * @param itemName the name of the item that should be checked
+   * @param list the list to check if it contains the itemName
+   */
+  checkContainsItem(itemName: string, list: string[]) : boolean{
+    for (let i = 0; i < list.length; i++) {
+      if(list[i] == itemName) return true
+    }
+    return false
+  }
+
+  checkContainsPlayer(playerName: string, list: string[]): boolean{
+    for (let i = 0; i < list.length; i++) {
+      if(list[i] == playerName) return true
+    }
+    return false
+  }
+
+  checkContainsRoom(roomName: string, list: string[]): boolean{
+    for (let i = 0; i < list.length; i++) {
+      if(list[i] == roomName) return true
+    }
+    return false
   }
 
   gridRoomSelected(gridV: gridValue){
@@ -269,6 +320,7 @@ export class MasterComponent implements OnInit {
     let name = this.grid[index].value?.name;
     let npcs = this.grid[index].value?.npcs;
     let items = this.grid[index].value?.items;
+    let players = this.grid[index].value?.players;
 
     // check if values are undefined, if not set the values of the selected grid value
     if(name == undefined){
@@ -286,7 +338,11 @@ export class MasterComponent implements OnInit {
     }else{
       this.selectedRoomItems = items;
     }
-    // set 'selectedRoomPlayers' to the players, that are currently in the selected room
+    if(players == undefined){
+      this.selectedRoomPlayers = [];
+    }else{
+      this.selectedRoomPlayers = players;
+    }
   }
 
   highlightSelectedValue(index: number){

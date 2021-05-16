@@ -102,6 +102,12 @@ export class ConfigurationComponent implements OnInit {
     return '';
   }
 
+  quitConfigurator(){
+    if(confirm("Willst du den Konfigurator wirklich verlassen? Deine eingegebenen Daten gehen verloren")){
+      this.router.navigateByUrl('/dashboard')
+    }
+  }
+
   static get startRoom(): string {
     return this._startRoom;
   }

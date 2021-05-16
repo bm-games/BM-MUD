@@ -1,6 +1,6 @@
 <body>
 <div class="mudNameHeader">
-  <button class="leaveGameBtn">Spiel verlassen</button>
+  <button class="leaveGameBtn" (click)="leaveGame()">Spiel verlassen</button>
   <h1 [textContent]="game" ></h1>
 </div>
 
@@ -49,13 +49,13 @@
                 <mat-selection-list class="npcList" [(ngModel)]="selectedRoomNPCs">
                   <label>NPCs:</label>
                   <mat-list-option *ngFor="let value of allDungeonNPCs" [value]="value">
-                    {{value.name}}
+                    {{value}}
                   </mat-list-option>
                 </mat-selection-list>
                 <mat-selection-list class="itemList" [(ngModel)]="selectedRoomItems">
                   <label>Items:</label>
                   <mat-list-option *ngFor="let value of allDungeonItems" [value]="value">
-                    {{value.name}}
+                    {{value}}
                   </mat-list-option>
                 </mat-selection-list>
             </div>
@@ -67,7 +67,7 @@
               <label>Aktuell im Raum:</label>
               <mat-selection-list [(ngModel)]="selectedRoomNPCs" (selectionChange)="removeNPCFromRoom()">
                 <mat-list-option *ngFor="let value of selectedRoomNPCs" [value]="value">
-                  {{value.name}}
+                  {{value}}
                 </mat-list-option>
               </mat-selection-list>
             </div>
@@ -75,7 +75,7 @@
               <label>Alle verfügbaren NPCs:</label>
               <mat-selection-list [(ngModel)]="npcsToAdd">
                 <mat-list-option *ngFor="let value of allDungeonNPCs" [value]="value">
-                  {{value.name}}
+                  {{value}}
                 </mat-list-option>
               </mat-selection-list>
             </div>
@@ -88,7 +88,7 @@
               <label>Aktuell im Raum:</label>
               <mat-selection-list [(ngModel)]="selectedRoomItems" (selectionChange)="removeItemFromRoom()">
                 <mat-list-option *ngFor="let value of selectedRoomItems" [value]="value">
-                  {{value.name}}
+                  {{value}}
                 </mat-list-option>
               </mat-selection-list>
             </div>
@@ -96,7 +96,7 @@
               <label>Alle verfügbaren Items:</label>
               <mat-selection-list [(ngModel)]="itemsToAdd">
                 <mat-list-option *ngFor="let value of allDungeonItems" [value]="value">
-                  {{value.name}}
+                  {{value}}
                 </mat-list-option>
               </mat-selection-list>
             </div>
@@ -159,7 +159,7 @@
             <div class="deleteRoomDiv">
               <label>Diesen Raum löschen? (Nur möglich wenn sich keine Charaktere in diesem Raum befinden)</label>
               <div>
-                <button>Raum löschen</button>
+                <button (click)="deleteRoom()">Raum löschen</button>
               </div>
             </div>
           </div>
