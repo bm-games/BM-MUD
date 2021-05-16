@@ -72,7 +72,8 @@ class RepositoryTests : FunSpec({
                 npcs = game.getStartRoom().npcs
                     .mapValues { (_, npc) -> (npc as NPC.Hostile).copy(items = game.startItems, id = null) }
             )),
-            allowedUsers = game.allowedUsers.plus(player.user.username to setOf(player.ingameName))
+            allowedUsers = game.allowedUsers.plus(player.user.username to setOf(player.ingameName)),
+            joinRequests = listOf(game.master.user, player.user)
         )
         GameRepository.save(newGame)
         game = GameRepository.loadGame(newGame.name)!!
