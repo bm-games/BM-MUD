@@ -27,13 +27,13 @@ export class MasterComponent implements OnInit {
   selectedGridValueIndex: number = 0;
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
-  selectedRoomNPCs: NPC[] = [{ name: 'npc1', commandOnInteraction: '', messageOnTalk: 'hallo', items: [], type: "net.bmgames.state.model.NPC.Friendly"}, { name: 'npc2', health: 3, damage: 3, items: [], type: "net.bmgames.state.model.NPC.Hostile"}]
+  selectedRoomNPCs: NPC[] = []
   npcsToAdd: NPC[] = [];
   selectedRoomItems: Item[] = []
   itemsToAdd: Item[] = []
-  selectedRoomPlayers: string[] = ['Hans', 'Martin', 'Peter'];
+  selectedRoomPlayers: string[] = []
   selectedPlayerInRoom: string | undefined;
-  onlinePlayers: string[] = ['Hans', 'Martin', 'Peter'];
+  onlinePlayers: string[] = []
   commandsOnPlayer: string[] = ['Spieler rauswerfen', 'Spieler teleportieren', 'Charakter LP abziehen']
   playerToInviteName: string | undefined;
   selectedCommandOnPlayer!: string;
@@ -45,8 +45,9 @@ export class MasterComponent implements OnInit {
   disableNewRoomTab: boolean = true;
   selectedTabIndexRoomInformation: number = 1;
 
-  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [], name: '' }],
-      [null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [], name: '' }]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
+  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [{ name: 'npc1', commandOnInteraction: '', messageOnTalk: 'hallo', items: [], type: "net.bmgames.state.model.NPC.Friendly"}, { name: 'npc2', health: 3, damage: 3, items: [], type: "net.bmgames.state.model.NPC.Hostile"}], name: 'room 1' }],
+      [null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [{name: 'item 1', effect: 'heilen', type: 'net.bmgames.state.model.Consumable'}], npcs: [], name: 'Keller' }],
+      [{ north: false, east: false, south: false, west: false, color: 'lightgreen', items: [{name: 'item 1', effect: 'heilen', type: 'net.bmgames.state.model.Consumable'}], npcs: [], name: 'Kraftwerk' }, null, null]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
 
   //Grid
   // -> neighbours of a gridValue are: index -> [-1],[+1],[-mapColumns},[+mapColumns]
@@ -102,12 +103,18 @@ export class MasterComponent implements OnInit {
         console.log(tile)
         if(tile != null){
           this.grid[gridIndex] = {index: gridIndex, value: tile, color: tile.color}
+          this.allDungeonRooms.push(tile.name)
+          tile.npcs.forEach(n => {
+            if(!this.checkContainsNPC(n.name, this.allDungeonNPCs)) this.allDungeonNPCs.push(n)
+          })
+          tile.items.forEach(i => {
+            if(!this.checkContainsItem(i.name, this.allDungeonItems)) this.allDungeonItems.push(i)
+          })
         }else{
           this.grid[gridIndex] = {index: gridIndex, value: null, color: '#C0C0C0'}
         }
       }
     }
-    console.log("test")
   }
 
   /**
@@ -125,7 +132,7 @@ export class MasterComponent implements OnInit {
   addNPCToRoom(){
     console.log(this.npcsToAdd)
     this.npcsToAdd.forEach(n => {
-      if(!this.checkSelectedRoomContainsNPC(n.name)){
+      if(!this.checkContainsNPC(n.name, this.selectedRoomNPCs)){
         this.selectedRoomNPCs.push(n)
       }
     })
@@ -135,16 +142,25 @@ export class MasterComponent implements OnInit {
     //TODO
   }
 
-  checkSelectedRoomContainsNPC(npcName: string) : boolean{
-    for (let i = 0; i < this.selectedRoomNPCs.length; i++) {
-      if(this.selectedRoomNPCs[i].name == npcName) return true
+  /**
+   * iterates trough the list in the params and checks whether the list contains the npc (by name) or not
+   * @param npcName the name of the npc that should be checked
+   * @param list the list to check if it contains the npcName
+   */
+  checkContainsNPC(npcName: string, list: NPC[]) : boolean{
+    for (let i = 0; i < list.length; i++) {
+      if(list[i].name == npcName) return true
     }
     return false
   }
-
-  checkSelectedRoomContainsItem(itemName: string) : boolean{
-    for (let i = 0; i < this.selectedRoomItems.length; i++) {
-      if(this.selectedRoomItems[i].name == itemName) return true
+  /**
+   * iterates trough the list in the params and checks whether the list contains the item (by name) or not
+   * @param itemName the name of the item that should be checked
+   * @param list the list to check if it contains the itemName
+   */
+  checkContainsItem(itemName: string, list: Item[]) : boolean{
+    for (let i = 0; i < list.length; i++) {
+      if(list[i].name == itemName) return true
     }
     return false
   }
@@ -164,7 +180,7 @@ export class MasterComponent implements OnInit {
   addItemToRoom(){
     console.log(this.itemsToAdd)
     this.itemsToAdd.forEach(n => {
-      if(!this.checkSelectedRoomContainsItem(n.name)){
+      if(!this.checkContainsItem(n.name, this.selectedRoomItems)){
         this.selectedRoomItems.push(n)
       }
     })
@@ -221,6 +237,10 @@ export class MasterComponent implements OnInit {
     console.log(this.selectedRoomMessage)
     console.log(this.selectedRoomNPCs)
     console.log(this.selectedRoomItems)
+    console.log('Norden: ' + this.searchForNeighbour(this.selectedGridValueIndex, 'n'))
+    console.log('Osten: ' + this.searchForNeighbour(this.selectedGridValueIndex, 'e'))
+    console.log('Süden: ' + this.searchForNeighbour(this.selectedGridValueIndex, 's'))
+    console.log('Westen: ' + this.searchForNeighbour(this.selectedGridValueIndex, 'w'))
 
     this.selectedRoomName = ''
     this.selectedRoomMessage = ''
@@ -290,6 +310,50 @@ export class MasterComponent implements OnInit {
 
   sliderValue(value: number) {
     return value;
+  }
+
+  /**
+   * Searches for a neighbour of a room in the target direction.
+   * @param index index of the target room, which neighbour should be found.
+   * @param direction direction, in which the neighbour should be found. Possible values: 'n','e','s','w'.
+   * @returns neighbourName - the name of the neighbour. Returns '' if no neighbour was found.
+   */
+  searchForNeighbour(index: number, direction: string) : string{
+    let neighbourName;
+    let i;
+    switch(direction){
+      case "n":
+        i = index - this.mapColumns;
+        if(i >= 0 && this.grid[i].value != null){                                       // i >= 0 -> check if i out of grid (north)
+          neighbourName = this.grid[i].value?.name;
+        }
+        break;
+      case "e":
+        i = index + 1;
+        if(i % this.mapColumns != 0 && this.grid[i].value != null){                     // i % mapColumns != 0 -> check if i out of grid (east)
+          neighbourName = this.grid[i].value?.name
+        }
+        break;
+      case "s":
+        i = index + this.mapColumns;
+        console.log(i)
+        console.log(this.mapColumns)
+        if(i < this.mapColumns*this.mapColumns && this.grid[i].value != null){          // i < mapColumns * mapColumns -> check if i out of grid (south)
+          neighbourName = this.grid[i].value?.name
+        }
+        break;
+      case "w":
+        i = index - 1;
+        if(index % this.mapColumns != 0 && this.grid[i].value ! != null){               // index % mapColumns != 0 -> check if i out of grid (west)
+          neighbourName = this.grid[i].value?.name
+        }
+        break;
+    }
+    if(neighbourName != null){
+      return neighbourName
+    }else{
+      return '';
+    }
   }
 }
 

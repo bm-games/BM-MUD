@@ -22,8 +22,9 @@ export class GameComponent implements OnInit {
   game!: string;
   avatar!: string;
 
-  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [], name: '' }, null],
-                          [null, null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [], name: ''}]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
+  map: RoomMap = {tiles: [[null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [], npcs: [{ name: 'npc1', commandOnInteraction: '', messageOnTalk: 'hallo', items: [], type: "net.bmgames.state.model.NPC.Friendly"}, { name: 'npc2', health: 3, damage: 3, items: [], type: "net.bmgames.state.model.NPC.Hostile"}], name: 'room 1' }],
+      [null, null, { north: false, east: false, south: false, west: false, color: 'lightgreen', items: [{name: 'item 1', effect: 'heilen', type: 'net.bmgames.state.model.Consumable'}], npcs: [], name: 'Keller' }],
+      [null, null, null]] }       // map.tiles[i][j] -> gridValue[mapColumns * i + j]
 
   //Grid
   // -> neighbours of a gridValue are: index -> [-1],[+1],[-mapColumns},[+mapColumns]
