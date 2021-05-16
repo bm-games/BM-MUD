@@ -137,7 +137,6 @@ export class MasterComponent implements OnInit {
    */
   removeNPCFromRoom(){
     console.log(this.selectedGridValueIndex)
-    //save this.selectedRoomNPCs to the room npcs
     //TODO
   }
 
@@ -148,7 +147,7 @@ export class MasterComponent implements OnInit {
     this.npcsToAdd.forEach(n => {
       if(!this.checkContainsNPC(n, this.selectedRoomNPCs)){
         this.selectedRoomNPCs.push(n)
-        let commandString = 'spawn npc ' + n + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
+        let commandString = 'spawn npc ' + '\"' + n + '\"' + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
         this.sendCommand(commandString)
       }
     })
@@ -171,7 +170,7 @@ export class MasterComponent implements OnInit {
     this.itemsToAdd.forEach(n => {
       if(!this.checkContainsItem(n, this.selectedRoomItems)){
         this.selectedRoomItems.push(n)
-        let commandString = 'spawn item ' + n + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
+        let commandString = 'spawn item ' + '\"' + n + '\"' + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
         this.sendCommand(commandString)
       }
     })
@@ -243,11 +242,11 @@ export class MasterComponent implements OnInit {
         let commandString = 'createroom ' + this.selectedRoomName + ' ' + this.selectedRoomMessage
         this.sendCommand(commandString)
         this.selectedRoomNPCs.forEach(n => {
-          commandString = 'spawn npc ' + n + ' ' + this.selectedRoomName + ' 1'
+          commandString = 'spawn npc ' + '\"' + n + '\"' + ' ' + this.selectedRoomName + ' 1'
           this.sendCommand(commandString)
         })
         this.selectedRoomItems.forEach(i => {
-          commandString = 'spawn item ' + i + ' ' + this.selectedRoomName + ' 1'
+          commandString = 'spawn item ' + '\"' + i + '\"' + ' ' + this.selectedRoomName + ' 1'
           this.sendCommand(commandString)
         })
       }else{
