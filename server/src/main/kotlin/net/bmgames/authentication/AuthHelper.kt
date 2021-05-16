@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import net.bmgames.ServerConfig
+import net.bmgames.message
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -33,7 +34,7 @@ class AuthHelper(val config: ServerConfig) {
         val encorder = Base64.getEncoder()
         val decorder = Base64.getDecoder()
         fun cipher(opmode: Int, secretKey: String): Cipher {
-            if (secretKey.length != 32) throw SecurityException("SecretKey length is not 32 chars")
+            if (secretKey.length != 32) throw SecurityException(message("auth.secret-key-length"))
             val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
             val sk = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8), "AES")
             val iv = IvParameterSpec(secretKey.substring(0, 16).toByteArray(Charsets.UTF_8))

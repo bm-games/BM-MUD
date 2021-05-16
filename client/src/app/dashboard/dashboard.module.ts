@@ -15,20 +15,22 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDialogModule} from '@angular/material/dialog';
 import {ChangePasswordDialog} from "./components/dialog/changePasswordDialog";
+import {DeleteDialog} from "./components/game-overview/delete-dialog.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     GameOverviewComponent,
-    ChangePasswordDialog
+    ChangePasswordDialog,
+    DeleteDialog
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-
 
     MatToolbarModule,
     MatButtonModule,
@@ -39,7 +41,8 @@ import {ChangePasswordDialog} from "./components/dialog/changePasswordDialog";
     MatOptionModule,
     MatGridListModule,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule
   ]
 })
 export class DashboardModule {

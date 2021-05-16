@@ -34,6 +34,6 @@ class NPCConfigDAO(id: EntityID<Int>) : IntEntity(id) {
         if (friendly) {
             NPC.Friendly(name, emptyList(), command!!, message!!)
         } else {
-            NPC.Hostile(name, emptyList(), maxHealth!!, damage!!)
+            NPC.Hostile(name, emptyList(), maxHealth!!, damage!!, null)
         }
 }

@@ -1,0 +1,41 @@
+<p>
+  <mat-toolbar>
+    <span>Willkommen in {{game}}</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" (click)="createAvatar()">
+      Avatar hinzufügen
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-toolbar>
+</p>
+
+<div class="players container" *ngIf="detail">
+  <div class="player-overview" *ngIf="detail.isMaster">
+    <mat-card class="mat-elevation-z2">
+      <mat-card-header>
+        <mat-card-title>Master</mat-card-title>
+        <span class="spacer"></span>
+        <button mat-raised-button routerLink="/game/master/{{game}}">Beitreten</button>
+      </mat-card-header>
+    </mat-card>
+  </div>
+  <div class="player-overview" *ngFor="let player of detail.players">
+    <mat-card class="mat-elevation-z2">
+      <mat-card-header>
+        <mat-card-title>{{player.avatar.name}}</mat-card-title>
+        <span class="spacer"></span>
+        <mat-chip-list>
+          <mat-chip>{{player.avatar.clazz.name}}</mat-chip>
+          <mat-chip>{{player.avatar.race.name}}</mat-chip>
+          <mat-chip>HP: {{player.health}} / {{player.maxHealth}}</mat-chip>
+          <mat-chip>Raum: {{player.room}}</mat-chip>
+        </mat-chip-list>
+      </mat-card-header>
+      <mat-card-actions style="display: flex">
+        <button mat-raised-button routerLink="/game/player/{{game}}/{{player.avatar.name}}">Beitreten</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+

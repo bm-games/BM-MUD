@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 sealed class Item {
     abstract val name: String
     abstract val id: Int?
+
 }
 
 @Serializable
@@ -37,3 +38,4 @@ data class Weapon(
     val damage: Int,
     override val id: Int? = null,
 ) : Item()
+

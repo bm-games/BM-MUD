@@ -4,8 +4,10 @@ import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
+import net.bmgames.game.commands.master.TeleportCommand
+import net.bmgames.game.commands.player.MoveCommand
 import net.bmgames.state.model.CommandConfig
-import net.bmgames.game.commands.MoveCommand.Direction
+import net.bmgames.state.model.Direction
 
 class CommandParserTest : FunSpec({
 

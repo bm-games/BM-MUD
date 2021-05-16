@@ -17,8 +17,18 @@ sealed class NPC {
         override val items: List<Item>,
         val health: Int,
         val damage: Int,
+        val lastDamageDealt: Long? = null,
         override val id: Int? = null,
-    ) : NPC()
+    ) : NPC() {
+
+        fun nextAttackTimePoint(): Long =
+            if (lastDamageDealt == null) {
+                System.currentTimeMillis()
+            } else {
+                lastDamageDealt + ATTACK_COOLDOWN
+            }
+
+    }
 
     @Serializable
     @optics
@@ -31,3 +41,5 @@ sealed class NPC {
     ) : NPC()
 
 }
+
+
