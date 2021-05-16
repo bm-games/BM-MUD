@@ -18,6 +18,7 @@ import {FeedbackService} from "../../../shared/services/feedback.service";
 })
 export class ConfigurationComponent implements OnInit {
 
+
   title = "BM-MUD: Configurator";
   mudName: string = '';
 
@@ -29,6 +30,7 @@ export class ConfigurationComponent implements OnInit {
   private static _allRooms: RoomConfig[] = [];
   private static _startequipment: Item[] = [];
   private static _startRoom: string;
+  private static _customCommandList: string[] = [];
 
   constructor(private configService: ConfigService,
               private titleService: Title,
@@ -109,6 +111,12 @@ export class ConfigurationComponent implements OnInit {
     return '';
   }
 
+  quitConfigurator(){
+    if(confirm("Willst du den Konfigurator wirklich verlassen? Deine eingegebenen Daten gehen verloren")){
+      this.router.navigateByUrl('/dashboard')
+    }
+  }
+
   static get startRoom(): string {
     return this._startRoom;
   }
@@ -175,6 +183,14 @@ export class ConfigurationComponent implements OnInit {
 
   static set allClasses(value: ClassConfig[]) {
     this._allClasses = value;
+  }
+
+  static get customCommandList(): string[] {
+    return this._customCommandList;
+  }
+
+  static set customCommandList(value: string[]) {
+    this._customCommandList = value;
   }
 
 }

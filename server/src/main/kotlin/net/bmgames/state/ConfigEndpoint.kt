@@ -22,6 +22,7 @@ import net.bmgames.state.model.Player
 
 internal class ConfigEndpoint {
     fun saveConfig(config: DungeonConfig, user: User): Either<ErrorMessage, Unit> {
+        if(config.name.isNullOrEmpty()) return errorMsg("Der Name des MUDs darf nicht leer sein")
         if (GameRepository.loadGame(config.name) != null)
             return errorMsg(message("config.game-name-used"))
         if (config.startRoom == "") return errorMsg(message("config.no-starting-room"))
