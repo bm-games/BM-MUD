@@ -35,8 +35,8 @@
       <div>
         <label>Startraum: </label>
         <mat-form-field class="dropDown">
-          <mat-select [(ngModel)]="selectedStartRoomName">
-            <mat-option *ngFor="let room of configuredRooms" [value]="room" (click)="startroomChanged(room.name)">
+          <mat-select [ngModel]="selectedStartRoomName" (ngModelChange)="startroomChanged($event.name)">
+            <mat-option *ngFor="let room of configuredRooms" [value]="room">
               {{room.name}}
             </mat-option>
           </mat-select>
@@ -44,6 +44,10 @@
       </div>
     </div>
     <div class="gameGrid">
+      <div class="btnDivMapSize">
+        <button (click)="decrementMapSize()">-</button>
+        <button (click)="incrementMapSize()">+</button>
+      </div>
       <mat-grid-list [cols]="mapColumns">
         <mat-grid-tile *ngFor="let gridValue of grid" (click)="gridRoomSelected(gridValue)" [style.background]="gridValue.color">
           {{gridValue.index}}

@@ -4,7 +4,7 @@ import {CommandService} from './command.service';
 import {CONFIG} from "../../client-config";
 import {LOCAL_CONFIG} from "../../app.module";
 
-describe('CommandService', () => {
+xdescribe('CommandService', () => {
   let service: CommandService;
 
   beforeEach(() => {

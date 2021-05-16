@@ -18,11 +18,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'avatarConfigurator',
-    loadChildren: () => import('./avatarconfigurator/avatarconfigurator.module').then(m => m.ConfiguratorModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'game',
     loadChildren: () => import('./game/game.module').then(m => m.GameModule),
     canActivate: [AuthGuard]

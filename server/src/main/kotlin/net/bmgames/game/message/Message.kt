@@ -21,7 +21,7 @@ sealed class Message {
     data class Map(val map: RoomMap) : Message()
 
     @Serializable
-    data class Kick(val reason: String) : Message()
+    data class Close(val reason: String) : Message()
 }
 
 suspend fun WebSocketServerSession.sendMessage(msg: Message) {

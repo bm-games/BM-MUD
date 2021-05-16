@@ -1,6 +1,7 @@
 package net.bmgames.game.connection
 
 import arrow.core.Either
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ReceiveChannel
 import net.bmgames.game.message.Message
 
@@ -20,7 +21,13 @@ interface IConnection {
 
 
     /**
-     * Closes this channel
+     * Registers a listener which is invoked when closing the channel.
+     * @param listener A listener which receives the close reason as an argument
      * */
-    suspend fun close()
+    fun onClose(listener: (String) -> Unit)
+
+    /**
+     * Closes this channel with a reason. Used for kicking a player.
+     * */
+    suspend fun close(reason: String)
 }

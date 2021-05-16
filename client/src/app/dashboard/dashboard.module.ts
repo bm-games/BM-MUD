@@ -13,19 +13,24 @@ import {GameOverviewComponent} from './components/game-overview/game-overview.co
 import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatDialogModule} from '@angular/material/dialog';
+import {ChangePasswordDialog} from "./components/password/change-password-dialog";
+import {DeleteDialog} from "./components/game-overview/delete-dialog.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    GameOverviewComponent
+    GameOverviewComponent,
+    ChangePasswordDialog,
+    DeleteDialog
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-
 
     MatToolbarModule,
     MatButtonModule,
@@ -35,7 +40,9 @@ import {MatChipsModule} from "@angular/material/chips";
     MatCardModule,
     MatOptionModule,
     MatGridListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule,
+    MatTooltipModule
   ]
 })
 export class DashboardModule {

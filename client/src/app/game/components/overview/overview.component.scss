@@ -1,0 +1,12 @@
+.players {
+  padding: 1rem;
+
+  .player-overview {
+    &:not(:last-child) {
+      margin-bottom: 1rem !important;
+    }
+
+    width: 100% !important;
+    height: 100% !important;
+  }
+}

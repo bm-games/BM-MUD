@@ -5,9 +5,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GameOverview (
     val name: String,
-//    val isStarted: Boolean,
+    val description: String,
+    val isMaster: Boolean,
     val onlinePlayers: Int,
     val masterOnline: Boolean,
     val avatarCount: Int,
-    val userPermitted: Boolean
-)
+    val userPermitted: Permission
+){
+    enum class Permission {Yes, No, Pending}
+}

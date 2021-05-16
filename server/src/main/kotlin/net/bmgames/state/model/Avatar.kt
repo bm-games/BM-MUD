@@ -8,7 +8,10 @@ data class Avatar(
     val race: Race,
     val clazz: Clazz,
     val id: Int? = null,
-)
+) {
+    val maxHealth: Int
+        get() = (race.health * clazz.healthMultiplier).toInt()
+}
 
 @Serializable
 data class Race(

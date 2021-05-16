@@ -2,12 +2,14 @@ package net.bmgames.game.connection
 
 import arrow.core.Either
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.launch
 import net.bmgames.game.GameScope
 import net.bmgames.game.commands.Command
 import net.bmgames.game.message.Message
+import net.bmgames.state.model.Player
 
 /**
  * The connection to a MUD player from the [GameRunner] side.
@@ -16,10 +18,13 @@ import net.bmgames.game.message.Message
  * @property outgoingChannel Queue for sending messages to the client
  * */
 internal data class Connection(
-    private val parseCommand: (String) -> Either<String, Command<*>>,
+    private val parseCommand: (String) -> Either<String, Command<Player>>,
 ) : IConnection {
 
-    internal val incoming = Channel<Command<*>>()
+    private var open: Boolean = true;
+    private val closeListeners = mutableListOf<(String) -> Unit>()
+
+    internal val incoming = Channel<Command<Player>>()
 
     internal val outgoingChannel = Channel<Message>()
     override val outgoing: ReceiveChannel<Message> = outgoingChannel
@@ -28,7 +33,16 @@ internal data class Connection(
         parseCommand(commandLine)
             .map { incoming.send(it) }
 
-    override suspend fun close() {
-        outgoingChannel.close()
+    override fun onClose(listener: (String) -> Unit) {
+        closeListeners.add(listener)
+    }
+
+    override suspend fun close(reason: String) {
+        if(open) {
+            this.open = false
+            closeListeners.forEach { it(reason) }
+            incoming.close()
+            outgoingChannel.close()
+        }
     }
 }

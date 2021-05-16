@@ -1,13 +1,19 @@
 package net.bmgames.state
 
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import net.bmgames.TABLES
 import net.bmgames.authentication.User
 import net.bmgames.game.GAME_WITHOUT_PLAYER
 import net.bmgames.game.PLAYER
 import net.bmgames.game.MASTER
+import net.bmgames.game.ITEMS
+import net.bmgames.state.database.PlayerDAO
+import net.bmgames.state.database.PlayerTable
 import net.bmgames.state.model.*
+import net.bmgames.state.model.Direction.NORTH
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -22,7 +28,8 @@ class RepositoryTests : FunSpec({
     lateinit var game: Game
 
     beforeSpec {
-//        Database.connect("jdbc:h2:./testdb;DB_CLOSE_DELAY=-1;", driver = "org.h2.Driver")
+//        Database.connect("jdbc:h2:./testdb;DB_CLOSE_DELAY=2;", driver = "org.h2.Driver")
+//        transaction { SchemaUtils.drop(*TABLES); SchemaUtils.create(*TABLES) }
         Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;", driver = "org.h2.Driver")
         transaction { SchemaUtils.create(*TABLES) }
     }
@@ -42,29 +49,44 @@ class RepositoryTests : FunSpec({
 
     test("Player should be the same after reading and writing") {
         UserRepository.save(PLAYER.user)
-        PlayerRepository.savePlayer(
-            game,
-            PLAYER.copy(user = UserRepository.getUserByName(PLAYER.user.username)!!)
+        val newPlayer = PLAYER.copy(
+            user = UserRepository.getUserByName(PLAYER.user.username)!!,
+            inventory = Inventory(
+                game.itemConfigs["Wooden Sword"]!! as Weapon,
+                mapOf(Equipment.Slot.Boots to game.itemConfigs["Diamond Shoes"]!! as Equipment),
+                listOf(game.itemConfigs["Apfel"]!!)
+            ),
         )
+        PlayerRepository.savePlayer(game, newPlayer)
         player = PlayerRepository.loadPlayer(game.name, PLAYER.ingameName)!!
-        player.removeIDs() shouldBe PLAYER
+        player.removeIDs() shouldBe newPlayer.removeIDs()
     }
 
     test("Updating the game state should work correctly") {
         val newGame = game.copy(
             rooms = game.rooms.plus("New room" to Room(
                 "New room",
-                "",
-                "Next room",
+                "Hi",
+                neighbours = mapOf(NORTH to "Next room"),
                 items = game.startItems,
                 npcs = game.getStartRoom().npcs
-                    .mapValues { (_, npc) -> (npc as NPC.Hostile).copy(items = game.startItems) }
+                    .mapValues { (_, npc) -> (npc as NPC.Hostile).copy(items = game.startItems, id = null) }
             )),
-            allowedUsers = game.allowedUsers.plus(player.user.username to listOf(player.ingameName))
+            allowedUsers = game.allowedUsers.plus(player.user.username to setOf(player.ingameName)),
+            joinRequests = listOf(game.master.user, player.user)
         )
         GameRepository.save(newGame)
-        val loadedGame = GameRepository.loadGame(newGame.name)?.removeIDs()
-        loadedGame shouldBe newGame.removeIDs()
+        game = GameRepository.loadGame(newGame.name)!!
+        game.removeIDs() shouldBe newGame.removeIDs()
+    }
+
+    test("Deleting the game state should remove the game and all players") {
+        GameRepository.delete(game)
+        GameRepository.loadGame(game.name).shouldBeNull()
+
+        transaction {
+            PlayerDAO.find { PlayerTable.game eq game.id } shouldHaveSize 0
+        }
     }
 })
 

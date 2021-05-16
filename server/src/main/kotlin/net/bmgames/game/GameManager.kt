@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import net.bmgames.communication.Notifier
 import net.bmgames.game.connection.GameRunner
 import net.bmgames.state.GameRepository
 
@@ -19,7 +20,7 @@ internal object GameScope : CoroutineScope {
  * Manages all running games
  * @property gamesRef Stores all running games threadsafe
  * */
-class GameManager() {
+class GameManager(val notifier: Notifier) {
     private val gamesRef: Atomic<Map<String, GameRunner>> = Atomic.unsafe(emptyMap())
 
     /**
@@ -28,7 +29,7 @@ class GameManager() {
     internal suspend fun getGameRunner(gameName: String): GameRunner? {
         val gameRunner = gamesRef.get()[gameName]
         return if (gameRunner == null) {
-            val stoppedGameRunner = GameRepository.loadGame(gameName)?.let(::GameRunner)
+            val stoppedGameRunner = GameRepository.loadGame(gameName)?.let {GameRunner(it, notifier)}
             if (stoppedGameRunner != null) {
                 GameScope.launch { stoppedGameRunner.gameLoop() }
                 gamesRef.update { games ->
@@ -42,7 +43,12 @@ class GameManager() {
         }
     }
 
-
     internal suspend fun getRunningGames() = gamesRef.get()
+
+    internal suspend fun stopGame(gameRunner: GameRunner): Unit{
+        GameRepository.save(gameRunner.stop())
+        gamesRef.update { it - gameRunner.name }
+
+    }
 
 }

@@ -32,17 +32,20 @@ export class ConsoleComponent implements OnInit {
     this.log += '<span class="command">' + line + '\n</span>';
   }
 
+  appendInput(line: string) {
+    this.log += '<span class="command">$ ' + line + '\n</span>';
+  }
+
   input(e: any) {
     if (e.keyCode == 13) {
       const value = e.target.value.replaceAll('\n', '');
       if (value == "") return;
-      // @ts-ignore
+      this.inputLine = ""
       if (value == "clear") {
         this.log = "";
         return;
       }
-      this.inputLine = ""
-      this.appendLine(value)
+      this.appendInput(value)
       this.lineEntered.emit(value)
 
     }

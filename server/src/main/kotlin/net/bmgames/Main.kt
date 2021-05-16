@@ -11,15 +11,20 @@ import net.bmgames.ServerConfig.Companion.initializeConfig
  * */
 fun main(args: Array<String>) {
     if (args.size != 1) {
-        errorMsg("Path of config is missing. Please specify it as the first command line argument.")
+        error(message("config.path-missing"))
     }
 
-    val main = initializeConfig(configPath = args[0]).let(::Server)
-    main.config.connectToDB()
+    val server = initializeConfig(configPath = args[0]).let(::Server)
+    server.config.connectToDB()
 
-    embeddedServer(Netty, port = 80, host = "0.0.0.0") {
-        installServer(main)
-    }.start(wait = true)
+    embeddedServer(Netty) { installServer(server) }
+        .start(false)
+
+    Runtime.getRuntime().addShutdownHook(Thread {
+        println(message("config.shutdown"))
+        server.stop()
+    })
+    Thread.currentThread().join()
 
 }
 

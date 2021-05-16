@@ -29,10 +29,14 @@ class NPCDAO(id: EntityID<Int>) : IntEntity(id) {
 
     fun toNPC(): NPC {
         return when (val npc = npcConfig.toNPC()) {
-            is Friendly -> Friendly.items.set(npc, items.map { it.toItem() })
+            is Friendly -> npc.copy(
+                items = items.map { it.toItem() },
+                id = id.value
+            )
             is Hostile -> npc.copy(
                 items = items.map { it.toItem() },
-                health = health!!
+                health = health!!,
+                id = id.value
             )
         }
     }

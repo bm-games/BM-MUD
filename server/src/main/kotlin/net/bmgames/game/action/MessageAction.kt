@@ -4,8 +4,13 @@ import net.bmgames.game.connection.GameRunner
 import net.bmgames.game.message.Message
 import net.bmgames.state.model.Player
 
-class MessageAction (val player : Player, val message: Message) : Effect() {
-    override fun run(gameRunner: GameRunner){
-        TODO("Not yet implemented")
+data class MessageAction (val player : Player, val message: Message) : Effect() {
+    override suspend fun run(gameRunner: GameRunner) {
+        val connection = gameRunner.getConnection(player.ingameName)
+        connection
+            ?.outgoingChannel
+            ?.send(message)
     }
 }
+
+fun Player.sendText(message: String) = MessageAction(this, Message.Text(message))

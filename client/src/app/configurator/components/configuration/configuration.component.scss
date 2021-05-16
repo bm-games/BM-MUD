@@ -5,6 +5,7 @@ body {
 }
 .mudNameHeader{
   height: 50px;
+  display: flex;
   input{
     font-size: 16pt;
     border: 0;
@@ -13,11 +14,14 @@ body {
     border-bottom: 1px solid black;
   }
   button{
-    float: right;
     background-color: #DC3545;
     border-radius: 5px;
     color: white;
     height: 35px;
     border: none;
+  }
+  .btnQuitConfig{
+    background-color: #888;
+    margin-right: 20px;
   }
 }
