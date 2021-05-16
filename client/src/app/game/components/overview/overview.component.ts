@@ -22,7 +22,7 @@ export class OverviewComponent implements OnInit {
               private dialog: MatDialog) {
     this.game = route.snapshot.paramMap.get("game") || ''
     if (!this.game) {
-      router.navigateByUrl("/dasboard")
+      router.navigateByUrl("/dashboard")
       return
     }
 

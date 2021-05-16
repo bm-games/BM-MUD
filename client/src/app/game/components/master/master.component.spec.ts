@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MasterComponent } from './master.component';
+import {RouterTestingModule} from "@angular/router/testing";
+import {MatDialogModule} from "@angular/material/dialog";
+import {CONFIG} from "../../../client-config";
+import {LOCAL_CONFIG} from "../../../app.module";
+import {CommandService} from "../../services/command.service";
 
 describe('GameComponent', () => {
   let component: MasterComponent;
@@ -8,7 +13,15 @@ describe('GameComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MasterComponent ]
+      declarations: [ MasterComponent ],
+      imports: [
+        RouterTestingModule,
+        MatDialogModule
+      ],
+      providers: [
+        {provide: CONFIG, useValue: LOCAL_CONFIG},
+        CommandService,
+      ]
     })
       .compileComponents();
   });
