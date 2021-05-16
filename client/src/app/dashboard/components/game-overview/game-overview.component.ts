@@ -9,7 +9,6 @@ import {ConfigService} from "../../../configurator/services/config.service";
 import {ConfigurationComponent} from "../../../configurator/components/configuration/configuration.component";
 import {RoomConfig} from "../../../configurator/models/RoomConfig";
 import {fromIterable} from "rxjs/internal-compatibility";
-import {Config} from "codelyzer";
 
 @Component({
   selector: 'app-game-overview',
