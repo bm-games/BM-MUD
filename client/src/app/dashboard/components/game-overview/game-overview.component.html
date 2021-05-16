@@ -1,10 +1,14 @@
 <mat-card class="mat-elevation-z2">
   <mat-card-header>
-    <mat-card-title>
+    <mat-card-title style="display: flex; align-items: center;">
       {{game.name}}
-      <button mat-card-avatar mat-icon-button (click)="info()">
-        <mat-icon>info</mat-icon>
-      </button>
+      <mat-icon
+        style="margin-left: 1rem"
+        [matTooltip]="game.description"
+        [matTooltipHideDelay]="1000"
+        matTooltipPosition="after"
+        matTooltipClass="tooltip-break-line"
+      >info</mat-icon>
     </mat-card-title>
     <span class="spacer"></span>
     <mat-chip-list>
@@ -15,16 +19,17 @@
     </mat-chip-list>
   </mat-card-header>
   <mat-card-actions style="display: flex">
-    <button *ngIf="game.userPermitted === 'Yes'" mat-raised-button routerLink="/game/overview/{{game.name}}">Beitreten</button>
+    <button *ngIf="game.userPermitted === 'Yes'" mat-raised-button routerLink="/game/overview/{{game.name}}">Beitreten
+    </button>
     <button *ngIf="game.userPermitted === 'No'" mat-raised-button (click)="requestJoin()">Beitrittsanfrage senden
     </button>
     <button *ngIf="game.userPermitted === 'Pending'" mat-raised-button disabled>
       Anfrage ausstehend
     </button>
     <span class="spacer"></span>
-    <button matTooltip="Kopie erstellen" mat-icon-button (click)="copy()">
-      <mat-icon>content_copy</mat-icon>
-    </button>
+<!--    <button matTooltip="Kopie erstellen" mat-icon-button (click)="copy()">-->
+<!--      <mat-icon>content_copy</mat-icon>-->
+<!--    </button>-->
     <button *ngIf="game.isMaster"
             matTooltip="MUD löschen"
             mat-icon-button color="warn"

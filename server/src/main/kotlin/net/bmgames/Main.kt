@@ -3,7 +3,6 @@ package net.bmgames
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import net.bmgames.ServerConfig.Companion.initializeConfig
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -15,19 +14,15 @@ fun main(args: Array<String>) {
         error(message("config.path-missing"))
     }
 
-    val mudServer = initializeConfig(configPath = args[0]).let(::Server)
-    mudServer.config.connectToDB()
+    val server = initializeConfig(configPath = args[0]).let(::Server)
+    server.config.connectToDB()
 
-    val netty = embeddedServer(Netty) { installServer(mudServer) }
+    embeddedServer(Netty) { installServer(server) }
         .start(false)
 
     Runtime.getRuntime().addShutdownHook(Thread {
         println(message("config.shutdown"))
-        netty.stop(
-            gracePeriod = 1,
-            timeout = 15,
-            timeUnit = TimeUnit.SECONDS
-        )
+        server.stop()
     })
     Thread.currentThread().join()
 

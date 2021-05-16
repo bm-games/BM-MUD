@@ -1,6 +1,3 @@
-import {Item} from "../../configurator/models/Item";
-import {NPC} from "../../configurator/models/NPCConfig";
-
 interface Tile {
   readonly name: string;
   readonly north: boolean;

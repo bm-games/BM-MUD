@@ -12,7 +12,7 @@ import {AuthService} from "./authentication/services/auth.service";
 import {environment} from "../environments/environment";
 import {CookieInterceptor} from "./authentication/services/cookie-interceptor.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {ErrorDialog, FeedbackService} from "./shared/services/feedback.service";
+import {Dialog, FeedbackService} from "./shared/services/feedback.service";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {FullscreenOverlayContainer, OverlayContainer} from "@angular/cdk/overlay";
@@ -24,7 +24,7 @@ export const LOCAL_CONFIG: ClientConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent, ErrorDialog
+    AppComponent, Dialog
   ],
   imports: [
     BrowserModule,

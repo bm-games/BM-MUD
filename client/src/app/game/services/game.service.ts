@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {GameOverview} from "../model/game-overview";
 import {ClientConfig, CONFIG} from "../../client-config";
 import {AuthService} from "../../authentication/services/auth.service";
-import {GameDetail} from "../model/game-detail";
+import {AvatarConfig, GameDetail} from "../model/game-detail";
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,10 @@ export class GameService {
     return this.http.get<GameOverview[]>(this.CONFIG.endpoint + '/game/list')
   }
 
-  createAvatar(gameName: string, race: string, damage: number, health: number, avatarname: string){
-
+  createAvatar(gameName: string, avatar: AvatarConfig): Promise<void>{
+    return this.http.post(`${this.CONFIG.endpoint}/game/create/${gameName}`, avatar)
+      .toPromise().then(() => {
+      })
   }
 
   delete(gameName: string): Promise<void> {

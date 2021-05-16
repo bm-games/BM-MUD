@@ -24,7 +24,8 @@ class DropItemCommand : PlayerCommand("drop") {
         either.eager {
             val room = player.getRoom(game).bind()
             val item =
-                player.inventory.allItems().find { it.name == target }.rightIfNotNull {message("game.target-not-found").format(target)}.bind()
+                player.inventory.allItems().find { it.name == target }
+                    .rightIfNotNull {message("game.target-not-found").format(target)}.bind()
 
             listOf(
                 player.sendText("+$target"),

@@ -35,8 +35,8 @@
       <div>
         <label>Startraum: </label>
         <mat-form-field class="dropDown">
-          <mat-select [(ngModel)]="selectedStartRoomName">
-            <mat-option *ngFor="let room of configuredRooms" [value]="room" (click)="startroomChanged(room.name)">
+          <mat-select [ngModel]="selectedStartRoomName" (ngModelChange)="startroomChanged($event.name)">
+            <mat-option *ngFor="let room of configuredRooms" [value]="room">
               {{room.name}}
             </mat-option>
           </mat-select>

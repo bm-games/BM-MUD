@@ -6,7 +6,8 @@ import net.bmgames.state.model.Player
 
 data class MessageAction (val player : Player, val message: Message) : Effect() {
     override suspend fun run(gameRunner: GameRunner) {
-        gameRunner.getConnection(player.ingameName)
+        val connection = gameRunner.getConnection(player.ingameName)
+        connection
             ?.outgoingChannel
             ?.send(message)
     }

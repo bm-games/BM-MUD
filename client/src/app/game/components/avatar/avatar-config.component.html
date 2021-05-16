@@ -1,20 +1,23 @@
 <h2 mat-dialog-title>Avatar-Konfigurator</h2>
-<mat-dialog-content>
+<mat-dialog-content class="dialog">
   <div class="Area">
     <div class="inputArea" [formGroup]="form">
       <div class="inputAreaHeader">
-        <input class="inputName" placeholder="Name" formControlName="name"/>
-        <mat-error *ngIf="form.get('name')?.hasError('minlength')">
-          Der Name muss mindestens 2 Zeichen lang sein.
-        </mat-error>
+        <mat-form-field style="width: 75%">
+          <mat-label>Name</mat-label>
+          <input type="email" matInput formControlName="name">
+          <mat-error *ngIf="form.get('name')?.hasError('minlength') && form.get('name')?.dirty">
+            Der Name muss mindestens 2 Zeichen lang sein.
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="inputAreaBody">
         <div>
           <label>Klasse:</label>
           <mat-form-field class="dropDown">
-            <mat-select formControlName="clazz">
-              <mat-option *ngFor="let classType of classes" [value]="classType">
-                {{classType}}
+            <mat-select formControlName="clazz" name="name">
+              <mat-option *ngFor="let clazz of classes" [value]="clazz">
+                {{clazz.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -24,7 +27,7 @@
           <mat-form-field class="dropDown">
             <mat-select formControlName="race">
               <mat-option *ngFor="let race of races" [value]="race">
-                {{race}}
+                {{race.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -55,8 +58,6 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <div class="divBtn">
-    <button (click)="submitAvatar()" [disabled]="!form.valid">Avatar erstellen</button>
-  </div>
+    <button mat-raised-button color="primary" (click)="submitAvatar()" [disabled]="!form.valid">Avatar erstellen</button>
 </mat-dialog-actions>
 

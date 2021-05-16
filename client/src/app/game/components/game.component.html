@@ -1,25 +1,38 @@
-<body>
-<div>
-  <h1>{{game}}</h1>
-</div>
+<mat-toolbar>
+  <span>{{game}}</span>
+  <span class="spacer"></span>
 
-<div class="userArea">
-  <div class="gameConsoleArea">
-    <app-console [lines]="commands" (lineEntered)="sendCommand($event)"></app-console>
-  </div>
-  <div class="rightArea">
-    <div class="gameChatArea">
-      <app-chat [incomingMessages]="chat" (outgoingMessages)="sendChat($event)"></app-chat>
-    </div>
-    <div class="gameMapArea">
-      <div>
-        <mat-grid-list [cols]="mapColumns">
-          <mat-grid-tile *ngFor="let gridValue of grid" [style.background]="gridValue.color">
-          </mat-grid-tile>
-        </mat-grid-list>
-      </div>
-    </div>
-  </div>
+  <mat-chip-list>
+    <mat-chip *ngIf="status === 'Connecting'">Verbindet...</mat-chip>
+    <mat-chip *ngIf="status === 'Connected'" color="primary">Verbunden</mat-chip>
+    <mat-chip *ngIf="status === 'Disconnected'" color="warn">Nicht verbunden</mat-chip>
+  </mat-chip-list>
+</mat-toolbar>
+<div class="game-area">
+  <as-split direction="horizontal">
+    <as-split-area [size]="50">
+      <app-console [lines]="commands" (lineEntered)="sendCommand($event)"></app-console>
+    </as-split-area>
+    <as-split-area [size]="50">
+      <as-split direction="vertical">
+        <as-split-area [size]="70">
+          <!--          <app-chat [incomingMessages]="chat" (outgoingMessages)="sendChat($event)"></app-chat>-->
+          <div style="display: flex; align-items: center;justify-content: center; height: 100%">
+            <p>Coming soon...</p>
+            <p>Use commands for now!</p>
+          </div>
+        </as-split-area>
+        <as-split-area [size]="30">
+          <div class="gameMapArea">
+            <div>
+              <mat-grid-list [cols]="mapColumns">
+                <mat-grid-tile *ngFor="let gridValue of grid" [style.background]="gridValue.color">
+                </mat-grid-tile>
+              </mat-grid-list>
+            </div>
+          </div>
+        </as-split-area>
+      </as-split>
+    </as-split-area>
+  </as-split>
 </div>
-
-</body>

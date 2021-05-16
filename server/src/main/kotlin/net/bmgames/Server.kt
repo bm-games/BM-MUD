@@ -29,26 +29,27 @@ import java.time.Duration
 
 class Server(val config: ServerConfig) {
     private val mailNotifier by lazy { MailNotifier(config) }
+
     private val authHelper = AuthHelper(config)
     private val userHandler = UserHandler(mailNotifier, authHelper)
-
     val notifier: Notifier by lazy { mailNotifier }
+
     val authenticator = Authenticator(authHelper, userHandler)
     val gameManager = GameManager(notifier)
+
+    fun stop() {
+        with(gameManager) {
+            runBlocking {
+                getRunningGames().forEach { (_, game) -> stopGame(game) }
+            }
+        }
+    }
 }
 
 fun Application.installServer(server: Server) {
     installFeatures()
     configureSecurity(server.config)
     configureRoutes(server)
-
-    environment.monitor.subscribe(ApplicationStopped) {
-        with(server.gameManager) {
-            runBlocking {
-                getRunningGames().forEach { (_, game) -> stopGame(game) }
-            }
-        }
-    }
 }
 
 fun Application.configureRoutes(server: Server) {

@@ -1,5 +1,6 @@
 export interface GameOverview {
   readonly name: string;
+  readonly description: string;
   readonly onlinePlayers: number;
   readonly masterOnline: boolean;
   readonly avatarCount: number;

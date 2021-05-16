@@ -14,7 +14,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDialogModule} from '@angular/material/dialog';
-import {ChangePasswordDialog} from "./components/dialog/changePasswordDialog";
+import {ChangePasswordDialog} from "./components/password/change-password-dialog";
 import {DeleteDialog} from "./components/game-overview/delete-dialog.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
 

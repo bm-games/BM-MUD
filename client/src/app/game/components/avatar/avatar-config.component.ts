@@ -1,13 +1,11 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {RaceConfig} from "../../../configurator/models/RaceConfig";
 import {ClassConfig} from "../../../configurator/models/ClassConfig";
 import {FeedbackService} from "../../../shared/services/feedback.service";
 import {GameService} from "../../services/game.service";
-import {ConfigService} from "../../../configurator/services/config.service";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {GameOverview} from "../../model/game-overview";
-import {GameDetail} from "../../model/game-detail";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {AvatarConfig, GameDetail} from "../../model/game-detail";
 
 @Component({
   selector: 'app-avatarconfigurator',
@@ -28,7 +26,8 @@ export class AvatarConfigComponent implements OnInit {
     clazz: [null, Validators.required],
   });
 
-  constructor(@Inject(MAT_DIALOG_DATA) private detail: GameDetail,
+  constructor(@Inject(MAT_DIALOG_DATA) private detail: GameDetail & { name: string },
+              public ref: MatDialogRef<AvatarConfigComponent>,
               private fb: FormBuilder,
               private feedback: FeedbackService,
               private gameService: GameService) {
@@ -37,7 +36,11 @@ export class AvatarConfigComponent implements OnInit {
   }
 
   submitAvatar(): void {
-
+    this.feedback.showLoadingOverlay()
+    this.gameService.createAvatar(this.detail.name, this.form.value as AvatarConfig)
+      .then(() => this.ref.close(true))
+      .catch(error => this.feedback.showError(error))
+      .finally(() => this.feedback.stopLoadingOverlay())
   }
 
   ngOnInit(): void {

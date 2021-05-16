@@ -6,7 +6,7 @@ import {GameService} from "../../../game/services/game.service";
 import {GameOverview} from "../../../game/model/game-overview";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {ChangePasswordDialog} from "../dialog/changePasswordDialog";
+import {ChangePasswordDialog} from "../password/change-password-dialog";
 import {FeedbackService} from "../../../shared/services/feedback.service";
 
 @Component({
@@ -34,11 +34,13 @@ export class DashboardComponent implements OnInit {
     this.setTitle(this.title);
 
     this.feedback.showLoadingOverlay()
-    this.gameService.getAvailableGames().subscribe(games => {
-      this.games = games
-      this.searchedGameName = ""
-      this.feedback.stopLoadingOverlay()
-    })
+    this.gameService.getAvailableGames().toPromise()
+      .then(games => {
+        this.games = games
+        this.searchedGameName = ""
+      })
+      .catch(error=> this.feedback.showError(error))
+      .finally(() => this.feedback.stopLoadingOverlay())
     this.auth.user.subscribe(user => this.user = user)
   }
 

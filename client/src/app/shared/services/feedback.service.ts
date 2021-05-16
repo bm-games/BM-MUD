@@ -1,7 +1,7 @@
 import {Component, Inject, Injectable} from '@angular/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
-import {FullscreenOverlayContainer, Overlay} from "@angular/cdk/overlay";
+import {Overlay} from "@angular/cdk/overlay";
 import {ComponentPortal} from "@angular/cdk/portal";
 import {MatSpinner} from "@angular/material/progress-spinner";
 
@@ -24,7 +24,10 @@ export class FeedbackService {
   }
 
   showLoadingOverlay() {
-    this.loadingOverlay.attach(new ComponentPortal(MatSpinner))
+    try {
+      this.loadingOverlay.attach(new ComponentPortal(MatSpinner))
+    } catch (e) {
+    }
   }
 
   stopLoadingOverlay() {
@@ -32,33 +35,49 @@ export class FeedbackService {
   }
 
   showError(error: HttpErrorResponse) {
-    this.dialog.open(ErrorDialog, {data: {error: error}});
+    const errorMessage = typeof error.error === "string"
+      ? error.error
+      : (console.error(error), "Eine detaillierte Fehlermeldung findest du in der Konsole. Wende dich damit bitte an den Entwickler.")
+    this.alert({
+      title: "Etwas ist schiefgelaufen",
+      message: errorMessage
+    })
   }
+
+  alert(data: DialogData) {
+    this.dialog.open(Dialog, {
+      data: {
+        primaryAction: ["Ok", () => null],
+        ...data
+      }
+    });
+  }
+}
+
+type DialogData = {
+  title: string,
+  message: string,
+  primaryAction?: [string, () => void],
+  secondaryAction?: [string, () => void],
 }
 
 @Component({
   selector: 'dialog-delete',
   template: `
-    <h2 mat-dialog-title>Etwas ist schiefgelaufen</h2>
+    <h2 mat-dialog-title>{{data.title}}</h2>
     <mat-dialog-content class="mat-typography">
-      <p>{{errorMessage}}</p>
-
+      <p>{{data.message}}</p>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Ok</button>
+      <button mat-button color="primary" mat-dialog-close *ngIf="data.primaryAction as action"
+              (click)="action[1]()">{{action[0]}}</button>
+      <button mat-button mat-dialog-close *ngIf="data.secondaryAction as action"
+              (click)="action[1]()">{{action[0]}}</button>
     </mat-dialog-actions>
   `
 })
-export class ErrorDialog {
-  errorMessage: string;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { error: HttpErrorResponse }) {
-    if (typeof data.error.error === "string") {
-      this.errorMessage = data.error.error
-    } else {
-      this.errorMessage = "Eine detaillierte Fehlermeldung findest du in der Konsole. Wende dich damit bitte an den Entwickler."
-      console.error(data.error)
-    }
+export class Dialog {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
   }
 
 }

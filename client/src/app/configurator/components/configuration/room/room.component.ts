@@ -269,11 +269,10 @@ export class RoomComponent implements OnInit {
 
   /**
    * Sets the startroom of the Dungeon
-   * @param id id of the startroom
+   * @param name id of the startroom
    */
   startroomChanged(name: string){
     if(name != null){
-      this.selectedStartRoomName = name;
       ConfigurationComponent.startRoom = name;
     }
   }

@@ -33,8 +33,8 @@ fun Normal.getOtherPlayersInRoom(game: Game): Map<String, Normal> =
 
 fun <T> Collection<T>.prettyJoin(
     empty: String = "",
-    singularVerb: String = "is",
-    pluralVerb: String = "are",
+    singularVerb: String = "ist",
+    pluralVerb: String = "sind",
     prefix: String = "",
     suffix: String = "",
     transform: (T) -> String = Any?::toString
@@ -42,5 +42,5 @@ fun <T> Collection<T>.prettyJoin(
     0 -> empty
     1 -> prefix + " " + transform(first()) + " " + singularVerb + " " + suffix
     else -> prefix + " " + take(size - 1).joinToString(", ", transform = transform) +
-            " and " + transform(last()) + " " + pluralVerb + " " + suffix
+            " und " + transform(last()) + " " + pluralVerb + " " + suffix
 }

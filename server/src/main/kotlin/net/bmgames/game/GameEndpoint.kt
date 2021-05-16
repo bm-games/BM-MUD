@@ -6,6 +6,7 @@ import arrow.core.computations.either
 import arrow.core.rightIfNotNull
 import io.ktor.application.*
 import io.ktor.http.cio.websocket.*
+import io.ktor.http.cio.websocket.CloseReason.Codes.*
 import io.ktor.locations.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -21,11 +22,11 @@ import net.bmgames.communication.Notifier
 import net.bmgames.game.GameOverview.Permission
 import net.bmgames.game.connection.GameRunner
 import net.bmgames.game.connection.IConnection
+import net.bmgames.game.message.Message
 import net.bmgames.game.message.sendMessage
 import net.bmgames.state.GameRepository
 import net.bmgames.state.PlayerRepository
 import net.bmgames.state.model.*
-import org.jetbrains.exposed.sql.transactions.transaction
 
 /**
  * The interface for the game logic to the outer world.
@@ -45,18 +46,28 @@ internal class GameEndpoint(
             .plus(GameRepository.listGames()
                 .filterNot { runningGames.containsKey(it.name) })
             .map {
-                GameOverview(
-                    it.name,
-                    isMaster = it.master.user == user,
-                    onlinePlayers = it.onlinePlayers.size,
-                    masterOnline = it.isMasterOnline(),
-                    avatarCount = it.allowedUsers[user.username]?.size ?: 0,
-                    userPermitted = when {
-                        it.allowedUsers.containsKey(user.username) -> Permission.Yes
-                        it.joinRequests.contains(user) -> Permission.Pending
-                        else -> Permission.No
-                    },
-                )
+                with(it) {
+                    GameOverview(
+                        name,
+                        description = message(
+                            "game.overview.description",
+                            master.ingameName,
+                            races.joinToString(", ") { race -> race.name },
+                            classes.joinToString(", ") { clazz -> clazz.name },
+                            rooms.size,
+                            if (onlinePlayers.isNotEmpty()) onlinePlayers.keys.joinToString(", ") else "Keiner :("
+                        ),
+                        isMaster = master.user == user,
+                        onlinePlayers = onlinePlayers.size,
+                        masterOnline = isMasterOnline(),
+                        avatarCount = allowedUsers[user.username]?.size ?: 0,
+                        userPermitted = when {
+                            allowedUsers.containsKey(user.username) -> Permission.Yes
+                            joinRequests.contains(user) -> Permission.Pending
+                            else -> Permission.No
+                        },
+                    )
+                }
             }
     }
 
@@ -67,12 +78,13 @@ internal class GameEndpoint(
      * @param connection The connection from the Gamerunner
      * */
     suspend fun joinGame(socketServerSession: WebSocketServerSession, connection: IConnection) {
+
         val incoming = GameScope.launch {
             try {
                 for (frame in socketServerSession.incoming) {
                     if (frame is Frame.Text) {
                         connection.tryQueueCommand(frame.readText())
-                            .mapLeft { error -> socketServerSession.send(error) }
+                            .mapLeft { error -> socketServerSession.sendMessage(Message.Text(error)) }
                     }
                 }
             } catch (e: ClosedReceiveChannelException) {
@@ -80,10 +92,14 @@ internal class GameEndpoint(
             } catch (e: Throwable) {
                 connection.close(message("message.connection-closed-error").format(e.message))
             }
+            connection.close("Disconnected itself")
         }
         val outgoing = GameScope.launch {
             connection.onClose {
-                launch { socketServerSession.close(CloseReason(CloseReason.Codes.GOING_AWAY, it)) }
+                launch {
+                    socketServerSession.sendMessage(Message.Close(it))
+                    socketServerSession.close(CloseReason(NORMAL, it))
+                }
             }
             for (message in connection.outgoing) {
                 socketServerSession.sendMessage(message)
@@ -216,15 +232,36 @@ fun Route.installGameEndpoint(
 
                 call.getUser().rightIfNotNull { message("message.user-not-authenticated") }.bind()
 
-                val player =
-                    PlayerRepository.loadPlayer(gameName, avatar).rightIfNotNull { message("message.player-not-found") }
-                        .bind()
+                val player = PlayerRepository.loadPlayer(gameName, avatar)
+                    .rightIfNotNull { message("message.player-not-found") }.bind()
                 val gameRunner =
                     gameManager.getGameRunner(gameName).rightIfNotNull { message("message.game-not-found") }.bind()
 
                 gameRunner.connect(player).bind()
             }.fold(
-                { error -> close(CloseReason(CloseReason.Codes.PROTOCOL_ERROR, error)) },
+                { error -> close(CloseReason(PROTOCOL_ERROR, error)) },
+                { connection -> endpoint.joinGame(this, connection) }
+            )
+        }
+
+
+        webSocket("/control/{gameName}") {
+            either<ErrorMessage, IConnection> {
+                val gameName =
+                    call.parameters["gameName"].rightIfNotNull { message("message.missing-game-name") }.bind()
+
+                val user = call.getUser().rightIfNotNull { message("message.user-not-authenticated") }.bind()
+
+                val gameRunner = gameManager.getGameRunner(gameName)
+                    .rightIfNotNull { message("message.game-not-found") }.bind()
+
+                guard(gameRunner.getCurrentGameState().master.user != user) {
+                    message("game.connection.not-master")
+                }
+
+                gameRunner.connect(Player.Master(user)).bind()
+            }.fold(
+                { error -> close(CloseReason(PROTOCOL_ERROR, error)) },
                 { connection -> endpoint.joinGame(this, connection) }
             )
         }

@@ -21,6 +21,7 @@ internal data class Connection(
     private val parseCommand: (String) -> Either<String, Command<Player>>,
 ) : IConnection {
 
+    private var open: Boolean = true;
     private val closeListeners = mutableListOf<(String) -> Unit>()
 
     internal val incoming = Channel<Command<Player>>()
@@ -37,8 +38,11 @@ internal data class Connection(
     }
 
     override suspend fun close(reason: String) {
-        closeListeners.forEach { it(reason) }
-        incoming.close()
-        outgoingChannel.close()
+        if(open) {
+            this.open = false
+            closeListeners.forEach { it(reason) }
+            incoming.close()
+            outgoingChannel.close()
+        }
     }
 }

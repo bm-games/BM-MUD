@@ -40,6 +40,9 @@ export class OverviewComponent implements OnInit {
   }
 
   createAvatar() {
-    this.dialog.open(AvatarConfigComponent, {data: this.detail})
+    const dialogRef = this.dialog.open(AvatarConfigComponent, {data: {...this.detail, name: this.game}})
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) this.ngOnInit()
+    });
   }
 }

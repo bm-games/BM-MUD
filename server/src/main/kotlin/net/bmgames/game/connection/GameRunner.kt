@@ -79,7 +79,9 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
         updateGameState(Game.onlinePlayers.modify { it.plus(player.ingameName to player) })
         //TODO broadcast that player joined
 
+
         GameScope.launch {
+            println("$name: ${player.ingameName} connected.")
             connection.outgoingChannel.send(Message.Text(message("game.welcome")))
             launch {
                 for (command in connection.incoming) {
@@ -88,6 +90,7 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
             }
             connection.onClose {
                 launch {
+                    println("$name: ${player.ingameName} disconnected.")
                     //TODO broadcast that player left
                     onlinePlayersRef.update { it - player.ingameName }
                     val playerState = currentGameState.modify {

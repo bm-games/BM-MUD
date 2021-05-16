@@ -35,14 +35,7 @@ val ALL_PLAYER_COMMANDS: CommandMap<Player.Normal> = mapOf(
 val ALL_MASTER_COMMANDS: CommandMap<Player.Master> = mapOf(
     "say" to ::MasterSayCommand,
     "whisper" to ::MasterWhisperCommand,
-    "invite" to {
-        InvitationCommand().subcommands(
-            InvitationAddCommand(),
-            InvitationAcceptCommand(),
-            InvitationRejectCommand(),
-            InvitationListCommand()
-        )
-    },
+    "invite" to ::InvitationCommand,
     "kick" to ::KickPlayerCommand,
     "teleport" to ::TeleportCommand,
     "createroom" to ::CreateRoomCommand,
