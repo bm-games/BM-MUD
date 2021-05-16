@@ -95,7 +95,10 @@ export class ConfigurationComponent implements OnInit {
     //let dungeon = JSON.parse('{"name":"Der erste echte MUD","startRoom":"Keller","rooms":{"Keller":{"name":"Keller","items":[],"npcs":{},"north":"","east":"","south":"Maschinenraum","west":"","message":"Es ist kalt. Du bist im Keller."},"Maschinenraum":{"name":"Maschinenraum","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"},{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"npcs":[{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"},{"name":"Hecke","items":[{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"health":79,"damage":13,"type":"net.bmgames.state.model.NPC.Hostile"}],"north":"Keller","east":"","south":"","west":"","message":"Hallllloooooo."},"Himmel":{"name":"Himmel","items":[],"npcs":[{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"}],"north":"","east":"","south":"","west":"","message":"the sky is the limit"}},"startEquipment":[{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"npcConfigs":{"GeOrk":{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"},"Hecke":{"name":"Hecke","items":[{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"health":79,"damage":13,"type":"net.bmgames.state.model.NPC.Hostile"}},"itemConfigs":{"Zaubertrank":{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"},"Goldenes Schwert":{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},"Helm":{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}},"races":[{"name":"Kobold","health":54,"damageModifier":2,"description":"blablabla"},{"name":"Zwerg","health":65,"damageModifier":4,"description":"sgd"}],"classes":[{"name":"Ork","healthMultiplier":5.5,"damage":22,"attackSpeed":52,"description":"sdfg"},{"name":"Drache","healthMultiplier":6.5,"damage":30,"attackSpeed":32,"description":"sdfg"}],"commandConfig":{"aliases":{"pickup":"pickup","consume":"consume","show inventory":"show inventory","go":"go","look":"look"},"customCommands":{"fly":"move player north, look, pickup, "}}}\n')
 
     this.configService.createDungeon(dungeon)
-      .then(() => this.router.navigateByUrl('/dashboard'))
+      .then(() => {
+        this.resetAllLists()
+        this.router.navigateByUrl('/dashboard')
+      })
       .catch(error => this.error.showError(error));
   }
 
@@ -113,8 +116,18 @@ export class ConfigurationComponent implements OnInit {
 
   quitConfigurator(){
     if(confirm("Willst du den Konfigurator wirklich verlassen? Deine eingegebenen Daten gehen verloren")){
+      this.resetAllLists()
       this.router.navigateByUrl('/dashboard')
     }
+  }
+
+  resetAllLists(){
+    ConfigurationComponent.allRaces = []
+    ConfigurationComponent.allClasses = []
+    ConfigurationComponent.customCommandList = []
+    ConfigurationComponent.allItems = []
+    ConfigurationComponent.allNPCs = []
+    ConfigurationComponent.allRooms = []
   }
 
   static get startRoom(): string {

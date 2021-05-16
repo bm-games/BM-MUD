@@ -8,6 +8,7 @@ import {DeleteDialog} from "./delete-dialog.component";
 import {ConfigService} from "../../../configurator/services/config.service";
 import {ConfigurationComponent} from "../../../configurator/components/configuration/configuration.component";
 import {RoomConfig} from "../../../configurator/models/RoomConfig";
+import {fromIterable} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'app-game-overview',
@@ -57,9 +58,25 @@ export class GameOverviewComponent {
         .then(() => {
           ConfigurationComponent.allRaces = config.races
           ConfigurationComponent.allClasses = config.classes
-          ConfigurationComponent.allItems = Object.values(config.itemConfigs)
-          ConfigurationComponent.allNPCs = Object.values(config.npcConfigs)
+          //ConfigurationComponent.allItems = []
+          Object.values(config.itemConfigs).forEach(itemDataArray => {
+            // @ts-ignore
+            let item = itemDataArray[1]
+            ConfigurationComponent.allItems.push(item)
+          })
+          //ConfigurationComponent.allNPCs = []
+          Object.values(config.npcConfigs).forEach(npcDataArray => {
+            // @ts-ignore
+            let npc = npcDataArray[1]
+            ConfigurationComponent.allNPCs.push(npc)
+          })
           ConfigurationComponent.commandConfig = config.commandConfig
+          //ConfigurationComponent.customCommandList = []
+          Object.values(config.commandConfig.customCommands).forEach(customsDataArray => {
+            // ts-ignore
+            let customCommand = customsDataArray[1]
+            ConfigurationComponent.customCommandList.push(customCommand)
+          })
           ConfigurationComponent.allRooms = Object.values(config.rooms)
             .map<RoomConfig>(({name, message, npcs, items}, index) =>
               ({
