@@ -19,7 +19,7 @@
         <label>Effekt:</label>
         <mat-form-field class="dropDown">
           <mat-select>
-            <mat-option *ngFor="let item of itemCommands" [value]="item" (click)="itemEffectChanged(item)">
+            <mat-option *ngFor="let item of commandsForItems" [value]="item" (click)="itemEffectChanged(item)">
               {{item}}
             </mat-option>
           </mat-select>

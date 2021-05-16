@@ -35,20 +35,12 @@
           <label>"look"</label>
           <input placeholder="look" [(ngModel)]="lookAlias"/>
         </div>
+        <div class="standardCommand">
+          <label>"hit"</label>
+          <input placeholder="hit" [(ngModel)]="hitAlias"/>
+        </div>
       </div>
       <div *ngIf="isCustomCommand">
-        <!--<div>
-          <label>Syntax definieren:</label>
-          <input placeholder="z.B. hit $player" [(ngModel)]="commandSyntax"/>
-        </div>
-        <div>
-          <label>Action auswählen:</label>
-          <mat-selection-list [(ngModel)]="selectedActions">
-            <mat-list-option *ngFor="let action of allActions" [value]="action">
-              {{action}}
-            </mat-list-option>
-          </mat-selection-list>
-        </div>-->
         <div>
           <label>Befehl:</label>
           <input placeholder="drop" [(ngModel)]="commandSyntax"/>

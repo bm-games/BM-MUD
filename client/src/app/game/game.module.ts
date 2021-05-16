@@ -12,6 +12,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ChatComponent} from './components/chat/chat.component';
 import {MasterComponent} from './components/master/master.component';
 import {MatListModule} from '@angular/material/list';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatSelectModule} from '@angular/material/select';
+import {MatSliderModule} from "@angular/material/slider";
+import {MatTooltipModule} from "@angular/material/tooltip";
 import {AvatarConfigComponent} from "./components/avatar/avatar-config.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
@@ -39,6 +43,10 @@ import {MatIconModule} from "@angular/material/icon";
     MatToolbarModule,
     MatGridListModule,
     MatListModule,
+    MatTabsModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatTooltipModule
     MatFormFieldModule,
     MatSelectModule,
     MatCardModule,

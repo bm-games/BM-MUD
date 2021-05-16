@@ -37,5 +37,19 @@ export class CommandService {
     }
   }
 
+  connectMaster(game: string): SocketConnection{
+    const socket = webSocket<string>(`${this.CONFIG.websocketEndpoint}/api/game/play/${game}`)
+
+    return {
+      incoming: socket.pipe(map(msg => JSON.parse(msg))),
+      send(command: string){
+        socket.next(command)
+      },
+      disconnect() {
+        socket.complete()
+      }
+    }
+  }
+
 
 }
