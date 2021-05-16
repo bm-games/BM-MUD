@@ -18,7 +18,6 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {AvatarConfigComponent} from "./components/avatar/avatar-config.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatSelectModule} from "@angular/material/select";
 import {MatCardModule} from "@angular/material/card";
 import { OverviewComponent } from './components/overview/overview.component';
 import {MatDialogModule} from "@angular/material/dialog";
@@ -46,7 +45,7 @@ import {MatIconModule} from "@angular/material/icon";
     MatTabsModule,
     MatSelectModule,
     MatSliderModule,
-    MatTooltipModule
+    MatTooltipModule,
     MatFormFieldModule,
     MatSelectModule,
     MatCardModule,
