@@ -24,6 +24,7 @@ export class CommandComponent implements OnInit {
   showInventoryAlias: string | undefined;
   goAlias: string | undefined;
   lookAlias: string | undefined;
+  hitAlias: string | undefined;
 
   isCustomCommand = false;
 
@@ -41,6 +42,7 @@ export class CommandComponent implements OnInit {
     this.showInventoryAlias = this.aliases['show inventory'];
     this.goAlias = this.aliases['go'];
     this.lookAlias = this.aliases['look'];
+    this.hitAlias = this.aliases['hit'];
   }
 
   /**
@@ -73,12 +75,14 @@ export class CommandComponent implements OnInit {
       if(this.showInventoryAlias == undefined) this.showInventoryAlias = "show inventory";
       if(this.goAlias == undefined) this.goAlias = "go";
       if(this.lookAlias == undefined) this.lookAlias = "look";
+      if(this.hitAlias == undefined) this.hitAlias = "hit";
 
       this.aliases['pickup'] = this.pickupAlias;
       this.aliases['consume'] = this.consumeAlias;
       this.aliases['show inventory'] = this.showInventoryAlias;
       this.aliases['go'] = this.goAlias;
       this.aliases['look'] = this.lookAlias;
+      this.aliases['hit'] = this.hitAlias;
 
       ConfigurationComponent.commandConfig.aliases = this.aliases;
     }
