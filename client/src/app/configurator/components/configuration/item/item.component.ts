@@ -30,9 +30,7 @@ export class ItemComponent implements OnInit {
   configuredItems: Item[] = [];
 
   getCommandsForItems() : string[] {
-    let commandArray : string[] = ['Heilen', 'Gesundheit abziehen']
-    ConfigurationComponent.customCommandList.forEach(c => commandArray.push(c))
-    return commandArray;
+    return ['Heilen', 'Gesundheit abziehen'].concat(Object.keys(ConfigurationComponent.commandConfig.customCommands));
   }
 
   constructor() {

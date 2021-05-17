@@ -17,8 +17,9 @@
     </mat-form-field>
 
     <button mat-button routerLink="/configurator">MUD Erstellen</button>
+    <button mat-button (click)="showDrafts()">Entwürfe</button>
     <button mat-button routerLink="/faq">FAQ</button>
-    <button mat-button (click)="changePasswordDialog()" >Passwort ändern</button>
+    <button mat-button (click)="changePasswordDialog()">Passwort ändern</button>
     <button mat-button (click)="logout()">
       Logout
       <mat-icon>logout</mat-icon>
@@ -27,10 +28,10 @@
   </mat-toolbar>
 </p>
 
-<div class="games container">
-  <div class="game-overview" *ngFor="let game of filteredGames" >
-    <app-game-overview [game]="game"></app-game-overview>
-  </div>
+<div class="cards container">
+      <div class="card" *ngFor="let game of filteredGames">
+        <app-game-overview [game]="game"></app-game-overview>
+      </div>
 </div>
 
 

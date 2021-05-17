@@ -10,6 +10,7 @@ import {DungeonConfig, StringMap} from "../../models/DungeonConfig";
 import {ConfigService} from "../../services/config.service";
 import {Router} from "@angular/router";
 import {FeedbackService} from "../../../shared/services/feedback.service";
+import {config} from "rxjs";
 
 @Component({
   selector: 'app-configuration',
@@ -22,6 +23,7 @@ export class ConfigurationComponent implements OnInit {
   title = "BM-MUD: Configurator";
   mudName: string = '';
 
+  private static _id?: string;
   private static _allRaces: RaceConfig[] = [];
   private static _allClasses: ClassConfig[] = [];
   private static _allItems: Item[] = [];
@@ -30,11 +32,10 @@ export class ConfigurationComponent implements OnInit {
   private static _allRooms: RoomConfig[] = [];
   private static _startequipment: Item[] = [];
   private static _startRoom: string;
-  private static _customCommandList: string[] = [];
 
   constructor(private configService: ConfigService,
               private titleService: Title,
-              private error: FeedbackService,
+              private feedback: FeedbackService,
               private router: Router) {
   }
 
@@ -44,8 +45,9 @@ export class ConfigurationComponent implements OnInit {
 
   /**
    * Creates a DungeonConfig and sends it to the ConfigService.
+   * @param draft If its saved as a draft or final version
    */
-  createConfig() {
+  createConfig(draft: boolean) {
     let roomMap: StringMap<RoomConfigExport> = {}
     ConfigurationComponent.allRooms.forEach(r => {
       let north = this.getRoomNameById(r.north);
@@ -63,10 +65,10 @@ export class ConfigurationComponent implements OnInit {
         //npcs: r.npcs,
         npcs: npcStringMap,
         neighbours: {
-          North: north || undefined,
-          East: east || undefined,
-          South: south || undefined,
-          West: west || undefined,
+          NORTH: north || undefined,
+          EAST: east || undefined,
+          SOUTH: south || undefined,
+          WEST: west || undefined,
         },
         message: r.message
       };
@@ -81,6 +83,7 @@ export class ConfigurationComponent implements OnInit {
       itemMap[i.name] = i;
     });
     let dungeon: DungeonConfig = {
+      id: ConfigurationComponent._id,
       name: this.mudName,
       startRoom: ConfigurationComponent.startRoom,
       rooms: roomMap,
@@ -90,16 +93,24 @@ export class ConfigurationComponent implements OnInit {
       races: ConfigurationComponent.allRaces,
       classes: ConfigurationComponent.allClasses,
       commandConfig: ConfigurationComponent.commandConfig
+    };
+
+    this.feedback.showLoadingOverlay()
+    if (draft) {
+      this.configService.saveDraft(dungeon)
+      this.feedback.stopLoadingOverlay()
+      this.router.navigateByUrl('/dashboard')
+    } else {
+      this.configService.createDungeon(dungeon)
+        .then(() => {
+          this.resetAllLists()
+          this.configService.deleteDraft(dungeon.id)
+          this.router.navigateByUrl('/dashboard')
+        })
+        .catch(error => this.feedback.showError(error))
+        .finally(() => this.feedback.stopLoadingOverlay());
     }
 
-    //let dungeon = JSON.parse('{"name":"Der erste echte MUD","startRoom":"Keller","rooms":{"Keller":{"name":"Keller","items":[],"npcs":{},"north":"","east":"","south":"Maschinenraum","west":"","message":"Es ist kalt. Du bist im Keller."},"Maschinenraum":{"name":"Maschinenraum","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"},{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"npcs":[{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"},{"name":"Hecke","items":[{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"health":79,"damage":13,"type":"net.bmgames.state.model.NPC.Hostile"}],"north":"Keller","east":"","south":"","west":"","message":"Hallllloooooo."},"Himmel":{"name":"Himmel","items":[],"npcs":[{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"}],"north":"","east":"","south":"","west":"","message":"the sky is the limit"}},"startEquipment":[{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"npcConfigs":{"GeOrk":{"name":"GeOrk","items":[{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"}],"messageOnTalk":"Ich bin GeOrk","commandOnInteraction":"hit","type":"net.bmgames.state.model.NPC.Friendly"},"Hecke":{"name":"Hecke","items":[{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}],"health":79,"damage":13,"type":"net.bmgames.state.model.NPC.Hostile"}},"itemConfigs":{"Zaubertrank":{"type":"net.bmgames.state.model.Consumable","name":"Zaubertrank","effect":"Heilen"},"Goldenes Schwert":{"type":"net.bmgames.state.model.Weapon","name":"Goldenes Schwert","damage":91},"Helm":{"type":"net.bmgames.state.model.Equipment","name":"Helm","damageModifier":1,"healthModifier":7,"slot":"Head"}},"races":[{"name":"Kobold","health":54,"damageModifier":2,"description":"blablabla"},{"name":"Zwerg","health":65,"damageModifier":4,"description":"sgd"}],"classes":[{"name":"Ork","healthMultiplier":5.5,"damage":22,"attackSpeed":52,"description":"sdfg"},{"name":"Drache","healthMultiplier":6.5,"damage":30,"attackSpeed":32,"description":"sdfg"}],"commandConfig":{"aliases":{"pickup":"pickup","consume":"consume","show inventory":"show inventory","go":"go","look":"look"},"customCommands":{"fly":"move player north, look, pickup, "}}}\n')
-
-    this.configService.createDungeon(dungeon)
-      .then(() => {
-        this.resetAllLists()
-        this.router.navigateByUrl('/dashboard')
-      })
-      .catch(error => this.error.showError(error));
   }
 
   getRoomNameById(id: number | undefined): string {
@@ -114,17 +125,18 @@ export class ConfigurationComponent implements OnInit {
     return '';
   }
 
-  quitConfigurator(){
-    if(confirm("Willst du den Konfigurator wirklich verlassen? Deine eingegebenen Daten gehen verloren")){
+  quitConfigurator() {
+    if (confirm("Willst du den Konfigurator wirklich verlassen? Deine eingegebenen Daten gehen verloren")) {
       this.resetAllLists()
       this.router.navigateByUrl('/dashboard')
     }
   }
 
-  resetAllLists(){
+  resetAllLists() {
+    ConfigurationComponent._id = undefined
     ConfigurationComponent.allRaces = []
     ConfigurationComponent.allClasses = []
-    ConfigurationComponent.customCommandList = []
+    ConfigurationComponent.commandConfig = {customCommands: {}, aliases: {}}
     ConfigurationComponent.allItems = []
     ConfigurationComponent.allNPCs = []
     ConfigurationComponent.allRooms = []
@@ -198,14 +210,30 @@ export class ConfigurationComponent implements OnInit {
     this._allClasses = value;
   }
 
-  static get customCommandList(): string[] {
-    return this._customCommandList;
-  }
 
-  static set customCommandList(value: string[]) {
-    this._customCommandList = value;
+  static setConfig(config: Partial<DungeonConfig>) {
+    this._id = config.id
+    if (config.races) this.allRaces = config.races
+    if (config.classes) this.allClasses = config.classes
+    if (config.itemConfigs) this.allItems = Object.values(config.itemConfigs)
+    if (config.npcConfigs) this.allNPCs = Object.values(config.npcConfigs)
+    if (config.commandConfig) this.commandConfig = config.commandConfig
+    if (config.rooms) this.allRooms = Object.values(config.rooms)
+      .map<RoomConfig>(({name, message, npcs, items}, index) =>
+        ({
+          id: index,
+          name,
+          message,
+          npcs: Object.values(npcs),
+          items,
+          north: undefined,
+          west: undefined,
+          south: undefined,
+          east: undefined
+        }))
+    if (config.startEquipment) this.startequipment = config.startEquipment
+    if (config.startRoom) this.startRoom = config.startRoom
   }
-
 }
 
 export interface RoomConfigExport {
@@ -213,10 +241,10 @@ export interface RoomConfigExport {
   name: string;
   message: string;
   neighbours: {
-    North?: string,
-    West?: string,
-    East?: string,
-    South?: string,
+    NORTH?: string,
+    WEST?: string,
+    EAST?: string,
+    SOUTH?: string,
   }
   npcs: StringMap<NPC>;
   items: Item[];

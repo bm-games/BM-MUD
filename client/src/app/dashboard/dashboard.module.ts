@@ -19,6 +19,10 @@ import {DeleteDialog} from "./components/game-overview/delete-dialog.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FaqComponent} from './components/faq/faq.component';
 import {MatExpansionModule} from "@angular/material/expansion";
+import {DraftsComponent} from './components/draft/drafts.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
@@ -27,7 +31,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
     GameOverviewComponent,
     ChangePasswordDialog,
     DeleteDialog,
-    FaqComponent
+    FaqComponent,
+    DraftsComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +51,10 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatChipsModule,
     MatDialogModule,
     MatTooltipModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTabsModule,
+    MatBottomSheetModule,
+    MatListModule
   ]
 })
 export class DashboardModule {

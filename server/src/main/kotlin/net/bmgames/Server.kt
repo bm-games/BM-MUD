@@ -17,6 +17,7 @@ import io.ktor.serialization.*
 import io.ktor.sessions.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 import net.bmgames.authentication.*
 import net.bmgames.communication.MailNotifier
 import net.bmgames.communication.Notifier
@@ -78,7 +79,14 @@ fun Application.installFeatures() {
     }
 
     install(ContentNegotiation) {
-        json()
+        json(Json {
+            encodeDefaults = true
+            isLenient = true
+            allowSpecialFloatingPointValues = true
+            allowStructuredMapKeys = true
+            prettyPrint = false
+            useArrayPolymorphism = false
+        })
     }
 
     install(Locations)

@@ -1,9 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
 import {ClientConfig, CONFIG} from "../../client-config";
 import {HttpClient} from "@angular/common/http";
-import {Observable, of} from "rxjs";
 import {DungeonConfig} from "../models/DungeonConfig";
-import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +19,26 @@ export class ConfigService {
   }
 
   createDungeon(dungeonConfig: DungeonConfig): Promise<void> {
-    console.log(dungeonConfig);
-    console.log(JSON.stringify(dungeonConfig));
-
-    return this.http.post<void>(`${this.CONFIG.endpoint}/configurator/createConfig`, dungeonConfig).toPromise();
+    delete dungeonConfig.id
+    return this.http.post<void>(`${this.CONFIG.endpoint}/configurator/createConfig`, dungeonConfig)
+      .toPromise();
   }
 
+
+  saveDraft(dungeonConfig: Partial<DungeonConfig>): void {
+    if (!dungeonConfig.id) dungeonConfig = {...dungeonConfig, id: Date.now().toString()}
+    localStorage.setItem("config.draft." + dungeonConfig.id, JSON.stringify(dungeonConfig))
+  }
+
+  getDrafts(): Partial<DungeonConfig>[] {
+    return Object.entries(localStorage)
+      .filter(([key, config]) => key?.startsWith("config.draft.") && config != null)
+      .map(([_, config]) => JSON.parse(config))
+  }
+
+  deleteDraft(id?: string) {
+    if (id) {
+      localStorage.removeItem("config.draft." + id)
+    }
+  }
 }

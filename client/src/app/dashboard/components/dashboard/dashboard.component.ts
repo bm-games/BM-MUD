@@ -8,6 +8,10 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ChangePasswordDialog} from "../password/change-password-dialog";
 import {FeedbackService} from "../../../shared/services/feedback.service";
+import {DungeonConfig} from "../../../configurator/models/DungeonConfig";
+import {ConfigService} from "../../../configurator/services/config.service";
+import {MatBottomSheet} from "@angular/material/bottom-sheet";
+import {DraftsComponent} from "../draft/drafts.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -21,13 +25,16 @@ export class DashboardComponent implements OnInit {
   user: User | null = null;
   games: GameOverview[] = [];
   filteredGames: GameOverview[] = [];
+  drafts!: Partial<DungeonConfig>[];
 
   constructor(private titleService: Title,
               private gameService: GameService,
+              private configService: ConfigService,
               private auth: AuthService,
               private router: Router,
               public dialog: MatDialog,
-              private feedback: FeedbackService) {
+              private feedback: FeedbackService,
+              private draftsSheet: MatBottomSheet) {
   }
 
   ngOnInit(): void {
@@ -39,7 +46,7 @@ export class DashboardComponent implements OnInit {
         this.games = games
         this.searchedGameName = ""
       })
-      .catch(error=> this.feedback.showError(error))
+      .catch(error => this.feedback.showError(error))
       .finally(() => this.feedback.stopLoadingOverlay())
     this.auth.user.subscribe(user => this.user = user)
   }
@@ -63,5 +70,9 @@ export class DashboardComponent implements OnInit {
     const dialogRef = this.dialog.open(ChangePasswordDialog, {
       width: '300px'
     });
+  }
+
+  showDrafts() {
+    this.draftsSheet.open(DraftsComponent, {data: this.configService.getDrafts()})
   }
 }

@@ -112,7 +112,7 @@ val NOOP_NOTIFIER = object : Notifier {
 }
 
 fun main() {
-    print(Json.decodeFromString<Game>(Json { prettyPrint = true }.encodeToString(GAME_WITHOUT_PLAYER)))
+    print(Json { prettyPrint = true }.encodeToString(GAME_WITHOUT_PLAYER))
 }
 
 

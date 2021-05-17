@@ -3,10 +3,10 @@ mat-toolbar > *:not(:last-child) {
 }
 
 
-.games {
+.cards {
   padding: 1rem;
 
-  .game-overview {
+  .card {
     &:not(:last-child) {
       margin-bottom: 1rem!important;
     }

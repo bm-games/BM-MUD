@@ -6,6 +6,7 @@ import {CommandConfig} from "./CommandConfig";
 import {RoomConfigExport} from "../components/configuration/configuration.component";
 
 export interface DungeonConfig {
+  id?: string;
   name: string;
   startRoom: string;
   startEquipment: Item[];
