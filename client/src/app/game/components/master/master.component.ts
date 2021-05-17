@@ -228,16 +228,16 @@ export class MasterComponent implements OnInit, OnDestroy {
           }
         }
       }
-    }
+    }*/
 
     sendChat({msg, senderOrRecipient}: ChatMessage): void {
-      if (senderOrRecipient) {
+      if (senderOrRecipient != '') {
         this.connection.send(`whisper ${senderOrRecipient} ${msg}`)
       } else {
         this.connection.send(`say ${msg}`)
       }
     }
-
+/*
     sendCommand(command: string): void {
       console.log(command)
       this.connection.send(command)

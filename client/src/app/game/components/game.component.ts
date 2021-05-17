@@ -125,7 +125,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   sendChat({msg, senderOrRecipient}: ChatMessage): void {
-    if (senderOrRecipient) {
+    if (senderOrRecipient != '') {
       this.connection.send(`whisper ${senderOrRecipient} ${msg}`)
     } else {
       this.connection.send(`say ${msg}`)

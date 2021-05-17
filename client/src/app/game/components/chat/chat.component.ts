@@ -15,9 +15,19 @@ export type ChatMessage = {
   template: `
     <div id="terminal" (click)="inputline.focus()">
       <pre class="output" [innerHTML]="log" [scrollTop]="output.scrollHeight" #output></pre>
-      <!--      TODO: add field for recipient-->
-      <div class="input">
-        <textarea rows="1" (keydown)="input($event)" [(ngModel)]="inputLine" #inputline></textarea>
+      <div class="inputArea">
+        <mat-form-field class="dropDownRecipient">
+          <mat-label>Senden an:</mat-label>
+          <mat-select [(ngModel)]="selectedRecipient">
+            <mat-option [value]="'Alle'">Alle</mat-option>
+            <mat-option *ngFor="let player of players | async" [value]="player">
+              {{player}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="input">
+          <textarea rows="1" (keydown)="input($event)" [(ngModel)]="inputLine" #inputline></textarea>
+        </div>
       </div>
     </div>
   `,
@@ -36,6 +46,7 @@ export class ChatComponent implements OnInit {
 
   log = "";
   inputLine = "";
+  selectedRecipient = "Alle";
 
   ngOnInit() {
     this.incomingMessages.subscribe(({senderOrRecipient, msg}) => {
@@ -53,11 +64,17 @@ export class ChatComponent implements OnInit {
       if (msg == "") return;
       this.inputLine = ""
       this.appendLine(`You: ${msg}`)
-      this.outgoingMessages.emit({
-        // senderOrRecipient: undefined, //TODO read recipient
-        msg,
-      })
-
+      if(this.selectedRecipient == 'Alle'){
+        this.outgoingMessages.emit({
+         senderOrRecipient: '',
+          msg,
+        })
+      }else{
+        this.outgoingMessages.emit({
+          senderOrRecipient: this.selectedRecipient,
+          msg
+        })
+      }
     }
   }
 
