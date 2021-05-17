@@ -218,6 +218,16 @@ export class ConfigurationComponent implements OnInit {
     if (config.itemConfigs) this.allItems = Object.values(config.itemConfigs)
     if (config.npcConfigs) this.allNPCs = Object.values(config.npcConfigs)
     if (config.commandConfig) this.commandConfig = config.commandConfig
+    let north: number
+    let east: number
+    let south: number
+    let west: number
+    if(config.rooms) Object.values(config.rooms).forEach(room => {
+      if(room.neighbours.NORTH == undefined) { north = -1 } else{ north = 1 }
+      if(room.neighbours.EAST == undefined) { east = -1 } else{ east = 1 }
+      if(room.neighbours.SOUTH == undefined) { south = -1 } else{ south = 1 }
+      if(room.neighbours.WEST == undefined) { west = -1 } else{ west = 1 }
+    })
     if (config.rooms) this.allRooms = Object.values(config.rooms)
       .map<RoomConfig>(({name, message, npcs, items}, index) =>
         ({
@@ -226,10 +236,10 @@ export class ConfigurationComponent implements OnInit {
           message,
           npcs: Object.values(npcs),
           items,
-          north: undefined,
-          west: undefined,
-          south: undefined,
-          east: undefined
+          north: north,
+          west: west,
+          south: south,
+          east: east
         }))
     if (config.startEquipment) this.startequipment = config.startEquipment
     if (config.startRoom) this.startRoom = config.startRoom
