@@ -20,7 +20,7 @@ import {DraftsComponent} from "../draft/drafts.component";
 })
 export class DashboardComponent implements OnInit {
 
-  title = "BM-MUD: Dashboard";
+  title = "Dashboard";
 
   user: User | null = null;
   games: GameOverview[] = [];

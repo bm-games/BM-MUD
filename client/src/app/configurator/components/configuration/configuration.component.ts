@@ -20,7 +20,7 @@ import {config} from "rxjs";
 export class ConfigurationComponent implements OnInit {
 
 
-  title = "BM-MUD: Configurator";
+  title = "Konfigurator";
   mudName: string = '';
 
   private static _id?: string;

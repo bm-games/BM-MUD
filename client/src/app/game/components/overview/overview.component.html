@@ -1,13 +1,14 @@
-<p>
-  <mat-toolbar>
-    <span>Willkommen in {{game}}</span>
-    <span class="spacer"></span>
-    <button mat-raised-button color="primary" (click)="createAvatar()">
-      Avatar hinzufügen
-      <mat-icon>add</mat-icon>
-    </button>
-  </mat-toolbar>
-</p>
+<mat-toolbar>
+  <button mat-icon-button routerLink="/dashboard">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Wähle deinen Avatar für {{game}}</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="primary" (click)="createAvatar()">
+    Avatar hinzufügen
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
 
 <div class="players container" *ngIf="detail">
   <div class="player-overview" *ngIf="detail.isMaster">

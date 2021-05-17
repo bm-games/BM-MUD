@@ -6,28 +6,33 @@ export type ChatMessage = {
   /**
    * If its null and this message is outgoing, the message goes to every player in the room
    * */
-  senderOrRecipient: string,
+  senderOrRecipient?: string,
   msg: string
 }
 
 @Component({
   selector: 'app-chat',
   template: `
-    <div id="terminal" (click)="inputline.focus()">
+    <div id="terminal">
+      <mat-form-field class="recipient">
+        <mat-label>Senden an:</mat-label>
+        <mat-select [(ngModel)]="selectedRecipient">
+          <mat-option>Alle</mat-option>
+          <mat-option *ngFor="let player of players | async" [value]="player">
+            {{player}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-divider style="margin-top: -1rem"></mat-divider>
       <pre class="output" [innerHTML]="log" [scrollTop]="output.scrollHeight" #output></pre>
-      <div class="inputArea">
-        <mat-form-field class="dropDownRecipient">
-          <mat-label>Senden an:</mat-label>
-          <mat-select [(ngModel)]="selectedRecipient">
-            <mat-option [value]="'Alle'">Alle</mat-option>
-            <mat-option *ngFor="let player of players | async" [value]="player">
-              {{player}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class="input">
-          <textarea rows="1" (keydown)="input($event)" [(ngModel)]="inputLine" #inputline></textarea>
-        </div>
+      <mat-divider></mat-divider>
+      <div class="input">
+        <input (keydown)="input($event)"
+               [(ngModel)]="inputLine"
+               placeholder="Nachricht" #msg>
+        <button mat-icon-button (click)="send(msg.value)" color="primary">
+          <mat-icon>send</mat-icon>
+        </button>
       </div>
     </div>
   `,
@@ -46,36 +51,32 @@ export class ChatComponent implements OnInit {
 
   log = "";
   inputLine = "";
-  selectedRecipient = "Alle";
+  selectedRecipient?: string;
 
   ngOnInit() {
     this.incomingMessages.subscribe(({senderOrRecipient, msg}) => {
-      this.appendLine(`${senderOrRecipient}: ${msg}`)
+      this.appendLine(`${senderOrRecipient}: ${msg}`, senderOrRecipient ? "received" : "master")
     })
   }
 
-  appendLine(line: string) {
-    this.log += '<span class="command">' + line + '\n</span>';
+  appendLine(line: string, color: "master" | "sent" | "received") {
+    this.log += '<span class="command ' + color + '">' + line + '\n</span>';
   }
 
   input(e: any) {
     if (e.keyCode == 13) {
-      const msg: string = e.target.value.replaceAll('\n', '');
-      if (msg == "") return;
-      this.inputLine = ""
-      this.appendLine(`You: ${msg}`)
-      if(this.selectedRecipient == 'Alle'){
-        this.outgoingMessages.emit({
-         senderOrRecipient: '',
-          msg,
-        })
-      }else{
-        this.outgoingMessages.emit({
-          senderOrRecipient: this.selectedRecipient,
-          msg
-        })
-      }
+      this.send(e.target.value)
     }
   }
 
+  send(msg: string) {
+    msg = msg.replace('\n', '');
+    if (msg == "") return;
+    this.inputLine = ""
+    this.appendLine(`Du: ${msg}`, "sent")
+    this.outgoingMessages.emit({
+      senderOrRecipient: this.selectedRecipient,
+      msg
+    })
+  }
 }

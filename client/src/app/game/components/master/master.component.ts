@@ -6,6 +6,7 @@ import {ChatMessage} from "../chat/chat.component";
 import {RoomMap, Tile} from "../../../shared/model/map";
 import {FeedbackService} from "../../../shared/services/feedback.service";
 import {GridValue} from "../game.component";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -30,13 +31,15 @@ export class MasterComponent implements OnInit, OnDestroy {
   constructor(private commandService: CommandService,
               private route: ActivatedRoute,
               private router: Router,
-              private feedback: FeedbackService) {
+              private feedback: FeedbackService,
+              title: Title) {
 
     const game = route.snapshot.paramMap.get("game")
     if (!game) {
       router.navigateByUrl("/")
     } else {
       this.game = game
+      title.setTitle(game + " | Master")
     }
   }
 
@@ -111,7 +114,7 @@ export class MasterComponent implements OnInit, OnDestroy {
     })
   }
 
-  updateGrid(map: RoomMap){
+  updateGrid(map: RoomMap) {
     // initialize grid with rooms
     this.mapColumns = map.tiles.length
     for (let x = 0; x < map.tiles.length; x++) {

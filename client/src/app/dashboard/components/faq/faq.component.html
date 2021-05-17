@@ -1,90 +1,94 @@
-<button class ="home" mat-button routerLink="/dashboard">Home</button>
-<h1 class="center">FAQ</h1>
-<div class = "faq">
+<mat-toolbar >
+  <button mat-icon-button routerLink="/dashboard">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>FAQ</span>
+</mat-toolbar>
+<div class="faq container">
   <mat-accordion>
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <h2>Wie konfiguriere ich ein MUD?</h2>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p> Nach dem Login drücken Sie rechts oben auf "MUD Erstellen".
-    Zuerst wählen Sie einen Namen, den man links oben eintragen kann. <br>
-    Danach klicken Sie sich durch die einzelnen Kategorien (Rassen, Klassen, etc.) und
-    füllen die Felder aus, woraufhin Sie auf hinzufügen klicken. <br>
-    Zum Schluss drücken Sie rechts oben auf "Spiel speichern" und schon
-    ist ihre Konfiguration bereit zum Spielen.
-  </p>
-  </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2>Wie konfiguriere ich ein MUD?</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> Nach dem Login drücken Sie rechts oben auf "MUD Erstellen".
+        Zuerst wählen Sie einen Namen, den man links oben eintragen kann. <br>
+        Danach klicken Sie sich durch die einzelnen Kategorien (Rassen, Klassen, etc.) und
+        füllen die Felder aus, woraufhin Sie auf hinzufügen klicken. <br>
+        Zum Schluss drücken Sie rechts oben auf "Spiel speichern" und schon
+        ist ihre Konfiguration bereit zum Spielen.
+      </p>
+    </mat-expansion-panel>
 
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <h2>Wie erstelle ich eigene Befehle?</h2>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p> Sobald Sie am Konfigurieren des Spiels sind, wechseln Sie auf das "Befehle" Fenster.
-      Dort kann man bei "Typ" den Typ "Eigener Befehl" auswählen.<br>
-      Dann wählt man zuerst den Namen des Befehls, welchen man bei "Befehl" einträgt.<br>
-      Daraufhin kann man aus den Standardbefehlen einen eigenen Befehl erstellen (z.B
-      Command 1: "move player north", Command 2: "look").
-      Diese werden nacheinander ausgeführt.
-    </p>
-  </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2>Wie erstelle ich eigene Befehle?</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> Sobald Sie am Konfigurieren des Spiels sind, wechseln Sie auf das "Befehle" Fenster.
+        Dort kann man bei "Typ" den Typ "Eigener Befehl" auswählen.<br>
+        Dann wählt man zuerst den Namen des Befehls, welchen man bei "Befehl" einträgt.<br>
+        Daraufhin kann man aus den Standardbefehlen einen eigenen Befehl erstellen (z.B
+        Command 1: "move player north", Command 2: "look").
+        Diese werden nacheinander ausgeführt.
+      </p>
+    </mat-expansion-panel>
 
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <h2>Welcher Befehl macht was?</h2>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p> "move player north": Spieler geht in den nördlich-angrenzenden Raum <br>
-      "move player east": Spieler geht in den östlich-angrenzenden Raum <br>
-      "move player south": Spieler geht in den südlich-angrenzenden Raum <br>
-      "move player west": Spieler geht in den westlich-angrenzenden Raum <br>
-      "look": Spieler schaut sich im Raum um <br>
-      "show imventory": Zeigt an, welche Gegenstände der Spieler bei sich trägt <br>
-      "pickup": Lässt den Spieler einen Gegenstand aufheben <br>
-      "hit": Spieler greift an
-    </p>
-  </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2>Welcher Befehl macht was?</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> "move player north": Spieler geht in den nördlich-angrenzenden Raum <br>
+        "move player east": Spieler geht in den östlich-angrenzenden Raum <br>
+        "move player south": Spieler geht in den südlich-angrenzenden Raum <br>
+        "move player west": Spieler geht in den westlich-angrenzenden Raum <br>
+        "look": Spieler schaut sich im Raum um <br>
+        "show imventory": Zeigt an, welche Gegenstände der Spieler bei sich trägt <br>
+        "pickup": Lässt den Spieler einen Gegenstand aufheben <br>
+        "hit": Spieler greift an
+      </p>
+    </mat-expansion-panel>
 
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <h2>Wie trete ich einem Spiel bei?</h2>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p> Nach der Anmeldung werden die verfügbaren Spiele angezeigt.
-      Möchte man einem dieser Spiele beitreten, so klickt man auf "Beitrittsanfrage senden". <br>
-      Jetzt muss man auf die Zulassung des Masters warten.
-      Sobald dieser den Beitritt erlaubt, kann man dem Spiel beitreten
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2>Wie trete ich einem Spiel bei?</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> Nach der Anmeldung werden die verfügbaren Spiele angezeigt.
+        Möchte man einem dieser Spiele beitreten, so klickt man auf "Beitrittsanfrage senden". <br>
+        Jetzt muss man auf die Zulassung des Masters warten.
+        Sobald dieser den Beitritt erlaubt, kann man dem Spiel beitreten
 
-    </p>
-  </mat-expansion-panel>
+      </p>
+    </mat-expansion-panel>
 
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <h2>Wie spielt man das Spiel?</h2>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p> Ist man dem Spiel beigetreten, so kann man mithilfe der Befehle spielen.
-      Gibt man einen ungültigen Befehl ein, so wird eine Übersicht mit allen Befehlen angezeigt. <br>
-      Diese kann man dann in beliebiger Reihenfolge ausführen und sich so durch das Spiel durchkämpfen.
-    </p>
-  </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2>Wie spielt man das Spiel?</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> Ist man dem Spiel beigetreten, so kann man mithilfe der Befehle spielen.
+        Gibt man einen ungültigen Befehl ein, so wird eine Übersicht mit allen Befehlen angezeigt. <br>
+        Diese kann man dann in beliebiger Reihenfolge ausführen und sich so durch das Spiel durchkämpfen.
+      </p>
+    </mat-expansion-panel>
 
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <h2>Was kann ein Master tun?</h2>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p> Als Master hat man die Kontrolle über das gesamte Spiel.
-      Man kann z.B. Spieler einladen, Spieler entfernen, Items oder NPCs erscheinen lassen und vieles mehr.<br>
-    </p>
-  </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2>Was kann ein Master tun?</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> Als Master hat man die Kontrolle über das gesamte Spiel.
+        Man kann z.B. Spieler einladen, Spieler entfernen, Items oder NPCs erscheinen lassen und vieles mehr.<br>
+      </p>
+    </mat-expansion-panel>
   </mat-accordion>
 </div>
 
