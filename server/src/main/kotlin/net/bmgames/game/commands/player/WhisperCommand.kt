@@ -22,7 +22,7 @@ class WhisperCommand : PlayerCommand("whisper") {
 
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         game.onlinePlayers.values
-            .find { p ->
+            .find {  p ->
                 (p is Player.Master && p.ingameName == target) ||
                         (player != p && p.ingameName == target &&
                                 p is Player.Normal && p.room == player.room)
