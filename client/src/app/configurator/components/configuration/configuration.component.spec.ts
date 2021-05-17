@@ -5,8 +5,7 @@ import {CONFIG} from "../../../client-config";
 import {LOCAL_CONFIG} from "../../../app.module";
 import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {ConfiguratorModule} from "../../configurator.module";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 
 describe('ConfigurationComponent', () => {
   let component: ConfigurationComponent;
@@ -14,15 +13,14 @@ describe('ConfigurationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      // declarations: [ConfigurationComponent],
+      declarations: [ConfigurationComponent],
       imports: [
         RouterTestingModule,
         HttpClientTestingModule,
-        ConfiguratorModule,
-        MatDialogModule
+        MatDialogModule,
       ],
       providers: [
-        {provide: CONFIG, useValue: LOCAL_CONFIG}
+        {provide: CONFIG, useValue: LOCAL_CONFIG},
       ]
     })
       .compileComponents();
