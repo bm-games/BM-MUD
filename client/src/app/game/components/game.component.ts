@@ -102,25 +102,30 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private updateGrid(map: RoomMap) {
-    this.mapColumns = map.tiles[0].length
-    /*for (let i = 0; i < this.mapColumns * this.mapColumns; i++) {
-      this.grid[i] = {
-        index: i,
-        value: null,
-        color: "#C0C0C0"
-      }
-    }*/
-    for (let i = 0; i < map.tiles[0].length; i++) {
-      for (let j = 0; j < map.tiles[1].length; j++) {
-        let tile = map.tiles[i][j]
-        let gridIndex = this.mapColumns * i + j;
+    this.mapColumns = map.tiles.length
+    for (let x = 0; x < map.tiles.length; x++) {
+      for (let y = 0; y < map.tiles[0].length; y++) {
+        let tile = map.tiles[x][y]
+        let gridIndex = this.mapColumns * y + x;
+
         if (tile != undefined) {
-          this.grid[gridIndex] = {index: gridIndex, value: tile, color: tile.color}
+          this.grid[gridIndex] = {index: gridIndex, value: tile, color: this.typeToColor(tile.type)}
         } else {
           //this.grid[gridIndex] = {index: gridIndex, value: null, color: '#C0C0C0'}
           this.grid[gridIndex] = {index: gridIndex, value: null, color: 'white'}
         }
       }
+    }
+  }
+
+  typeToColor(type: "Visited" | "NotVisited" | "Current"){
+    switch (type) {
+      case "Visited":
+        return "orange"
+      case "NotVisited":
+        return "gray"
+      case "Current":
+        return "red"
     }
   }
 

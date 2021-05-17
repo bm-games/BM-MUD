@@ -1,32 +1,28 @@
 package net.bmgames.game.connection
 
 import arrow.core.Either
-import arrow.core.andThen
 import arrow.core.computations.either
 import arrow.core.identity
 import arrow.fx.coroutines.Atomic
-import arrow.optics.dsl.at
-import arrow.optics.typeclasses.At
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import net.bmgames.*
 import net.bmgames.communication.Notifier
 import net.bmgames.game.GameScope
-import net.bmgames.game.action.Action
 import net.bmgames.game.action.Effect
 import net.bmgames.game.action.Update
 import net.bmgames.game.action.sendText
 import net.bmgames.game.commands.Command
 import net.bmgames.game.commands.CommandParser
 import net.bmgames.game.message.Message
-import net.bmgames.state.GameRepository
+import net.bmgames.game.message.Message.Text
 import net.bmgames.state.PlayerRepository
 import net.bmgames.state.model.Game
 import net.bmgames.state.model.Player
 import net.bmgames.state.model.Player.Master
 import net.bmgames.state.model.Player.Normal
 import net.bmgames.state.model.onlinePlayers
-import java.util.logging.Logger
 
 /**
  * Central component which runs a concrete MUD
@@ -79,10 +75,7 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
         updateGameState(Game.onlinePlayers.modify { it.plus(player.ingameName to player) })
         //TODO broadcast that player joined
 
-
         GameScope.launch {
-            println("$name: ${player.ingameName} connected.")
-            connection.outgoingChannel.send(Message.Text(message("game.welcome")))
             launch {
                 for (command in connection.incoming) {
                     commandQueue.send(player.ingameName to command)
@@ -104,9 +97,20 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
                     }
                 }
             }
+            greetPlayer(player, connection)
         }
 
         return@either connection
+    }
+
+    internal suspend fun greetPlayer(player: Player, connection: Connection) = coroutineScope {
+        val game  = getCurrentGameState()
+        println("$name: ${player.ingameName} connected.")
+        connection.outgoingChannel.send(Text(message("game.welcome", game.name)))
+        connection.outgoingChannel.send(Message.Map(game, player))
+        launch {
+            connection.tryQueueCommand("look")
+        }
     }
 
     /**
@@ -135,8 +139,8 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
      * Modifies the current game state.
      * @param f A function which updates the game
      * */
-    suspend fun updateGameState(f: (Game) -> Game) {
-        currentGameState.update(f)
+    suspend fun updateGameState(f: (Game) -> Game): Game {
+        return currentGameState.updateAndGet(f)
     }
 
     /**

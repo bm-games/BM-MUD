@@ -25,7 +25,7 @@ class RoomMapKtTest : FunSpec({
 
     test("If all rooms were visited, all rooms should be rendered") {
         val visitedRooms = (0..8).map(Int::toString).toHashSet()
-        val map = visitedRooms.toMap(allRooms::get, allRooms["4"]!!).tiles
+        val map = MapBuilder(visitedRooms, { emptySet()}, allRooms::get, false).build(allRooms["4"]!!).tiles
         map[1].filterNotNull() shouldHaveSize 3
         map[2].filterNotNull() shouldHaveSize 1
         map[2][1]?.apply {
@@ -40,7 +40,7 @@ class RoomMapKtTest : FunSpec({
 
     test("Only visited rooms should be rendered") {
         val visitedRooms = (4..8).map(Int::toString).toHashSet()
-        val map = visitedRooms.toMap(allRooms::get, allRooms["4"]!!).tiles
+        val map = MapBuilder(visitedRooms, { emptySet()}, allRooms::get, false).build(allRooms["4"]!!).tiles
         map[0].filterNotNull() shouldHaveSize 1
         map[1].filterNotNull() shouldHaveSize 3
         map[2].filterNotNull() shouldHaveSize 1

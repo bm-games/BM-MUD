@@ -4,7 +4,7 @@ interface Tile {
   readonly east: boolean;
   readonly south: boolean;
   readonly west: boolean;
-  readonly color: string;
+  readonly type: "Visited" | "NotVisited" | "Current";
   readonly items: string[];
   readonly npcs: string[];
   readonly players: string[];

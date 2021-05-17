@@ -53,11 +53,17 @@ export class ChatComponent implements OnInit {
       if (msg == "") return;
       this.inputLine = ""
       this.appendLine(`You: ${msg}`)
-      this.outgoingMessages.emit({
-        // senderOrRecipient: undefined, //TODO read recipient
-        msg,
-      })
-
+      if(this.selectedRecipient == 'Alle'){
+        this.outgoingMessages.emit({
+          senderOrRecipient: '',
+          msg,
+        })
+      }else{
+        this.outgoingMessages.emit({
+          senderOrRecipient: this.selectedRecipient,
+          msg
+        })
+      }
     }
   }
 
