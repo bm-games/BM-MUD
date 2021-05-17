@@ -19,11 +19,11 @@
     </mat-chip-list>
   </mat-card-header>
   <mat-card-actions style="display: flex">
-    <button *ngIf="game.userPermitted === 'Yes'" mat-raised-button routerLink="/game/overview/{{game.name}}">Beitreten
+    <button *ngIf="game.userPermitted === 'Yes'" mat-button routerLink="/game/overview/{{game.name}}">Beitreten
     </button>
-    <button *ngIf="game.userPermitted === 'No'" mat-raised-button (click)="requestJoin()">Beitrittsanfrage senden
+    <button *ngIf="game.userPermitted === 'No'" mat-button (click)="requestJoin()">Beitrittsanfrage senden
     </button>
-    <button *ngIf="game.userPermitted === 'Pending'" mat-raised-button disabled>
+    <button *ngIf="game.userPermitted === 'Pending'" mat-button disabled>
       Anfrage ausstehend
     </button>
     <span class="spacer"></span>

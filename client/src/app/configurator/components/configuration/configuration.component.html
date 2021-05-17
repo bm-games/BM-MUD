@@ -1,22 +1,28 @@
 <body>
-  <div class="mudNameHeader">
-    <input placeholder="MUD Name" [(ngModel)]="mudName"/>
-    <span class="spacer"></span>
-    <button class="btnQuitConfig" (click)="quitConfigurator()">Abbrechen</button>
-    <button (click)="createConfig()">Spiel speichern</button>
-  </div>
-  <div>
-    <nav mat-tab-nav-bar>
-      <a mat-tab-link routerLink="race">Rassen</a>
-      <a mat-tab-link routerLink="class">Klassen</a>
-      <a mat-tab-link routerLink="item">Items</a>
-      <a mat-tab-link routerLink="NPC">NPCs</a>
-      <a mat-tab-link routerLink="room">Räume</a>
-      <a mat-tab-link routerLink="startequipment">Startequipment</a>
-      <a mat-tab-link routerLink="command">Befehle</a>
-    </nav>
-  </div>
-  <router-outlet></router-outlet>
+<div class="mudNameHeader">
+  <input placeholder="MUD Name" [(ngModel)]="mudName"/>
+  <span class="spacer"></span>
+  <button class="grayButton" (click)="quitConfigurator()">Abbrechen</button>
+  <button class="grayButton"
+    matTooltip="Das Spiel wird nur zwischengespeichert und noch nicht gestartet. Du kannst es jederzeit bearbeiten."
+    (click)="createConfig(true)">Entwurf speichern
+  </button>
+  <button
+    matTooltip="Das Spiel wird endgültig gespeichert und gestartet. Bearbeiten ist dann nur noch bedingt möglich."
+    (click)="createConfig(false)">Endgültig speichern</button>
+</div>
+<div>
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="race">Rassen</a>
+    <a mat-tab-link routerLink="class">Klassen</a>
+    <a mat-tab-link routerLink="item">Items</a>
+    <a mat-tab-link routerLink="NPC">NPCs</a>
+    <a mat-tab-link routerLink="room">Räume</a>
+    <a mat-tab-link routerLink="startequipment">Startequipment</a>
+    <a mat-tab-link routerLink="command">Befehle</a>
+  </nav>
+</div>
+<router-outlet></router-outlet>
 </body>
 
 

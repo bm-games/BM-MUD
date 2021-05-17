@@ -55,44 +55,7 @@ export class GameOverviewComponent {
     this.feedback.showLoadingOverlay()
     this.configService.getDungeonConfig(this.game.name)
       .then(config => this.router.navigateByUrl("/configurator")
-        .then(() => {
-          ConfigurationComponent.allRaces = config.races
-          ConfigurationComponent.allClasses = config.classes
-          //ConfigurationComponent.allItems = []
-          Object.values(config.itemConfigs).forEach(itemDataArray => {
-            // @ts-ignore
-            let item = itemDataArray[1]
-            ConfigurationComponent.allItems.push(item)
-          })
-          //ConfigurationComponent.allNPCs = []
-          Object.values(config.npcConfigs).forEach(npcDataArray => {
-            // @ts-ignore
-            let npc = npcDataArray[1]
-            ConfigurationComponent.allNPCs.push(npc)
-          })
-          ConfigurationComponent.commandConfig = config.commandConfig
-          //ConfigurationComponent.customCommandList = []
-          Object.values(config.commandConfig.customCommands).forEach(customsDataArray => {
-            // ts-ignore
-            let customCommand = customsDataArray[1]
-            ConfigurationComponent.customCommandList.push(customCommand)
-          })
-          ConfigurationComponent.allRooms = Object.values(config.rooms)
-            .map<RoomConfig>(({name, message, npcs, items}, index) =>
-              ({
-                id: index,
-                name,
-                message,
-                npcs: Object.values(npcs),
-                items,
-                north: undefined,
-                west: undefined,
-                south: undefined,
-                east: undefined
-              }))
-          ConfigurationComponent.startequipment = config.startEquipment
-          ConfigurationComponent.startRoom = config.startRoom
-        })
+        .then(() => ConfigurationComponent.setConfig(config))
       ).catch(error => this.feedback.showError(error))
       .finally(() => this.feedback.stopLoadingOverlay())
   }

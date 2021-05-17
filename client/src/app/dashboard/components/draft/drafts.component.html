@@ -1,0 +1,21 @@
+<div class="drafts">
+  <div class="draft" *ngFor="let draft of drafts">
+    <h4>{{draft.name}}</h4>
+    <div class="actions">
+      <mat-icon
+        style="margin-left: 1rem"
+        [matTooltip]="description(draft)"
+        [matTooltipHideDelay]="1000"
+        matTooltipPosition="after"
+        matTooltipClass="tooltip-break-line"
+      >info
+      </mat-icon>
+      <button matTooltip="Bearbeiten" mat-button (click)="edit(draft)">
+        Bearbeiten
+      </button>
+      <button matTooltip="MUD löschen" mat-button color="warn" (click)="delete(draft)">
+        Löschen
+      </button>
+    </div>
+  </div>
+</div>
