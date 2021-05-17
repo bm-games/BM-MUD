@@ -42,7 +42,10 @@
       </div>
       <div *ngIf="isCustomCommand">
         <div>
-          <label>Befehl:</label>
+          <label
+            matTooltip="Verfügbare Befehle sind: bla"
+            matTooltipPosition="below"
+          >Befehl:</label>
           <input placeholder="drop" [(ngModel)]="commandSyntax"/>
         </div>
         <div class="actionDiv">
