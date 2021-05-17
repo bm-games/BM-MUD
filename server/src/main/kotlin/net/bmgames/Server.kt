@@ -125,7 +125,7 @@ fun Application.configureSecurity(config: ServerConfig) {
 //            cookie.extensions["SameSite"] = "Lax"
 //            cookie.secure = true
             cookie.httpOnly = true
-//            cookie.domain = "localhost" //TODO replace with domain for prod
+            cookie.domain = "localhost" //TODO replace with domain for prod
             transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
         }
     }

@@ -6,7 +6,7 @@ export type ChatMessage = {
   /**
    * If its null and this message is outgoing, the message goes to every player in the room
    * */
-  senderOrRecipient?: string,
+  senderOrRecipient: string,
   msg: string
 }
 
@@ -27,6 +27,9 @@ export class ChatComponent implements OnInit {
 
   @Input()
   incomingMessages!: Observable<ChatMessage>
+
+  @Input()
+  players!: Observable<string[]>
 
   @Output()
   readonly outgoingMessages = new EventEmitter<ChatMessage>();
@@ -51,7 +54,7 @@ export class ChatComponent implements OnInit {
       this.inputLine = ""
       this.appendLine(`You: ${msg}`)
       this.outgoingMessages.emit({
-        senderOrRecipient: undefined, //TODO read recipient
+        // senderOrRecipient: undefined, //TODO read recipient
         msg,
       })
 
