@@ -50,7 +50,7 @@ class AuthenticatorTest : FunSpec({
         every { userHandler.checkMailApproved(name) } returns true
         every { userRepository.getUserByMail(mail) } returns testuser
     }
-    
+
     test("Register should Fail") {
         "${authenticator.registerUser(mail, name, pw)}" shouldBe "Either.Left(${message("auth.user-exists")})"
     }
