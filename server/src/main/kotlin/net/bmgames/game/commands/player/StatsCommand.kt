@@ -10,7 +10,16 @@ import net.bmgames.state.model.Player
 import net.bmgames.toList
 
 
-class StatsCommand : PlayerCommand("look") {
+class StatsCommand : PlayerCommand("stats") {
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It drops the item from the players inventory.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         player.getRoom(game).map { room ->
             val players = player.getOtherPlayersInRoom(game).keys

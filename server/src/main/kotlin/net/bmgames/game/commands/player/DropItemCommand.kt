@@ -19,7 +19,7 @@ import net.bmgames.translate
  * The item gets added to the room the player is in.
  * The params are given trough arguments -> "by argument"
  *
- * @param target the item which will be dropped from the players inventory.
+ * @property target the item which will be dropped from the players inventory.
  *
  * @constructor creates a complete drop command.
  */
