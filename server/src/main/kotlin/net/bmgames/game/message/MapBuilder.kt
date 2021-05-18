@@ -23,7 +23,14 @@ private const val MAP_WIDTH: Int = MAP_RADIUS * 2 + 1
  * */
 private const val MAX_MAP_WIDTH: Int = 16
 
-
+/**
+ * Helper class to transfer the room graph to a grid.
+ *
+ * @property visitedRooms All rooms in which the player has been. Is ignored for master
+ * @property getPlayers A getter for all players in a certain room
+ * @property getRoom Access to all rooms by name
+ * @property asMaster If the map should be generated for a master (whole map) or just the player
+ * */
 class MapBuilder(
     private val visitedRooms: Set<String>,
     val getPlayers: (Room) -> Set<String>,
@@ -31,6 +38,13 @@ class MapBuilder(
     private val asMaster: Boolean,
 ) {
 
+    private lateinit var map: MutableList<MutableList<Tile?>>
+
+    /**
+     * Extracts the needed parts out of a game
+     *
+     * @param player The player for which this map is generated
+     * */
     constructor(game: Game, visitedRooms: Set<String>, player: Player) : this(
         visitedRooms,
         { room ->
@@ -42,8 +56,13 @@ class MapBuilder(
         player is Player.Master
     )
 
-    private lateinit var map: MutableList<MutableList<Tile?>>
-
+    /**
+     * Builds the map from the current room.
+     * If this is run for a master, the whole map is converted.
+     * Otherwise just [MAP_RADIUS] around the start room
+     *
+     * @param currentRoom The start room
+     * */
     fun build(currentRoom: Room): RoomMap {
         val width = if (asMaster) MAX_MAP_WIDTH else MAP_WIDTH
         val radius = width / 2
@@ -63,6 +82,14 @@ class MapBuilder(
         }.let(::RoomMap)
     }
 
+
+    /**
+     * Adds one room at a time and goes into the neighbours recursively
+     *
+     * @param x Current x coord
+     * @param y Current y coord
+     * @param room Current room
+     * */
     private fun addRooms(x: Int, y: Int, room: Room): Unit {
         if (!asMaster && (x !in 0 until MAP_WIDTH || y !in 0 until MAP_WIDTH)) {
             return

@@ -153,7 +153,7 @@ internal class GameEndpoint(
      * */
     suspend fun deleteGame(gameRunner: GameRunner): Unit {
         gameManager.stopGame(gameRunner)
-        GameRepository.delete(gameRunner.getCurrentGameState())
+        GameRepository.deleteGame(gameRunner.getCurrentGameState())
     }
 
     fun getDetail(game: Game, user: User): GameDetail {
@@ -182,7 +182,7 @@ fun Route.installGameEndpoint(
         get<GetDetails> { (gameName) ->
             either<ErrorMessage, GameDetail> {
                 val user = call.getUser().rightIfNotNull { message("message.user-not-authenticated") }.bind()
-                val game = GameRepository.loadGame(gameName).rightIfNotNull { message("message.game-not-found") }.bind()
+                val game = GameRepository.getGame(gameName).rightIfNotNull { message("message.game-not-found") }.bind()
                 endpoint.getDetail(game, user)
             }.acceptOrReject(call)
         }
@@ -232,7 +232,7 @@ fun Route.installGameEndpoint(
 
                 call.getUser().rightIfNotNull { message("message.user-not-authenticated") }.bind()
 
-                val player = PlayerRepository.loadPlayer(gameName, avatar)
+                val player = PlayerRepository.getPlayer(gameName, avatar)
                     .rightIfNotNull { message("message.player-not-found") }.bind()
                 val gameRunner =
                     gameManager.getGameRunner(gameName).rightIfNotNull { message("message.game-not-found") }.bind()

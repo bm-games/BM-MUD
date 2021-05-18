@@ -30,7 +30,9 @@ data class Game(
 ) {
 
     fun getPlayer(name: String): Player? = onlinePlayers[name]
-    fun getOnlineNormal(name: String): Player.Normal? = onlinePlayers[name]?.let { if (it is Player.Normal) it else null }
+    fun getOnlineNormal(name: String): Player.Normal? =
+        onlinePlayers[name]?.let { if (it is Player.Normal) it else null }
+
     fun isMasterOnline() = onlinePlayers.containsKey(master.ingameName)
 
     fun getStartRoom(): Room = rooms[startRoom]!!

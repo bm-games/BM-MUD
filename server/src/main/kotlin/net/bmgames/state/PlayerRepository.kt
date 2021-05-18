@@ -13,8 +13,10 @@ object PlayerRepository {
 
     /**
      * Reads a player from the db
+     *
+     * @param ingameName Avatarname
      * */
-    internal fun loadPlayer(gameName: String, ingameName: String): Normal? =
+    internal fun getPlayer(gameName: String, ingameName: String): Normal? =
 //        cache.computeIfAbsent(gameName to ingameName) {
         transaction {
             val query = PlayerTable.innerJoin(GameTable).innerJoin(AvatarTable)
@@ -31,13 +33,12 @@ object PlayerRepository {
      * @param game The game of the player. If it doesn't exist in the db it will get created here.
      * @param player The Player to save. The User of the player must exist in the db
      * @throws NullPointerException If a precondition is not met
-     * @throws SqlException //TODO
      * */
     internal fun savePlayer(game: Game, player: Normal): Unit {
 //        cache[game.name to player.ingameName] = player
 
         val playerDAO = transaction {
-            if (game.id == null) GameRepository.save(game)
+            if (game.id == null) GameRepository.saveGame(game)
             val gameDAO = GameDAO[game.id!!]
             val userDAO = UserDAO[player.user.id!!]
 
@@ -65,9 +66,11 @@ object PlayerRepository {
     }
 
     /**
-     * Delete all Players belonging to this game
+     * Delete all Avatars & Players belonging to this game
+     *
+     * @param gameId DB ID of the game
      * */
-    fun deletePlayersInGame(gameId: Int?) = transaction {
+    fun deleteAllPlayersInGame(gameId: Int?) = transaction {
         val avatars = (PlayerTable innerJoin AvatarTable)
             .slice(PlayerTable.id, AvatarTable.id)
             .select { (PlayerTable.game eq gameId) and (PlayerTable.id eq AvatarTable.id) }
@@ -83,7 +86,7 @@ object PlayerRepository {
     }
 
     /**
-     * Get all players that belong to the user with username
+     * Get all players that belong to the user
      * */
     fun getPlayersForUser(username: String, game: Game): List<Normal> {
         val user = UserRepository.getUserByName(username) ?: return emptyList()
@@ -94,13 +97,18 @@ object PlayerRepository {
         }
     }
 
-    fun deletePlayers(gameId: Int?, avatarNames: Collection<String>) = transaction {
+    /**
+     * Deletes all players in a game
+     *
+     * @param gameId DB ID of the game
+     * */
+    fun deletePlayers(gameId: Int?, playerNames: Collection<String>) = transaction {
         val avatars = (PlayerTable innerJoin AvatarTable)
             .slice(PlayerTable.id, AvatarTable.id)
             .select {
                 (PlayerTable.game eq gameId) and
                         (PlayerTable.id eq AvatarTable.id) and
-                        (AvatarTable.name inList avatarNames)
+                        (AvatarTable.name inList playerNames)
             }
             .map {
                 PlayerItemTable.deleteWhere { PlayerItemTable.playerId eq it[PlayerTable.id] }

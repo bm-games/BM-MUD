@@ -3,6 +3,11 @@ package net.bmgames.state
 import kotlinx.serialization.Serializable
 import net.bmgames.state.model.*
 
+
+/**
+ * DTO for configurations of a game
+ * Mirrors [Game] but omits some fields
+ * */
 @Serializable
 data class DungeonConfig(
     val name: String,

@@ -9,7 +9,6 @@ import net.bmgames.authentication.User
 import net.bmgames.game.GAME_WITHOUT_PLAYER
 import net.bmgames.game.PLAYER
 import net.bmgames.game.MASTER
-import net.bmgames.game.ITEMS
 import net.bmgames.state.database.PlayerDAO
 import net.bmgames.state.database.PlayerTable
 import net.bmgames.state.model.*
@@ -42,8 +41,8 @@ class RepositoryTests : FunSpec({
 
     test("Game should be the same after reading and writing") {
         val gme = GAME_WITHOUT_PLAYER.copy(master = Player.Master(masterUser))
-        GameRepository.save(gme)
-        game = GameRepository.loadGame(gme.name)!!
+        GameRepository.saveGame(gme)
+        game = GameRepository.getGame(gme.name)!!
         game.removeIDs() shouldBe GAME_WITHOUT_PLAYER.copy(onlinePlayers = emptyMap())
     }
 
@@ -58,7 +57,7 @@ class RepositoryTests : FunSpec({
             ),
         )
         PlayerRepository.savePlayer(game, newPlayer)
-        player = PlayerRepository.loadPlayer(game.name, PLAYER.ingameName)!!
+        player = PlayerRepository.getPlayer(game.name, PLAYER.ingameName)!!
         player.removeIDs() shouldBe newPlayer.removeIDs()
     }
 
@@ -75,14 +74,14 @@ class RepositoryTests : FunSpec({
             allowedUsers = game.allowedUsers.plus(player.user.username to setOf(player.ingameName)),
             joinRequests = listOf(game.master.user, player.user)
         )
-        GameRepository.save(newGame)
-        game = GameRepository.loadGame(newGame.name)!!
+        GameRepository.saveGame(newGame)
+        game = GameRepository.getGame(newGame.name)!!
         game.removeIDs() shouldBe newGame.removeIDs()
     }
 
     test("Deleting the game state should remove the game and all players") {
-        GameRepository.delete(game)
-        GameRepository.loadGame(game.name).shouldBeNull()
+        GameRepository.deleteGame(game)
+        GameRepository.getGame(game.name).shouldBeNull()
 
         transaction {
             PlayerDAO.find { PlayerTable.game eq game.id } shouldHaveSize 0

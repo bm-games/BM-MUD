@@ -7,8 +7,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
-import net.bmgames.authentication.User
-import net.bmgames.communication.Notifier
 import net.bmgames.game.GameOverview.Permission.Yes
 import net.bmgames.state.GameRepository
 
@@ -20,8 +18,8 @@ class GameEndpointTest : FunSpec({
 
     beforeSpec {
         mockkObject(GameRepository)
-        every { GameRepository.loadGame("test") } returns GAME_WITH_PLAYER
-        every { GameRepository.loadGame("dummy") } returns GAME_WITHOUT_PLAYER
+        every { GameRepository.getGame("test") } returns GAME_WITH_PLAYER
+        every { GameRepository.getGame("dummy") } returns GAME_WITHOUT_PLAYER
         every { GameRepository.listGames() } returns listOf(GAME_WITHOUT_PLAYER, GAME_WITH_PLAYER)
 
     }

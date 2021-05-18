@@ -13,7 +13,7 @@ class GameManagerTest : FunSpec({
 
     test("Stopped Game should be loaded from database") {
         val gameManager = GameManager(NOOP_NOTIFIER)
-        every { GameRepository.loadGame("Test") } returns GAME_WITHOUT_PLAYER
+        every { GameRepository.getGame("Test") } returns GAME_WITHOUT_PLAYER
         gameManager.getRunningGames().size shouldBe 0
         gameManager.getGameRunner("Test")
         gameManager.getRunningGames().size shouldBe 1
