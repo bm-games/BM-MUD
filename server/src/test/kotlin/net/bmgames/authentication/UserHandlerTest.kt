@@ -37,9 +37,6 @@ class UserHandlerTest : FunSpec({
         authHelper = AuthHelper(DEMO_CONFIG)
         mailNotifier = MailNotifier(DEMO_CONFIG)
         userHandler = UserHandler(mailNotifier, authHelper)
-        authenticator = Authenticator(authHelper, userHandler)
-        userRepository = UserRepository
-
     }
 
     test("create User should Fail") {
