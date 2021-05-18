@@ -5,6 +5,7 @@ import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.reflection.beLateInit
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.*
 import net.bmgames.DEMO_CONFIG
 import net.bmgames.TABLES
@@ -44,19 +45,32 @@ class AuthenticatorTest : FunSpec({
         mockkObject(authHelper)
         mockkObject(userRepository)
 
-        every { userHandler.checkRegisterPossible(mail, name) } returns false
         every { authHelper.hashPassword(pw) } returns "1234"
-
         every { userHandler.checkMailApproved(name) } returns true
         every { userRepository.getUserByMail(mail) } returns testuser
+        every { userHandler.createUser(testuser) } returns true
     }
 
     test("Register should Fail") {
+        every { userHandler.checkRegisterPossible(mail, name) } returns false
         "${authenticator.registerUser(mail, name, pw)}" shouldBe "Either.Left(${message("auth.user-exists")})"
     }
+    test("Register should be successfull") {
+        every { userHandler.checkRegisterPossible(mail, name) } returns true
+        "${authenticator.registerUser(mail, name, pw)}" shouldBe "Either.Right(kotlin.Unit)"
+    }
+
     test("Should Login successfully") {
         "${authenticator.loginUser(mail, pw)}" shouldBe "Either.Right($testuser)"
     }
+
+    test("Should not Login because of Wrong Credentials") {
+        every { userRepository.getUserByMail(mail) } returns null
+        "${authenticator.loginUser(mail, pw)}" shouldBe "Either.Left(${message("auth.wrong-password-or-no-user")})"
+    }
+
+
+
     test("Password Change should give Wrong Password Error") {
         "${authenticator.changePassword(testuser,"wrong","Dummy")}" shouldBe "Either.Left(${message("auth.incorrect-password")})"
     }

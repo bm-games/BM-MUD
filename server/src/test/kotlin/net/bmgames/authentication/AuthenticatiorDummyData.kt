@@ -22,4 +22,3 @@ val testuser = User(
     passwordHash = "1234",
     registrationKey = null)
 
-
