@@ -55,11 +55,10 @@ class AuthenticatorTest : FunSpec({
         every { userHandler.checkRegisterPossible(mail, name) } returns false
         "${authenticator.registerUser(mail, name, pw)}" shouldBe "Either.Left(${message("auth.user-exists")})"
     }
-    test("Register should be successfull") {
+    test("Register should be successful") {
         every { userHandler.checkRegisterPossible(mail, name) } returns true
         "${authenticator.registerUser(mail, name, pw)}" shouldBe "Either.Right(kotlin.Unit)"
     }
-
     test("Should Login successfully") {
         "${authenticator.loginUser(mail, pw)}" shouldBe "Either.Right($testuser)"
     }
@@ -68,8 +67,6 @@ class AuthenticatorTest : FunSpec({
         every { userRepository.getUserByMail(mail) } returns null
         "${authenticator.loginUser(mail, pw)}" shouldBe "Either.Left(${message("auth.wrong-password-or-no-user")})"
     }
-
-
 
     test("Password Change should give Wrong Password Error") {
         "${authenticator.changePassword(testuser,"wrong","Dummy")}" shouldBe "Either.Left(${message("auth.incorrect-password")})"
