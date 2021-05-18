@@ -1,15 +1,20 @@
 package net.bmgames.game.commands
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import arrow.core.rightIfNotNull
 import net.bmgames.message
 import net.bmgames.state.model.Game
+import net.bmgames.state.model.NPC
 import net.bmgames.state.model.Player
 import net.bmgames.state.model.Player.Normal
+import net.bmgames.state.model.Room
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
 fun Normal.getRoom(game: Game) =
-    game.getRoom(room).rightIfNotNull {message("game.geork")}
+    game.getRoom(room).rightIfNotNull {message("game.room-not-found")}
 
 @OptIn(ExperimentalContracts::class)
 fun Player.isInRoom(roomName: String): Boolean {
@@ -29,6 +34,17 @@ fun Normal.getOtherPlayersInRoom(game: Game): Map<String, Normal> =
     game.onlinePlayers.filter { (_, other) ->
         other != this && other.isInRoom(room)
     } as Map<String, Normal>
+
+
+fun Game.getPlayerOrNPC(name: String, room: Room): Either<NPC.Hostile, Normal>? {
+    val player = onlinePlayers[name]?.let { if (it is Player.Normal && it.room == room.name) it else null }
+    if (player != null) return player.right()
+
+    val npc = room.npcs[name]
+    if (npc != null && npc is NPC.Hostile) return npc.left()
+
+    return null
+}
 
 
 fun <T> Collection<T>.prettyJoin(

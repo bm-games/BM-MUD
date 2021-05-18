@@ -2,8 +2,6 @@ package net.bmgames.game.commands.player
 
 import arrow.core.Either
 import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.arguments.transformAll
 import net.bmgames.game.action.Action
 import net.bmgames.game.action.MessageAction
 import net.bmgames.game.commands.PlayerCommand
@@ -15,10 +13,8 @@ import net.bmgames.toEither
 import net.bmgames.toList
 
 class WhisperCommand : PlayerCommand("whisper") {
-    val target: String by argument(help = message("game.whisper-to"))
-    val message: String by argument(help = message("game.whisper-message"))
-        .multiple(true)
-        .transformAll { it.joinToString(" ") }
+    val target: String by argument(help = message("game.chat.recipient"))
+    val message: String by argument(help = message("game.chat.message"))
 
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         game.onlinePlayers.values

@@ -15,3 +15,6 @@ const val HIT_TIMEFRAME = 20L * 1000L
  * */
 const val INVENTORY_SIZE = 10
 
+
+fun Long.secondsRemaining(): Int = (this - System.currentTimeMillis()).toInt()
+fun Float.toRelativePercent(): Int = ((this - 1) * 100).toInt()

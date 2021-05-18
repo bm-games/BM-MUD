@@ -13,7 +13,7 @@ export type ChatMessage = {
 @Component({
   selector: 'app-chat',
   template: `
-    <div id="terminal">
+    <div id="chat">
       <mat-form-field class="recipient">
         <mat-label>Senden an:</mat-label>
         <mat-select [(ngModel)]="selectedRecipient">
@@ -76,7 +76,7 @@ export class ChatComponent implements OnInit {
     this.appendLine(`Du: ${msg}`, "sent")
     this.outgoingMessages.emit({
       senderOrRecipient: this.selectedRecipient,
-      msg
+      msg: encodeURIComponent(msg)
     })
   }
 }

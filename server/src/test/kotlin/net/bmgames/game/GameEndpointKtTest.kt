@@ -41,7 +41,7 @@ class GameEndpointKtTest : FunSpec({
                 for (msg in incoming) {
                     if (msg is Frame.Text) {
                         msg.shouldBeTypeOf<Frame.Text>()
-                            .readText() shouldContain  message("game.welcome")
+                            .readText() shouldContain  message("game.welcome", GAME_WITH_PLAYER.name)
                         return@handleWebSocketConversation
                     } else if (msg is Frame.Close) {
                         closeReason = msg.readReason()

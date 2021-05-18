@@ -10,11 +10,11 @@ import kotlinx.coroutines.launch
 import net.bmgames.*
 import net.bmgames.communication.Notifier
 import net.bmgames.game.GameScope
-import net.bmgames.game.action.Effect
-import net.bmgames.game.action.Update
-import net.bmgames.game.action.sendText
+import net.bmgames.game.action.*
 import net.bmgames.game.commands.Command
 import net.bmgames.game.commands.CommandParser
+import net.bmgames.game.commands.getOtherPlayersInRoom
+import net.bmgames.game.commands.isInRoom
 import net.bmgames.game.message.Message
 import net.bmgames.game.message.Message.Text
 import net.bmgames.state.PlayerRepository
@@ -45,6 +45,38 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
      * */
     suspend fun getCurrentGameState() = currentGameState.get()
     val name: String = initialGame.name
+
+    /**
+     * Updates the current game state.
+     * @param f A function which updates the game
+     * */
+    suspend fun updateGameState(f: (Game) -> Game): Unit {
+        currentGameState.update(f)
+    }
+
+    /**
+     * Modifies the current game state and returns something out of the old state.
+     * @param f A function which updates the game
+     * */
+    suspend fun <T> modifyGameState(f: (Game) -> Pair<Game, T>): T {
+        return currentGameState.modify(f)
+    }
+
+    /**
+     * Kicks every player and stops the game loop.
+     * @return The last game state
+     * */
+    internal suspend fun stop(): Game {
+        this.onlinePlayersRef.getAndSet(emptyMap())
+            .forEach { (_, connection) -> connection.close(message("game.game-stopped")) }
+        updateGameState(Game.onlinePlayers.set(emptyMap()))
+
+        return getCurrentGameState()
+    }
+
+    internal suspend fun getConnection(playerName: String): Connection? {
+        return onlinePlayersRef.get()[playerName]
+    }
 
     /**
      * Connects a player to this game runner. It also updates the game state accordingly.
@@ -83,8 +115,6 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
             }
             connection.onClose {
                 launch {
-                    println("$name: ${player.ingameName} disconnected.")
-                    //TODO broadcast that player left
                     onlinePlayersRef.update { it - player.ingameName }
                     val playerState = currentGameState.modify {
                         val playerState = it.onlinePlayers[player.ingameName]
@@ -92,6 +122,8 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
                             it.copy(onlinePlayers = it.onlinePlayers - playerState.ingameName) to playerState
                         else it to null
                     }
+                        ?.also { byePlayer(it) }
+
                     if (playerState is Normal) {
                         PlayerRepository.savePlayer(getCurrentGameState(), playerState)
                     }
@@ -104,14 +136,59 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
     }
 
     internal suspend fun greetPlayer(player: Player, connection: Connection) = coroutineScope {
-        val game  = getCurrentGameState()
+        val game = getCurrentGameState()
         println("$name: ${player.ingameName} connected.")
         connection.outgoingChannel.send(Text(message("game.welcome", game.name)))
         connection.outgoingChannel.send(Message.Map(game, player))
         launch {
             connection.tryQueueCommand("look")
         }
+        if (player is Normal) {
+            player.getOtherPlayersInRoom(game)
+                .plus(game.master.ingameName to game.master)
+                .map { (_, p) ->
+                    listOf(
+                        p.sendMap(game),
+                        p.sendText(message("game.player-joined", player.ingameName))
+                    )
+                }
+        } else {
+            game.onlinePlayers.minus(player.ingameName)
+                .map { (_, p) ->
+                    listOf(
+                        p.sendMap(game),
+                        p.sendText(message("game.master-joined", player.ingameName))
+                    )
+                }
+        }.forEach { (it as Effect).run(this@GameRunner) }
+
     }
+
+
+    internal suspend fun byePlayer(player: Player) = coroutineScope {
+        val game = getCurrentGameState()
+        println("$name: ${player.ingameName} disconnected.")
+        if (player is Normal) {
+            player.getOtherPlayersInRoom(game)
+                .plus(game.master.ingameName to game.master)
+                .map { (_, p) ->
+                    listOf(
+                        p.sendMap(game),
+                        p.sendText(message("game.player-left", player.ingameName))
+                    )
+                }
+        } else {
+            game.onlinePlayers.minus(player.ingameName)
+                .map { (_, p) ->
+                    listOf(
+                        p.sendMap(game),
+                        p.sendText(message("game.master-left", player.ingameName))
+                    )
+                }
+        }.forEach { (it as Effect).run(this@GameRunner) }
+
+    }
+
 
     /**
      * Starts the game loop in the [GameScope] context
@@ -133,30 +210,6 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
                 effects.forEach { it.run(this@GameRunner) }
             }
         }
-    }
-
-    /**
-     * Modifies the current game state.
-     * @param f A function which updates the game
-     * */
-    suspend fun updateGameState(f: (Game) -> Game): Game {
-        return currentGameState.updateAndGet(f)
-    }
-
-    /**
-     * Kicks every player and stops the game loop.
-     * @return The last game state
-     * */
-    internal suspend fun stop(): Game {
-        this.onlinePlayersRef.getAndSet(emptyMap())
-            .forEach { (_, connection) -> connection.close(message("game.game-stopped")) }
-        updateGameState(Game.onlinePlayers.set(emptyMap()))
-
-        return getCurrentGameState()
-    }
-
-    internal suspend fun getConnection(playerName: String): Connection? {
-        return onlinePlayersRef.get()[playerName]
     }
 
 }

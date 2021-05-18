@@ -3,22 +3,20 @@ package net.bmgames.game.commands.player
 import arrow.core.Either
 import arrow.core.computations.either
 import com.github.ajalt.clikt.parameters.arguments.argument
-import net.bmgames.*
+import net.bmgames.errorMsg
 import net.bmgames.game.action.Action
 import net.bmgames.game.action.MasterCommandAction
 import net.bmgames.game.action.sendText
 import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.commands.getRoom
 import net.bmgames.game.commands.isInRoom
-import net.bmgames.secondsRemaining
+import net.bmgames.message
 import net.bmgames.state.model.*
-import net.bmgames.state.model.Game
-import net.bmgames.state.model.Item
-import net.bmgames.state.model.NPC
 import net.bmgames.state.model.Player.Normal
+import net.bmgames.success
 
 class InspectCommand : PlayerCommand("inspect") {
-    val target: String by argument(help = message("game.inspect-target"))
+    val target: String by argument(help = message("game.inspect.target"))
 
     override fun toAction(player: Normal, game: Game): Either<String, List<Action>> = either.eager {
         val room = player.getRoom(game).bind()
@@ -29,7 +27,7 @@ class InspectCommand : PlayerCommand("inspect") {
                 with(this as Normal) {
                     actions.add(
                         player.sendText(
-                            message("game.player").format(ingameName,avatar.race.name,avatar.clazz.name)
+                            message("game.player", ingameName, avatar.race.name, avatar.clazz.name)
                         )
                     )
                 }
@@ -39,7 +37,7 @@ class InspectCommand : PlayerCommand("inspect") {
                 is NPC.Friendly -> {
                     actions.add(
                         player.sendText(
-                            message("game.npc-friendly").format(
+                            message("game.npc-friendly",
                                 name,
                                 messageOnTalk,
                                 items.joinToString(" ") { item -> item.name })
@@ -52,7 +50,7 @@ class InspectCommand : PlayerCommand("inspect") {
                 is NPC.Hostile -> {
                     actions.add(
                         player.sendText(
-                            message("game.npc-hostile").format(
+                            message("game.npc-hostile",
                                 name,
                                 nextAttackTimePoint().secondsRemaining(),
                                 items.joinToString(" ") { item -> item.name })
@@ -65,23 +63,25 @@ class InspectCommand : PlayerCommand("inspect") {
             .forEach { item ->
                 when (item) {
                     is Consumable -> {
-                        actions.add(player.sendText(message("game.is-consumable").format(target)))
+                        actions.add(player.sendText(message("game.is-consumable",target)))
                     }
                     is Equipment -> {
                         actions.add(
                             player.sendText(
-                                message("game.equipment").format(
+                                message(
+                                    "game.equipment",
                                     target,
                                     item.slot,
                                     item.healthModifier.toRelativePercent(),
-                                    item.damageModifier.toRelativePercent())
+                                    item.damageModifier.toRelativePercent()
+                                )
                             )
                         )
                     }
                     is Weapon -> {
                         actions.add(
                             player.sendText(
-                                message("game.wield-weapon").format(target,item.damage)
+                                message("game.wield-weapon", target, item.damage)
                             )
                         )
                     }
@@ -89,7 +89,7 @@ class InspectCommand : PlayerCommand("inspect") {
             }
 
         if (actions.isEmpty()) {
-            errorMsg(message("game.entity-not-found").format(target))
+            errorMsg(message("game.entity-not-found", target))
         } else {
             success(actions)
         }.bind()

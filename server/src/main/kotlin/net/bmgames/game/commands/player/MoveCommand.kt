@@ -34,7 +34,7 @@ class MoveCommand : PlayerCommand("move") {
         val to: Room = from.getNeighbour(game, direction).rightIfNotNull { message("game.move.room-not-found") }.bind()
         val mapBuilder = MapBuilder(game, player.visitedRooms.plus(to.name), player)
         listOf(
-            MoveAction(player, from, to),
+            MoveAction(player, to),
             MessageAction(player, Map(mapBuilder.build(to))),
             player.sendText(message("game.move.new-room", to.name, to.message)),
         )

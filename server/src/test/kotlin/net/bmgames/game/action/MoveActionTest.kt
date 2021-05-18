@@ -16,7 +16,7 @@ class MoveActionTest : FunSpec({
         val from = GAME_WITH_PLAYER.getStartRoom()
         val to = from.getNeighbour(GAME_WITH_PLAYER, Direction.SOUTH)!!
         val newPlayer = with(GAME_WITH_PLAYER) {
-            val update = MoveAction(PLAYER, from, to)
+            val update = MoveAction(PLAYER, to)
             update.update(this).getPlayer(PLAYER.ingameName)!! as Player.Normal
         }
 
@@ -27,7 +27,7 @@ class MoveActionTest : FunSpec({
         val to = from.getNeighbour(GAME_WITH_PLAYER, Direction.SOUTH)!!
             .copy(name = "Missing room")
         val newPlayer = with(GAME_WITH_PLAYER) {
-            val update = MoveAction(PLAYER, from, to)
+            val update = MoveAction(PLAYER, to)
             update.update(this).getPlayer(PLAYER.ingameName)!! as Player.Normal
         }
 

@@ -1,8 +1,8 @@
-#terminal,
-#terminal pre.output,
-#terminal pre.output span,
-#terminal textarea,
-#terminal textarea:focus {
+#chat,
+#chat pre.output,
+#chat pre.output span,
+#chat textarea,
+#chat textarea:focus {
   font-weight: normal;
   border: 0 none;
   outline: 0 none;
@@ -12,13 +12,13 @@
   color: black;
 }
 
-#terminal {
+#chat {
   background: white;
   color: black;
   height: 100%;
 }
 
-#terminal pre.output {
+#chat pre.output {
   display: block;
   white-space: pre-wrap;
   width: 100%;
@@ -30,21 +30,21 @@
   border: 0 none;
 }
 
-::ng-deep .output span {
+::ng-deep #chat .output span {
   color: black;
 }
 
-::ng-deep .output span.sent {
+::ng-deep #chat .output span.sent {
   color: #222;
 }
 
 
-::ng-deep .output span.received {
+::ng-deep #chat.output span.received {
   color: #66f;
 }
 
 
-::ng-deep .output span.master {
+::ng-deep #chat.output span.master {
   color: #c44;
 }
 
@@ -54,7 +54,7 @@
   margin-top: -.2rem;
 }
 
-#terminal .input {
+#chat .input {
   padding: .2rem;
 
   input {
@@ -66,28 +66,28 @@
 }
 
 
-#terminal input:focus {
+#chat input:focus {
   outline: 0 none;
 }
 
-#terminal pre.output::-webkit-scrollbar {
+#chat pre.output::-webkit-scrollbar {
   width: 7px;
   height: 7px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
 
-#terminal pre.output::-webkit-scrollbar-track-piece {
+#chat pre.output::-webkit-scrollbar-track-piece {
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
 
-#terminal pre.output::-webkit-scrollbar-thumb {
+#chat pre.output::-webkit-scrollbar-thumb {
   background: grey;
   border-radius: 5px;
 }
 
-#terminal pre.output::-webkit-scrollbar-button {
+#chat pre.output::-webkit-scrollbar-button {
   width: 0;
   height: 0;
 }

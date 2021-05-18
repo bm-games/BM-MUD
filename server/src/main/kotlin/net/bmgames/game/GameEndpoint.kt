@@ -88,9 +88,9 @@ internal class GameEndpoint(
                     }
                 }
             } catch (e: ClosedReceiveChannelException) {
-                connection.close(message("message.connection-closed").format(e.message))
+                connection.close(message("message.connection-closed",e.message))
             } catch (e: Throwable) {
-                connection.close(message("message.connection-closed-error").format(e.message))
+                connection.close(message("message.connection-closed-error",e.message))
             }
             connection.close("Disconnected itself")
         }
@@ -117,8 +117,8 @@ internal class GameEndpoint(
         with(gameRunner.getCurrentGameState()) {
             notifier.send(
                 recipient = master.user,
-                subject = message("message.want-to-join").format(user.username, name),
-                message = message("message.join-request").format(master.ingameName, user.username, name)
+                subject = message("message.want-to-join", user.username, name),
+                message = message("message.join-request", master.ingameName, user.username, name)
             )
         }
     }

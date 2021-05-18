@@ -57,7 +57,7 @@ data class ServerConfig(
                     { Json.decodeFromString<ServerConfig>(content) }
                 ).filterOrElse(
                     { it.secretKeyHash.length == SECRET_KET_LENGTH },
-                    { Error(message("config.wrong-key-length").format(SECRET_KET_LENGTH)) }
+                    { Error(message("config.wrong-key-length",SECRET_KET_LENGTH)) }
                 )
             }
         }
@@ -80,7 +80,7 @@ data class ServerConfig(
         internal fun initializeConfig(configPath: String): ServerConfig =
             readConfig(configPath)
                 .fold({ error ->
-                    if (DEMO_CONFIG.writeConfig(configPath)) println(message("config.config-generated").format(configPath))
+                    if (DEMO_CONFIG.writeConfig(configPath)) println(message("config.config-generated",configPath))
                     throw error
                 }, ::identity)
 

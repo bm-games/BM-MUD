@@ -3,6 +3,7 @@ package net.bmgames
 import arrow.core.Either
 import arrow.core.Option
 import arrow.core.computations.EitherEffect
+import arrow.core.computations.RestrictedEitherEffect
 import arrow.core.left
 import arrow.core.right
 import arrow.optics.Optional
@@ -44,9 +45,6 @@ suspend inline fun <reified T> Either<ErrorMessage, T>.acceptOrReject(call: Appl
         }
     )
 
-
-fun Long.secondsRemaining(): Int = (this - System.currentTimeMillis()).toInt()
-fun Float.toRelativePercent() = (this - 1) * 100
 
 fun <S, A> Optional<S, A>.modify(f: (A) -> A): (S) -> S = { s -> modify(s, f) }
 fun <S, A> Optional<S, A>.set(focus: A): (S) -> S = { set(it, focus) }

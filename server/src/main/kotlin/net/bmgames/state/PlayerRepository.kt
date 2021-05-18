@@ -82,6 +82,9 @@ object PlayerRepository {
         }
     }
 
+    /**
+     * Get all players that belong to the user with username
+     * */
     fun getPlayersForUser(username: String, game: Game): List<Normal> {
         val user = UserRepository.getUserByName(username) ?: return emptyList()
         return transaction {
@@ -89,6 +92,22 @@ object PlayerRepository {
                 .find { PlayerTable.game eq game.id and (PlayerTable.user eq user.id) }
                 .map { it.toPlayer() }
         }
+    }
+
+    fun deletePlayers(gameId: Int?, avatarNames: Collection<String>) = transaction {
+        val avatars = (PlayerTable innerJoin AvatarTable)
+            .slice(PlayerTable.id, AvatarTable.id)
+            .select {
+                (PlayerTable.game eq gameId) and
+                        (PlayerTable.id eq AvatarTable.id) and
+                        (AvatarTable.name inList avatarNames)
+            }
+            .map {
+                PlayerItemTable.deleteWhere { PlayerItemTable.playerId eq it[PlayerTable.id] }
+                return@map it[AvatarTable.id]
+            }
+        PlayerTable.deleteWhere { PlayerTable.game eq gameId }
+        avatars.forEach { id -> AvatarTable.deleteWhere { AvatarTable.id eq id } }
     }
 
 }

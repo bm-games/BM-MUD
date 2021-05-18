@@ -17,13 +17,14 @@ import net.bmgames.message
 import net.bmgames.state.model.*
 
 class PickupCommand : PlayerCommand("pickup") {
-    val target: String by argument(help = message("game.pickup-item"))
+    val target: String by argument(help = message("game.item-name"))
 
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         if (player.inventory.items.size >= INVENTORY_SIZE) errorMsg(message("game.full-inventory"))
         else either.eager {
             val room = player.getRoom(game).bind()
-            val item = room.items.find { it.name == target }.rightIfNotNull {message("game.target-not-found").format(target)}.bind()
+            val item = room.items.find { it.name == target }
+                .rightIfNotNull {message("game.target-not-found", target)}.bind()
 
             listOf(
                 player.sendText("+$target"),
