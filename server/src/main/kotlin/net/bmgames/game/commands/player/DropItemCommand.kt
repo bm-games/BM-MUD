@@ -17,9 +17,27 @@ import net.bmgames.state.model.Inventory
 import net.bmgames.state.model.Player
 import net.bmgames.state.model.items
 
+/**
+ * A playercommand which drops an item from the players inventory.
+ * The item gets added to the room the player is in.
+ * The params are given trough arguments -> "by argument"
+ *
+ * @param target the item which will be dropped from the players inventory.
+ *
+ * @constructor creates a complete drop command.
+ */
 class DropItemCommand : PlayerCommand("drop") {
     val target: String by argument(help = message("game.drop-item"))
 
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It drops the item from the players inventory.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         either.eager {
             val room = player.getRoom(game).bind()

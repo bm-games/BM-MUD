@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  *
  * @property email Identifies user uniquely.
  * @property username Identifies user uniquely.
- * @property passwordHash Hashed User Password.
+ * @property passwordHash Hashed user password.
  *
  * @constructor is also the primary constructor of the class
  *

@@ -15,7 +15,7 @@ import net.bmgames.success
 
 
 /**
- * Authenticator, enacts the creation/registration,login and updates of users which get performed via the userHandler
+ * Authenticator, enacts the creation/registration, login and updates of users which get performed via the userHandler
  *
  * @constructor Create empty Authenticator
  *
@@ -52,7 +52,7 @@ class Authenticator(
      *
      * @param mail of the user
      * @param password of the user
-     * @return null if user has not verified his Mail or his credentials are wrong.
+     * @return null if user has not verified his mail or his credentials are wrong.
      * @return Login (Data Class Login) with User and the generated JWT which needs to get assigned.
      */
     fun loginUser(mail: String, password: String): Either<ErrorMessage, User> {
