@@ -3,6 +3,7 @@ package net.bmgames.authentication
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.property.forAll
 import net.bmgames.DEMO_CONFIG
+import org.junit.Test
 
 class AuthHelperTest : FunSpec({
 
@@ -14,4 +15,10 @@ class AuthHelperTest : FunSpec({
         }
     }
 
-})
+
+}) {
+    @Test
+    fun name() {
+
+    }
+}
