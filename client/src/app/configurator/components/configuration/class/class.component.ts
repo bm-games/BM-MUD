@@ -64,6 +64,17 @@ export class ClassComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Removes the selected class from the DungeonConfig
+   * @param className name of the class you want to remove
+   */
+  deleteClass(className: string){
+    let index = this.configuredClasses.findIndex(c => c.name == className)
+    if(index > -1){
+      this.configuredClasses.splice(index, 1)
+    }
+  }
+
   sliderValue(value: number) {
     return value;
   }

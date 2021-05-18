@@ -102,6 +102,17 @@ export class NPCComponent implements OnInit {
     }
   }
 
+  /**
+   * removes the selected NPC from the DungeonConfig
+   * @param npcName name of the npc you want to remove
+   */
+  deleteNPC(npcName: string){
+    let index = this.configuredNPCs.findIndex(npc => npc.name == npcName)
+    if(index > -1){
+      this.configuredNPCs.splice(index, 1)
+    }
+  }
+
   sliderValue(value: number) {
     return value;
   }

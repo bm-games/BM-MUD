@@ -69,13 +69,19 @@
         <thead>
         <tr>
           <th>Name</th>
-          <!--<th>Konsumierbar</th>-->
+          <th>Typ</th>
+          <th>Entfernen</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of configuredItems">
           <td>{{item.name}}</td>
-          <!--<td>{{item.isConsumable}}</td>-->
+          <td *ngIf="item.type=='net.bmgames.state.model.Consumable'">Konsumierbar</td>
+          <td *ngIf="item.type=='net.bmgames.state.model.Equipment'">Ausrüstung</td>
+          <td *ngIf="item.type=='net.bmgames.state.model.Weapon'">Waffe</td>
+          <td>
+            <button (click)="deleteItem(item.name)">X</button>
+          </td>
         </tr>
         </tbody>
       </table>

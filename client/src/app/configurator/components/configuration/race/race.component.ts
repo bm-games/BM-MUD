@@ -57,6 +57,17 @@ export class RaceComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Removes the selected race from the DungeonConfig
+   * @param raceName name of the race you want to remove
+   */
+  deleteRace(raceName: string){
+    let index = this.configuredRaces.findIndex(x => x.name == raceName)
+    if(index > -1){
+      this.configuredRaces.splice(index, 1)
+    }
+  }
+
   sliderValue(value: number) {
     return value;
   }

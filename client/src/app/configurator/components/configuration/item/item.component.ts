@@ -181,6 +181,13 @@ export class ItemComponent implements OnInit {
     }
   }
 
+  deleteItem(itemName: string){
+    let index = this.configuredItems.findIndex(x => x.name == itemName)
+    if(index > -1){
+      this.configuredItems.splice(index, 1)
+    }
+  }
+
   sliderValue(value: number) {
     return value;
   }

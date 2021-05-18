@@ -101,6 +101,13 @@
     text-align: center;
     th, td{
       overflow: hidden;
+      button{
+        font-size: 12pt;
+        background-color: #DC3545;
+        border-radius: 5px;
+        color: white;
+        border: none;
+      }
     }
   }
 }

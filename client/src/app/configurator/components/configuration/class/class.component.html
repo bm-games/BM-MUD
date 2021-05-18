@@ -35,10 +35,11 @@
         <thead>
         <tr>
           <th>Name</th>
-          <th>Gesundheitsmultiplikator</th>
+          <th>Gesundheit</th>
           <th>Schaden</th>
-          <th>Angriffsgeschwindigkeit</th>
+          <th>Geschwindigkeit</th>
           <th>Beschreibung</th>
+          <th>Entfernen</th>
         </tr>
         </thead>
         <tbody>
@@ -48,6 +49,9 @@
           <td>{{class.damage}}</td>
           <td>{{class.attackSpeed}}</td>
           <td>{{class.description}}</td>
+          <td>
+            <button (click)="deleteClass(class.name)">X</button>
+          </td>
         </tr>
         </tbody>
       </table>

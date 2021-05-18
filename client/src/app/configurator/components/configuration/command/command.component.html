@@ -51,7 +51,7 @@
         <div class="actionDiv">
           <label>Command 1:</label>
           <mat-form-field class="dropDown">
-            <mat-select [(ngModel)]="selectedAction1">
+            <mat-select [(ngModel)]="selectedAction1" (selectionChange)="command1changed()">
               <mat-option *ngFor="let action of allActions" [value]="action">
                 {{action}}
               </mat-option>
@@ -61,7 +61,7 @@
         <div class="actionDiv">
           <label>Command 2:</label>
           <mat-form-field class="dropDown">
-            <mat-select [(ngModel)]="selectedAction2">
+            <mat-select [(ngModel)]="selectedAction2" [disabled]="command2Disabled" (selectionChange)="command2changed()">
               <mat-option *ngFor="let action of allActions" [value]="action" >
                 {{action}}
               </mat-option>
@@ -71,7 +71,7 @@
         <div class="actionDiv">
           <label>Command 3:</label>
           <mat-form-field class="dropDown">
-            <mat-select [(ngModel)]="selectedAction3">
+            <mat-select [(ngModel)]="selectedAction3" [disabled]="command3Disabled" (selectionChange)="command3changed()">
               <mat-option *ngFor="let action of allActions" [value]="action">
                 {{action}}
               </mat-option>
@@ -81,7 +81,7 @@
         <div class="actionDiv">
           <label>Command 4:</label>
           <mat-form-field class="dropDown">
-            <mat-select [(ngModel)]="selectedAction4">
+            <mat-select [(ngModel)]="selectedAction4" [disabled]="command4Disabled" (selectionChange)="command4changed()">
               <mat-option *ngFor="let action of allActions" [value]="action">
                 {{action}}
               </mat-option>
@@ -91,7 +91,7 @@
         <div class="actionDiv">
           <label>Command 5:</label>
           <mat-form-field class="dropDown">
-            <mat-select [(ngModel)]="selectedAction5">
+            <mat-select [(ngModel)]="selectedAction5" [disabled]="command5Disabled">
               <mat-option *ngFor="let action of allActions" [value]="action">
                 {{action}}
               </mat-option>
@@ -117,12 +117,16 @@
         <tr>
           <th>Command</th>
           <th>Anzahl actions</th>
+          <th>Entfernen</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let command of customCommands | keyvalue ">
           <td>{{command.key}}</td>
           <td>{{command.value}}</td>
+          <td>
+            <button (click)="deleteCustomCommand(command.key)">X</button>
+          </td>
         </tr>
         </tbody>
       </table>

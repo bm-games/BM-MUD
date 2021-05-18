@@ -19,6 +19,11 @@ export class CommandComponent implements OnInit {
   selectedAction5: string = 'Kein Command';
   commandSyntax: string | undefined;
 
+  command2Disabled: boolean = true;
+  command3Disabled: boolean = true;
+  command4Disabled: boolean = true;
+  command5Disabled: boolean = true;
+
   pickupAlias: string | undefined;
   consumeAlias: string | undefined;
   showInventoryAlias: string | undefined;
@@ -53,11 +58,11 @@ export class CommandComponent implements OnInit {
     if(this.isCustomCommand){
       if(this.commandSyntax != undefined){
         let actionString = "";
-        if(this.selectedAction1 != "Kein Command") actionString += this.selectedAction1 + ", ";
-        if(this.selectedAction2 != "Kein Command") actionString += this.selectedAction2 + ", ";
-        if(this.selectedAction3 != "Kein Command") actionString += this.selectedAction3 + ", ";
-        if(this.selectedAction4 != "Kein Command") actionString += this.selectedAction4 + ", ";
-        if(this.selectedAction5 != "Kein Command") actionString += this.selectedAction5;
+        if(this.selectedAction1 != "Kein Command") actionString += this.selectedAction1
+        if(this.selectedAction2 != "Kein Command") actionString += ", " + this.selectedAction2
+        if(this.selectedAction3 != "Kein Command") actionString += ", " + this.selectedAction3
+        if(this.selectedAction4 != "Kein Command") actionString += ", " + this.selectedAction4
+        if(this.selectedAction5 != "Kein Command") actionString += ", " + this.selectedAction5;
 
         this.customCommands[this.commandSyntax] = actionString;
 
@@ -98,6 +103,43 @@ export class CommandComponent implements OnInit {
       case "Eigener Befehl":
         this.isCustomCommand = true;
         break;
+    }
+  }
+
+  /**
+   * Removes the selected customCommand from the DungeonConfig
+   * @param name name of the custom command you want to remove
+   */
+  deleteCustomCommand(name: string){
+    delete this.customCommands[name]
+  }
+
+  command1changed(){
+    if(this.selectedAction1 != 'Kein Command'){
+      this.command2Disabled = false
+    }else{
+      this.command2Disabled = true
+    }
+  }
+  command2changed(){
+    if(this.selectedAction2 != 'Kein Command'){
+      this.command3Disabled = false
+    }else{
+      this.command3Disabled = true
+    }
+  }
+  command3changed(){
+    if(this.selectedAction3 != 'Kein Command'){
+      this.command4Disabled = false
+    }else{
+      this.command4Disabled = true
+    }
+  }
+  command4changed(){
+    if(this.selectedAction4 != 'Kein Command'){
+      this.command5Disabled = false
+    }else{
+      this.command5Disabled = true
     }
   }
 
