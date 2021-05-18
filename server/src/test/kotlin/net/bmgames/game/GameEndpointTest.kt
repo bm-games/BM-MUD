@@ -22,7 +22,6 @@ class GameEndpointTest : FunSpec({
         mockkObject(GameRepository)
         every { GameRepository.loadGame("test") } returns GAME_WITH_PLAYER
         every { GameRepository.loadGame("dummy") } returns GAME_WITHOUT_PLAYER
-
         every { GameRepository.listGames() } returns listOf(GAME_WITHOUT_PLAYER, GAME_WITH_PLAYER)
 
     }
