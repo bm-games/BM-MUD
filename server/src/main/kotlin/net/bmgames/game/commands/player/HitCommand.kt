@@ -17,10 +17,27 @@ import net.bmgames.state.model.*
 import net.bmgames.state.model.Player.Normal
 import net.bmgames.success
 
+/**
+ * A playercommand which hits a player or a npc.
+ * The params are given trough arguments -> "by argument"
+ *
+ * @param target the player who gets hit.
+ *
+ * @constructor creates a complete hit command.
+ */
 class HitCommand : PlayerCommand("hit") {
 
     val target: String by argument(help = message("game.hit.target"))
 
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It hits the target player or npc, based on the executing player's damage.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Normal, game: Game): Either<String, List<Action>> =
         if (player.room == game.startRoom) errorMsg(message("game.hit.start-room"))
         else if (!player.canHit()) errorMsg(message("game.cooldown"))

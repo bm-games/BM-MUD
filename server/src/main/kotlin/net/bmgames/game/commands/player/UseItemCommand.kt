@@ -16,8 +16,26 @@ import net.bmgames.state.model.Equipment.Slot.*
 import net.bmgames.state.model.Player.Normal.Companion
 import net.bmgames.translate
 
+/**
+ * A playercommand which uses an item in the room or in the player's inventory.
+ * The params are given trough arguments -> "by argument"
+ *
+ * @param target the item the players wants to use.
+ *
+ * @constructor creates a complete use item command.
+ */
 class UseItemCommand : PlayerCommand("use") {
     val target: String by argument(help = message("game.item-name"))
+
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It spawns the specified entities in the given room 'amount' times.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         either.eager {
             val item = player.inventory.items.find { it.name == target }

@@ -10,7 +10,7 @@ import javax.mail.internet.MimeMessage
 /**
  * Mail notifier
  *
- * @constructor Create empty Mail notifier
+ * @constructor Create empty mail notifier
  */
 class MailNotifier(val config: ServerConfig) : Notifier {
 

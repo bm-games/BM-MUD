@@ -22,13 +22,26 @@ import net.bmgames.state.model.Room
 
 
 /**
- * eg. move north
- * */
+ * A playercommand which moves the player based on a given direction.
+ * The params are given trough arguments -> "by argument"
+ *
+ * @param direction the direction the player is moved in. The player gets moved to adjacent rooms based on the direction.
+ *
+ * @constructor creates a complete move command.
+ */
 class MoveCommand : PlayerCommand("move") {
 
     val direction: Direction by argument(help = message("game.move.direction")).enum()
 
-
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It moves the player to an adjacent room based on the direction.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Player.Normal, game: Game): Either<ErrorMessage, List<Action>> = either.eager {
         val from = player.getRoom(game).bind()
         val to: Room = from.getNeighbour(game, direction).rightIfNotNull { message("game.move.room-not-found") }.bind()

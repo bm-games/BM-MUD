@@ -16,9 +16,26 @@ import net.bmgames.game.commands.getRoom
 import net.bmgames.message
 import net.bmgames.state.model.*
 
+/**
+ * A playercommand which removes an item from a room and adds it to a player's inventory.
+ * The params are given trough arguments -> "by argument"
+ *
+ * @param target the target item which gets added to the players inventory and removed from the room.
+ *
+ * @constructor creates a complete pickup command.
+ */
 class PickupCommand : PlayerCommand("pickup") {
     val target: String by argument(help = message("game.item-name"))
 
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It picks up an item from the player's room and adds it to the player's inventory.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         if (player.inventory.items.size >= INVENTORY_SIZE) errorMsg(message("game.full-inventory"))
         else either.eager {
