@@ -3,6 +3,7 @@ package net.bmgames.authentication
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import net.bmgames.SECRET_KEY_LENGTH
 import net.bmgames.ServerConfig
 import net.bmgames.message
 import java.util.*
@@ -20,10 +21,6 @@ const val PASSWORD_LENGTH = 20
  */
 class AuthHelper(val config: ServerConfig) {
 
-    /*companion object ChCrypto { TODO Wozu?
-        fun aesEncrypt(v: String) = hashPassword(v)
-        fun aesDecrypt(v: String) = unhashPassword(v)
-    }*/
 
     /**
      * HashingObject
@@ -31,10 +28,10 @@ class AuthHelper(val config: ServerConfig) {
      * Assisting object to and unhash the passwords of the users.
      */
     object HashingObject {
-        val encorder = Base64.getEncoder()
-        val decorder = Base64.getDecoder()
+        val encoder = Base64.getEncoder()
+        val decoder = Base64.getDecoder()
         fun cipher(opmode: Int, secretKey: String): Cipher {
-            if (secretKey.length != 32) throw SecurityException(message("auth.secret-key-length"))
+            if (secretKey.length != SECRET_KEY_LENGTH) throw SecurityException(message("auth.secret-key-length"))
             val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
             val sk = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8), "AES")
             val iv = IvParameterSpec(secretKey.substring(0, 16).toByteArray(Charsets.UTF_8))
@@ -78,7 +75,7 @@ class AuthHelper(val config: ServerConfig) {
         val encrypted =
             HashingObject.cipher(Cipher.ENCRYPT_MODE, config.secretKeyHash)
                 .doFinal(password.toByteArray(Charsets.UTF_8))
-        return String(HashingObject.encorder.encode(encrypted))
+        return String(HashingObject.encoder.encode(encrypted))
     }
 
     /**
@@ -88,7 +85,7 @@ class AuthHelper(val config: ServerConfig) {
      * @return unhashed version of the hashed password
      */
     fun unhashPassword(hashedpassword: String): String {
-        val byteStr = HashingObject.decorder.decode(hashedpassword.toByteArray(Charsets.UTF_8))
+        val byteStr = HashingObject.decoder.decode(hashedpassword.toByteArray(Charsets.UTF_8))
         return String(HashingObject.cipher(Cipher.DECRYPT_MODE, config.secretKeyHash).doFinal(byteStr))
     }
 

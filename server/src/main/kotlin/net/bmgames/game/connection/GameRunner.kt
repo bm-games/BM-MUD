@@ -105,7 +105,6 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
         }.bind()
 
         updateGameState(Game.onlinePlayers.modify { it.plus(player.ingameName to player) })
-        //TODO broadcast that player joined
 
         GameScope.launch {
             launch {
