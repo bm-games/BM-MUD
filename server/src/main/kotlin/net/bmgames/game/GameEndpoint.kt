@@ -88,9 +88,9 @@ internal class GameEndpoint(
                     }
                 }
             } catch (e: ClosedReceiveChannelException) {
-                connection.close(message("message.connection-closed").format(e.message))
+                connection.close(message("message.connection-closed",e.message))
             } catch (e: Throwable) {
-                connection.close(message("message.connection-closed-error").format(e.message))
+                connection.close(message("message.connection-closed-error",e.message))
             }
             connection.close("Disconnected itself")
         }
@@ -117,8 +117,8 @@ internal class GameEndpoint(
         with(gameRunner.getCurrentGameState()) {
             notifier.send(
                 recipient = master.user,
-                subject = message("message.want-to-join").format(user.username, name),
-                message = message("message.join-request").format(master.ingameName, user.username, name)
+                subject = message("message.want-to-join", user.username, name),
+                message = message("message.join-request", master.ingameName, user.username, name)
             )
         }
     }
@@ -130,7 +130,7 @@ internal class GameEndpoint(
         val newPlayer = gameRunner.getCurrentGameState().run {
             Player.Normal(
                 user,
-                avatar,
+                avatar.copy(name = avatar.name.replace(" ", "_")),
                 Inventory(items = startItems),
                 room = startRoom,
                 healthPoints = avatar.maxHealth,
@@ -153,7 +153,7 @@ internal class GameEndpoint(
      * */
     suspend fun deleteGame(gameRunner: GameRunner): Unit {
         gameManager.stopGame(gameRunner)
-        GameRepository.delete(gameRunner.getCurrentGameState())
+        GameRepository.deleteGame(gameRunner.getCurrentGameState())
     }
 
     fun getDetail(game: Game, user: User): GameDetail {
@@ -182,7 +182,7 @@ fun Route.installGameEndpoint(
         get<GetDetails> { (gameName) ->
             either<ErrorMessage, GameDetail> {
                 val user = call.getUser().rightIfNotNull { message("message.user-not-authenticated") }.bind()
-                val game = GameRepository.loadGame(gameName).rightIfNotNull { message("message.game-not-found") }.bind()
+                val game = GameRepository.getGame(gameName).rightIfNotNull { message("message.game-not-found") }.bind()
                 endpoint.getDetail(game, user)
             }.acceptOrReject(call)
         }
@@ -232,7 +232,7 @@ fun Route.installGameEndpoint(
 
                 call.getUser().rightIfNotNull { message("message.user-not-authenticated") }.bind()
 
-                val player = PlayerRepository.loadPlayer(gameName, avatar)
+                val player = PlayerRepository.getPlayer(gameName, avatar)
                     .rightIfNotNull { message("message.player-not-found") }.bind()
                 val gameRunner =
                     gameManager.getGameRunner(gameName).rightIfNotNull { message("message.game-not-found") }.bind()

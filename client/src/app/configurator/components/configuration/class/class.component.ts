@@ -27,12 +27,7 @@ export class ClassComponent implements OnInit {
    * Generates a ClassConfig with the current UI-data inputs and adds it to the list 'configuredClasses'
    */
   addClass(){
-    console.log(this.name);
-    console.log(this.healthMultiplier);
-    console.log(this.damage);
-    console.log(this.attackSpeed);
-    console.log(this.description);
-    if(this.name != undefined && this.healthMultiplier != undefined && this.damage != undefined && this.description != undefined && this.attackSpeed != undefined){
+    if(this.name != undefined && this.name.trim() != '' && this.healthMultiplier != undefined && this.damage != undefined && this.description != undefined && this.description.trim() != '' && this.attackSpeed != undefined){
       if(!this.checkContainsName()){
         this.configuredClasses.push({
           name: this.name,
@@ -62,6 +57,17 @@ export class ClassComponent implements OnInit {
        }
      }
     return false;
+  }
+
+  /**
+   * Removes the selected class from the DungeonConfig
+   * @param className name of the class you want to remove
+   */
+  deleteClass(className: string){
+    let index = this.configuredClasses.findIndex(c => c.name == className)
+    if(index > -1){
+      this.configuredClasses.splice(index, 1)
+    }
   }
 
   sliderValue(value: number) {

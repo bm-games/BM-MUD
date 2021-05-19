@@ -1,4 +1,7 @@
 <mat-toolbar>
+  <button mat-icon-button routerLink="/game/overview/{{game}}">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
   <span>{{game}}</span>
   <span class="spacer"></span>
 
@@ -10,26 +13,21 @@
 </mat-toolbar>
 <div class="game-area">
   <as-split direction="horizontal">
-    <as-split-area [size]="50">
+    <as-split-area [size]="70">
       <app-console [lines]="commands" (lineEntered)="sendCommand($event)"></app-console>
     </as-split-area>
-    <as-split-area [size]="50">
+    <as-split-area [size]="30">
       <as-split direction="vertical">
-        <as-split-area [size]="70">
-          <!--          <app-chat [incomingMessages]="chat" (outgoingMessages)="sendChat($event)"></app-chat>-->
-          <div style="display: flex; align-items: center;justify-content: center; height: 100%">
-            <p>Coming soon...</p>
-            <p>Use commands for now!</p>
-          </div>
+        <as-split-area [size]="60">
+          <app-chat [incomingMessages]="chat" [players]="players" (outgoingMessages)="sendChat($event)"></app-chat>
         </as-split-area>
-        <as-split-area [size]="30">
+        <as-split-area [size]="40">
           <div class="gameMapArea">
-            <div>
               <mat-grid-list [cols]="mapColumns">
                 <mat-grid-tile *ngFor="let gridValue of grid" [style.background]="gridValue.color">
+                  {{gridValue?.value?.name}}
                 </mat-grid-tile>
               </mat-grid-list>
-            </div>
           </div>
         </as-split-area>
       </as-split>

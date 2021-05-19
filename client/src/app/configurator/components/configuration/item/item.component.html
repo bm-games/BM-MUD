@@ -15,24 +15,35 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div *ngIf="isConsumable">
+      <div *ngIf="isConsumable" class="item-effect">
         <label>Effekt:</label>
-        <mat-form-field class="dropDown">
-          <mat-select>
-            <mat-option *ngFor="let item of commandsForItems" [value]="item" (click)="itemEffectChanged(item)">
-              {{item}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div>
+          <mat-form-field class="dropDown">
+            <mat-select [(ngModel)]="selectedItemEffect">
+              <mat-option *ngFor="let item of commandsForItems" [value]="item" (click)="itemEffectChanged(item)">
+                {{item}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-slider class="slider" thumbLabel
+                      *ngIf="sliderEffects.includes(selectedItemEffect)"
+                      [displayWith]="sliderValue"
+                      [(ngModel)]="healthDiff"
+                      min="1" max="1000"
+                      step="1">
+          </mat-slider>
+        </div>
       </div>
       <div *ngIf="isEquipment">
         <div>
           <label>Gesundheitsmultiplikator:</label>
-          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="health" min="1" max="10" step="0.5"></mat-slider>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="health" min="1" max="10"
+                      step="0.5"></mat-slider>
         </div>
         <div>
           <label>Schadensmultiplikator:</label>
-          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damageModifier" min="1" max="10" step="0.5"></mat-slider>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damageModifier" min="1"
+                      max="10" step="0.5"></mat-slider>
         </div>
         <div>
           <label>Slot:</label>
@@ -48,11 +59,13 @@
       <div *ngIf="isWeapon">
         <div>
           <label>Schaden:</label>
-          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damage" min="1" max="100" step="1"></mat-slider>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damage" min="1" max="100"
+                      step="1"></mat-slider>
         </div>
         <div>
           <label>Multiplikator:</label>
-          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damageModifier" min="1" max="10" step="0.5"></mat-slider>
+          <mat-slider class="slider" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damageModifier" min="1"
+                      max="10" step="0.5"></mat-slider>
         </div>
       </div>
     </div>
@@ -69,13 +82,19 @@
         <thead>
         <tr>
           <th>Name</th>
-          <!--<th>Konsumierbar</th>-->
+          <th>Typ</th>
+          <th>Entfernen</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of configuredItems">
           <td>{{item.name}}</td>
-          <!--<td>{{item.isConsumable}}</td>-->
+          <td *ngIf="item.type=='net.bmgames.state.model.Consumable'">Konsumierbar</td>
+          <td *ngIf="item.type=='net.bmgames.state.model.Equipment'">Ausrüstung</td>
+          <td *ngIf="item.type=='net.bmgames.state.model.Weapon'">Waffe</td>
+          <td>
+            <button (click)="deleteItem(item.name)">X</button>
+          </td>
         </tr>
         </tbody>
       </table>

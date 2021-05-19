@@ -17,6 +17,7 @@ export class ItemComponent implements OnInit {
   damage: number | undefined;
   damageModifier: number | undefined;
   health: number | undefined;
+  healthDiff: number | undefined = 0;
   isConsumable: boolean = true;
   isWeapon: boolean = false;
   isEquipment: boolean = false;
@@ -24,13 +25,15 @@ export class ItemComponent implements OnInit {
   selectedItemType: string = 'Konsumierbares Item';
 
   itemTypes: string[] = ['Konsumierbares Item', 'Ausrüstung', 'Waffe'];
-  itemCommands: string[] = ['Heilen', 'Gesundheit abziehen'];
+  itemCommands: string[] = ['heal $player $room $item', 'hit $player $room $item']
+  sliderEffects: string[] = ["Heilen", "Schaden zufügen"]
   equipmentSlots: string[] = ['Kopf', 'Brust', 'Beine', 'Stiefel'];
   commandsForItems: string[] = [];
   configuredItems: Item[] = [];
+  selectedItemEffect: any;
 
-  getCommandsForItems() : string[] {
-    return ['Heilen', 'Gesundheit abziehen'].concat(Object.keys(ConfigurationComponent.commandConfig.customCommands));
+  getCommandsForItems(): string[] {
+    return ['Heilen', 'Schaden zufügen'].concat(Object.keys(ConfigurationComponent.commandConfig.customCommands));
   }
 
   constructor() {
@@ -47,17 +50,27 @@ export class ItemComponent implements OnInit {
    * Depending on the selected ItemType, a ItemConfig, EquipmentConfig or WeaponConfig is created
    */
   addItem() {
-    if (this.name != undefined && !this.checkContainsName()) {
+    if (this.name != undefined && this.name.trim() != '' && !this.checkContainsName()) {
       if (this.isConsumable) {
-        if (this.effect != undefined) {
-
-          let consumable: ConsumableItemConfig = {
-            type: "net.bmgames.state.model.Consumable",
-            name: this.name,
-            effect: this.effect
+        if (this.effect != undefined && this.healthDiff != undefined) {
+          if(this.sliderEffects.includes(this.selectedItemEffect)) {
+            let consumable: ConsumableItemConfig = {
+              type: "net.bmgames.state.model.Consumable",
+              name: this.name,
+              effect: this.effect + " " + this.healthDiff.toString()
+            }
+            this.configuredItems.push(consumable);
           }
-          this.configuredItems.push(consumable);
+          else {
+            let consumable: ConsumableItemConfig = {
+              type: "net.bmgames.state.model.Consumable",
+              name: this.name,
+              effect: this.effect
+            }
+            this.configuredItems.push(consumable);
+          }
 
+          this.healthDiff = undefined;
           this.name = undefined;
           this.effect = undefined;
         } else {
@@ -154,15 +167,25 @@ export class ItemComponent implements OnInit {
 
   /**
    * Sets the effect of a consumable item depending on the current UI selection
-   * @param item selected UI value
+   * @param effect
    */
   itemEffectChanged(effect: string) {
-    this.effect = effect;
+    switch (effect) {
+      case 'Heilen':
+        this.effect = "heal $player $room $item";
+        break;
+      case 'Schaden zufügen':
+        this.effect = "hit $player $room $item";
+        break;
+      default:
+        this.effect = effect;
+        break;
+    }
   }
 
   /**
    * Sets the EquipmentSlot (Enum) depending on the current UI selection
-   * @param item selected UI value
+   * @param slot
    */
   equipmentSlotChanged(slot: string) {
     switch (slot) {
@@ -178,6 +201,13 @@ export class ItemComponent implements OnInit {
       case "Stiefel":
         this.equipmentSlot = EquipmentSlot.boots;
         break;
+    }
+  }
+
+  deleteItem(itemName: string) {
+    let index = this.configuredItems.findIndex(x => x.name == itemName)
+    if (index > -1) {
+      this.configuredItems.splice(index, 1)
     }
   }
 

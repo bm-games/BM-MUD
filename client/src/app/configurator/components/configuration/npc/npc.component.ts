@@ -39,7 +39,7 @@ export class NPCComponent implements OnInit {
    * Depending on the selected NPCType, a FriendlyNPCConfig or a HostileNPCConfig is created.
    */
   addNPC(){
-    if(this.name != undefined && !this.checkContainsName()){
+    if(this.name != undefined && !this.checkContainsName() && this.name.trim() != ''){
       if(this.isHostile){
         if(this.health != undefined && this.damage != undefined){
           let hostile: HostileNPCConfig = {
@@ -59,12 +59,12 @@ export class NPCComponent implements OnInit {
           window.alert("Es wurden nicht alle Daten eingegeben");
         }
       }else{
-        if(this.messageOnTalk != undefined && this.selectedCommandOnInteraction != undefined){
+        if(this.messageOnTalk != undefined && this.selectedCommandOnInteraction != undefined && this.messageOnTalk.trim() != ''){
           let friendly: FriendlyNPCConfig = {
             name: this.name,
             items: this.selectedNPCEquipment,
             messageOnTalk: this.messageOnTalk,
-            commandOnInteraction: this.selectedCommandOnInteraction,
+            commandOnInteraction: '',
             type: "net.bmgames.state.model.NPC.Friendly"
           }
           this.configuredNPCs.push(friendly);
@@ -99,6 +99,17 @@ export class NPCComponent implements OnInit {
       case "Feindlich":
         this.isHostile = true;
         break;
+    }
+  }
+
+  /**
+   * removes the selected NPC from the DungeonConfig
+   * @param npcName name of the npc you want to remove
+   */
+  deleteNPC(npcName: string){
+    let index = this.configuredNPCs.findIndex(npc => npc.name == npcName)
+    if(index > -1){
+      this.configuredNPCs.splice(index, 1)
     }
   }
 

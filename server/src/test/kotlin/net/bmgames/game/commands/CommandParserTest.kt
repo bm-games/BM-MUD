@@ -27,8 +27,8 @@ class CommandParserTest : FunSpec({
         val command = parser.parseMasterCommand("teleport test 123")
         command.shouldBeRight()
         val teleportCommand = command.value.shouldBeTypeOf<TeleportCommand>()
-        teleportCommand.target shouldBe "test"
-        teleportCommand.newRoomID shouldBe "123"
+        teleportCommand.playerName shouldBe "test"
+        teleportCommand.destination shouldBe "123"
     }
 
 })

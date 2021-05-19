@@ -13,79 +13,122 @@ import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.commands.findDifferentPlayerInRoom
 import net.bmgames.game.commands.getRoom
 import net.bmgames.message
-import net.bmgames.state.model.Game
-import net.bmgames.state.model.Inventory
-import net.bmgames.state.model.NPC
+import net.bmgames.state.model.*
 import net.bmgames.state.model.Player.Normal
-import net.bmgames.state.model.Room
 import net.bmgames.success
+import java.time.Duration
 
-class HitCommand : PlayerCommand("hit") {
+/**
+ * A playercommand which hits a player or a npc.
+ * The params are given trough arguments -> "by argument"
+ *
+ * @param target the player who gets hit.
+ *
+ * @constructor creates a complete hit command.
+ */
+class HitCommand : PlayerCommand("hit", message("game.hit-target-epilog")) {
 
-    val target: String by argument(help = message("game.hit-target"))
+    val target: String by argument(help = message("game.hit.target"))
 
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It hits the target player or npc, based on the executing player's damage.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Normal, game: Game): Either<String, List<Action>> =
-        if (!player.canHit()) errorMsg(message("game.cooldown"))
+        if (player.room == game.startRoom) errorMsg(message("game.hit.start-room"))
+        else if (!player.canHit()) errorMsg(message("game.cooldown"))
         else either.eager {
             val room = player.getRoom(game).bind()
 
             val actions = mutableListOf<Action>()
 
-            room.npcs[target]?.let { player.hitNPC(it, room) }?.let(actions::addAll)
+            room.npcs[target]?.let { player.hitNPC(it, room, player.damage.toInt()) }?.let(actions::addAll)
             player.findDifferentPlayerInRoom(game, target)
-                ?.let { player.hitPlayer(it, game, room) }
+                ?.let {
+                    player.hitPlayer(
+                        target = it,
+                        game = game,
+                        room = room,
+                        damage = player.damage.toInt(),
+                        hitter = player.ingameName
+                    )
+                }
                 ?.let(actions::addAll)
 
             if (actions.isEmpty()) {
-                errorMsg(message("game.entity-not-found").format(target))
+                errorMsg(message("game.entity-not-found", target))
             } else {
-                success(actions)
+                success(actions + LastHitAction(player.left(), System.currentTimeMillis()))
             }.bind()
         }
 
+}
 
-    private fun Normal.hitPlayer(player: Normal, game: Game, room: Room): List<Action> {
-        val newHealth = player.healthPoints - damage
-        return if (newHealth <= 0) {
+internal fun Player?.hitPlayer(target: Normal, game: Game, room: Room, damage: Int, hitter: String): List<Action> {
+    val newHealth = target.healthPoints - damage
+    return if (newHealth <= 0) {
+        listOfNotNull(
+            this?.sendText(
+                message("game.slay-someone", target.ingameName, target.ingameName)
+                    .trimMargin()
+            ),
+            target.sendText(
+                message("game.been-slain", hitter)
+                    .trimMargin()
+            ),
+            MoveAction(target, game.getStartRoom()),
+            InventoryAction(target, Inventory(null, emptyMap(), game.startItems)),
+            HealthAction(
+                target.left(),
+                target.avatar.maxHealth - target.healthPoints
+            )
+        ) + target.inventory.allItems().map { EntityAction(Create, room, it.right()) }
+    } else {
+        listOfNotNull(
+            this?.sendText(message("game.hp-left", target.ingameName, newHealth)),
+            target.sendText(message("game.hit-by", hitter, newHealth)),
+            HealthAction(target.left(), -damage)
+        )
+    } + if (room.npcs[hitter] is NPC.Hostile) {
+        val hostile = room.npcs[hitter] as NPC.Hostile
+        listOf(LastHitAction(Pair(room, hostile).right(), System.currentTimeMillis()))
+    } else emptyList()
+}
+
+internal fun Player.hitNPC(npc: NPC, room: Room, damage: Int): List<Action> =
+    if (npc is NPC.Hostile) {
+        val newHealth = npc.health - damage
+        if (newHealth <= 0) {
             listOf(
-                sendText(
-                    message("game.slay-someone").format(player.ingameName,player.ingameName)
-                        .trimMargin()
-                ),
-                player.sendText(
-                    message("game.been-slain").format(ingameName)
-                        .trimMargin()
-                ),
-                MoveAction(player, room, game.getStartRoom()),
-                InventoryAction(player, Inventory(null, emptyMap(), game.startItems))
-            ) + player.inventory.allItems().map { EntityAction(Create, room, it.right()) }
+                sendText(message("game.slay-someone", npc.name, npc.name)),
+                EntityAction(Remove, room, npc.left())
+            ) + npc.items.map { EntityAction(Create, room, it.right()) }
         } else {
             listOf(
-                sendText(message("game.hp-left").format(player.ingameName,newHealth.toInt())),
-                player.sendText(message("game.hit-by").format(ingameName,newHealth.toInt())),
-                HealthAction(player.left(), -damage.toInt())
-            )
+                sendText(message("game.hp-left", npc.name, newHealth)),
+                HealthAction((room to npc).right(), -damage)
+            ).let {
+                it + if (this is Normal) {
+                    listOfNotNull(
+                        sendText(message("game.npc-hostile", npc.name, npc.nextAttackTimePoint().secondsRemaining())),
+                        MasterCommandAction(
+                            "hit \$player \$room $damage \$npc".replaceNPC(npc).replacePlayer(this).replaceRoom(room),
+                            Duration.ofMillis(npc.nextAttackTimePoint().millisRemaining())
+                        )
+                    )
+                } else {
+                    emptyList()
+                }
+            }
         }
+    } else {
+        emptyList()
     }
 
-    private fun Normal.hitNPC(npc: NPC, room: Room): List<Action> =
-        if (npc is NPC.Hostile) {
-            val newHealth = npc.health - damage
-            if (newHealth <= 0) {
-                listOf(
-                    sendText(message("game.slay-someone").format(npc.name,npc.name)),
-                    EntityAction(Remove, room, npc.left())
-                ) + npc.items.map { EntityAction(Create, room, it.right()) }
-            } else {
-                listOf(
-                    sendText(message("game.hp-left").format(npc.name,newHealth.toInt())),
-                    HealthAction((room to npc).right(), -damage.toInt())
-                )
-            }
-        } else {
-            emptyList()
-        }
 
-
-}
 

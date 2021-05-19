@@ -1,5 +1,4 @@
 
-
 .game-area {
   height: calc(100% - 4rem);
 }
@@ -10,7 +9,8 @@ body {
   margin-right: 2%;
   padding-top: 20px;
 }
-.userArea{
+
+.userArea {
   height: 100%;
   width: 100%;
   max-height: 800px;
@@ -19,9 +19,10 @@ body {
   //display: flex;
 }
 
-.mudNameHeader{
+.mudNameHeader {
   vertical-align: center;
-  .leaveGameBtn{
+
+  .leaveGameBtn {
     float: right;
     background-color: #DC3545;
     border-radius: 5px;
@@ -31,52 +32,69 @@ body {
   }
 }
 
-.consoleArea{
+.consoleArea {
   float: left;
   height: 100%;
   width: 49%;
-  app-console{
+
+  app-console {
     background-color: black;
   }
-  .gameConsole{
+
+  .gameConsole {
     height: 50%;
   }
-  .chatConsole{
+
+  .chatConsole {
     height: 50%;
   }
 }
 
-.rightArea{
+.rightArea {
   float: right;
   height: 100%;
   width: 49%;
 }
 
-.gameMapContents{
-  float: right;
-  width: 100%;
-  height: 50%;
-  .mat-tab-group{
-    height: 90%;
+.gameMapContents {
+  height: 100%;
+
+  .mat-tab-group {
   }
-  .tabContent{
-    height: 300px;
-    overflow: hidden;
-    .currentlyInside{
+
+  ::ng-deep .mat-tab-label {
+    min-width: unset !important;
+  }
+
+  ::ng-deep .mat-tab-body-wrapper {
+    height: 100%;
+  }
+
+  .tabContent {
+    height: 100%;
+    //overflow: hidden;
+    display: flex;
+
+    .currentlyInside {
       width: 40%;
-      float: left;
       margin-left: 5px;
     }
-    .allAvailable{
+
+    .allAvailable {
       width: 35%;
-      float: left;
       margin-left: 5px;
     }
-    .mat-selection-list{
-      overflow: scroll;
-      height: 300px;
+
+    .mat-selection-list {
+      overflow: auto;
+      height: 100%;
     }
-    button{
+
+    .npcsInRoom{
+      height: calc(100% - 5rem);
+    }
+
+    button {
       margin-top: 132px;
       margin-left: 5px;
       background-color: #DC3545;
@@ -84,83 +102,101 @@ body {
       color: white;
       height: 35px;
       border: none;
-      float: left;
     }
-    .header{
+
+    .header {
       width: 55%;
       float: right;
       text-align: center;
-      .mat-form-field{
+
+      .mat-form-field {
         margin-top: 10px;
       }
     }
-    .body{
+
+    .body {
       width: 55%;
       height: 70%;
       float: right;
-      div{
+
+      div {
         height: 100%;
       }
     }
-    .kickBtnDiv{
+
+    .kickBtnDiv {
       text-align: center;
-      button{
+
+      button {
         float: none;
         margin: 100px auto auto;
       }
     }
-    .teleportPlayerDiv{
+
+    .teleportPlayerDiv {
       text-align: center;
-      label{
+
+      label {
         margin-right: 20px;
       }
-      .lblAndDropDown{
+
+      .lblAndDropDown {
         margin-top: 10px;
         height: min-content;
       }
-      .btn{
+
+      .btn {
         margin-top: -90px;
       }
     }
-    .hitPlayerDiv{
+
+    .hitPlayerDiv {
       text-align: center;
-      button{
+
+      button {
         float: none;
         margin: 80px auto auto;
       }
-      label{
+
+      label {
         margin-top: 20px;
         margin-right: 20px;
       }
     }
-    .deleteRoomDiv{
+
+    .deleteRoomDiv {
       text-align: center;
       height: 100%;
-      label{
+
+      label {
         margin-top: 20px;
       }
-      button{
+
+      button {
         float: none;
         margin: 80px auto auto;
       }
     }
   }
-  .tabContentRoom{
-    height: 300px;
+
+  .tabContentRoom {
+    display: flex;
     overflow: hidden;
-    button{
+
+    button {
       background-color: #DC3545;
       border-radius: 5px;
       color: white;
       height: 35px;
       border: none;
     }
-    .leftSide{
-      float: left;
+
+    .leftSide {
       width: 30%;
       height: 100%;
       text-align: center;
-      input{
+
+      input {
         margin-top: 20px;
         margin-bottom: 20px;
         width: 90%;
@@ -170,7 +206,8 @@ body {
         background: transparent;
         border-bottom: 1px solid black;
       }
-      textarea{
+
+      textarea {
         width: 90%;
         resize: none;
         height: 50%;
@@ -179,35 +216,31 @@ body {
         background-color: whitesmoke;
       }
     }
-    .rightSide{
-      float: right;
+
+    .rightSide {
+      display: flex;
       width: 70%;
       height: 100%;
-      .mat-selection-list{
+
+      .mat-selection-list {
         width: 50%;
-        overflow: scroll;
-        height: 300px;
-      }
-      .npcList{
-        float: left;
-      }
-      .itemList{
-        float: right;
+        height: 100%;
+        overflow: auto;
       }
     }
   }
 }
 
-.playersOnlineDiv{
-  float: left;
-  width: 50%;
-  height: 90%;
-  .mat-list{
+.playersOnlineDiv {
+  height: 100%;
+
+  .mat-list {
     background-color: whitesmoke;
-    overflow: scroll;
+    overflow: auto;
     height: 90%;
   }
-  button{
+
+  button {
     margin-top: 10px;
     background-color: #DC3545;
     border-radius: 5px;
@@ -216,7 +249,8 @@ body {
     border: none;
     float: right;
   }
-  input{
+
+  input {
     margin-top: 10px;
     margin-left: 20px;
     font-size: 12pt;
@@ -227,16 +261,13 @@ body {
     border-bottom: 1px solid black;
   }
 }
-.divRightTop{
-  height: 50%;
-  .gameMap {
-    width: 40%;
-    margin: auto;
-    float: right;
-  }
-}
 
-.gameArea{
+  .gameMap {
+    padding: 1rem;
+  }
+
+
+.gameArea {
   height: 100%;
   max-height: 800px;
   margin-top: 5px;
@@ -244,7 +275,7 @@ body {
   display: flex;
 }
 
-.gameAreaHeader{
+.gameAreaHeader {
   position: relative;
   border-bottom: 1px solid #C0C0C0;
   height: 100px;

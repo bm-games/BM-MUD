@@ -25,8 +25,8 @@ class UserHandler(
 
     /**
      * Creates a user on the database from an user object
-     * Also adding the Verification Token to the Database with its other Informations
-     * ->Could be the case that the generated Token already exists in the DB
+     * Also adding the verification token to the database with its other information
+     * ->Could be the case that the generated token already exists in the DB
      * ->Implemented ExceptionHandler for that Case
      *
      * @param user
@@ -76,7 +76,7 @@ class UserHandler(
     /**
      * Set mail approved
      *
-     * @param token Verification Token of the User which gets Approved
+     * @param token verification token of the user which gets approved
      */
     internal fun setMailApproved(token: String): Either<ErrorMessage, Unit> = transaction {
         if (UserTable.select { UserTable.registrationKey eq token }.none()) {
@@ -90,10 +90,10 @@ class UserHandler(
     }
 
     /**
-     * Checks if the User has already verified his mail
+     * Checks if the user has already verified his mail
      *
-     * @param username of the User which gets checked
-     * @return A Boolean Value (True = mail is Verified, False = Mail is not Verified)
+     * @param username of the user which gets checked
+     * @return A boolean value (True = mail is verified, False = mail is not verified)
      */
     internal fun checkMailApproved(username: String): Boolean {
         return getUserByName(username)?.isMailVerified() ?: false

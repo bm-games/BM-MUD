@@ -20,7 +20,7 @@ import {config} from "rxjs";
 export class ConfigurationComponent implements OnInit {
 
 
-  title = "BM-MUD: Configurator";
+  title = "Konfigurator";
   mudName: string = '';
 
   private static _id?: string;
@@ -56,12 +56,19 @@ export class ConfigurationComponent implements OnInit {
       let west = this.getRoomNameById(r.west);
       let npcStringMap: StringMap<NPC> = {}
       r.npcs.forEach(n => {
-        npcStringMap[n.name] = n
+        npcStringMap[n.name.replace(' ', '_')] = {
+          ...n,
+          name: n.name.replace(' ', '_'
+          )
+        }
       })
-      roomMap[r.name] = {
+      roomMap[r.name.replace(' ', '_')] = {
         //type: "net.bmgames.state.model.Room",
-        name: r.name,
-        items: r.items,
+        name: r.name.replace(' ', '_'),
+        items: r.items.map(item => ({
+          ...item,
+          name: item.name.replace(' ', '_')
+        })),
         //npcs: r.npcs,
         npcs: npcStringMap,
         neighbours: {
@@ -76,11 +83,18 @@ export class ConfigurationComponent implements OnInit {
 
     let npcMap: StringMap<NPC> = {};
     ConfigurationComponent.allNPCs.forEach(n => {
-      npcMap[n.name] = n;
+      npcMap[n.name.replace(' ', '_')] = {
+        ...n,
+        name: n.name.replace(' ', '_'
+        )
+      }
     });
     let itemMap: StringMap<Item> = {};
     ConfigurationComponent.allItems.forEach(i => {
-      itemMap[i.name] = i;
+      itemMap[i.name.replace(' ', '_')] = {
+        ...i,
+        name: i.name.replace(' ', '_')
+      }
     });
     let dungeon: DungeonConfig = {
       id: ConfigurationComponent._id,
@@ -218,6 +232,32 @@ export class ConfigurationComponent implements OnInit {
     if (config.itemConfigs) this.allItems = Object.values(config.itemConfigs)
     if (config.npcConfigs) this.allNPCs = Object.values(config.npcConfigs)
     if (config.commandConfig) this.commandConfig = config.commandConfig
+    let north: number
+    let east: number
+    let south: number
+    let west: number
+    if (config.rooms) Object.values(config.rooms).forEach(room => {
+      if (room.neighbours.NORTH == undefined) {
+        north = -1
+      } else {
+        north = 1
+      }
+      if (room.neighbours.EAST == undefined) {
+        east = -1
+      } else {
+        east = 1
+      }
+      if (room.neighbours.SOUTH == undefined) {
+        south = -1
+      } else {
+        south = 1
+      }
+      if (room.neighbours.WEST == undefined) {
+        west = -1
+      } else {
+        west = 1
+      }
+    })
     if (config.rooms) this.allRooms = Object.values(config.rooms)
       .map<RoomConfig>(({name, message, npcs, items}, index) =>
         ({
@@ -226,10 +266,10 @@ export class ConfigurationComponent implements OnInit {
           message,
           npcs: Object.values(npcs),
           items,
-          north: undefined,
-          west: undefined,
-          south: undefined,
-          east: undefined
+          north: north,
+          west: west,
+          south: south,
+          east: east
         }))
     if (config.startEquipment) this.startequipment = config.startEquipment
     if (config.startRoom) this.startRoom = config.startRoom

@@ -1,15 +1,12 @@
-.center{
-  justify-content: center;
-  display:flex;
-  font-size: xxx-large;
-  margin-top:2%;
-}
-.heading{
+.heading {
   margin: 30px;
   font-size: large;
 }
 
-.faq{
-  margin-left: 20%;
-  margin-right: 20%;
+.faq {
+  margin-top: 2rem;
+
+  h2 {
+    margin: 1rem 0;
+  }
 }

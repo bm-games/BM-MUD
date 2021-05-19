@@ -13,7 +13,6 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.bmgames.*
 import net.bmgames.authentication.User
@@ -23,15 +22,15 @@ import net.bmgames.state.model.Player
 
 internal class ConfigEndpoint {
     fun saveConfig(config: DungeonConfig, user: User): Either<ErrorMessage, Unit> {
-        if(config.name.isNullOrEmpty()) return errorMsg("Der Name des MUDs darf nicht leer sein")
-        if (GameRepository.loadGame(config.name) != null)
+        if(config.name.isBlank()) return errorMsg("Der Name des MUDs darf nicht leer sein")
+        if (GameRepository.getGame(config.name) != null)
             return errorMsg(message("config.game-name-used"))
-        if (config.startRoom == "") return errorMsg(message("config.no-starting-room"))
+        if (config.startRoom.isEmpty()) return errorMsg(message("config.no-starting-room"))
         if (config.rooms.isEmpty()) return errorMsg(message("config.at-least-one-room"))
         if (config.races.isEmpty()) return errorMsg(message("config.at-least-one-race"))
         if (config.classes.isEmpty()) return errorMsg(message("config.at-least-one-class"))
 
-        GameRepository.save(config.run {
+        GameRepository.saveGame(config.run {
             Game(
                 name = name,
                 races = races,
@@ -50,7 +49,7 @@ internal class ConfigEndpoint {
     }
 
     fun getConfig(name: String): DungeonConfig? =
-        GameRepository.loadGame(name)?.run {
+        GameRepository.getGame(name)?.run {
             DungeonConfig(name, races, classes, commandConfig, npcConfigs, itemConfigs, startItems, startRoom, rooms)
         }
 }
@@ -66,10 +65,7 @@ fun Route.installConfigEndpoint() {
         post("/createConfig") {
             either<ErrorMessage, Unit> {
                 val user = call.getUser().rightIfNotNull {message("config.not-authenticated")}.bind()
-                val configJSON = call.receive<String>().rightIfNotNull {message("config.config-missing")}.bind()
-                val config = catch { Json.decodeFromString<DungeonConfig>(configJSON)}
-                    .mapLeft {it.printStackTrace(); message("config.missing-values")}
-                    .bind()
+                val config = call.receive<DungeonConfig>().rightIfNotNull {message("config.config-missing")}.bind()
                 configEndpoint.saveConfig(config, user).bind()
             }.acceptOrReject(call)
         }

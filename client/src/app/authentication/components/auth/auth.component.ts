@@ -1,7 +1,5 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
-import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-auth-component',
@@ -10,7 +8,7 @@ import {Router} from "@angular/router";
 })
 export class AuthComponent implements OnInit {
 
-  title = "BM-MUD: Authentication";
+  title = "BM-MUD | Authentication";
 
   constructor(private titleService: Title) { }
 

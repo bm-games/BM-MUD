@@ -24,7 +24,6 @@ import net.bmgames.communication.Notifier
 import net.bmgames.game.GameManager
 import net.bmgames.game.installGameEndpoint
 import net.bmgames.state.installConfigEndpoint
-import org.jetbrains.exposed.sql.not
 import java.time.Duration
 
 
@@ -108,17 +107,19 @@ fun Application.configureSecurity(config: ServerConfig) {
         header("Cookie")
 
         host("localhost:4200")
+        host("25.30.124.39:4200")
+        host("192.168.178.85:4200")
         host("bm-games.net", subDomains = listOf("play"))
     }
 
     install(Sessions) {
         cookie<User>("UserIdentifier") {
             val secretEncryptKey = config.secretKeyHash
-                .subSequence(0, SECRET_KET_LENGTH / 2)
+                .subSequence(0, SECRET_KEY_LENGTH / 2)
                 .toString()
                 .toByteArray()
             val secretAuthKey = config.secretKeyHash
-                .subSequence(0, SECRET_KET_LENGTH / 2)
+                .subSequence(0, SECRET_KEY_LENGTH / 2)
                 .toString()
                 .toByteArray()
 
@@ -126,6 +127,7 @@ fun Application.configureSecurity(config: ServerConfig) {
 //            cookie.secure = true
             cookie.httpOnly = true
 //            cookie.domain = "localhost" //TODO replace with domain for prod
+            cookie.domain = "25.30.124.39" //TODO replace with domain for prod
             transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
         }
     }

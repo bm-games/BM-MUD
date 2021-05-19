@@ -1,5 +1,7 @@
 package net.bmgames.state.model
 
+import kotlin.math.max
+
 /**
  * Default attack speed of an hostile NPC
  * */
@@ -15,3 +17,7 @@ const val HIT_TIMEFRAME = 20L * 1000L
  * */
 const val INVENTORY_SIZE = 10
 
+
+fun Long.millisRemaining(): Long = max(this - System.currentTimeMillis(), 0)
+fun Long.secondsRemaining(): Float = millisRemaining() / 1000f
+fun Float.toRelativePercent(): Int = ((this - 1) * 100).toInt()

@@ -31,21 +31,22 @@ export class RoomComponent implements OnInit {
   mapColumns = 8;
   grid: Array<gridValue> = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.configuredRooms = ConfigurationComponent.allRooms;
     this.selectedStartRoomName = ConfigurationComponent.startRoom;
     // initialize grid with rooms
-    for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
+    for (let i = 0; i < this.mapColumns * this.mapColumns; i++) {
       let room = this.getRoomConfigById(i);
-      if(room != undefined){
+      if (room != undefined) {
         this.grid[i] = {
           index: i,
           value: room,
           color: "lightgreen"
         }
-      }else{
+      } else {
         this.grid[i] = {
           index: i,
           value: null,
@@ -66,7 +67,7 @@ export class RoomComponent implements OnInit {
   getRoomConfigById(id: number): RoomConfig | undefined {
     let room;
     for (let i = 0; i < this.configuredRooms.length; i++) {
-      if(this.configuredRooms[i].id == id) room = this.configuredRooms[i];
+      if (this.configuredRooms[i].id == id) room = this.configuredRooms[i];
     }
     return room;
   }
@@ -75,7 +76,7 @@ export class RoomComponent implements OnInit {
    * Sets 'selectedGridValueIndex' to the selected grid value and sets all UI-inputs to the selected grid value data
    * @param gridV gridValue, which was selected in the UI
    */
-  gridRoomSelected(gridV: gridValue){
+  gridRoomSelected(gridV: gridValue) {
     this.selectedGridValueIndex = gridV.index;
     this.setInputValuesToSelected(this.selectedGridValueIndex);
     this.highlightSelectedValue(this.selectedGridValueIndex);
@@ -87,7 +88,7 @@ export class RoomComponent implements OnInit {
    * All existing neighbours getting updated.
    */
   addRoom() {
-    if(!this.checkContainsName() || this.existingRoomSelected){
+    if (!this.checkContainsName() && this.selectedRoomName.trim() != '') {
       let northNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'n');
       let eastNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'e');
       let southNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 's');
@@ -108,29 +109,29 @@ export class RoomComponent implements OnInit {
         color: "lightgreen"
       }
 
-      if(northNeighbour > -1) this.updateNeighbour(northNeighbour);
-      if(eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
-      if(southNeighbour > -1) this.updateNeighbour(southNeighbour);
-      if(westNeighbour > -1) this.updateNeighbour(westNeighbour);
+      if (northNeighbour > -1) this.updateNeighbour(northNeighbour);
+      if (eastNeighbour > -1) this.updateNeighbour(eastNeighbour);
+      if (southNeighbour > -1) this.updateNeighbour(southNeighbour);
+      if (westNeighbour > -1) this.updateNeighbour(westNeighbour);
 
       this.configuredRooms = [];
       this.grid.forEach(gridValue => {
-        if(gridValue.value != null) this.configuredRooms.push(gridValue.value);
+        if (gridValue.value != null) this.configuredRooms.push(gridValue.value);
       });
       ConfigurationComponent.allRooms = this.configuredRooms;
-    }else{
+    } else {
       window.alert("Es existiert bereits ein Raum mit dem Namen: " + this.selectedRoomName);
     }
     console.log(this.configuredRooms);
   }
 
-  checkContainsName(): boolean{
-    if(this.selectedGridValueIndex)
-    for (let i = 0; i < this.configuredRooms.length; i++) {
-      if(this.configuredRooms[i].name == this.selectedRoomName){
-        return true;
+  checkContainsName(): boolean {
+    if (this.selectedGridValueIndex)
+      for (let i = 0; i < this.configuredRooms.length; i++) {
+        if (this.configuredRooms[i].name == this.selectedRoomName) {
+          return true;
+        }
       }
-    }
     return false;
   }
 
@@ -140,38 +141,38 @@ export class RoomComponent implements OnInit {
    * @param direction direction, in which the neighbour should be found. Possible values: 'n','e','s','w'.
    * @returns neighbourId - the id of the neighbour. Returns -1 if no neighbour was found.
    */
-  searchForNeighbour(index: number, direction: string) : number{
+  searchForNeighbour(index: number, direction: string): number {
     let neighbourId;
     let i;
-    switch(direction){
+    switch (direction) {
       case "n":
         i = index - this.mapColumns;
-        if(i >= 0 && this.grid[i].value != null){                                       // i >= 0 -> check if i out of grid (north)
+        if (i >= 0 && this.grid[i].value != null) {                                       // i >= 0 -> check if i out of grid (north)
           neighbourId = this.grid[i].value?.id;
         }
         break;
       case "e":
         i = index + 1;
-        if(i % this.mapColumns != 0 && this.grid[i].value != null){                     // i % mapColumns != 0 -> check if i out of grid (east)
+        if (i % this.mapColumns != 0 && this.grid[i].value != null) {                     // i % mapColumns != 0 -> check if i out of grid (east)
           neighbourId = this.grid[i].value?.id
         }
         break;
       case "s":
         i = index + this.mapColumns;
-        if(i < this.mapColumns*this.mapColumns && this.grid[i].value != null){          // i < mapColumns * mapColumns -> check if i out of grid (south)
+        if (i < this.mapColumns * this.mapColumns && this.grid[i].value != null) {          // i < mapColumns * mapColumns -> check if i out of grid (south)
           neighbourId = this.grid[i].value?.id;
         }
         break;
       case "w":
         i = index - 1;
-        if(index % this.mapColumns != 0 && this.grid[i].value ! != null){               // index % mapColumns != 0 -> check if i out of grid (west)
+        if (index % this.mapColumns != 0 && this.grid[i].value ! != null) {               // index % mapColumns != 0 -> check if i out of grid (west)
           neighbourId = this.grid[i].value?.id;
         }
         break;
     }
-    if(neighbourId != null){
+    if (neighbourId != null) {
       return neighbourId
-    }else{
+    } else {
       return -1;
     }
   }
@@ -184,7 +185,7 @@ export class RoomComponent implements OnInit {
     console.log("target: " + target);
     let index = this.grid.find(r => r.value?.id == target)?.index;        // index of room in grid
     console.log('index: ' + index);
-    if(index != null){
+    if (index != null) {
       let name = this.grid[index].value?.name;
       let msg = this.grid[index].value?.message;
       let npcs = this.grid[index].value?.npcs;
@@ -193,7 +194,7 @@ export class RoomComponent implements OnInit {
       let eastNeighbour = this.searchForNeighbour(index, 'e');
       let southNeighbour = this.searchForNeighbour(index, 's');
       let westNeighbour = this.searchForNeighbour(index, 'w');
-      if(name != undefined && msg != undefined && npcs != undefined && items != undefined){
+      if (name != undefined && msg != undefined && npcs != undefined && items != undefined) {
         this.grid[index] = {
           index: index,
           value: {
@@ -217,31 +218,31 @@ export class RoomComponent implements OnInit {
    * Sets the UI components to the data of the selected grid value
    * @param index index of the selected grid value
    */
-  setInputValuesToSelected(index: number){
+  setInputValuesToSelected(index: number) {
     let name = this.grid[index].value?.name;
     let msg = this.grid[index].value?.message;
     let npcs = this.grid[index].value?.npcs;
     let items = this.grid[index].value?.items;
 
     // check if values are undefined, if not set the values of the selected grid value
-    if(name == undefined){
+    if (name == undefined) {
       this.selectedRoomName = '';
-    }else{
+    } else {
       this.selectedRoomName = name;
     }
-    if(msg == undefined){
+    if (msg == undefined) {
       this.selectedRoomMessage = '';
-    }else{
+    } else {
       this.selectedRoomMessage = msg;
     }
-    if(npcs == undefined){
+    if (npcs == undefined) {
       this.selectedRoomNPCs = [];
-    }else{
+    } else {
       this.selectedRoomNPCs = npcs;
     }
-    if(items == undefined){
+    if (items == undefined) {
       this.selectedRoomItems = [];
-    }else{
+    } else {
       this.selectedRoomItems = items;
     }
   }
@@ -250,18 +251,18 @@ export class RoomComponent implements OnInit {
    * Changes the color of the selected grid value
    * @param index index of the selected grid value
    */
-  highlightSelectedValue(index: number){
+  highlightSelectedValue(index: number) {
     for (let i = 0; i < this.grid.length; i++) {
-      if(this.grid[i].value == null){
+      if (this.grid[i].value == null) {
         this.grid[i].color = "#C0C0C0";             // no room in this grid -> grey
-      }else{
+      } else {
         this.grid[i].color = "lightgreen";          // room in this grid -> lightgreen
       }
     }
-    if(this.grid[index].value == null){
+    if (this.grid[index].value == null) {
       this.grid[index].color = "#DC3545";           // selected grid no room -> red
       this.existingRoomSelected = false;
-    }else{
+    } else {
       this.grid[index].color = "green";             // selected grid room -> green
       this.existingRoomSelected = true;
     }
@@ -271,73 +272,73 @@ export class RoomComponent implements OnInit {
    * Sets the startroom of the Dungeon
    * @param name id of the startroom
    */
-  startroomChanged(name: string){
-    if(name != null){
+  startroomChanged(name: string) {
+    if (name != null) {
       ConfigurationComponent.startRoom = name;
     }
   }
 
-  incrementMapSize(){
+  incrementMapSize() {
     let size = this.mapColumns;
     let oldSize = size;
     size++;
-    if(size <= 15){
+    if (size <= 15) {
       this.mapColumns = size;
       this.grid.forEach(gridValue => {
-        if(gridValue.value != null){
-          let shift = Math.floor(gridValue.index/oldSize)
+        if (gridValue.value != null) {
+          let shift = Math.floor(gridValue.index / oldSize)
           let newIndex = gridValue.index + shift
           let room = this.getRoomConfigById(gridValue.index)
-          if(room != undefined) room.id = newIndex
+          if (room != undefined) room.id = newIndex
         }
       })
       this.updateMap()
-    }else{
+    } else {
       alert("Die maximale Größe wurde erreicht: " + (size - 1))
     }
   }
 
-  decrementMapSize(){
+  decrementMapSize() {
     let size = this.mapColumns;
     let oldSize = size;
     size--;
-    if(size >= 1){
+    if (size >= 1) {
       let canDecrement = true;
       for (let i = 1; i <= oldSize; i++) {
-        if(this.grid[(i*oldSize)-1].value != null || this.grid[(oldSize*oldSize) - i].value != null){
+        if (this.grid[(i * oldSize) - 1].value != null || this.grid[(oldSize * oldSize) - i].value != null) {
           canDecrement = false;
         }
       }
-      if(canDecrement){
+      if (canDecrement) {
         this.mapColumns = size;
         this.grid.forEach(gridValue => {
-          if(gridValue.value != null){
-            let shift = Math.floor(gridValue.index/oldSize)
+          if (gridValue.value != null) {
+            let shift = Math.floor(gridValue.index / oldSize)
             let newIndex = gridValue.index - shift
             let room = this.getRoomConfigById(gridValue.index)
-            if(room != undefined) room.id = newIndex
+            if (room != undefined) room.id = newIndex
           }
         })
         this.updateMap()
-      }else{
+      } else {
         alert("Es kann nicht verkleinert werden, da sich ein Raum in dem Bereich befindet, der gelöscht wird.")
       }
-    }else{
+    } else {
       alert("Die minimale Größe wurde erreicht: " + (size + 1))
     }
   }
 
-  updateMap(){
+  updateMap() {
     this.grid = []
-    for(let i = 0; i<this.mapColumns*this.mapColumns; i++){
+    for (let i = 0; i < this.mapColumns * this.mapColumns; i++) {
       let room = this.getRoomConfigById(i);
-      if(room != undefined){
+      if (room != undefined) {
         this.grid[i] = {
           index: i,
           value: room,
           color: "lightgreen"
         }
-      }else{
+      } else {
         this.grid[i] = {
           index: i,
           value: null,
@@ -348,7 +349,7 @@ export class RoomComponent implements OnInit {
   }
 }
 
-export interface gridValue{
+export interface gridValue {
   index: number;
   value: null | RoomConfig;
   color: string;

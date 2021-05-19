@@ -7,7 +7,7 @@
       <div class="inputAreaBody">
         <div>
           <label>Gesundheitspunkte:</label>
-          <mat-slider class="slider" min="10" max="100" step="1" thumbLabel [displayWith]="sliderValue" [(ngModel)]="health"></mat-slider>
+          <mat-slider class="slider" min="10" max="500" step="1" thumbLabel [displayWith]="sliderValue" [(ngModel)]="health"></mat-slider>
         </div>
         <div>
           <label>Schadensmultiplikator:</label>
@@ -32,8 +32,9 @@
             <tr>
               <th>Name</th>
               <th>Gesundheit</th>
-              <th>Schadensmultiplikator</th>
+              <th>Schaden</th>
               <th>Beschreibung</th>
+              <th>Entfernen</th>
             </tr>
           </thead>
           <tbody>
@@ -42,6 +43,9 @@
               <td>{{race.health}}</td>
               <td>{{race.damageModifier}}</td>
               <td>{{race.description}}</td>
+              <td>
+                <button (click)="deleteRace(race.name)">X</button>
+              </td>
             </tr>
           </tbody>
         </table>

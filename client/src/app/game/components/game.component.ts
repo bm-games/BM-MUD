@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject, Subscription} from "rxjs";
+import {Observable, Subject, Subscription} from "rxjs";
 import {CommandService, SocketConnection} from "../services/command.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ChatMessage} from "./chat/chat.component";
 import {RoomMap, Tile} from "../../shared/model/map";
 import {FeedbackService} from "../../shared/services/feedback.service";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -20,8 +21,9 @@ export class GameComponent implements OnInit, OnDestroy {
   avatar!: string;
   status: "Connected" | "Connecting" | "Disconnected" = "Disconnected"
 
-  commands = new Subject<string>()
-  chat = new Subject<ChatMessage>()
+  readonly commands = new Subject<string>()
+  readonly players = new Subject<string[]>();
+  readonly chat = new Subject<ChatMessage>()
 
   map?: RoomMap
   mapColumns = 8;
@@ -30,7 +32,8 @@ export class GameComponent implements OnInit, OnDestroy {
   constructor(private commandService: CommandService,
               private route: ActivatedRoute,
               private router: Router,
-              private feedback: FeedbackService) {
+              private feedback: FeedbackService,
+              title: Title) {
 
     const game = route.snapshot.paramMap.get("game")
     const avatar = route.snapshot.paramMap.get("avatar")
@@ -39,6 +42,7 @@ export class GameComponent implements OnInit, OnDestroy {
     } else {
       this.game = game
       this.avatar = avatar
+      title.setTitle(game + " | " + avatar)
     }
   }
 
@@ -102,30 +106,39 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private updateGrid(map: RoomMap) {
-    this.mapColumns = map.tiles[0].length
-    /*for (let i = 0; i < this.mapColumns * this.mapColumns; i++) {
-      this.grid[i] = {
-        index: i,
-        value: null,
-        color: "#C0C0C0"
-      }
-    }*/
-    for (let i = 0; i < map.tiles[0].length; i++) {
-      for (let j = 0; j < map.tiles[1].length; j++) {
-        let tile = map.tiles[i][j]
-        let gridIndex = this.mapColumns * i + j;
+    this.mapColumns = map.tiles.length
+    const players: string[] = []
+    this.grid = []
+    for (let x = 0; x < map.tiles.length; x++) {
+      for (let y = 0; y < map.tiles[0].length; y++) {
+        let tile = map.tiles[x][y]
+        let gridIndex = this.mapColumns * y + x;
+
         if (tile != undefined) {
-          this.grid[gridIndex] = {index: gridIndex, value: tile, color: tile.color}
+          if (tile.players) players.push(...tile.players)
+          this.grid[gridIndex] = {index: gridIndex, value: tile, color: this.typeToColor(tile.type)}
         } else {
           //this.grid[gridIndex] = {index: gridIndex, value: null, color: '#C0C0C0'}
           this.grid[gridIndex] = {index: gridIndex, value: null, color: 'white'}
         }
       }
     }
+    this.players.next(players)
+  }
+
+  typeToColor(type: "Visited" | "NotVisited" | "Current") {
+    switch (type) {
+      case "Visited":
+        return "orange"
+      case "NotVisited":
+        return "gray"
+      case "Current":
+        return "red"
+    }
   }
 
   sendChat({msg, senderOrRecipient}: ChatMessage): void {
-    if (senderOrRecipient) {
+    if (senderOrRecipient != null) {
       this.connection.send(`whisper ${senderOrRecipient} ${msg}`)
     } else {
       this.connection.send(`say ${msg}`)

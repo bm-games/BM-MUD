@@ -28,12 +28,10 @@ class GameRunnerTest : FunSpec({
     }
 
 
-    test("Connected player should not join a second time") {
+    test("Connected player should close other session") {
         val runner = GameRunner(GAME_WITH_PLAYER, NOOP_NOTIFIER)
         runner.connect(PLAYER).shouldBeRight()
-        val invalid = runner.connect(PLAYER)
-        invalid.shouldBeLeft()
-        invalid.value shouldBe message("game.player-already-connected", PLAYER.ingameName)
+        runner.connect(PLAYER).shouldBeRight()
     }
 
 })

@@ -39,7 +39,7 @@ object GameRepository {
      * Loads the gamestate from the database and decodes it into a game object.
      * @return [Game] if it exists, null otherwise
      * */
-    internal fun loadGame(name: String): Game? = cache.computeIfAbsent(name) {
+    internal fun getGame(name: String): Game? = cache.computeIfAbsent(name) {
         transaction {
             GameDAO.find { GameTable.name eq name }
                 .firstOrNull()?.toGame()
@@ -49,7 +49,7 @@ object GameRepository {
     /**
      * Deletes the game as well as every referenced entity. This also includes all players.
      * */
-    fun delete(game: Game): Unit {
+    fun deleteGame(game: Game): Unit {
         cache.remove(game.name)
 
         transaction {
@@ -62,7 +62,7 @@ object GameRepository {
                 RoomItemTable.deleteWhere { RoomItemTable.roomId eq room.id }
             }
 
-            PlayerRepository.deletePlayersInGame(game.id)
+            PlayerRepository.deleteAllPlayersInGame(game.id)
 
             mapOf<Table, () -> Column<EntityID<Int>>>(
                 ClassTable to ClassTable::game,
@@ -84,7 +84,7 @@ object GameRepository {
     /**
      * Writes the game state into the database while updating or creating the sub entities like rooms or NPCs.
      * */
-    internal fun save(game: Game): Unit {
+    internal fun saveGame(game: Game): Unit {
         val gameDAO = transaction {
             GameDAO.updateOrCreate(game.id) {
                 name = game.name
@@ -111,7 +111,7 @@ object GameRepository {
         }
 
         cache.remove(game.name)
-        loadGame(game.name)
+        getGame(game.name)
 
     }
 

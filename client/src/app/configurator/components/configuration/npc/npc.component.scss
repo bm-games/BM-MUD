@@ -73,7 +73,6 @@
     textarea{
       float: right;
       width: 50%;
-      margin-top: -35px;
       resize: none;
       outline: none;
       background-color: whitesmoke;
@@ -112,6 +111,13 @@
     text-align: center;
     th, td{
       overflow: hidden;
+      button{
+        font-size: 12pt;
+        background-color: #DC3545;
+        border-radius: 5px;
+        color: white;
+        border: none;
+      }
     }
   }
 }

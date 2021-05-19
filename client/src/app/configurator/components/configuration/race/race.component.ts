@@ -26,7 +26,8 @@ export class RaceComponent implements OnInit {
    * Generates a RaceConfig with the current UI-data inputs and adds it to the list 'configuredRaces'
    */
   addRace(){
-    if(this.name != undefined && this.health != undefined && this.damage != undefined && this.description != undefined){
+    if(this.name != undefined && this.health != undefined && this.damage != undefined && this.description != undefined &&
+        this.name.trim() != '' && this.description.trim() != ''){
       if(!this.checkContainsName()){
         this.configuredRaces.push({
           name: this.name,
@@ -55,6 +56,17 @@ export class RaceComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  /**
+   * Removes the selected race from the DungeonConfig
+   * @param raceName name of the race you want to remove
+   */
+  deleteRace(raceName: string){
+    let index = this.configuredRaces.findIndex(x => x.name == raceName)
+    if(index > -1){
+      this.configuredRaces.splice(index, 1)
+    }
   }
 
   sliderValue(value: number) {

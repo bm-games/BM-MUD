@@ -5,6 +5,7 @@ import {GameService} from "../../services/game.service";
 import {GameDetail} from "../../model/game-detail";
 import {MatDialog} from "@angular/material/dialog";
 import {AvatarConfigComponent} from "../avatar/avatar-config.component";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-overview',
@@ -19,12 +20,14 @@ export class OverviewComponent implements OnInit {
               private route: ActivatedRoute,
               private feedback: FeedbackService,
               private gameService: GameService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              title: Title) {
     this.game = route.snapshot.paramMap.get("game") || ''
     if (!this.game) {
       router.navigateByUrl("/dashboard")
       return
     }
+    title.setTitle("Overview | " + this.game)
 
   }
 

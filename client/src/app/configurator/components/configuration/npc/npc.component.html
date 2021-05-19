@@ -40,16 +40,6 @@
         <mat-slider class="slider" min="1" max="100" step="1" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damage" el></mat-slider>
       </div>
       <div *ngIf="!isHostile">
-        <label>Interaktionscommand:</label>
-        <mat-form-field class="dropDown">
-          <mat-select [(ngModel)]="selectedCommandOnInteraction">
-            <mat-option *ngFor="let command of interactionCommands" [value]="command">
-              {{command}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div *ngIf="!isHostile">
         <label>Nachricht:</label>
         <textarea [(ngModel)]="messageOnTalk"></textarea>
       </div>
@@ -69,15 +59,18 @@
           <th>Name</th>
           <th>Typ</th>
           <th>Items</th>
-          <!--<th>Loottable</th>-->
+          <th>Entfernen</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let npc of configuredNPCs">
           <td>{{npc.name}}</td>
-          <td>{{npc.type}}</td>
+          <td *ngIf="npc.type=='net.bmgames.state.model.NPC.Friendly'">Verbündet</td>
+          <td *ngIf="npc.type=='net.bmgames.state.model.NPC.Hostile'">Feindlich</td>
           <td>{{npc.items.length}}</td>
-          <!--<td>{{npc.loottable.length}}</td>-->
+          <td>
+            <button (click)="deleteNPC(npc.name)">X</button>
+          </td>
         </tr>
         </tbody>
       </table>

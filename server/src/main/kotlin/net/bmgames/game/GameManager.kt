@@ -29,7 +29,7 @@ class GameManager(val notifier: Notifier) {
     internal suspend fun getGameRunner(gameName: String): GameRunner? {
         val gameRunner = gamesRef.get()[gameName]
         return if (gameRunner == null) {
-            val stoppedGameRunner = GameRepository.loadGame(gameName)?.let {GameRunner(it, notifier)}
+            val stoppedGameRunner = GameRepository.getGame(gameName)?.let {GameRunner(it, notifier)}
             if (stoppedGameRunner != null) {
                 GameScope.launch { stoppedGameRunner.gameLoop() }
                 gamesRef.update { games ->
@@ -46,7 +46,7 @@ class GameManager(val notifier: Notifier) {
     internal suspend fun getRunningGames() = gamesRef.get()
 
     internal suspend fun stopGame(gameRunner: GameRunner): Unit{
-        GameRepository.save(gameRunner.stop())
+        GameRepository.saveGame(gameRunner.stop())
         gamesRef.update { it - gameRunner.name }
 
     }

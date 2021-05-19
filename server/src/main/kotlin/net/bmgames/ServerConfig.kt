@@ -2,11 +2,9 @@ package net.bmgames
 
 import arrow.core.Either
 import arrow.core.Either.Companion.catch
-import arrow.core.computations.either
 import arrow.core.filterOrElse
 import arrow.core.flatMap
 import arrow.core.identity
-import net.bmgames.message
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -17,7 +15,7 @@ import java.io.File
  * The secret hash key must have this length.
  * Required by encryption algorithm
  * */
-const val SECRET_KET_LENGTH = 32
+const val SECRET_KEY_LENGTH = 32
 
 
 /**
@@ -28,7 +26,7 @@ const val WEB_SOCKETS_PING: Long = 15
 /**
  * This Config configures the server
  * @property secretKeyHash Used for encrypting user passwords and sessions.
- * Must have length [SECRET_KET_LENGTH]
+ * Must have length [SECRET_KEY_LENGTH]
  * */
 @Serializable
 data class ServerConfig(
@@ -56,8 +54,8 @@ data class ServerConfig(
                     { Error(message("config.cannot-parse-config"), it) },
                     { Json.decodeFromString<ServerConfig>(content) }
                 ).filterOrElse(
-                    { it.secretKeyHash.length == SECRET_KET_LENGTH },
-                    { Error(message("config.wrong-key-length").format(SECRET_KET_LENGTH)) }
+                    { it.secretKeyHash.length == SECRET_KEY_LENGTH },
+                    { Error(message("config.wrong-key-length",SECRET_KEY_LENGTH)) }
                 )
             }
         }
@@ -80,7 +78,7 @@ data class ServerConfig(
         internal fun initializeConfig(configPath: String): ServerConfig =
             readConfig(configPath)
                 .fold({ error ->
-                    if (DEMO_CONFIG.writeConfig(configPath)) println(message("config.config-generated").format(configPath))
+                    if (DEMO_CONFIG.writeConfig(configPath)) println(message("config.config-generated",configPath))
                     throw error
                 }, ::identity)
 
