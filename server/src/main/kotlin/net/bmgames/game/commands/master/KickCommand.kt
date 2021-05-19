@@ -22,7 +22,7 @@ import net.bmgames.toEither
  * @constructor creates a complete invitation command.
  */
 class KickCommand : MasterCommand("kick") {
-    val username: String by argument(help = message("game.kick.user"))
+    val playerName: String by argument(name = "player", help = message("game.kick.player"))
 
     /**
      * Creates a list of actions, which shall be executed in order, based on the Command.
@@ -34,19 +34,15 @@ class KickCommand : MasterCommand("kick") {
      * @return a string which shows the errormessage or the list of actions which will be executed.
      */
     override fun toAction(player: Player.Master, game: Game): Either<String, List<Action>> =
-        game.allowedUsers[username].toEither(
-            { message("game.kick.user-not-joined", username) },
-            {
-                UserRepository.getUserByName(username).toEither(
-                    { message("game.invite.user-not-found", username) },
-                    { user ->
-                        listOf(
-                            player.sendText(message("game.kick.kicked", username)),
-                            KickAction(user)
-                        )
-                    }
+        game.getOnlineNormal(playerName).toEither(
+            { message("game.kick.user-not-joined", playerName) },
+            { p ->
+                listOf(
+                    player.sendText(message("game.kick.kicked", playerName)),
+                    KickAction(p.user)
                 )
 
+
             }
-        ).flatten()
+        )
 }

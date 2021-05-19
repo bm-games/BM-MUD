@@ -1,6 +1,7 @@
 package net.bmgames.game.commands.player
 
 import arrow.core.Either
+import arrow.core.right
 import net.bmgames.game.action.Action
 import net.bmgames.game.action.sendText
 import net.bmgames.game.commands.*
@@ -21,18 +22,7 @@ class StatsCommand : PlayerCommand("stats") {
      * @return a string which shows the errormessage or the list of actions which will be executed.
      */
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
-        player.getRoom(game).map { room ->
-            val players = player.getOtherPlayersInRoom(game).keys
-            listOfNotNull(
-                player.sendText(message("game.look.room", room.name, room.message)),
-                if (players.isNotEmpty())
-                    player.sendText(players.prettyJoin(suffix = message("game.look.players")))
-                else null,
-                if (room.items.isNotEmpty())
-                    player.sendText(
-                        message("game.look.items", room.items.joinToString(", ") { it.name })
-                    )
-                else null
-            )
-        }
+            player.sendText(message("game.stats", player.healthPoints, player.maxHealthPoints, player.damage.toInt()))
+                .toList()
+                .right()
 }

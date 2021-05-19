@@ -22,10 +22,10 @@ import net.bmgames.state.model.Player
 
 internal class ConfigEndpoint {
     fun saveConfig(config: DungeonConfig, user: User): Either<ErrorMessage, Unit> {
-        if(config.name.isNullOrEmpty()) return errorMsg("Der Name des MUDs darf nicht leer sein")
+        if(config.name.isEmpty()) return errorMsg("Der Name des MUDs darf nicht leer sein")
         if (GameRepository.getGame(config.name) != null)
             return errorMsg(message("config.game-name-used"))
-        if (config.startRoom == "") return errorMsg(message("config.no-starting-room"))
+        if (config.startRoom.isEmpty()) return errorMsg(message("config.no-starting-room"))
         if (config.rooms.isEmpty()) return errorMsg(message("config.at-least-one-room"))
         if (config.races.isEmpty()) return errorMsg(message("config.at-least-one-race"))
         if (config.classes.isEmpty()) return errorMsg(message("config.at-least-one-class"))
@@ -65,10 +65,7 @@ fun Route.installConfigEndpoint() {
         post("/createConfig") {
             either<ErrorMessage, Unit> {
                 val user = call.getUser().rightIfNotNull {message("config.not-authenticated")}.bind()
-                val configJSON = call.receive<String>().rightIfNotNull {message("config.config-missing")}.bind()
-                val config = catch { Json.decodeFromString<DungeonConfig>(configJSON)}
-                    .mapLeft {it.printStackTrace(); message("config.missing-values")}
-                    .bind()
+                val config = call.receive<DungeonConfig>().rightIfNotNull {message("config.config-missing")}.bind()
                 configEndpoint.saveConfig(config, user).bind()
             }.acceptOrReject(call)
         }

@@ -130,7 +130,7 @@ internal class GameEndpoint(
         val newPlayer = gameRunner.getCurrentGameState().run {
             Player.Normal(
                 user,
-                avatar,
+                avatar.copy(name = avatar.name.replace(" ", "_")),
                 Inventory(items = startItems),
                 room = startRoom,
                 healthPoints = avatar.maxHealth,

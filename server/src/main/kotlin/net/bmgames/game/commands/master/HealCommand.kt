@@ -35,11 +35,11 @@ class HealCommand : MasterCommand("heal") {
                             HealthAction((room to npc).right(), amount)
                         )
                     },
-                    { player ->
-                        val newHealth = max(player.maxHealthPoints, player.healthPoints + amount)
+                    { p ->
+                        val newHealth = max(p.maxHealthPoints, p.healthPoints + amount)
                         listOf(
                             player.sendText(message("game.heal.new-hp", target, newHealth)),
-                            HealthAction(player.left(), newHealth - player.healthPoints)
+                            HealthAction(p.left(), newHealth - p.healthPoints)
                         )
                     }
                 )

@@ -98,10 +98,11 @@ class MapBuilder(
         } else if (!asMaster && !visitedRooms.contains(room.name)) {
             map[x][y] = with(room) {
                 Tile(
-                    north = neighbours[NORTH] != null,
-                    west = neighbours[WEST] != null,
-                    east = neighbours[EAST] != null,
-                    south = neighbours[SOUTH] != null,
+//                    north = neighbours[NORTH] != null,
+//                    west = neighbours[WEST] != null,
+//                    east = neighbours[EAST] != null,
+//                    south = neighbours[SOUTH] != null,
+                    name = room.name,
                     players = emptySet(),
                     type = NotVisited
                 )
@@ -109,10 +110,11 @@ class MapBuilder(
         } else {
             map[x][y] = with(room) {
                 Tile(
-                    north = neighbours[NORTH] != null,
-                    west = neighbours[WEST] != null,
-                    east = neighbours[EAST] != null,
-                    south = neighbours[SOUTH] != null,
+//                    north = neighbours[NORTH] != null,
+//                    west = neighbours[WEST] != null,
+//                    east = neighbours[EAST] != null,
+//                    south = neighbours[SOUTH] != null,
+                    name = room.name,
                     npcs = if (asMaster) room.npcs.keys else emptySet(),
                     items = if (asMaster) room.items.map { it.name } else emptyList(),
                     players = if (asMaster) getPlayers(room) else emptySet(),

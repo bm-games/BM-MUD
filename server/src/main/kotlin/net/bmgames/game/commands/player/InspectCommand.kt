@@ -2,11 +2,11 @@ package net.bmgames.game.commands.player
 
 import arrow.core.Either
 import arrow.core.computations.either
+import arrow.core.right
 import com.github.ajalt.clikt.parameters.arguments.argument
 import net.bmgames.errorMsg
-import net.bmgames.game.action.Action
-import net.bmgames.game.action.MasterCommandAction
-import net.bmgames.game.action.sendText
+import net.bmgames.game.action.*
+import net.bmgames.game.action.EntityAction.Type.Create
 import net.bmgames.game.commands.PlayerCommand
 import net.bmgames.game.commands.getRoom
 import net.bmgames.game.commands.isInRoom
@@ -52,14 +52,19 @@ class InspectCommand : PlayerCommand("inspect") {
         room.npcs[target]?.apply {
             when (this) {
                 is NPC.Friendly -> {
-                    actions.add(
-                        player.sendText(
-                            message("game.npc-friendly",
-                                name,
-                                messageOnTalk,
-                                items.joinToString(" ") { item -> item.name })
+                    actions.add(player.sendText(message("game.npc-friendly", name, messageOnTalk)))
+                    if (items.isNotEmpty()) {
+                        val item = items.random()
+                        actions.addAll(
+                            listOf(
+                                player.sendText("$name: $messageOnTalk"),
+                                player.sendText(message("game.npc-friendly", item.name)),
+                                NPCInventoryAction(this, room, items - item),
+                                EntityAction(Create, room, item.right())
+                            )
                         )
-                    )
+                    }
+
                     if (commandOnInteraction.isNotEmpty()) {
                         actions.add(MasterCommandAction(commandOnInteraction))
                     }
@@ -80,7 +85,7 @@ class InspectCommand : PlayerCommand("inspect") {
             .forEach { item ->
                 when (item) {
                     is Consumable -> {
-                        actions.add(player.sendText(message("game.is-consumable",target)))
+                        actions.add(player.sendText(message("game.is-consumable", target)))
                     }
                     is Equipment -> {
                         actions.add(

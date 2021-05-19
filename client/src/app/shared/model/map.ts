@@ -1,9 +1,9 @@
 interface Tile {
   readonly name: string;
-  readonly north: boolean;
-  readonly east: boolean;
-  readonly south: boolean;
-  readonly west: boolean;
+  // readonly north: boolean;
+  // readonly east: boolean;
+  // readonly south: boolean;
+  // readonly west: boolean;
   readonly type: "Visited" | "NotVisited" | "Current";
   readonly items: string[];
   readonly npcs: string[];

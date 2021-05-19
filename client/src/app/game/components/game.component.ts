@@ -108,6 +108,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private updateGrid(map: RoomMap) {
     this.mapColumns = map.tiles.length
     const players: string[] = []
+    this.grid = []
     for (let x = 0; x < map.tiles.length; x++) {
       for (let y = 0; y < map.tiles[0].length; y++) {
         let tile = map.tiles[x][y]
