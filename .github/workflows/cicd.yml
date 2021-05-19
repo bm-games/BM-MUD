@@ -42,6 +42,7 @@ jobs:
       run: npm run test:prod
           
     - name: Run E2E Tests
+      if: false
       run: npm run e2e:prod
               
     - name: Codecov
