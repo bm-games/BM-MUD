@@ -50,7 +50,7 @@ export class ItemComponent implements OnInit {
    * Depending on the selected ItemType, a ItemConfig, EquipmentConfig or WeaponConfig is created
    */
   addItem() {
-    if (this.name != undefined && !this.checkContainsName()) {
+    if (this.name != undefined && this.name.trim() != '' && !this.checkContainsName()) {
       if (this.isConsumable) {
         if (this.effect != undefined && this.healthDiff != undefined) {
           if(this.sliderEffects.includes(this.selectedItemEffect)) {

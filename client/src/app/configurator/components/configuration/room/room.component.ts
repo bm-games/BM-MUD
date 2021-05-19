@@ -88,7 +88,7 @@ export class RoomComponent implements OnInit {
    * All existing neighbours getting updated.
    */
   addRoom() {
-    if (!this.checkContainsName() || this.existingRoomSelected) {
+    if (!this.checkContainsName() && this.selectedRoomName.trim() != '') {
       let northNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'n');
       let eastNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 'e');
       let southNeighbour = this.searchForNeighbour(this.selectedGridValueIndex, 's');

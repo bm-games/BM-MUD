@@ -7,6 +7,9 @@ import {RoomMap, Tile} from "../../../shared/model/map";
 import {FeedbackService} from "../../../shared/services/feedback.service";
 import {GridValue} from "../game.component";
 import {Title} from "@angular/platform-browser";
+import {ConfigService} from "../../../configurator/services/config.service";
+import {NPC} from "../../../configurator/models/NPCConfig";
+import {Item} from "../../../configurator/models/Item";
 
 
 @Component({
@@ -33,6 +36,7 @@ export class MasterComponent implements OnInit, OnDestroy {
   private height: number = 0;
 
   constructor(private commandService: CommandService,
+              private configService: ConfigService,
               private route: ActivatedRoute,
               private router: Router,
               private feedback: FeedbackService,
@@ -87,7 +91,12 @@ export class MasterComponent implements OnInit, OnDestroy {
       },
       () => setTimeout(() => this.setDisconnected("Die Verbindung wurde unerwartet getrennt."), 100)
     )
+    this.configService.getDungeonConfig(this.game).then((config) => {
+      this.allDungeonNPCs = Object.values(config.npcConfigs)
+      this.allDungeonItems = Object.values(config.itemConfigs)
+    })
   }
+
 
   ngOnDestroy(): void {
     this.connection?.disconnect()
@@ -99,7 +108,7 @@ export class MasterComponent implements OnInit, OnDestroy {
   }
 
   sendChat({msg, senderOrRecipient}: ChatMessage): void {
-    if (senderOrRecipient != '') {
+    if (senderOrRecipient != null) {
       this.connection.send(`whisper ${senderOrRecipient} ${msg}`)
     } else {
       this.connection.send(`say ${msg}`)
@@ -136,12 +145,12 @@ export class MasterComponent implements OnInit, OnDestroy {
           this.grid[gridIndex] = {index: gridIndex, value: tile, color: "lightgreen"}
           players.push(...(tile.players || []))
           this.allDungeonRooms.push(tile.name)
-          tile.npcs?.forEach(n => {
+          /*tile.npcs?.forEach(n => {
             if (!this.checkContainsNPC(n, this.allDungeonNPCs)) this.allDungeonNPCs.push(n)
           })
           tile.items?.forEach(i => {
             if (!this.checkContainsItem(i, this.allDungeonItems)) this.allDungeonItems.push(i)
-          })
+          })*/
           tile.players?.forEach(p => {
             if (!this.checkContainsPlayer(p, this.allDungeonPlayers)) this.allDungeonPlayers.push(p)
           })
@@ -161,17 +170,17 @@ export class MasterComponent implements OnInit, OnDestroy {
   selectedRoomName: string = '';
   selectedRoomMessage: string = '';
   selectedRoomNPCs: string[] = []
-  npcsToAdd: string[] = [];
+  npcsToAdd: NPC[] = [];
   selectedRoomItems: string[] = []
-  itemsToAdd: string[] = []
+  itemsToAdd: Item[] = []
   selectedRoomPlayers: string[] = []
   selectedPlayerInRoom: string | undefined;
   commandsOnPlayer: string[] = ['Spieler rauswerfen', 'Spieler teleportieren', 'Charakter LP abziehen', 'Spieler Item geben']
   playerToInviteName: string | undefined;
   selectedCommandOnPlayer!: string;
   selectedRoomToTeleportTo!: string;
-  allDungeonNPCs: string[] = [];
-  allDungeonItems: string[] = [];
+  allDungeonNPCs: NPC[] = [];
+  allDungeonItems: Item[] = [];
   allDungeonRooms: string[] = [];
 
   allDungeonPlayers: string[] = [];
@@ -196,9 +205,9 @@ export class MasterComponent implements OnInit, OnDestroy {
    */
   addNPCToRoom() {
     this.npcsToAdd.forEach(npc => {
-      if (!this.checkContainsNPC(npc, this.selectedRoomNPCs)) {
-        this.selectedRoomNPCs.push(npc)
-        let commandString = 'spawn npc ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || "null") + ' ' + encodeURIComponent(npc || "null")
+      if (!this.checkContainsNPC(npc.name, this.selectedRoomNPCs)) {
+        this.selectedRoomNPCs.push(npc.name)
+        let commandString = 'spawn npc ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || "null") + ' ' + encodeURIComponent(npc.name || "null")
         this.sendCommand(commandString)
       }
     })
@@ -218,10 +227,11 @@ export class MasterComponent implements OnInit, OnDestroy {
    * Adds the selected NPC to the selected room
    */
   addItemToRoom() {
-    this.itemsToAdd.forEach(n => {
-      if (!this.checkContainsItem(n, this.selectedRoomItems)) {
-        this.selectedRoomItems.push(n)
-        let commandString = 'spawn item ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || "null") + encodeURIComponent(n)
+    this.itemsToAdd.forEach(item => {
+      if (!this.checkContainsItem(item.name, this.selectedRoomItems)) {
+        this.selectedRoomItems.push(item.name)
+        let commandString = 'spawn item ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || "null") + ' ' + encodeURIComponent(item.name)
+        console.log(commandString)
         this.sendCommand(commandString)
       }
     })
@@ -233,8 +243,9 @@ export class MasterComponent implements OnInit, OnDestroy {
    */
   kickPlayer() {
     if (this.selectedPlayerInRoom != undefined) {
-      let commandString = 'kick ' + this.selectedPlayerInRoom
+      let commandString = 'kick ' + encodeURIComponent(this.selectedPlayerInRoom)
       this.sendCommand(commandString)
+      this.selectedPlayerInRoom = undefined
     } else {
       alert("Es wurde kein Spieler ausgewählt")
     }
@@ -247,6 +258,7 @@ export class MasterComponent implements OnInit, OnDestroy {
     if (this.selectedPlayerInRoom != undefined) {
       let commandString = 'teleport ' + encodeURIComponent(this.selectedPlayerInRoom) + ' ' + encodeURIComponent(this.selectedRoomToTeleportTo || "null")
       this.sendCommand(commandString)
+      this.selectedPlayerInRoom = undefined
     } else {
       alert("Es wurde kein Spieler ausgewählt")
     }
@@ -274,12 +286,17 @@ export class MasterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Deletes the selected room
-   * This is only possible, if the selected room doesn't contains any characters
+   * Hits a player and decrements his health
+   * @param damage the number healthpoints that are going to be subtracted from players health
    */
-  deleteRoom() {
-    console.log(this.selectedGridValueIndex)
-    //TODO
+  hitPlayer(damage: number | null) {
+    if (this.selectedPlayerInRoom != undefined && damage != null) {
+      let commandString = 'hit ' + encodeURIComponent(this.selectedPlayerInRoom) + ' ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || "null") + ' ' + damage
+      this.sendCommand(commandString)
+      this.selectedPlayerInRoom = undefined
+    } else {
+      alert("Es wurde kein Spieler ausgewählt")
+    }
   }
 
   /**

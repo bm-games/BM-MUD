@@ -64,7 +64,7 @@ export class NPCComponent implements OnInit {
             name: this.name,
             items: this.selectedNPCEquipment,
             messageOnTalk: this.messageOnTalk,
-            commandOnInteraction: this.selectedCommandOnInteraction,
+            commandOnInteraction: '',
             type: "net.bmgames.state.model.NPC.Friendly"
           }
           this.configuredNPCs.push(friendly);

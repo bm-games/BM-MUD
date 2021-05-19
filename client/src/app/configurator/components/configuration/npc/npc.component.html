@@ -40,16 +40,6 @@
         <mat-slider class="slider" min="1" max="100" step="1" thumbLabel [displayWith]="sliderValue" [(ngModel)]="damage" el></mat-slider>
       </div>
       <div *ngIf="!isHostile">
-        <label>Interaktionscommand:</label>
-        <mat-form-field class="dropDown">
-          <mat-select [(ngModel)]="selectedCommandOnInteraction">
-            <mat-option *ngFor="let command of interactionCommands" [value]="command">
-              {{command}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div *ngIf="!isHostile">
         <label>Nachricht:</label>
         <textarea [(ngModel)]="messageOnTalk"></textarea>
       </div>

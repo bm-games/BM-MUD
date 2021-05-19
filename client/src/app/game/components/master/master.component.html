@@ -48,7 +48,7 @@
   <div class="playersOnlineDiv">
     <label>Spieler online:</label>
     <mat-list>
-      <mat-list-item *ngFor="let value of onlinePlayers">
+      <mat-list-item *ngFor="let value of onlinePlayers | async">
         {{value}}
       </mat-list-item>
     </mat-list>
@@ -85,13 +85,13 @@
           <mat-selection-list class="npcList" [(ngModel)]="selectedRoomNPCs">
             <label>NPCs:</label>
             <mat-list-option *ngFor="let value of allDungeonNPCs" [value]="value">
-              {{value}}
+              {{value.name}}
             </mat-list-option>
           </mat-selection-list>
           <mat-selection-list class="itemList" [(ngModel)]="selectedRoomItems">
             <label>Items:</label>
             <mat-list-option *ngFor="let value of allDungeonItems" [value]="value">
-              {{value}}
+              {{value.name}}
             </mat-list-option>
           </mat-selection-list>
         </div>
@@ -99,19 +99,41 @@
     </mat-tab>
     <mat-tab label="NPCs" [disabled]="!disableNewRoomTab">
       <div class="tabContent">
-        <div class="currentlyInside">
+        <!--<div class="currentlyInside">
           <label>Aktuell im Raum:</label>
           <mat-selection-list [(ngModel)]="selectedRoomNPCs" (selectionChange)="removeNPCFromRoom()">
             <mat-list-option *ngFor="let value of selectedRoomNPCs" [value]="value">
               {{value}}
             </mat-list-option>
           </mat-selection-list>
+        </div>-->
+        <div class="currentlyInside">
+          <label>Aktuell im Raum</label>
+          <mat-selection-list class="npcsInRoom" [(ngModel)]="selectedNPCs">
+            <mat-list-option *ngFor="let value of selectedRoomNPCs" [value]="value">
+              {{value}}
+            </mat-list-option>
+          </mat-selection-list>
+          <div>
+            <label>Items geben</label>
+            <mat-form-field class="dropDown" style="margin-right: 1rem">
+              <mat-select [(ngModel)]="selectedItemForNPC">
+                <mat-option *ngFor="let item of allDungeonItems" [value]="item.name">
+                  {{item.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button class="add" style="margin-top: 0"
+                    (click)="giveItemToNPCs()">
+              Hinzufügen
+            </button>
+          </div>
         </div>
         <div class="allAvailable">
           <label>Alle verfügbaren NPCs:</label>
           <mat-selection-list [(ngModel)]="npcsToAdd">
             <mat-list-option *ngFor="let value of allDungeonNPCs" [value]="value">
-              {{value}}
+              {{value.name}}
             </mat-list-option>
           </mat-selection-list>
         </div>
@@ -120,19 +142,27 @@
     </mat-tab>
     <mat-tab label="Items" [disabled]="!disableNewRoomTab">
       <div class="tabContent">
-        <div class="currentlyInside">
+        <!--<div class="currentlyInside">
           <label>Aktuell im Raum:</label>
           <mat-selection-list [(ngModel)]="selectedRoomItems" (selectionChange)="removeItemFromRoom()">
             <mat-list-option *ngFor="let value of selectedRoomItems" [value]="value">
               {{value}}
             </mat-list-option>
           </mat-selection-list>
+        </div>-->
+        <div class="currentlyInside">
+          <label>Aktuell im Raum:</label>
+          <mat-list>
+            <mat-list-item *ngFor="let value of selectedRoomItems">
+              {{value}}
+            </mat-list-item>
+          </mat-list>
         </div>
         <div class="allAvailable">
           <label>Alle verfügbaren Items:</label>
           <mat-selection-list [(ngModel)]="itemsToAdd">
             <mat-list-option *ngFor="let value of allDungeonItems" [value]="value">
-              {{value}}
+              {{value.name}}
             </mat-list-option>
           </mat-selection-list>
         </div>
@@ -199,7 +229,7 @@
             </div>
             <div class="hitPlayerDiv" *ngIf="selectedCommandOnPlayer=='Charakter LP abziehen'">
               <label>Schaden:</label>
-              <mat-slider class="slider" min="1" max="100" step="1" thumbLabel [displayWith]="sliderValue"
+              <mat-slider class="slider" min="1" max="1000" step="1" thumbLabel [displayWith]="sliderValue"
                           #slider></mat-slider>
               <div>
                 <button (click)="hitPlayer(slider.value)">Ausführen</button>

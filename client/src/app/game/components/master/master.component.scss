@@ -90,6 +90,10 @@ body {
       height: 100%;
     }
 
+    .npcsInRoom{
+      height: calc(100% - 5rem);
+    }
+
     button {
       margin-top: 132px;
       margin-left: 5px;

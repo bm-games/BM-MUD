@@ -56,7 +56,7 @@ export class CommandComponent implements OnInit {
    */
   addCommand(){
     if(this.isCustomCommand){
-      if(this.commandSyntax != undefined){
+      if(this.commandSyntax != undefined && this.commandSyntax.trim() != ''){
         let actionString = "";
         if(this.selectedAction1 != "Kein Command") actionString += this.selectedAction1
         if(this.selectedAction2 != "Kein Command") actionString += ", " + this.selectedAction2

@@ -27,12 +27,7 @@ export class ClassComponent implements OnInit {
    * Generates a ClassConfig with the current UI-data inputs and adds it to the list 'configuredClasses'
    */
   addClass(){
-    console.log(this.name);
-    console.log(this.healthMultiplier);
-    console.log(this.damage);
-    console.log(this.attackSpeed);
-    console.log(this.description);
-    if(this.name != undefined && this.healthMultiplier != undefined && this.damage != undefined && this.description != undefined && this.attackSpeed != undefined){
+    if(this.name != undefined && this.name.trim() != '' && this.healthMultiplier != undefined && this.damage != undefined && this.description != undefined && this.description.trim() != '' && this.attackSpeed != undefined){
       if(!this.checkContainsName()){
         this.configuredClasses.push({
           name: this.name,
