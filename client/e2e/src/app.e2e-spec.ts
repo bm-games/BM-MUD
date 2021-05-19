@@ -18,7 +18,7 @@ describe('Authentication Login Case', () => {
 
   it('should display BM-MUD: Title', async () => {
     await page.navigateTo();
-    await expect(page.getTitleText()).toContain('BM-MUD: Authentication');
+    await expect(page.getTitleText()).toContain('BM-MUD | Authentication');
   });
   it('should display Login Header, an Empty Form and a Button which states Log In', async () => {
     await expect(element(by.xpath("//h3[.='Login']")).getText()).toEqual('Login');
@@ -34,10 +34,10 @@ describe('Authentication Login Case', () => {
     await element(by.name('email')).sendKeys('support@bm-games.net');
     await element(by.name('password')).sendKeys('zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38');
     await element(by.buttonText('Log In')).click();
-    await expect(page.getTitleText()).toContain('BM-MUD: Dashboard');
+    await expect(page.getTitleText()).toContain('Dashboard');
   });
   it('should display the Dashboard Title and the personalized Greeting', async () => {
-    await expect(page.getTitleText()).toContain('BM-MUD: Dashboard');
+    await expect(page.getTitleText()).toContain('Dashboard');
     await expect(element(by.css(".mat-toolbar > span:nth-of-type(1)")).getText()).toEqual('Hallo support@bm-games.net');
   });
   it('should display the search Form, MUD-Create Button and Logout Button', async () => {
@@ -47,7 +47,7 @@ describe('Authentication Login Case', () => {
   });
   it('should Logout the User and display the Login Page again', async () => {
     await element(by.xpath("//button[contains(.,'Logout')]")).click();
-    await expect(page.getTitleText()).toContain('BM-MUD: Authentication');
+    await expect(page.getTitleText()).toContain('BM-MUD | Authentication');
     await expect(element(by.xpath("//h3[.='Login']")).getText()).toEqual('Login');
   });
 });
@@ -74,14 +74,14 @@ describe('MUD-Creation Use Case', () => {
     await element(by.buttonText('Log In')).click();
   });
   it('should show the Dashboard successfully', async () => {
-    await expect(page.getTitleText()).toContain('BM-MUD: Dashboard');
+    await expect(page.getTitleText()).toContain('Dashboard');
     await expect(element(by.css("[placeholder='Suche nach verfügbaren Spielen']")).getText()).toEqual('');
     await expect(element(by.xpath("//button[.='MUD Erstellen']")).getText()).toEqual('MUD Erstellen');
     await expect(element(by.xpath("//span[contains(.,'Logout logout')]")).getText()).toEqual('Logout logout');
   });
   it('should click the MUD Create Button and redirect to the right page', async () => {
     await element(by.xpath("//span[.='MUD Erstellen']")).click();
-    await expect(page.getTitleText()).toContain('BM-MUD: Configurator');
+    await expect(page.getTitleText()).toContain('Konfigurator');
   });
   it('should Insert the MUD-Title and then click on Races', async () => {
     name = "E2E-StarWars ___"+ await page.getRandomString();
@@ -236,7 +236,7 @@ describe('MUD-Creation Use Case', () => {
   });
   it('should Logout the User and display the Login Page again', async () => {
     await element(by.xpath("//button[contains(.,'Logout')]")).click();
-    await expect(page.getTitleText()).toContain('BM-MUD: Authentication');
+    await expect(page.getTitleText()).toContain('BM-MUD | Authentication');
     await expect(element(by.xpath("//h3[.='Login']")).getText()).toEqual('Login');
   });
 
