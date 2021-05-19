@@ -25,7 +25,7 @@ import java.net.URLEncoder
  *
  * @constructor creates a complete use item command.
  */
-class UseItemCommand : PlayerCommand("use") {
+class UseItemCommand : PlayerCommand("use", message("game.use-item-epilog")) {
     val target: String by argument(help = message("game.item-name"))
 
     /**

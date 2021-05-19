@@ -22,7 +22,7 @@ import net.bmgames.toEither
  *
  * @constructor creates a complete teleport command.
  */
-class TeleportCommand : MasterCommand("teleport") {
+class TeleportCommand : MasterCommand("teleport", message("game.teleport-epilog")) {
     val playerName: String by argument(name = "player", help = message("game.teleport.target"))
     val destination: String by argument(help = message("game.teleport.to"))
 

@@ -21,7 +21,7 @@ import net.bmgames.toEither
  *
  * @constructor creates a complete kick command.
  */
-class KickCommand : MasterCommand("kick") {
+class KickCommand : MasterCommand("kick", message("game.kick-epilog")) {
     val playerName: String by argument(name = "player", help = message("game.kick.player"))
 
     /**

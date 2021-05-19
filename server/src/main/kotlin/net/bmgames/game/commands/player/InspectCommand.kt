@@ -24,7 +24,7 @@ import java.time.Duration
  *
  * @constructor creates a complete inspect command.
  */
-class InspectCommand : PlayerCommand("inspect") {
+class InspectCommand : PlayerCommand("inspect", message("game.inspect-target-epilog")) {
     val target: String by argument(help = message("game.inspect.target"))
 
     /**

@@ -26,7 +26,7 @@ import java.time.Duration
  *
  * @constructor creates a complete hit command.
  */
-class HitCommand : PlayerCommand("hit") {
+class HitCommand : PlayerCommand("hit", message("game.hit-target-epilog")) {
 
     val target: String by argument(help = message("game.hit.target"))
 

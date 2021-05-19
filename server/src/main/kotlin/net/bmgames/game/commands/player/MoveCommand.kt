@@ -29,7 +29,7 @@ import net.bmgames.state.model.Room
  *
  * @constructor creates a complete move command.
  */
-class MoveCommand : PlayerCommand("move") {
+class MoveCommand : PlayerCommand("move", message("game.move-epilog")) {
 
     val direction: Direction by argument(help = message("game.move.direction")).enum()
 

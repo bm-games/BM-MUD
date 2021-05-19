@@ -25,7 +25,7 @@ import net.bmgames.toList
  *
  * @constructor creates a complete use item command.
  */
-class WhisperCommand : PlayerCommand("whisper") {
+class WhisperCommand : PlayerCommand("whisper", message("game.whisper-epilog")) {
     val target: String by argument(help = message("game.chat.recipient"))
     val message: String by argument(help = message("game.chat.message"))
 

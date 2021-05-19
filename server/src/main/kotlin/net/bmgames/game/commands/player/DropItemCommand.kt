@@ -23,7 +23,7 @@ import net.bmgames.translate
  *
  * @constructor creates a complete drop command.
  */
-class DropItemCommand : PlayerCommand("drop") {
+class DropItemCommand : PlayerCommand("drop", message("game.drop-item-epilog")) {
     val target: String by argument(help = message("game.item-name"))
 
     /**

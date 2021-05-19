@@ -24,7 +24,7 @@ import net.bmgames.state.model.*
  *
  * @constructor creates a complete pickup command.
  */
-class PickupCommand : PlayerCommand("pickup") {
+class PickupCommand : PlayerCommand("pickup", message("game.pickup-epilog")) {
     val target: String by argument(help = message("game.item-name"))
 
     /**

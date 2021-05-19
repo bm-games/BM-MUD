@@ -17,7 +17,7 @@ import net.bmgames.toList
  *
  * @constructor creates a complete look command.
  */
-class LookCommand : PlayerCommand("look") {
+class LookCommand : PlayerCommand("look", message("game.look-epilog")) {
     /**
      * Creates a list of actions, which shall be executed in order, based on the Command.
      * It shows the contents of the executing player's room.

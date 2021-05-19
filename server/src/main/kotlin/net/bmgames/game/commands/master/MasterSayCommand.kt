@@ -21,7 +21,7 @@ import net.bmgames.state.model.Player.Master
  *
  * @constructor creates a complete master say command.
  */
-class MasterSayCommand : MasterCommand("say") {
+class MasterSayCommand : MasterCommand("say", message("game.master-say-epilog")) {
 
     val message: String by argument(help = message("game.chat.message"))
 

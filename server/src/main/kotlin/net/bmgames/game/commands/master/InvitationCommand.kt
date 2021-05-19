@@ -28,7 +28,7 @@ import net.bmgames.toList
  *
  * @constructor creates a complete invitation command.
  */
-class InvitationCommand : MasterCommand("invite") {
+class InvitationCommand : MasterCommand("invite", message("game.invitation-epilog")) {
 
     val type: InviteAction.Type by argument().enum()
     val username: String? by argument(help = message("game.invite-user")).optional()

@@ -20,7 +20,7 @@ import net.bmgames.toList
  *
  * @constructor creates a complete master whisper command.
  */
-class MasterWhisperCommand : MasterCommand("whisper") {
+class MasterWhisperCommand : MasterCommand("whisper", message("game.master-whisper-epilog")) {
     val target: String by argument(help = message("game.chat.recipient"))
     val message: String by argument(help = message("game.chat.message"))
 

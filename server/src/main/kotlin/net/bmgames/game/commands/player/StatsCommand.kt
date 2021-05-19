@@ -11,7 +11,7 @@ import net.bmgames.state.model.Player
 import net.bmgames.toList
 
 
-class StatsCommand : PlayerCommand("stats") {
+class StatsCommand : PlayerCommand("stats", message("game.stats-epilog")) {
     /**
      * Creates a list of actions, which shall be executed in order, based on the Command.
      * It drops the item from the players inventory.

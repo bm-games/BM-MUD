@@ -23,7 +23,7 @@ import net.bmgames.toList
  *
  * @constructor creates a complete spawn command.
  */
-class SpawnCommand : MasterCommand("spawn") {
+class SpawnCommand : MasterCommand("spawn", message("game.spawn-epilog")) {
     val type: Type by argument(help = message("game.spawn.type")).enum()
     val roomName: String by argument(name = "room", help = message("game.spawn.room"))
     val name: String by argument(help = message("game.spawn.name"))

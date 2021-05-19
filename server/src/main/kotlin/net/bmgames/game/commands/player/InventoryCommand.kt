@@ -18,7 +18,7 @@ import net.bmgames.translate
  *
  * @constructor creates a complete inventory command.
  */
-class InventoryCommand : PlayerCommand("inventory") {
+class InventoryCommand : PlayerCommand("inventory", message("game.inventory-epilog")) {
     /**
      * Creates a list of actions, which shall be executed in order, based on the Command.
      * It shows the contents of the executing player's inventory.

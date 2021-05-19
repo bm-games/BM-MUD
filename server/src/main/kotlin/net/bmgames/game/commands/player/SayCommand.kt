@@ -30,7 +30,7 @@ import java.net.URLDecoder
  * @constructor creates a complete say command.
  */
 
-class SayCommand : PlayerCommand("say") {
+class SayCommand : PlayerCommand("say", message("game.say-epilog")) {
     val message: String by argument(help = message("game.chat.message"))
 
     /**
