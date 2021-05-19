@@ -205,7 +205,7 @@ export class MasterComponent implements OnInit, OnDestroy {
     this.itemsToAdd.forEach(n => {
       if (!this.checkContainsItem(n, this.selectedRoomItems)) {
         this.selectedRoomItems.push(n)
-        let commandString = 'spawn item ' + '\"' + n + '\"' + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
+        let commandString = 'spawn item ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || "null") + encodeURIComponent(n)
         this.sendCommand(commandString)
       }
     })
