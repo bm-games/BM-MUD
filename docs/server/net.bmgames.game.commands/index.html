@@ -37,7 +37,7 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">data class <a href="-batch-command/index.html">BatchCommand</a>(commands: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="-master-command/index.html">MasterCommand</a>&gt;) : <a href="-command/index.html">Command</a>&lt;<a href="../net.bmgames.state.model/-player/-master/index.html">Player.Master</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">data class <a href="-batch-command/index.html">BatchCommand</a>&lt;in <a href="-batch-command/index.html">P</a> : <a href="../net.bmgames.state.model/-player/index.html">Player</a>&gt;(commands: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="-command/index.html">Command</a>&lt;<a href="-batch-command/index.html">P</a>&gt;&gt;) : <a href="-command/index.html">Command</a>&lt;<a href="-batch-command/index.html">P</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
@@ -105,7 +105,7 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">abstract class <a href="-master-command/index.html">MasterCommand</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>) : <a href="-command/index.html">Command</a>&lt;<a href="../net.bmgames.state.model/-player/-master/index.html">Player.Master</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">abstract class <a href="-master-command/index.html">MasterCommand</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>) : <a href="-command/index.html">Command</a>&lt;<a href="../net.bmgames.state.model/-player/-master/index.html">Player.Master</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
@@ -122,7 +122,7 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">abstract class <a href="-player-command/index.html">PlayerCommand</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>) : <a href="-command/index.html">Command</a>&lt;<a href="../net.bmgames.state.model/-player/-normal/index.html">Player.Normal</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">abstract class <a href="-player-command/index.html">PlayerCommand</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>) : <a href="-command/index.html">Command</a>&lt;<a href="../net.bmgames.state.model/-player/-normal/index.html">Player.Normal</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
@@ -143,7 +143,7 @@
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">fun <a href="../net.bmgames.state.model/-player/-normal/index.html">Player.Normal</a>.<a href="find-different-player-in-room.html">findDifferentPlayerInRoom</a>(game: <a href="../net.bmgames.state.model/-game/index.html">Game</a>, target: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>): <a href="../net.bmgames.state.model/-player/-normal/index.html">Player.Normal</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</div>
+<a data-name="1477861430%2FFunctions%2F769193423" anchor-label="findDifferentPlayerInRoom" id="1477861430%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a><div class="brief "><a data-name="1477861430%2FFunctions%2F769193423" anchor-label="findDifferentPlayerInRoom" id="1477861430%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>Gets a player in the given room based on his ingameName</div></div>
 </div>
                     </div>
                   </div>
@@ -159,6 +159,23 @@
 
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">fun <a href="../net.bmgames.state.model/-player/-normal/index.html">Player.Normal</a>.<a href="get-other-players-in-room.html">getOtherPlayersInRoom</a>(game: <a href="../net.bmgames.state.model/-game/index.html">Game</a>): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="../net.bmgames.state.model/-player/-normal/index.html">Player.Normal</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-994209528%2FFunctions%2F769193423" anchor-label="getOtherPlayersInRoom" id="-994209528%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a><div class="brief "><a data-name="-994209528%2FFunctions%2F769193423" anchor-label="getOtherPlayersInRoom" id="-994209528%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>Gets all players in the same room as the player the method is executed on.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-490812499%2FFunctions%2F769193423" anchor-label="getPlayerOrNPC" id="-490812499%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="get-player-or-n-p-c.html">getPlayerOrNPC</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-490812499%2FFunctions%2F769193423"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">fun <a href="../net.bmgames.state.model/-game/index.html">Game</a>.<a href="get-player-or-n-p-c.html">getPlayerOrNPC</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, room: <a href="../net.bmgames.state.model/-room/index.html">Room</a>): <span data-unresolved-link="arrow.core/Either///PointingToDeclaration/">Either</span>&lt;<a href="../net.bmgames.state.model/-n-p-c/-hostile/index.html">NPC.Hostile</a>, <a href="../net.bmgames.state.model/-player/-normal/index.html">Player.Normal</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
@@ -177,7 +194,7 @@
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">fun <a href="../net.bmgames.state.model/-player/-normal/index.html">Player.Normal</a>.<a href="get-room.html">getRoom</a>(game: <a href="../net.bmgames.state.model/-game/index.html">Game</a>): <span data-unresolved-link="arrow.core/Either///PointingToDeclaration/">Either</span>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="../net.bmgames.state.model/-room/index.html">Room</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</div>
+<a data-name="-2013629151%2FFunctions%2F769193423" anchor-label="getRoom" id="-2013629151%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a><div class="brief "><a data-name="-2013629151%2FFunctions%2F769193423" anchor-label="getRoom" id="-2013629151%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>Gets the room of the player, which the method is executed on</div></div>
 </div>
                     </div>
                   </div>
@@ -194,7 +211,7 @@
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">fun <a href="../net.bmgames.state.model/-player/index.html">Player</a>.<a href="is-in-room.html">isInRoom</a>(roomName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</div>
+<a data-name="1273918944%2FFunctions%2F769193423" anchor-label="isInRoom" id="1273918944%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a><div class="brief "><a data-name="1273918944%2FFunctions%2F769193423" anchor-label="isInRoom" id="1273918944%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>Checks if a player is in a given room</div></div>
 </div>
                     </div>
                   </div>
@@ -211,7 +228,7 @@
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace">fun &lt;<a href="pretty-join.html">T</a>&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html">Collection</a>&lt;<a href="pretty-join.html">T</a>&gt;.<a href="pretty-join.html">prettyJoin</a>(empty: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &quot;&quot;, singularVerb: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &quot;ist&quot;, pluralVerb: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &quot;sind&quot;, prefix: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &quot;&quot;, suffix: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &quot;&quot;, transform: (<a href="pretty-join.html">T</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = Any?::toString): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</div>
+<a data-name="688975443%2FFunctions%2F769193423" anchor-label="prettyJoin" id="688975443%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a><div class="brief "><a data-name="688975443%2FFunctions%2F769193423" anchor-label="prettyJoin" id="688975443%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>Makes a string pretty, to make it displayable for the players.</div></div>
 </div>
                     </div>
                   </div>

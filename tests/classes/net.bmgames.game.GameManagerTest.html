@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.114s</div>
+<div class="counter">0.119s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">Stopped Game should be loaded from database</td>
-<td class="success">0.114s</td>
+<td class="success">0.119s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,33 +87,33 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2021-05-17 13:00:14.399 [pool-8-thread-1 @coroutine#60] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for GameRepository
-2021-05-17 13:00:14.400 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for GameRepository hashcode=22c4af09
-2021-05-17 13:00:14.400 [pool-8-thread-1 @coroutine#60] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@1dea755d
-2021-05-17 13:00:14.480 [pool-8-thread-1 @coroutine#60] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.GameRepository itself because it is final.
-2021-05-17 13:00:14.481 [pool-8-thread-1 @coroutine#60] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.state.GameRepository
-2021-05-17 13:00:14.482 [pool-8-thread-1 @coroutine#60] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [GameRepository(object GameRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-17 13:00:14.494 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-17 13:00:14.494 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=21ce83f6
-2021-05-17 13:00:14.495 [pool-8-thread-1 @coroutine#60] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.model.Game itself because it is final.
-2021-05-17 13:00:14.495 [pool-8-thread-1 @coroutine#60] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.state.model.Game via instantiator
-2021-05-17 13:00:14.495 [pool-8-thread-1 @coroutine#60] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.state.model.Game
-2021-05-17 13:00:14.498 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-17 13:00:14.498 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: loadGame$server(String)
-2021-05-17 13:00:14.499 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of loadGame$server(String): [Test]
-2021-05-17 13:00:14.500 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).loadGame$server(eq(Test)))
-2021-05-17 13:00:14.502 [pool-8-thread-1 @coroutine#60] TRACE i.m.impl.recording.PermanentMocker - Child search key: GameRepository(object GameRepository).loadGame$server(eq(Test)))
-2021-05-17 13:00:14.503 [pool-8-thread-1 @coroutine#60] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for Game name=child of object GameRepository#6
-2021-05-17 13:00:14.504 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=21ce83f6
-2021-05-17 13:00:14.504 [pool-8-thread-1 @coroutine#60] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.model.Game itself because it is final.
-2021-05-17 13:00:14.505 [pool-8-thread-1 @coroutine#60] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.state.model.Game via instantiator
-2021-05-17 13:00:14.505 [pool-8-thread-1 @coroutine#60] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.state.model.Game
-2021-05-17 13:00:14.506 [pool-8-thread-1 @coroutine#60] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).loadGame$server(eq(Test))
-2021-05-17 13:00:14.508 [pool-8-thread-1 @coroutine#60] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-17 13:00:14.509 [pool-8-thread-1 @coroutine#60] DEBUG i.m.i.r.states.AnsweringState - Answering Game(id=null, name=Test game, races=[Race(name=race, description=Its a race, health=10, damageModifier=1.5, id=null)], classes=[Clazz(name=class, description=Its a class, healthMultiplier=1.5, damage=10, attackSpeed=1, id=null)], commandConfig=CommandConfig(aliases={say=sagen}, customCommands={karussel=move north
+<pre>2021-05-19 21:01:42.954 [pool-9-thread-1 @coroutine#71] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for GameRepository
+2021-05-19 21:01:42.955 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for GameRepository hashcode=4e171e5
+2021-05-19 21:01:42.955 [pool-9-thread-1 @coroutine#71] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@141abd27
+2021-05-19 21:01:43.051 [pool-9-thread-1 @coroutine#71] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.GameRepository itself because it is final.
+2021-05-19 21:01:43.053 [pool-9-thread-1 @coroutine#71] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.state.GameRepository
+2021-05-19 21:01:43.054 [pool-9-thread-1 @coroutine#71] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [GameRepository(object GameRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-19 21:01:43.062 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-19 21:01:43.063 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=730f17cf
+2021-05-19 21:01:43.063 [pool-9-thread-1 @coroutine#71] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.model.Game itself because it is final.
+2021-05-19 21:01:43.064 [pool-9-thread-1 @coroutine#71] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.state.model.Game via instantiator
+2021-05-19 21:01:43.064 [pool-9-thread-1 @coroutine#71] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.state.model.Game
+2021-05-19 21:01:43.064 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-19 21:01:43.065 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getGame$server(String)
+2021-05-19 21:01:43.065 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getGame$server(String): [Test]
+2021-05-19 21:01:43.065 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: GameRepository(object GameRepository).getGame$server(eq(Test)))
+2021-05-19 21:01:43.066 [pool-9-thread-1 @coroutine#71] TRACE i.m.impl.recording.PermanentMocker - Child search key: GameRepository(object GameRepository).getGame$server(eq(Test)))
+2021-05-19 21:01:43.066 [pool-9-thread-1 @coroutine#71] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for Game name=child of object GameRepository#11
+2021-05-19 21:01:43.066 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.i.AbstractMockFactory - Building proxy for Game hashcode=730f17cf
+2021-05-19 21:01:43.066 [pool-9-thread-1 @coroutine#71] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.model.Game itself because it is final.
+2021-05-19 21:01:43.067 [pool-9-thread-1 @coroutine#71] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.state.model.Game via instantiator
+2021-05-19 21:01:43.067 [pool-9-thread-1 @coroutine#71] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.state.model.Game
+2021-05-19 21:01:43.067 [pool-9-thread-1 @coroutine#71] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: GameRepository(object GameRepository).getGame$server(eq(Test))
+2021-05-19 21:01:43.067 [pool-9-thread-1 @coroutine#71] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-19 21:01:43.068 [pool-9-thread-1 @coroutine#71] DEBUG i.m.i.r.states.AnsweringState - Answering Game(id=null, name=Test game, races=[Race(name=race, description=Its a race, health=10, damageModifier=1.5, id=null)], classes=[Clazz(name=class, description=Its a class, healthMultiplier=1.5, damage=10, attackSpeed=1, id=null)], commandConfig=CommandConfig(aliases={say=sagen}, customCommands={karussel=move north
 move west
 move south
-move east}), startItems=[Consumable(name=Apfel, effect=heal $player 10, id=null), Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Equipment(name=Diamond Chest, healthModifier=10.0, damageModifier=1.0, slot=Chest, id=null), Equipment(name=Diamond Legs, healthModifier=10.0, damageModifier=1.0, slot=Legs, id=null), Equipment(name=Diamond Shoes, healthModifier=10.0, damageModifier=1.0, slot=Boots, id=null), Weapon(name=Wooden Sword, damage=1, id=null)], npcConfigs={geork=Friendly(name=geork, items=[], commandOnInteraction=heal $player 1, messageOnTalk=Halloooooooooo, id=null), georkina=Hostile(name=georkina, items=[], health=100, damage=100000, lastDamageDealt=null, id=null)}, itemConfigs={Apfel=Consumable(name=Apfel, effect=heal $player 10, id=null), Diamond Helmet=Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Diamond Chest=Equipment(name=Diamond Chest, healthModifier=10.0, damageModifier=1.0, slot=Chest, id=null), Diamond Legs=Equipment(name=Diamond Legs, healthModifier=10.0, damageModifier=1.0, slot=Legs, id=null), Diamond Shoes=Equipment(name=Diamond Shoes, healthModifier=10.0, damageModifier=1.0, slot=Boots, id=null), Wooden Sword=Weapon(name=Wooden Sword, damage=1, id=null)}, startRoom=Start room, rooms={Start room=Room(name=Start room, message=Welcome!, neighbours={SOUTH=Next room}, items=[Consumable(name=Apfel, effect=heal $player 10, id=null), Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Equipment(name=Diamond Chest, healthModifier=10.0, damageModifier=1.0, slot=Chest, id=null), Equipment(name=Diamond Legs, healthModifier=10.0, damageModifier=1.0, slot=Legs, id=null), Equipment(name=Diamond Shoes, healthModifier=10.0, damageModifier=1.0, slot=Boots, id=null), Weapon(name=Wooden Sword, damage=1, id=null)], npcs={georkina=Hostile(name=georkina, items=[Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null)], health=100, damage=100000, lastDamageDealt=null, id=null)}, id=null), Next room=Room(name=Next room, message=HIIIIIIIIIIIIIIIIIII!, neighbours={NORTH=Start room}, items=[], npcs={geork=Friendly(name=geork, items=[Consumable(name=Apfel, effect=heal $player 10, id=null)], commandOnInteraction=heal $player 1, messageOnTalk=Halloooooooooo, id=null)}, id=null)}, master=Master(user=User(email=master@master.de, username=master, passwordHash=1234, registrationKey=null, id=null)), allowedUsers={master=[]}, onlinePlayers={master=Master(user=User(email=master@master.de, username=master, passwordHash=1234, registrationKey=null, id=null))}, joinRequests=[]) on GameRepository(object GameRepository).loadGame$server(Test)
+move east}), startItems=[Consumable(name=Apfel, effect=heal $player 10, id=null), Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Equipment(name=Diamond Chest, healthModifier=10.0, damageModifier=1.0, slot=Chest, id=null), Equipment(name=Diamond Legs, healthModifier=10.0, damageModifier=1.0, slot=Legs, id=null), Equipment(name=Diamond Shoes, healthModifier=10.0, damageModifier=1.0, slot=Boots, id=null), Weapon(name=Wooden Sword, damage=1, id=null)], npcConfigs={geork=Friendly(name=geork, items=[], commandOnInteraction=heal $player 1, messageOnTalk=Halloooooooooo, id=null), georkina=Hostile(name=georkina, items=[], health=100, damage=100000, lastDamageDealt=null, id=null)}, itemConfigs={Apfel=Consumable(name=Apfel, effect=heal $player 10, id=null), Diamond Helmet=Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Diamond Chest=Equipment(name=Diamond Chest, healthModifier=10.0, damageModifier=1.0, slot=Chest, id=null), Diamond Legs=Equipment(name=Diamond Legs, healthModifier=10.0, damageModifier=1.0, slot=Legs, id=null), Diamond Shoes=Equipment(name=Diamond Shoes, healthModifier=10.0, damageModifier=1.0, slot=Boots, id=null), Wooden Sword=Weapon(name=Wooden Sword, damage=1, id=null)}, startRoom=Start room, rooms={Start room=Room(name=Start room, message=Welcome!, neighbours={SOUTH=Next room}, items=[Consumable(name=Apfel, effect=heal $player 10, id=null), Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null), Equipment(name=Diamond Chest, healthModifier=10.0, damageModifier=1.0, slot=Chest, id=null), Equipment(name=Diamond Legs, healthModifier=10.0, damageModifier=1.0, slot=Legs, id=null), Equipment(name=Diamond Shoes, healthModifier=10.0, damageModifier=1.0, slot=Boots, id=null), Weapon(name=Wooden Sword, damage=1, id=null)], npcs={georkina=Hostile(name=georkina, items=[Equipment(name=Diamond Helmet, healthModifier=10.0, damageModifier=1.0, slot=Head, id=null)], health=100, damage=100000, lastDamageDealt=null, id=null)}, id=null), Next room=Room(name=Next room, message=HIIIIIIIIIIIIIIIIIII!, neighbours={NORTH=Start room}, items=[], npcs={geork=Friendly(name=geork, items=[Consumable(name=Apfel, effect=heal $player 10, id=null)], commandOnInteraction=heal $player 1, messageOnTalk=Halloooooooooo, id=null)}, id=null)}, master=Master(user=User(email=master@master.de, username=master, passwordHash=1234, registrationKey=null, id=null)), allowedUsers={master=[]}, onlinePlayers={master=Master(user=User(email=master@master.de, username=master, passwordHash=1234, registrationKey=null, id=null))}, joinRequests=[]) on GameRepository(object GameRepository).getGame$server(Test)
 </pre>
 </span>
 </div>
@@ -125,7 +125,7 @@ move east}), startItems=[Consumable(name=Apfel, effect=heal $player 10, id=null)
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.7</a> at May 17, 2021, 1:00:17 PM</p>
+<a href="http://www.gradle.org">Gradle 6.7</a> at May 19, 2021, 9:01:49 PM</p>
 </div>
 </div>
 </body>
