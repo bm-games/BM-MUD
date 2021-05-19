@@ -117,6 +117,7 @@ export class MasterComponent implements OnInit, OnDestroy {
   updateGrid(map: RoomMap) {
     // initialize grid with rooms
     this.mapColumns = map.tiles.length
+    this.grid = []
     for (let x = 0; x < map.tiles.length; x++) {
       for (let y = 0; y < map.tiles[0].length; y++) {
         let tile = map.tiles[x][y]
@@ -178,10 +179,10 @@ export class MasterComponent implements OnInit, OnDestroy {
    * Adds the selected NPCs to the selected room
    */
   addNPCToRoom() {
-    this.npcsToAdd.forEach(n => {
-      if (!this.checkContainsNPC(n, this.selectedRoomNPCs)) {
-        this.selectedRoomNPCs.push(n)
-        let commandString = 'spawn npc ' + '\"' + n + '\"' + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
+    this.npcsToAdd.forEach(npc => {
+      if (!this.checkContainsNPC(npc, this.selectedRoomNPCs)) {
+        this.selectedRoomNPCs.push(npc)
+        let commandString = 'spawn npc ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || "null") + ' ' + encodeURIComponent(npc || "null")
         this.sendCommand(commandString)
       }
     })
@@ -204,7 +205,7 @@ export class MasterComponent implements OnInit, OnDestroy {
     this.itemsToAdd.forEach(n => {
       if (!this.checkContainsItem(n, this.selectedRoomItems)) {
         this.selectedRoomItems.push(n)
-        let commandString = 'spawn item ' + '\"' + n + '\"' + ' ' + this.grid[this.selectedGridValueIndex].value?.name + ' 1'
+        let commandString = 'spawn item ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || "null") + encodeURIComponent(n)
         this.sendCommand(commandString)
       }
     })

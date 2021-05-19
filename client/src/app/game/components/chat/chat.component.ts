@@ -75,7 +75,7 @@ export class ChatComponent implements OnInit {
     this.inputLine = ""
     this.appendLine(`Du: ${msg}`, "sent")
     this.outgoingMessages.emit({
-      senderOrRecipient: this.selectedRecipient,
+      senderOrRecipient: this.selectedRecipient ? encodeURIComponent(this.selectedRecipient) : undefined,
       msg: encodeURIComponent(msg)
     })
   }

@@ -107,6 +107,8 @@ fun Application.configureSecurity(config: ServerConfig) {
         header("Cookie")
 
         host("localhost:4200")
+        host("25.30.124.39:4200")
+        host("192.168.178.85:4200")
         host("bm-games.net", subDomains = listOf("play"))
     }
 
@@ -124,7 +126,8 @@ fun Application.configureSecurity(config: ServerConfig) {
 //            cookie.extensions["SameSite"] = "Lax"
 //            cookie.secure = true
             cookie.httpOnly = true
-            cookie.domain = "localhost" //TODO replace with domain for prod
+//            cookie.domain = "localhost" //TODO replace with domain for prod
+            cookie.domain = "25.30.124.39" //TODO replace with domain for prod
             transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
         }
     }

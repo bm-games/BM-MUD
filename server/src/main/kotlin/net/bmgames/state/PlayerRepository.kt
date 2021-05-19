@@ -36,6 +36,9 @@ object PlayerRepository {
      * */
     internal fun savePlayer(game: Game, player: Normal): Unit {
 //        cache[game.name to player.ingameName] = player
+        if (player.id != null) { //Return if player was deleted
+            if (transaction { PlayerDAO.findById(player.id) } == null) return
+        }
 
         val playerDAO = transaction {
             if (game.id == null) GameRepository.saveGame(game)

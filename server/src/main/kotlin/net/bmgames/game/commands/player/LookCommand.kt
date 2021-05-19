@@ -28,7 +28,28 @@ class LookCommand : PlayerCommand("look") {
      * @return a string which shows the errormessage or the list of actions which will be executed.
      */
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
-        player.sendText(message("game.stats", player.healthPoints, player.maxHealthPoints, player.damage.toInt()))
-            .toList()
-            .right()
+        player.getRoom(game).map { room ->
+            val players = player.getOtherPlayersInRoom(game).keys
+            listOfNotNull(
+                player.sendText(message("game.look.room", room.name, room.message)),
+                if (players.isNotEmpty())
+                    player.sendText(players.prettyJoin(suffix = message("game.look.players")))
+                else null,
+                if (room.items.isNotEmpty())
+                    player.sendText(
+                        message("game.look.items", room.items.joinToString(", ") { it.name })
+                    )
+                else null,
+                if (room.npcs.isNotEmpty())
+                    player.sendText(
+                        room.npcs.keys.prettyJoin(
+                            prefix = "NPC",
+                            singularVerb = "lebt",
+                            pluralVerb = "leben",
+                            suffix = "hier."
+                        )
+                    )
+                else null
+            )
+        }
 }

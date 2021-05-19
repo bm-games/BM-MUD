@@ -25,6 +25,7 @@
           <div class="gameMapArea">
               <mat-grid-list [cols]="mapColumns">
                 <mat-grid-tile *ngFor="let gridValue of grid" [style.background]="gridValue.color">
+                  {{gridValue?.value?.name}}
                 </mat-grid-tile>
               </mat-grid-list>
           </div>

@@ -27,13 +27,14 @@ data class InviteAction(val user: User, val type: Type) : Update() {
         when (type) {
             Accept -> game.copy(
                 joinRequests = game.joinRequests - user,
-                allowedUsers = game.allowedUsers + (user.username to emptySet())
+                allowedUsers = game.allowedUsers + (user.username to game.allowedUsers.getOrDefault(user.username, emptySet()))
             )
             Reject -> game.copy(
                 joinRequests = game.joinRequests - user
             )
             Add -> game.copy(
-                joinRequests = game.joinRequests + user
+                joinRequests = game.joinRequests - user,
+                allowedUsers = game.allowedUsers + (user.username to game.allowedUsers.getOrDefault(user.username, emptySet()))
             )
             List -> game
         }

@@ -159,7 +159,7 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
                         p.sendText(message("game.master-joined", player.ingameName))
                     )
                 }
-        }.forEach { (it as Effect).run(this@GameRunner) }
+        }.forEach { ti -> ti.forEach { it.run(this@GameRunner) }}
 
     }
 
@@ -184,7 +184,7 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
                         p.sendText(message("game.master-left", player.ingameName))
                     )
                 }
-        }.forEach { (it as Effect).run(this@GameRunner) }
+        }.forEach { ti -> ti.forEach { it.run(this@GameRunner) }}
 
     }
 

@@ -13,10 +13,7 @@ data class RoomMap(
 
 @Serializable
 data class Tile(
-    val north: Boolean,
-    val east: Boolean,
-    val south: Boolean,
-    val west: Boolean,
+    val name: String,
     val players: Set<String>,
     val npcs: Set<String> = emptySet(),
     val items: List<String> = emptyList(),
