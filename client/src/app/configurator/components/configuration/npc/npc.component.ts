@@ -39,7 +39,7 @@ export class NPCComponent implements OnInit {
    * Depending on the selected NPCType, a FriendlyNPCConfig or a HostileNPCConfig is created.
    */
   addNPC(){
-    if(this.name != undefined && !this.checkContainsName()){
+    if(this.name != undefined && !this.checkContainsName() && this.name.trim() != ''){
       if(this.isHostile){
         if(this.health != undefined && this.damage != undefined){
           let hostile: HostileNPCConfig = {
@@ -59,7 +59,7 @@ export class NPCComponent implements OnInit {
           window.alert("Es wurden nicht alle Daten eingegeben");
         }
       }else{
-        if(this.messageOnTalk != undefined && this.selectedCommandOnInteraction != undefined){
+        if(this.messageOnTalk != undefined && this.selectedCommandOnInteraction != undefined && this.messageOnTalk.trim() != ''){
           let friendly: FriendlyNPCConfig = {
             name: this.name,
             items: this.selectedNPCEquipment,

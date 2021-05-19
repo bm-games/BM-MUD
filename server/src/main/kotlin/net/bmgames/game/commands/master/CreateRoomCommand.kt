@@ -41,6 +41,14 @@ class CreateRoomCommand : MasterCommand("createroom", message("game.create-room-
         .check(message("game.room.name-not-empty")) { it.isNotEmpty() }
     val message: String by argument(help = message("game.spawn.room-message"))
 
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Player.Master, game: Game): Either<String, List<Action>> =
         if (game.rooms.containsKey(name)) {
             errorMsg(message("game.room.exists-already", name))

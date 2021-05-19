@@ -51,16 +51,16 @@ class MailNotifier(val config: ServerConfig) : Notifier {
      * @param user
      */
     fun sendMailReset(user: User, password: String) {
-        val mailSubject = "Reset your password | BM-Games "
+        val mailSubject = "Passwort zurücksetzen | BM-Games "
         val message: String =
-            """<html lang="en">
+            """<html lang="de">
                 <body style="background-color:#c0c0c0;">
-                <h1><center>Your password got reset!</h1>
+                <h1><center>Dein Passwort wurde zurückgesetzt!</h1>
                 <p><center>Dear ${user.username}</p>
-                <p><center>Your password reset was successful!</p>
-                <p><center>Your new password:</p>
+                <p><center>Dein passwort wurde erfolgreich zurückgesetzt!</p>
+                <p><center>Dein neues passwort ist:</p>
                 <span style="border: 3px solid black;">${password}</span>
-                <p><center> Login with the new generated password and change it after logging in if you want!</p>
+                <p><center> Melde dich mit deinem neuen Passwort an und lege ein eigenes Passwort an!</p>
                 </body>
                 </html>"""
                 //HTML by Jakub
@@ -73,14 +73,14 @@ class MailNotifier(val config: ServerConfig) : Notifier {
      * @param user
      */
     fun sendMailRegister(user: User, registrationKey: String) {
-        val mailSubject = "Registration confirmation | BM-Games | SWE-Project  "
+        val mailSubject = "Registrierung verfolständigen| BM-Games | SWE-Project  "
         val message: String =
             """<html><body style="background-color:#c0c0c0;">
-            <h1><center>Confirm registration</h1>
+            <h1><center>Bestätige deine Registrierung</h1>
             <p><center>Dear ${user.username}</p>
-            <p><center>Please confirm your registration by clicking on the following link:</p>
+            <p><center>Bitte bestätige deine registrierung, indem du auf den folgenden Link drückst:</p>
             <a href="http://play.bm-games.net/api/auth/verify/${registrationKey}" target="_blank">Click here!</a>
-            <p><center>or copying this Link:</p>
+            <p><center>Oder kopiere diesen Link:</p>
             <span style="border: 3px solid black;">http://play.bm-games.net/api/auth/verify/${registrationKey}</span>
             </body></html>"""
             //HTML by Jakub

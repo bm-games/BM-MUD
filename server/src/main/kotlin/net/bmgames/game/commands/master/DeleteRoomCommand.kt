@@ -29,6 +29,15 @@ class DeleteRoomCommand : MasterCommand("deleteroom", message("game.delete-room-
 
     val name: String by argument(help = message("game.spawn.room"))
 
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It kicks the player from the game.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Player.Master, game: Game): Either<String, List<Action>> =
         if (name == game.startRoom) {
             errorMsg(message("game.room.cant-delete-start"))

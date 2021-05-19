@@ -17,6 +17,7 @@ export class ItemComponent implements OnInit {
   damage: number | undefined;
   damageModifier: number | undefined;
   health: number | undefined;
+  healthDiff: number | undefined = 0;
   isConsumable: boolean = true;
   isWeapon: boolean = false;
   isEquipment: boolean = false;
@@ -24,14 +25,15 @@ export class ItemComponent implements OnInit {
   selectedItemType: string = 'Konsumierbares Item';
 
   itemTypes: string[] = ['Konsumierbares Item', 'Ausrüstung', 'Waffe'];
-  itemCommands: string[] = ['Heilen', 'Gesundheit abziehen'];
+  itemCommands: string[] = ['heal $player $room $item', 'hit $player $room $item']
+  sliderEffects: string[] = ["Heilen", "Schaden zufügen"]
   equipmentSlots: string[] = ['Kopf', 'Brust', 'Beine', 'Stiefel'];
   commandsForItems: string[] = [];
   configuredItems: Item[] = [];
   selectedItemEffect: any;
 
-  getCommandsForItems() : string[] {
-    return ['Heilen', 'Gesundheit abziehen'].concat(Object.keys(ConfigurationComponent.commandConfig.customCommands));
+  getCommandsForItems(): string[] {
+    return ['Heilen', 'Schaden zufügen'].concat(Object.keys(ConfigurationComponent.commandConfig.customCommands));
   }
 
   constructor() {
@@ -50,15 +52,25 @@ export class ItemComponent implements OnInit {
   addItem() {
     if (this.name != undefined && !this.checkContainsName()) {
       if (this.isConsumable) {
-        if (this.effect != undefined) {
-
-          let consumable: ConsumableItemConfig = {
-            type: "net.bmgames.state.model.Consumable",
-            name: this.name,
-            effect: this.effect
+        if (this.effect != undefined && this.healthDiff != undefined) {
+          if(this.sliderEffects.includes(this.selectedItemEffect)) {
+            let consumable: ConsumableItemConfig = {
+              type: "net.bmgames.state.model.Consumable",
+              name: this.name,
+              effect: this.effect + " " + this.healthDiff.toString()
+            }
+            this.configuredItems.push(consumable);
           }
-          this.configuredItems.push(consumable);
+          else {
+            let consumable: ConsumableItemConfig = {
+              type: "net.bmgames.state.model.Consumable",
+              name: this.name,
+              effect: this.effect
+            }
+            this.configuredItems.push(consumable);
+          }
 
+          this.healthDiff = undefined;
           this.name = undefined;
           this.effect = undefined;
         } else {

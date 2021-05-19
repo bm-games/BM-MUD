@@ -19,6 +19,7 @@ import {ItemComponent} from './components/configuration/item/item.component';
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -32,20 +33,21 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     CommandComponent,
     ItemComponent
   ],
-  imports: [
-    CommonModule,
-    ConfigurationRoutingModule,
-    MatTabsModule,
-    MatSliderModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatListModule,
-    MatGridListModule,
-    MatTableModule,
-    FormsModule,
-    MatButtonModule,
-    MatTooltipModule
-  ],
+    imports: [
+        CommonModule,
+        ConfigurationRoutingModule,
+        MatTabsModule,
+        MatSliderModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatListModule,
+        MatGridListModule,
+        MatTableModule,
+        FormsModule,
+        MatButtonModule,
+        MatTooltipModule,
+        MatInputModule
+    ],
   providers: [
     ConfigService
   ]

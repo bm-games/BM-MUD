@@ -23,7 +23,7 @@ import net.bmgames.toList
  * The commands can also accept and reject join requests or list all join requests.
  * The params are given trough arguments -> "by argument"
  *
- * @param type the possible types of the invite command are: Accept, Reject, Invite, List
+ * @param type the possible types of the invite command are: Accept, Reject, Invite, List.
  * @param username the user who will be invited, or whose invite will be accepted or rejected.
  *
  * @constructor creates a complete invitation command.

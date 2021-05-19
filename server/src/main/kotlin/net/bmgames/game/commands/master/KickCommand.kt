@@ -19,7 +19,7 @@ import net.bmgames.toEither
  *
  * @param target the player who should be kicked.
  *
- * @constructor creates a complete invitation command.
+ * @constructor creates a complete kick command.
  */
 class KickCommand : MasterCommand("kick") {
     val playerName: String by argument(name = "player", help = message("game.kick.player"))

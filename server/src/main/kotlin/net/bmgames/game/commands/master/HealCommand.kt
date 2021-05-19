@@ -33,6 +33,15 @@ class HealCommand : MasterCommand("heal", message("game.heal-epilog")) {
     val room: String by argument(help = message("game.hit.room"))
     val amount: Int by argument(help = message("game.heal.amount")).int()
 
+    /**
+     * Creates a list of actions, which shall be executed in order, based on the Command.
+     * It kicks the player from the game.
+     *
+     * @param player the player who started the command.
+     * @param game the game the command is performed in.
+     *
+     * @return a string which shows the errormessage or the list of actions which will be executed.
+     */
     override fun toAction(player: Player.Master, game: Game): Either<String, List<Action>> = either.eager {
         val room = game.getRoom(room).rightIfNotNull { message("game.hit.room-not-found", room) }.bind()
         game.getPlayerOrNPC(target, room).toEither(

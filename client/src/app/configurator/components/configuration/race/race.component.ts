@@ -26,7 +26,8 @@ export class RaceComponent implements OnInit {
    * Generates a RaceConfig with the current UI-data inputs and adds it to the list 'configuredRaces'
    */
   addRace(){
-    if(this.name != undefined && this.health != undefined && this.damage != undefined && this.description != undefined){
+    if(this.name != undefined && this.health != undefined && this.damage != undefined && this.description != undefined &&
+        this.name.trim() != '' && this.description.trim() != ''){
       if(!this.checkContainsName()){
         this.configuredRaces.push({
           name: this.name,
