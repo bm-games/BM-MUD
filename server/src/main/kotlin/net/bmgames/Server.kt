@@ -127,7 +127,7 @@ fun Application.configureSecurity(config: ServerConfig) {
 //            cookie.secure = true
             cookie.httpOnly = true
 //            cookie.domain = "localhost" //TODO replace with domain for prod
-            cookie.domain = "25.30.124.39" //TODO replace with domain for prod
+//            cookie.domain = "25.30.124.39" //TODO replace with domain for prod
             transform(SessionTransportTransformerEncrypt(secretEncryptKey, secretAuthKey))
         }
     }
