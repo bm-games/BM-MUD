@@ -28,6 +28,7 @@ export class ItemComponent implements OnInit {
   equipmentSlots: string[] = ['Kopf', 'Brust', 'Beine', 'Stiefel'];
   commandsForItems: string[] = [];
   configuredItems: Item[] = [];
+  selectedItemEffect: any;
 
   getCommandsForItems() : string[] {
     return ['Heilen', 'Gesundheit abziehen'].concat(Object.keys(ConfigurationComponent.commandConfig.customCommands));
@@ -154,15 +155,25 @@ export class ItemComponent implements OnInit {
 
   /**
    * Sets the effect of a consumable item depending on the current UI selection
-   * @param item selected UI value
+   * @param effect
    */
   itemEffectChanged(effect: string) {
-    this.effect = effect;
+    switch (effect) {
+      case 'Heilen':
+        this.effect = "heal $player $room $item";
+        break;
+      case 'Schaden zufügen':
+        this.effect = "hit $player $room $item";
+        break;
+      default:
+        this.effect = effect;
+        break;
+    }
   }
 
   /**
    * Sets the EquipmentSlot (Enum) depending on the current UI selection
-   * @param item selected UI value
+   * @param slot
    */
   equipmentSlotChanged(slot: string) {
     switch (slot) {
@@ -181,9 +192,9 @@ export class ItemComponent implements OnInit {
     }
   }
 
-  deleteItem(itemName: string){
+  deleteItem(itemName: string) {
     let index = this.configuredItems.findIndex(x => x.name == itemName)
-    if(index > -1){
+    if (index > -1) {
       this.configuredItems.splice(index, 1)
     }
   }

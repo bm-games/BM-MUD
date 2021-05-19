@@ -1,7 +1,11 @@
 package net.bmgames.game.commands
 
 import arrow.core.Either
+import arrow.core.traverseEither
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.PrintHelpMessage
+import com.github.ajalt.clikt.output.HelpFormatter
+import com.github.ajalt.clikt.output.Localization
 import net.bmgames.ErrorMessage
 import net.bmgames.errorMsg
 import net.bmgames.game.commands.master.*
@@ -40,6 +44,7 @@ val ALL_MASTER_COMMANDS: CommandMap<Player.Master> = mapOf(
     "kick" to ::KickCommand,
     "hit" to ::MasterHitCommand,
     "heal" to ::HealCommand,
+    "give" to ::GiveCommand,
     "spawn" to ::SpawnCommand,
     "teleport" to ::TeleportCommand,
     "createroom" to ::CreateRoomCommand,
@@ -48,9 +53,9 @@ val ALL_MASTER_COMMANDS: CommandMap<Player.Master> = mapOf(
 
 /**
  * Parses player and master commands, depending on a dungeon configuration
- * @param commandConfig The Command config of the associated dungeon
+ * @property commandConfig The Command config of the associated dungeon
  * */
-class CommandParser(commandConfig: CommandConfig) {
+class CommandParser(val commandConfig: CommandConfig) {
 
     private val masterCommands: CommandMap<Player.Master> = ALL_MASTER_COMMANDS
         .mapKeys { (original, _) ->
@@ -76,21 +81,28 @@ class CommandParser(commandConfig: CommandConfig) {
         val commandName = args.getOrNull(0) ?: return errorMsg(message("game.empty-command"))
 
         val commandConstructor = commands[commandName]
-            ?: return errorMsg(
-                message(
-                    "game.command-not-found",
-                    commands.keys.minus("say").minus("whisper").joinToString("\n")
+        if (commandConstructor == null) {
+            return commandConfig.customCommands[commandName]
+                ?.split("\n")
+                ?.map { it.trim() }
+                ?.traverseEither { parse(it, commands) }
+                ?.map(::BatchCommand)
+                ?: errorMsg(
+                    message(
+                        "game.command-not-found",
+                        commands.keys.minus("say").minus("whisper").joinToString("\n")
+                    )
                 )
-            )
-
-        val command = commandConstructor()
-        return try {
-            command.parse(args.subList(1, args.size).map { URLDecoder.decode(it, Charsets.UTF_8) })
-            success(command)
-        } catch (_: PrintHelpMessage) {
-            errorMsg(command.getFormattedHelp())
-        } catch (_: Exception) {
-            errorMsg(command.getFormattedUsage())
+        } else {
+            val command = commandConstructor()
+            return try {
+                command.parse(args.subList(1, args.size).map { URLDecoder.decode(it, Charsets.UTF_8) })
+                success(command)
+            } catch (_: PrintHelpMessage) {
+                errorMsg(command.getFormattedHelp())
+            } catch (_: Exception) {
+                errorMsg(command.getFormattedUsage())
+            }
         }
     }
 

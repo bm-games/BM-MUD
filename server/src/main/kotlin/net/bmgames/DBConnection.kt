@@ -39,7 +39,6 @@ internal fun ServerConfig.connectToDB() {
     )
 //        Database.connect("jdbc:h2:./testdb", driver = "org.h2.Driver")
     transaction {
-//        SchemaUtils.drop(*TABLES)
         SchemaUtils.create(*TABLES)
     }
 }

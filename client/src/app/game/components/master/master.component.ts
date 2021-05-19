@@ -23,10 +23,14 @@ export class MasterComponent implements OnInit, OnDestroy {
 
   commands = new Subject<string>()
   chat = new Subject<ChatMessage>()
+  onlinePlayers: Subject<string[]> = new Subject<string[]>()
+
 
   map?: RoomMap
   mapColumns = 8;
   grid: Array<GridValue> = [];
+  private width: number = 0;
+  private height: number = 0;
 
   constructor(private commandService: CommandService,
               private route: ActivatedRoute,
@@ -118,13 +122,19 @@ export class MasterComponent implements OnInit, OnDestroy {
     // initialize grid with rooms
     this.mapColumns = map.tiles.length
     this.grid = []
-    for (let x = 0; x < map.tiles.length; x++) {
-      for (let y = 0; y < map.tiles[0].length; y++) {
+    const players = []
+    this.allDungeonRooms = []
+    this.width = map.tiles.length
+    this.height = map.tiles[0].length
+
+    for (let x = 0; x < this.width; x++) {
+      for (let y = 0; y < this.height; y++) {
         let tile = map.tiles[x][y]
         let gridIndex = this.mapColumns * y + x;
 
         if (tile != null) {
           this.grid[gridIndex] = {index: gridIndex, value: tile, color: "lightgreen"}
+          players.push(...(tile.players || []))
           this.allDungeonRooms.push(tile.name)
           tile.npcs?.forEach(n => {
             if (!this.checkContainsNPC(n, this.allDungeonNPCs)) this.allDungeonNPCs.push(n)
@@ -140,6 +150,10 @@ export class MasterComponent implements OnInit, OnDestroy {
         }
       }
     }
+    this.onlinePlayers.next(players)
+    if (this.grid[this.selectedGridValueIndex]) {
+      this.gridRoomSelected(this.grid[this.selectedGridValueIndex])
+    }
   }
 
 
@@ -152,8 +166,7 @@ export class MasterComponent implements OnInit, OnDestroy {
   itemsToAdd: string[] = []
   selectedRoomPlayers: string[] = []
   selectedPlayerInRoom: string | undefined;
-  onlinePlayers: string[] = []
-  commandsOnPlayer: string[] = ['Spieler rauswerfen', 'Spieler teleportieren', 'Charakter LP abziehen']
+  commandsOnPlayer: string[] = ['Spieler rauswerfen', 'Spieler teleportieren', 'Charakter LP abziehen', 'Spieler Item geben']
   playerToInviteName: string | undefined;
   selectedCommandOnPlayer!: string;
   selectedRoomToTeleportTo!: string;
@@ -166,6 +179,9 @@ export class MasterComponent implements OnInit, OnDestroy {
 
 
   selectedTabIndexRoomInformation: number = 1;
+  selectedItemForPlayer: string = '';
+  selectedItemForNPC: string = '';
+  selectedNPCs: string[] = [];
 
   /**
    * Removes the selected NPC from the room. The NPC is still available in the list allDungeonNPCs
@@ -229,24 +245,32 @@ export class MasterComponent implements OnInit, OnDestroy {
    */
   teleportPlayer() {
     if (this.selectedPlayerInRoom != undefined) {
-      let commandString = 'teleport ' + this.selectedPlayerInRoom + ' ' + this.selectedRoomToTeleportTo
+      let commandString = 'teleport ' + encodeURIComponent(this.selectedPlayerInRoom) + ' ' + encodeURIComponent(this.selectedRoomToTeleportTo || "null")
       this.sendCommand(commandString)
     } else {
       alert("Es wurde kein Spieler ausgewählt")
     }
   }
 
+
   /**
-   * Hits a player and decrements his health
-   * @param damage the number healthpoints that are going to be subtracted from players health
+   * Sends a give item command to the server
    */
-  hitPlayer(damage: number | null) {
-    if (this.selectedPlayerInRoom != undefined && damage != null) {
-      let commandString = 'hit ' + this.selectedPlayerInRoom + ' ' + damage
+  giveItem(item: string, room: string, target: string) {
+    if (item && room && target) {
+      let commandString = `give ${encodeURIComponent(target)} ${encodeURIComponent(room)} ${encodeURIComponent(item)}`
       this.sendCommand(commandString)
+      this.selectedItemForPlayer = ''
+      this.selectedItemForNPC = ''
+      this.selectedPlayerInRoom = undefined
     } else {
-      alert("Es wurde kein Spieler ausgewählt")
+      alert("Es wurde kein Spieler, Item oder Raum ausgewählt")
     }
+  }
+
+  giveItemToNPCs() {
+    console.log(this.selectedNPCs)
+    this.selectedNPCs.forEach(npc => this.giveItem(this.selectedItemForNPC || '', this.grid[this.selectedGridValueIndex].value?.name || '', npc || ''))
   }
 
   /**
@@ -259,6 +283,16 @@ export class MasterComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Deletes the selected room
+   * This is only possible, if the selected room doesn't contains any characters
+   */
+  deleteRoom() {
+    console.log(this.selectedGridValueIndex)
+    let commandString = 'deleteroom ' + encodeURIComponent(this.grid[this.selectedGridValueIndex].value?.name || 'null')
+    this.sendCommand(commandString)
+  }
+
+  /**
    * Creates a new room and adds it at the selected position to the dungeon
    * It sets the input values name, description, NPCs and Items
    */
@@ -267,21 +301,25 @@ export class MasterComponent implements OnInit, OnDestroy {
     console.log(this.selectedRoomMessage)
     console.log(this.selectedRoomNPCs)
     console.log(this.selectedRoomItems)
-    console.log('Norden: ' + this.searchForNeighbour(this.selectedGridValueIndex, 'n'))
-    console.log('Osten: ' + this.searchForNeighbour(this.selectedGridValueIndex, 'e'))
-    console.log('Süden: ' + this.searchForNeighbour(this.selectedGridValueIndex, 's'))
-    console.log('Westen: ' + this.searchForNeighbour(this.selectedGridValueIndex, 'w'))
+    const n = this.encodeDirection('n');
+    const e = this.encodeDirection('e');
+    const s = this.encodeDirection('s');
+    const w = this.encodeDirection('w');
+    console.log('Norden: ' + n)
+    console.log('Osten: ' + e)
+    console.log('Süden: ' + s)
+    console.log('Westen: ' + w)
 
     if (this.selectedRoomName != '' && this.selectedRoomMessage != '') {
       if (!this.checkContainsRoom(this.selectedRoomName, this.allDungeonRooms)) {
-        let commandString = 'createroom ' + this.selectedRoomName + ' ' + this.selectedRoomMessage
+        let commandString = `createroom ${n} ${e} ${s} ${w} ${encodeURIComponent(this.selectedRoomName)} ${encodeURIComponent(this.selectedRoomMessage)}`
         this.sendCommand(commandString)
         this.selectedRoomNPCs.forEach(n => {
-          commandString = 'spawn npc ' + '\"' + n + '\"' + ' ' + this.selectedRoomName + ' 1'
+          commandString = 'spawn npc ' + encodeURIComponent(this.selectedRoomName) + ' ' + encodeURIComponent(n || "null")
           this.sendCommand(commandString)
         })
         this.selectedRoomItems.forEach(i => {
-          commandString = 'spawn item ' + '\"' + i + '\"' + ' ' + this.selectedRoomName + ' 1'
+          commandString = 'spawn item ' + encodeURIComponent(this.selectedRoomName) + ' ' + encodeURIComponent(i || "null")
           this.sendCommand(commandString)
         })
       } else {
@@ -295,6 +333,14 @@ export class MasterComponent implements OnInit, OnDestroy {
     this.selectedRoomMessage = ''
     this.selectedRoomNPCs = []
     this.selectedRoomItems = []
+  }
+
+  encodeDirection(dir: string): string {
+    const neighbour = this.searchForNeighbour(this.selectedGridValueIndex, dir);
+    if (neighbour) {
+      return `-${dir} ${encodeURIComponent(neighbour)}`
+    }
+    return neighbour
   }
 
   /**
@@ -395,7 +441,7 @@ export class MasterComponent implements OnInit, OnDestroy {
     } else {
       this.grid[index].color = "green";             // selected grid room -> green
       this.disableNewRoomTab = true;
-      this.selectedTabIndexRoomInformation = 1;
+      this.selectedTabIndexRoomInformation = this.selectedTabIndexRoomInformation == 0 ? 1 : this.selectedTabIndexRoomInformation;
     }
   }
 
@@ -412,30 +458,29 @@ export class MasterComponent implements OnInit, OnDestroy {
   searchForNeighbour(index: number, direction: string): string {
     let neighbourName;
     let i;
+
     switch (direction) {
       case "n":
-        i = index - this.mapColumns;
-        if (i >= 0 && this.grid[i].value != null) {                                       // i >= 0 -> check if i out of grid (north)
+        i = index - this.width;
+        if (i >= 0 && this.grid[i]?.value != null) {                                       // i >= 0 -> check if i out of grid (north)
           neighbourName = this.grid[i].value?.name;
         }
         break;
       case "e":
         i = index + 1;
-        if (i % this.mapColumns != 0 && this.grid[i].value != null) {                     // i % mapColumns != 0 -> check if i out of grid (east)
+        if (i % this.width != 0 && this.grid[i]?.value != null) {                     // i % mapColumns != 0 -> check if i out of grid (east)
           neighbourName = this.grid[i].value?.name
         }
         break;
       case "s":
-        i = index + this.mapColumns;
-        console.log(i)
-        console.log(this.mapColumns)
-        if (i < this.mapColumns * this.mapColumns && this.grid[i].value != null) {          // i < mapColumns * mapColumns -> check if i out of grid (south)
+        i = index + this.width;
+        if (i < this.width * this.width && this.grid[i]?.value != null) {          // i < mapColumns * mapColumns -> check if i out of grid (south)
           neighbourName = this.grid[i].value?.name
         }
         break;
       case "w":
         i = index - 1;
-        if (index % this.mapColumns != 0 && this.grid[i].value ! != null) {               // index % mapColumns != 0 -> check if i out of grid (west)
+        if (index % this.width != 0 && this.grid[i]?.value ! != null) {               // index % mapColumns != 0 -> check if i out of grid (west)
           neighbourName = this.grid[i].value?.name
         }
         break;

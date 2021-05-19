@@ -14,4 +14,6 @@ data class Inventory(
         get() = equipment.values.fold(1f) { all, it -> all * it.healthModifier }
 
     fun allItems(): List<Item> = listOfNotNull(weapon) + equipment.values + items
+
+    fun isFull(): Boolean = items.size >= INVENTORY_SIZE
 }

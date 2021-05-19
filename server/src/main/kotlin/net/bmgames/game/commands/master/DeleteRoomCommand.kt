@@ -16,7 +16,16 @@ import net.bmgames.state.model.Player
 import net.bmgames.toEither
 import net.bmgames.toList
 
-class DeleteRoomCommand : MasterCommand("deleteroom") {
+/**
+ * A mastercommand which creates a new room.
+ * The params are given trough arguments -> "by argument"
+ *
+ * @param name Name of the new room.
+
+ *
+ * @constructor creates a complete deleteRoom command
+ */
+class DeleteRoomCommand : MasterCommand("deleteroom", message("game.delete-room-epilog")) {
 
     val name: String by argument(help = message("game.spawn.room"))
 
@@ -28,7 +37,7 @@ class DeleteRoomCommand : MasterCommand("deleteroom") {
                 { message("game.hit.room-not-found", name) },
                 { room ->
                     conditionally(
-                        game.onlinePlayers.any { (_, p) -> p.isInRoom(name) },
+                        game.onlinePlayers.none { (_, p) -> p.isInRoom(name) },
                         { message("game.room.not-empty") },
                         { RoomAction(Delete, room).toList() }
                     )

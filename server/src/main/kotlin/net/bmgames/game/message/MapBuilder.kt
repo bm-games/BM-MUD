@@ -50,6 +50,9 @@ class MapBuilder(
         { room ->
             game.onlinePlayers.mapNotNullTo(mutableSetOf()) { (_, it) ->
                 if (it is Player.Normal && it.room == room.name) it.ingameName else null
+            }.also {
+                if(game.isMasterOnline()) it.add(game.master.ingameName)
+                it.remove(player.ingameName)
             }
         },
         { it?.let(game::getRoom) },
@@ -74,8 +77,8 @@ class MapBuilder(
             map[radius][radius] = map[radius][radius]
                 ?.copy(players = getPlayers(currentRoom), type = Current)
         }
-        val startY = map.minOf { it -> it.indexOfFirst { it != null }.let { if(it == -1) radius else it } }
-        val endY = map.maxOf { it -> it.indexOfLast { it != null }.let { if(it == -1) radius else it } }
+        val startY = map.minOf { it -> it.indexOfFirst { it != null }.let { if (it == -1) radius else it } }
+        val endY = map.maxOf { it -> it.indexOfLast { it != null }.let { if (it == -1) radius else it } }
         return map.mapNotNull { cols ->
             if (cols.filterNotNull().isEmpty()) null
             else cols.subList(startY, endY + 1)

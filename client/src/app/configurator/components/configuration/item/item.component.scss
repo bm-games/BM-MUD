@@ -117,3 +117,13 @@
     text-align: center;
   }
 }
+
+.item-effect{
+  display: flex;
+  div {
+    width: 50%;
+    & > * {
+      width: 100% !important;
+    }
+  }
+}

@@ -15,6 +15,7 @@ import net.bmgames.state.model.*
 import net.bmgames.state.model.Equipment.Slot.*
 import net.bmgames.state.model.Player.Normal.Companion
 import net.bmgames.translate
+import java.net.URLEncoder
 
 /**
  * A playercommand which uses an item in the room or in the player's inventory.
@@ -38,6 +39,7 @@ class UseItemCommand : PlayerCommand("use") {
      */
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
         either.eager {
+            val room = player.getRoom(game).bind()
             val item = player.inventory.items.find { it.name == target }
                 .rightIfNotNull { message("game.item.not-in-inv", target) }.bind()
 
@@ -46,7 +48,11 @@ class UseItemCommand : PlayerCommand("use") {
                     listOfNotNull(
                         player.sendText("-${item.name}"),
                         InventoryAction(player, Inventory.items.modify(player.inventory) { it - item }),
-                        if (item.effect != null && item.effect.isNotEmpty()) MasterCommandAction(item.effect)
+                        if (item.effect != null && item.effect.isNotEmpty())
+                            MasterCommandAction(
+                                item.effect
+                                    .replaceItem(item).replaceRoom(room).replacePlayer(player)
+                            )
                         else null
                     ).right()
                 }
@@ -80,3 +86,16 @@ class UseItemCommand : PlayerCommand("use") {
             }.bind()
         }
 }
+
+internal fun String.replaceItem(item: Item): String =
+    replace("\$item", URLEncoder.encode(item.name, Charsets.UTF_8))
+
+internal fun String.replaceNPC(npc: NPC): String =
+    replace("\$npc", URLEncoder.encode(npc.name, Charsets.UTF_8))
+
+internal fun String.replacePlayer(player: Player): String =
+    replace("\$player", URLEncoder.encode(player.ingameName, Charsets.UTF_8))
+
+internal fun String.replaceRoom(room: Room): String =
+    replace("\$room", URLEncoder.encode(room.name, Charsets.UTF_8))
+

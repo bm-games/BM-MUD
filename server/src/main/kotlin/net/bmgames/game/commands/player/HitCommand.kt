@@ -16,6 +16,7 @@ import net.bmgames.message
 import net.bmgames.state.model.*
 import net.bmgames.state.model.Player.Normal
 import net.bmgames.success
+import java.time.Duration
 
 /**
  * A playercommand which hits a player or a npc.
@@ -62,7 +63,7 @@ class HitCommand : PlayerCommand("hit") {
             if (actions.isEmpty()) {
                 errorMsg(message("game.entity-not-found", target))
             } else {
-                success(actions)
+                success(actions + LastHitAction(player.left(), System.currentTimeMillis()))
             }.bind()
         }
 
@@ -81,7 +82,11 @@ internal fun Player?.hitPlayer(target: Normal, game: Game, room: Room, damage: I
                     .trimMargin()
             ),
             MoveAction(target, game.getStartRoom()),
-            InventoryAction(target, Inventory(null, emptyMap(), game.startItems))
+            InventoryAction(target, Inventory(null, emptyMap(), game.startItems)),
+            HealthAction(
+                target.left(),
+                target.avatar.maxHealth - target.healthPoints
+            )
         ) + target.inventory.allItems().map { EntityAction(Create, room, it.right()) }
     } else {
         listOfNotNull(
@@ -89,7 +94,10 @@ internal fun Player?.hitPlayer(target: Normal, game: Game, room: Room, damage: I
             target.sendText(message("game.hit-by", hitter, newHealth)),
             HealthAction(target.left(), -damage)
         )
-    }
+    } + if (room.npcs[hitter] is NPC.Hostile) {
+        val hostile = room.npcs[hitter] as NPC.Hostile
+        listOf(LastHitAction(Pair(room, hostile).right(), System.currentTimeMillis()))
+    } else emptyList()
 }
 
 internal fun Player.hitNPC(npc: NPC, room: Room, damage: Int): List<Action> =
@@ -104,7 +112,19 @@ internal fun Player.hitNPC(npc: NPC, room: Room, damage: Int): List<Action> =
             listOf(
                 sendText(message("game.hp-left", npc.name, newHealth)),
                 HealthAction((room to npc).right(), -damage)
-            )
+            ).let {
+                it + if (this is Normal) {
+                    listOfNotNull(
+                        sendText(message("game.npc-hostile", npc.name, npc.nextAttackTimePoint().secondsRemaining())),
+                        MasterCommandAction(
+                            "hit \$player \$room $damage \$npc".replaceNPC(npc).replacePlayer(this).replaceRoom(room),
+                            Duration.ofMillis(npc.nextAttackTimePoint().millisRemaining())
+                        )
+                    )
+                } else {
+                    emptyList()
+                }
+            }
         }
     } else {
         emptyList()

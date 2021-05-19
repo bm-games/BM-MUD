@@ -14,6 +14,7 @@ import net.bmgames.message
 import net.bmgames.state.model.*
 import net.bmgames.state.model.Player.Normal
 import net.bmgames.success
+import java.time.Duration
 
 /**
  * A playercommand which inspects an entity in the executings player's room..
@@ -72,10 +73,24 @@ class InspectCommand : PlayerCommand("inspect") {
                 is NPC.Hostile -> {
                     actions.add(
                         player.sendText(
-                            message("game.npc-hostile",
+                            message(
+                                "game.npc-hostile",
                                 name,
-                                nextAttackTimePoint().secondsRemaining(),
-                                items.joinToString(" ") { item -> item.name })
+                                nextAttackTimePoint().secondsRemaining()
+                            )
+                        )
+                    )
+                    if (items.isNotEmpty())
+                        actions.add(
+                            player.sendText(
+                                message("game.npc-hostile.items", items.joinToString(" ") { item -> item.name })
+                            )
+                        )
+                    actions.add(
+                        MasterCommandAction(
+                            "hit \$player \$room $damage \$npc".replaceNPC(this).replacePlayer(player)
+                                .replaceRoom(room),
+                            Duration.ofMillis(nextAttackTimePoint().millisRemaining())
                         )
                     )
                 }

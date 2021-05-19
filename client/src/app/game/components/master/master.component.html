@@ -28,7 +28,8 @@
         <as-split-area [size]="50">
           <as-split direction="horizontal">
             <as-split-area [size]="60">
-              <app-chat [incomingMessages]="chat" (outgoingMessages)="sendChat($event)"></app-chat>
+              <app-chat [incomingMessages]="chat" [players]="onlinePlayers"
+                        (outgoingMessages)="sendChat($event)"></app-chat>
             </as-split-area>
             <as-split-area [size]="40">
               <ng-container [ngTemplateOutlet]="playerList"></ng-container>
@@ -58,7 +59,7 @@
 </ng-template>
 <ng-template #map>
   <div class="gameMap">
-<!--    <label>Raumsystem:</label>-->
+    <!--    <label>Raumsystem:</label>-->
     <mat-grid-list [cols]="mapColumns">
       <mat-grid-tile *ngFor="let gridValue of grid" (click)="gridRoomSelected(gridValue)"
                      [style.background]="gridValue?.color">
@@ -69,7 +70,7 @@
 </ng-template>
 
 <ng-template #editor>
-<!--  <h2>Ausgewählter Raum:</h2>-->
+  <!--  <h2>Ausgewählter Raum:</h2>-->
   <mat-tab-group [(selectedIndex)]="selectedTabIndexRoomInformation"
                  animationDuration="0ms"
                  class="gameMapContents">
@@ -176,6 +177,24 @@
               </div>
               <div class="btn">
                 <button (click)="teleportPlayer()">Ausführen</button>
+              </div>
+            </div>
+            <div class="teleportPlayerDiv" *ngIf="selectedCommandOnPlayer=='Spieler Item geben'">
+              <div class="lblAndDropDown">
+                <label>Item:</label>
+                <mat-form-field class="dropDown">
+                  <mat-select [(ngModel)]="selectedItemForPlayer">
+                    <mat-option *ngFor="let item of allDungeonItems" [value]="item.name">
+                      {{item.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="btn">
+                <button
+                  (click)="giveItem(selectedItemForPlayer || '', grid[selectedGridValueIndex].value?.name|| '', selectedPlayerInRoom|| '')">
+                  Ausführen
+                </button>
               </div>
             </div>
             <div class="hitPlayerDiv" *ngIf="selectedCommandOnPlayer=='Charakter LP abziehen'">

@@ -18,7 +18,17 @@ import net.bmgames.state.model.Player
 import net.bmgames.toEither
 import kotlin.math.max
 
-class HealCommand : MasterCommand("heal") {
+/**
+ * A mastercommand which heals a player or NPC.
+ * The params are given trough arguments -> "by argument"
+ *
+ * @param target the name of the target.
+ * @param room the room where the target is located.
+ * @param amount how many Healthpoints are replenished.
+ *
+ * @@constructor creates a complete heal command
+ */
+class HealCommand : MasterCommand("heal", message("game.heal-epilog")) {
     val target: String by argument(help = message("game.hit.target"))
     val room: String by argument(help = message("game.hit.room"))
     val amount: Int by argument(help = message("game.heal.amount")).int()

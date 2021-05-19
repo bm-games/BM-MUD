@@ -1,10 +1,14 @@
 package net.bmgames.game.commands.player
 
 import arrow.core.Either
+import arrow.core.flatten
+import arrow.core.right
 import com.github.ajalt.clikt.parameters.arguments.argument
+import net.bmgames.errorMsg
 import net.bmgames.game.action.Action
 import net.bmgames.game.action.MessageAction
 import net.bmgames.game.commands.PlayerCommand
+import net.bmgames.game.commands.isInRoom
 import net.bmgames.game.message.Message.Chat
 import net.bmgames.message
 import net.bmgames.state.model.Game
@@ -35,16 +39,16 @@ class WhisperCommand : PlayerCommand("whisper") {
      * @return a string which shows the errormessage or the list of actions which will be executed.
      */
     override fun toAction(player: Player.Normal, game: Game): Either<String, List<Action>> =
-        game.onlinePlayers.values
-            .find {  p ->
-                (p is Player.Master && p.ingameName == target) ||
-                        (player != p && p.ingameName == target &&
-                                p is Player.Normal && p.room == player.room)
-            }.toEither(
+        game.onlinePlayers[target]
+            .toEither(
                 { "Player $target not found." },
                 { p ->
-                    MessageAction(p, Chat(player.ingameName, message)).toList()
+                    if (p.isInRoom(player.room) || p is Player.Master) {
+                        MessageAction(p, Chat(player.ingameName, message)).toList().right()
+                    } else {
+                        errorMsg(message("game.chat.not-here", target))
+                    }
                 }
-            )
+            ).flatten()
 
 }

@@ -7,14 +7,15 @@ import arrow.fx.coroutines.Atomic
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.bmgames.*
+import net.bmgames.authentication.User
 import net.bmgames.communication.Notifier
 import net.bmgames.game.GameScope
 import net.bmgames.game.action.*
 import net.bmgames.game.commands.Command
 import net.bmgames.game.commands.CommandParser
 import net.bmgames.game.commands.getOtherPlayersInRoom
-import net.bmgames.game.commands.isInRoom
 import net.bmgames.game.message.Message
 import net.bmgames.game.message.Message.Text
 import net.bmgames.state.PlayerRepository
@@ -23,6 +24,11 @@ import net.bmgames.state.model.Player
 import net.bmgames.state.model.Player.Master
 import net.bmgames.state.model.Player.Normal
 import net.bmgames.state.model.onlinePlayers
+
+/**
+ * Master for every game, so that Items can use Mastercommands, even when the real Master is offline
+ * */
+val SYSTEM = Master(User("system@bm-games.net", "________________________________System", "", ""))
 
 /**
  * Central component which runs a concrete MUD
@@ -91,17 +97,19 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
         }
 
         val connection = onlinePlayersRef.modify { connections ->
-            if (connections.containsKey(player.ingameName)) {
-                connections to errorMsg(message("game.player-already-connected", player.ingameName))
-            } else {
-                val parseCommand = when (player) {
-                    is Master -> commandParser::parseMasterCommand
-                    is Normal -> commandParser::parsePlayerCommand
-                }
-                val connection = Connection(parseCommand)
-                val newConnections = connections.plus(player.ingameName to connection)
-                newConnections to success(connection)
+            runBlocking {
+                connections[player.ingameName]
+                    ?.close(message("game.player-already-connected", player.ingameName))
             }
+
+            val parseCommand = when (player) {
+                is Master -> commandParser::parseMasterCommand
+                is Normal -> commandParser::parsePlayerCommand
+            }
+            val connection = Connection(parseCommand)
+            val newConnections = connections.plus(player.ingameName to connection)
+            newConnections to success(connection)
+
         }.bind()
 
         updateGameState(Game.onlinePlayers.modify { it.plus(player.ingameName to player) })
@@ -159,7 +167,7 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
                         p.sendText(message("game.master-joined", player.ingameName))
                     )
                 }
-        }.forEach { ti -> ti.forEach { it.run(this@GameRunner) }}
+        }.forEach { ti -> ti.forEach { it.run(this@GameRunner) } }
 
     }
 
@@ -184,7 +192,7 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
                         p.sendText(message("game.master-left", player.ingameName))
                     )
                 }
-        }.forEach { ti -> ti.forEach { it.run(this@GameRunner) }}
+        }.forEach { ti -> ti.forEach { it.run(this@GameRunner) } }
 
     }
 
@@ -196,12 +204,27 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
         GameScope.launch {
             for ((playerName, command) in commandQueue) {
                 val effects: List<Effect> = currentGameState.modify { game ->
-                    val player = game.getPlayer(playerName)
+                    val player = if(playerName == SYSTEM.ingameName) SYSTEM else game.getPlayer(playerName)
                     if (player != null) {
                         val actions = command.toAction(player, game).fold({ player.sendText(it).toList() }, ::identity)
-                        val newGameState = actions.filterIsInstance<Update>()
+                        val updates = actions.filterIsInstance<Update>()
+                        val newGameState = updates
                             .fold(game) { intermediateState, update -> update.update(intermediateState) }
-                        newGameState to actions.filterIsInstance<Effect>()
+
+                        val effects = actions.filterIsInstanceTo(mutableListOf<Effect>())
+                        if (updates.isNotEmpty()) {
+                            with(newGameState) {
+                                if (player is Normal) {
+                                    player.getOtherPlayersInRoom(this)
+                                        .plus(master.ingameName to master)
+                                        .forEach { (_, p) -> effects.add(p.sendMap(this)) }
+                                } else {
+                                    onlinePlayers.forEach { (_, p) -> effects.add(p.sendMap(this)) }
+                                }
+                            }
+                        }
+
+                        newGameState to effects
                     } else {
                         game to emptyList()
                     }
