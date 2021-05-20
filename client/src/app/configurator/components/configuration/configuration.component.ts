@@ -56,10 +56,9 @@ export class ConfigurationComponent implements OnInit {
       let west = this.getRoomNameById(r.west);
       let npcStringMap: StringMap<NPC> = {}
       r.npcs.forEach(n => {
-        npcStringMap[n.name.replace(' ', '_')] = {
+        npcStringMap[n.name.replace(/ /g, '_')] = {
           ...n,
-          name: n.name.replace(' ', '_'
-          )
+          name: n.name.replace(' ', '_')
         }
       })
       roomMap[r.name.replace(' ', '_')] = {

@@ -113,12 +113,12 @@ object PlayerRepository {
                         (PlayerTable.id eq AvatarTable.id) and
                         (AvatarTable.name inList playerNames)
             }
-            .map {
-                PlayerItemTable.deleteWhere { PlayerItemTable.playerId eq it[PlayerTable.id] }
-                return@map it[AvatarTable.id]
-            }
+        val a = avatars.map {
+            PlayerItemTable.deleteWhere { PlayerItemTable.playerId eq it[PlayerTable.id] }
+            return@map it[AvatarTable.id]
+        }
         PlayerTable.deleteWhere { PlayerTable.game eq gameId }
-        avatars.forEach { id -> AvatarTable.deleteWhere { AvatarTable.id eq id } }
+        a.forEach { id -> AvatarTable.deleteWhere { AvatarTable.id eq id } }
     }
 
 }

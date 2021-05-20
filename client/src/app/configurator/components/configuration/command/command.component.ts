@@ -11,7 +11,7 @@ export class CommandComponent implements OnInit {
 
   commandTypes: string[] = ['Standard Befehle', 'Eigener Befehl'];
   selectedCommandType: string = 'Standard Befehle';
-  allActions: string[] = ['Kein Command', 'move player north', 'move player east', 'move player south', 'move player west', 'reduce player hp by 10', 'increase player hp by 10'];
+  allActions: string[] = ['Kein Command', 'hit $player $room 100', 'heal $player $room 100', 'whisper $player Hi!', 'give $player $room $randomItem', 'spawn npc $room $randomNPC', 'spawn item $room $randomItem'];
   selectedAction1: string = 'Kein Command';
   selectedAction2: string = 'Kein Command';
   selectedAction3: string = 'Kein Command';

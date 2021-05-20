@@ -25,7 +25,7 @@ export class ItemComponent implements OnInit {
   selectedItemType: string = 'Konsumierbares Item';
 
   itemTypes: string[] = ['Konsumierbares Item', 'Ausrüstung', 'Waffe'];
-  itemCommands: string[] = ['heal $player $room $item', 'hit $player $room $item']
+  itemCommands: string[] = ['heal $player $room $amount $item', 'hit $player $room $amount $item']
   sliderEffects: string[] = ["Heilen", "Schaden zufügen"]
   equipmentSlots: string[] = ['Kopf', 'Brust', 'Beine', 'Stiefel'];
   commandsForItems: string[] = [];
@@ -57,7 +57,7 @@ export class ItemComponent implements OnInit {
             let consumable: ConsumableItemConfig = {
               type: "net.bmgames.state.model.Consumable",
               name: this.name,
-              effect: this.effect + " " + this.healthDiff.toString()
+              effect: this.effect.replace("$amount", this.healthDiff.toString())
             }
             this.configuredItems.push(consumable);
           }
@@ -172,10 +172,10 @@ export class ItemComponent implements OnInit {
   itemEffectChanged(effect: string) {
     switch (effect) {
       case 'Heilen':
-        this.effect = "heal $player $room $item";
+        this.effect = "heal $player $room $amount $item";
         break;
       case 'Schaden zufügen':
-        this.effect = "hit $player $room $item";
+        this.effect = "hit $player $room $amount $item";
         break;
       default:
         this.effect = effect;

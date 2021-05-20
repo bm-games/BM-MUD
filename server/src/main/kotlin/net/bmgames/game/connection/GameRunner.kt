@@ -13,6 +13,7 @@ import net.bmgames.authentication.User
 import net.bmgames.communication.Notifier
 import net.bmgames.game.GameScope
 import net.bmgames.game.action.*
+import net.bmgames.game.commands.BatchCommand
 import net.bmgames.game.commands.Command
 import net.bmgames.game.commands.CommandParser
 import net.bmgames.game.commands.getOtherPlayersInRoom
@@ -117,7 +118,9 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
         GameScope.launch {
             launch {
                 for (command in connection.incoming) {
-                    commandQueue.send(player.ingameName to command)
+                    if (command is BatchCommand)
+                        commandQueue.send(SYSTEM.ingameName to command)
+                    else commandQueue.send(player.ingameName to command)
                 }
             }
             connection.onClose {
@@ -204,32 +207,43 @@ class GameRunner internal constructor(initialGame: Game, val notifier: Notifier)
         GameScope.launch {
             for ((playerName, command) in commandQueue) {
                 val effects: List<Effect> = currentGameState.modify { game ->
-                    val player = if(playerName == SYSTEM.ingameName) SYSTEM else game.getPlayer(playerName)
+                    val player = if (playerName == SYSTEM.ingameName) SYSTEM else game.getPlayer(playerName)
                     if (player != null) {
-                        val actions = command.toAction(player, game).fold({ player.sendText(it).toList() }, ::identity)
-                        val updates = actions.filterIsInstance<Update>()
-                        val newGameState = updates
-                            .fold(game) { intermediateState, update -> update.update(intermediateState) }
+                        try {
+                            val actions =
+                                command.toAction(player, game).fold({ player.sendText(it).toList() }, ::identity)
+                            val updates = actions.filterIsInstance<Update>()
+                            val newGameState = updates
+                                .fold(game) { intermediateState, update -> update.update(intermediateState) }
 
-                        val effects = actions.filterIsInstanceTo(mutableListOf<Effect>())
-                        if (updates.isNotEmpty()) {
-                            with(newGameState) {
-                                if (player is Normal) {
-                                    player.getOtherPlayersInRoom(this)
-                                        .plus(master.ingameName to master)
-                                        .forEach { (_, p) -> effects.add(p.sendMap(this)) }
-                                } else {
-                                    onlinePlayers.forEach { (_, p) -> effects.add(p.sendMap(this)) }
+                            val effects = actions.filterIsInstanceTo(mutableListOf<Effect>())
+                            if (updates.isNotEmpty()) {
+                                with(newGameState) {
+                                    if (player is Normal) {
+                                        player.getOtherPlayersInRoom(this)
+                                            .plus(master.ingameName to master)
+                                            .forEach { (_, p) -> effects.add(p.sendMap(this)) }
+                                    } else {
+                                        onlinePlayers.forEach { (_, p) -> effects.add(p.sendMap(this)) }
+                                    }
                                 }
                             }
+                            newGameState to effects
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            game to emptyList()
                         }
-
-                        newGameState to effects
                     } else {
                         game to emptyList()
                     }
                 }
-                effects.forEach { it.run(this@GameRunner) }
+                effects.forEach {
+                    try {
+                        it.run(this@GameRunner)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
             }
         }
     }

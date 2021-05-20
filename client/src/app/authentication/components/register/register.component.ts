@@ -51,7 +51,10 @@ export class RegisterComponent implements OnInit {
     this.form.disable()
     await this.auth.register(this.form.value)
       .catch(({error}) => alert(error))
-      .then(() => this.router.navigateByUrl("/auth"));
+      .then(() => {
+        alert("Das hat geklappt. Bitte verifiziere deine Email, dann kannst du sofort loslegen!")
+        this.router.navigateByUrl("/auth")
+      });
     this.form.enable()
   }
 
