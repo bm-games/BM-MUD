@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">3.492s</div>
+<div class="counter">2.796s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,27 +79,27 @@
 </thead>
 <tr>
 <td class="success">Password Change should give Wrong Password Error</td>
-<td class="success">0.038s</td>
+<td class="success">0.041s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Register should Fail</td>
-<td class="success">3.321s</td>
+<td class="success">2.554s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Register should be successful</td>
-<td class="success">0.057s</td>
+<td class="success">0.082s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Should Login successfully</td>
-<td class="success">0.029s</td>
+<td class="success">0.060s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">Should not Login because of Wrong Credentials</td>
-<td class="success">0.047s</td>
+<td class="success">0.059s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -107,304 +107,304 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2021-05-19 21:01:36.166 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.impl.JvmMockKGateway - Starting JVM MockK implementation. Java version = 11.0.11. 
-2021-05-19 21:01:36.913 [pool-3-thread-1 @coroutine#9] TRACE i.m.proxy.jvm.JvmMockKAgentFactory - Byte buddy agent installed
-2021-05-19 21:01:36.964 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.jvm.dispatcher.BootJarLoader - Bootstrap class loaded io.mockk.proxy.jvm.dispatcher.JvmMockKDispatcher
-2021-05-19 21:01:36.969 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.jvm.dispatcher.BootJarLoader - Bootstrap class loaded io.mockk.proxy.jvm.dispatcher.JvmMockKWeakMap
-2021-05-19 21:01:36.969 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.jvm.dispatcher.BootJarLoader - Bootstrap class loaded io.mockk.proxy.jvm.dispatcher.JvmMockKWeakMap$StrongKey
-2021-05-19 21:01:36.969 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.jvm.dispatcher.BootJarLoader - Bootstrap class loaded io.mockk.proxy.jvm.dispatcher.JvmMockKWeakMap$WeakKey
-2021-05-19 21:01:37.089 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.instantiation.JvmInstantiator - Building empty instance void
-2021-05-19 21:01:37.090 [pool-3-thread-1 @coroutine#9] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class java.lang.Void
-2021-05-19 21:01:37.143 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
-2021-05-19 21:01:37.152 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=32924029
-2021-05-19 21:01:37.161 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@6c574d60
-2021-05-19 21:01:37.714 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
-2021-05-19 21:01:37.720 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
-2021-05-19 21:01:38.107 [pool-3-thread-1 @coroutine#9] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:38.132 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
-2021-05-19 21:01:38.136 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=bda1a5a
-2021-05-19 21:01:38.137 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@5ebf27ab
-2021-05-19 21:01:38.243 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
-2021-05-19 21:01:38.243 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
-2021-05-19 21:01:38.244 [pool-3-thread-1 @coroutine#9] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:38.244 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserRepository
-2021-05-19 21:01:38.244 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserRepository hashcode=57e23f8c
-2021-05-19 21:01:38.245 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@5530a29
-2021-05-19 21:01:38.305 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.UserRepository itself because it is final.
-2021-05-19 21:01:38.305 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.state.UserRepository
-2021-05-19 21:01:38.306 [pool-3-thread-1 @coroutine#9] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:38.337 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:38.619 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:38.624 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
-2021-05-19 21:01:38.635 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
-2021-05-19 21:01:38.645 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
-2021-05-19 21:01:38.668 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
-2021-05-19 21:01:38.679 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:38.686 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:38.750 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:38.757 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
-2021-05-19 21:01:38.759 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
-2021-05-19 21:01:38.761 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
-2021-05-19 21:01:38.762 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
-2021-05-19 21:01:38.764 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:38.765 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:38.774 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:38.777 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@12b6e7d7
-2021-05-19 21:01:38.917 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:38.918 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:38.918 [pool-3-thread-1 @coroutine#9] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:38.924 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:38.925 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
-2021-05-19 21:01:38.925 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
-2021-05-19 21:01:38.926 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:38.931 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:38.940 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#1
-2021-05-19 21:01:38.941 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:38.941 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:38.941 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:38.941 [pool-3-thread-1 @coroutine#9] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:38.942 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
-2021-05-19 21:01:38.942 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:38.943 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:38.945 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:38.945 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
-2021-05-19 21:01:38.945 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@5a7f1bbb)]
-2021-05-19 21:01:38.945 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
-2021-05-19 21:01:38.946 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
-2021-05-19 21:01:38.946 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:38.951 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:38.954 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:38.954 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkRegisterPossible$server(String, String)
-2021-05-19 21:01:38.954 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkRegisterPossible$server(String, String): [bingo@bongo.de]
-2021-05-19 21:01:38.954 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 1 argument of checkRegisterPossible$server(String, String): [bingo]
-2021-05-19 21:01:38.954 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkRegisterPossible$server(eq(bingo@bongo.de), eq(bingo)))
-2021-05-19 21:01:38.955 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkRegisterPossible$server(eq(bingo@bongo.de), eq(bingo))
-2021-05-19 21:01:38.955 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:38.981 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.r.states.AnsweringState - Answering false on UserHandler(object UserHandler).checkRegisterPossible$server(bingo@bongo.de, bingo)
-2021-05-19 21:01:39.016 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
-2021-05-19 21:01:39.017 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=32924029
-2021-05-19 21:01:39.018 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
-2021-05-19 21:01:39.018 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
-2021-05-19 21:01:39.018 [pool-3-thread-1 @coroutine#10] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.018 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
-2021-05-19 21:01:39.019 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=bda1a5a
-2021-05-19 21:01:39.019 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
-2021-05-19 21:01:39.019 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
-2021-05-19 21:01:39.019 [pool-3-thread-1 @coroutine#10] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.020 [pool-3-thread-1 @coroutine#10] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.020 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.021 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.021 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
-2021-05-19 21:01:39.021 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
-2021-05-19 21:01:39.021 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
-2021-05-19 21:01:39.022 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
-2021-05-19 21:01:39.022 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.022 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.028 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.028 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
-2021-05-19 21:01:39.028 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
-2021-05-19 21:01:39.028 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
-2021-05-19 21:01:39.029 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
-2021-05-19 21:01:39.029 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.029 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.030 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.030 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.030 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.030 [pool-3-thread-1 @coroutine#10] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.031 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.031 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
-2021-05-19 21:01:39.031 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
-2021-05-19 21:01:39.031 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.032 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.032 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#2
-2021-05-19 21:01:39.032 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.032 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.032 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.032 [pool-3-thread-1 @coroutine#10] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.033 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
-2021-05-19 21:01:39.040 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.040 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.041 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.041 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
-2021-05-19 21:01:39.042 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@5a7f1bbb)]
-2021-05-19 21:01:39.042 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
-2021-05-19 21:01:39.042 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
-2021-05-19 21:01:39.043 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.046 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.047 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.047 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkRegisterPossible$server(String, String)
-2021-05-19 21:01:39.047 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkRegisterPossible$server(String, String): [bingo@bongo.de]
-2021-05-19 21:01:39.047 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 1 argument of checkRegisterPossible$server(String, String): [bingo]
-2021-05-19 21:01:39.048 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkRegisterPossible$server(eq(bingo@bongo.de), eq(bingo)))
-2021-05-19 21:01:39.048 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkRegisterPossible$server(eq(bingo@bongo.de), eq(bingo))
-2021-05-19 21:01:39.049 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.049 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.r.states.AnsweringState - Answering true on UserHandler(object UserHandler).checkRegisterPossible$server(bingo@bongo.de, bingo)
-2021-05-19 21:01:39.050 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.r.states.AnsweringState - Answering 1234 on AuthHelper(object AuthHelper).hashPassword(1234)
-2021-05-19 21:01:39.051 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.r.states.AnsweringState - Answering true on UserHandler(object UserHandler).createUser$server(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))
-2021-05-19 21:01:39.083 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
-2021-05-19 21:01:39.083 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=32924029
-2021-05-19 21:01:39.083 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
-2021-05-19 21:01:39.083 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
-2021-05-19 21:01:39.083 [pool-3-thread-1 @coroutine#11] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.084 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
-2021-05-19 21:01:39.084 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=bda1a5a
-2021-05-19 21:01:39.084 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
-2021-05-19 21:01:39.084 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
-2021-05-19 21:01:39.084 [pool-3-thread-1 @coroutine#11] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.085 [pool-3-thread-1 @coroutine#11] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.085 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.086 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.086 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
-2021-05-19 21:01:39.086 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
-2021-05-19 21:01:39.087 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
-2021-05-19 21:01:39.092 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
-2021-05-19 21:01:39.092 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.092 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.093 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.093 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
-2021-05-19 21:01:39.094 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
-2021-05-19 21:01:39.094 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
-2021-05-19 21:01:39.094 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
-2021-05-19 21:01:39.095 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.095 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.095 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.095 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.096 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.096 [pool-3-thread-1 @coroutine#11] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.096 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.096 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
-2021-05-19 21:01:39.096 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
-2021-05-19 21:01:39.097 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.097 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.098 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#3
-2021-05-19 21:01:39.100 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.100 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.100 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.100 [pool-3-thread-1 @coroutine#11] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.101 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
-2021-05-19 21:01:39.101 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.101 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.102 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.102 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
-2021-05-19 21:01:39.102 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@5a7f1bbb)]
-2021-05-19 21:01:39.102 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
-2021-05-19 21:01:39.103 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
-2021-05-19 21:01:39.103 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.106 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.r.states.AnsweringState - Answering User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null) on UserRepository(object UserRepository).getUserByMail(bingo@bongo.de)
-2021-05-19 21:01:39.107 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.r.states.AnsweringState - Answering true on UserHandler(object UserHandler).checkMailApproved$server(bingo)
-2021-05-19 21:01:39.108 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.r.states.AnsweringState - Answering 1234 on AuthHelper(object AuthHelper).hashPassword(1234)
-2021-05-19 21:01:39.124 [pool-3-thread-1 @coroutine#12] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
-2021-05-19 21:01:39.124 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=32924029
-2021-05-19 21:01:39.125 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
-2021-05-19 21:01:39.125 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
-2021-05-19 21:01:39.126 [pool-3-thread-1 @coroutine#12] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.126 [pool-3-thread-1 @coroutine#12] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
-2021-05-19 21:01:39.126 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=bda1a5a
-2021-05-19 21:01:39.126 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
-2021-05-19 21:01:39.129 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
-2021-05-19 21:01:39.130 [pool-3-thread-1 @coroutine#12] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.130 [pool-3-thread-1 @coroutine#12] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.130 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.131 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.131 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
-2021-05-19 21:01:39.131 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
-2021-05-19 21:01:39.132 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
-2021-05-19 21:01:39.132 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
-2021-05-19 21:01:39.132 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.132 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.136 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.136 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
-2021-05-19 21:01:39.136 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
-2021-05-19 21:01:39.137 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
-2021-05-19 21:01:39.137 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
-2021-05-19 21:01:39.137 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.137 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.145 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.145 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.146 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.146 [pool-3-thread-1 @coroutine#12] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.147 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.147 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
-2021-05-19 21:01:39.147 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
-2021-05-19 21:01:39.147 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.148 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.148 [pool-3-thread-1 @coroutine#12] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#4
-2021-05-19 21:01:39.148 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.148 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.148 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.148 [pool-3-thread-1 @coroutine#12] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.148 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
-2021-05-19 21:01:39.149 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.149 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.149 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.150 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
-2021-05-19 21:01:39.150 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@5a7f1bbb)]
-2021-05-19 21:01:39.150 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
-2021-05-19 21:01:39.150 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
-2021-05-19 21:01:39.151 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.158 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.159 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.159 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.161 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.162 [pool-3-thread-1 @coroutine#12] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.162 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.163 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
-2021-05-19 21:01:39.163 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
-2021-05-19 21:01:39.164 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.165 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.165 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
-2021-05-19 21:01:39.166 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.166 [pool-3-thread-1 @coroutine#12] DEBUG i.m.i.r.states.AnsweringState - Answering null on UserRepository(object UserRepository).getUserByMail(bingo@bongo.de)
-2021-05-19 21:01:39.180 [pool-3-thread-1 @coroutine#13] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
-2021-05-19 21:01:39.181 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=32924029
-2021-05-19 21:01:39.181 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
-2021-05-19 21:01:39.181 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
-2021-05-19 21:01:39.181 [pool-3-thread-1 @coroutine#13] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.183 [pool-3-thread-1 @coroutine#13] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
-2021-05-19 21:01:39.183 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=bda1a5a
-2021-05-19 21:01:39.184 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
-2021-05-19 21:01:39.184 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
-2021-05-19 21:01:39.184 [pool-3-thread-1 @coroutine#13] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.184 [pool-3-thread-1 @coroutine#13] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
-2021-05-19 21:01:39.184 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.185 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.185 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
-2021-05-19 21:01:39.185 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
-2021-05-19 21:01:39.186 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
-2021-05-19 21:01:39.191 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
-2021-05-19 21:01:39.191 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.192 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.192 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.192 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
-2021-05-19 21:01:39.192 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
-2021-05-19 21:01:39.193 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
-2021-05-19 21:01:39.194 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
-2021-05-19 21:01:39.194 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.194 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.195 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.195 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.195 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.195 [pool-3-thread-1 @coroutine#13] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.198 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.198 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
-2021-05-19 21:01:39.198 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
-2021-05-19 21:01:39.198 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.199 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
-2021-05-19 21:01:39.199 [pool-3-thread-1 @coroutine#13] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#5
-2021-05-19 21:01:39.199 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=3a179af0
-2021-05-19 21:01:39.199 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
-2021-05-19 21:01:39.199 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
-2021-05-19 21:01:39.201 [pool-3-thread-1 @coroutine#13] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
-2021-05-19 21:01:39.202 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
-2021-05-19 21:01:39.202 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.202 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
-2021-05-19 21:01:39.203 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
-2021-05-19 21:01:39.203 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
-2021-05-19 21:01:39.205 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@5a7f1bbb)]
-2021-05-19 21:01:39.206 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
-2021-05-19 21:01:39.207 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
-2021-05-19 21:01:39.207 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
-2021-05-19 21:01:39.217 [pool-3-thread-1 @coroutine#13] DEBUG i.m.i.r.states.AnsweringState - Answering pjb3Jf0BrI3cnWYN3+sVXw== on AuthHelper(object AuthHelper).hashPassword(wrong)
+<pre>2021-05-20 08:58:59.730 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.impl.JvmMockKGateway - Starting JVM MockK implementation. Java version = 11.0.11. 
+2021-05-20 08:59:00.340 [pool-3-thread-1 @coroutine#9] TRACE i.m.proxy.jvm.JvmMockKAgentFactory - Byte buddy agent installed
+2021-05-20 08:59:00.354 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.jvm.dispatcher.BootJarLoader - Bootstrap class loaded io.mockk.proxy.jvm.dispatcher.JvmMockKDispatcher
+2021-05-20 08:59:00.355 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.jvm.dispatcher.BootJarLoader - Bootstrap class loaded io.mockk.proxy.jvm.dispatcher.JvmMockKWeakMap
+2021-05-20 08:59:00.356 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.jvm.dispatcher.BootJarLoader - Bootstrap class loaded io.mockk.proxy.jvm.dispatcher.JvmMockKWeakMap$StrongKey
+2021-05-20 08:59:00.356 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.jvm.dispatcher.BootJarLoader - Bootstrap class loaded io.mockk.proxy.jvm.dispatcher.JvmMockKWeakMap$WeakKey
+2021-05-20 08:59:00.457 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.instantiation.JvmInstantiator - Building empty instance void
+2021-05-20 08:59:00.458 [pool-3-thread-1 @coroutine#9] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class java.lang.Void
+2021-05-20 08:59:00.500 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
+2021-05-20 08:59:00.507 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=730c893a
+2021-05-20 08:59:00.514 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@2ff90462
+2021-05-20 08:59:00.928 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
+2021-05-20 08:59:00.932 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
+2021-05-20 08:59:01.226 [pool-3-thread-1 @coroutine#9] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:01.236 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
+2021-05-20 08:59:01.236 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=6c99c745
+2021-05-20 08:59:01.236 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@363d0c7
+2021-05-20 08:59:01.325 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
+2021-05-20 08:59:01.325 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
+2021-05-20 08:59:01.326 [pool-3-thread-1 @coroutine#9] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:01.326 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserRepository
+2021-05-20 08:59:01.327 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserRepository hashcode=5fa82287
+2021-05-20 08:59:01.327 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@139a22e5
+2021-05-20 08:59:01.369 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.state.UserRepository itself because it is final.
+2021-05-20 08:59:01.369 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.state.UserRepository
+2021-05-20 08:59:01.370 [pool-3-thread-1 @coroutine#9] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:01.400 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:01.674 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:01.678 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
+2021-05-20 08:59:01.687 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
+2021-05-20 08:59:01.698 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
+2021-05-20 08:59:01.716 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
+2021-05-20 08:59:01.726 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:01.732 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:01.798 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:01.798 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
+2021-05-20 08:59:01.798 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
+2021-05-20 08:59:01.799 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
+2021-05-20 08:59:01.799 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
+2021-05-20 08:59:01.800 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:01.801 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:01.808 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:01.808 [pool-3-thread-1 @coroutine#9] TRACE i.m.p.j.t.JvmInlineInstrumentation - Retransforming [Ljava.lang.Class;@68a46445
+2021-05-20 08:59:01.929 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:01.929 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:01.930 [pool-3-thread-1 @coroutine#9] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:01.936 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:01.936 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
+2021-05-20 08:59:01.936 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
+2021-05-20 08:59:01.937 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:01.940 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:01.948 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#1
+2021-05-20 08:59:01.950 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:01.951 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:01.953 [pool-3-thread-1 @coroutine#9] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:01.954 [pool-3-thread-1 @coroutine#9] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:01.956 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
+2021-05-20 08:59:01.957 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:01.958 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:01.961 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:01.962 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
+2021-05-20 08:59:01.963 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@72dbdce4)]
+2021-05-20 08:59:01.965 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
+2021-05-20 08:59:01.967 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
+2021-05-20 08:59:01.969 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:01.974 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:01.978 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:01.978 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkRegisterPossible$server(String, String)
+2021-05-20 08:59:01.978 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkRegisterPossible$server(String, String): [bingo@bongo.de]
+2021-05-20 08:59:01.979 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 1 argument of checkRegisterPossible$server(String, String): [bingo]
+2021-05-20 08:59:01.979 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkRegisterPossible$server(eq(bingo@bongo.de), eq(bingo)))
+2021-05-20 08:59:01.980 [pool-3-thread-1 @coroutine#9] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkRegisterPossible$server(eq(bingo@bongo.de), eq(bingo))
+2021-05-20 08:59:01.986 [pool-3-thread-1 @coroutine#9] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.014 [pool-3-thread-1 @coroutine#9] DEBUG i.m.i.r.states.AnsweringState - Answering false on UserHandler(object UserHandler).checkRegisterPossible$server(bingo@bongo.de, bingo)
+2021-05-20 08:59:02.063 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
+2021-05-20 08:59:02.065 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=730c893a
+2021-05-20 08:59:02.065 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
+2021-05-20 08:59:02.066 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
+2021-05-20 08:59:02.067 [pool-3-thread-1 @coroutine#10] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.068 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
+2021-05-20 08:59:02.068 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=6c99c745
+2021-05-20 08:59:02.069 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
+2021-05-20 08:59:02.070 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
+2021-05-20 08:59:02.070 [pool-3-thread-1 @coroutine#10] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.072 [pool-3-thread-1 @coroutine#10] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.072 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.074 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.075 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
+2021-05-20 08:59:02.075 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
+2021-05-20 08:59:02.076 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
+2021-05-20 08:59:02.078 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
+2021-05-20 08:59:02.079 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.079 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.080 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.081 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
+2021-05-20 08:59:02.081 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
+2021-05-20 08:59:02.082 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
+2021-05-20 08:59:02.083 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
+2021-05-20 08:59:02.086 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.087 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.087 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.088 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.088 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.088 [pool-3-thread-1 @coroutine#10] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.089 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.089 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
+2021-05-20 08:59:02.090 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
+2021-05-20 08:59:02.091 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.092 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.092 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#2
+2021-05-20 08:59:02.093 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.093 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.095 [pool-3-thread-1 @coroutine#10] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.095 [pool-3-thread-1 @coroutine#10] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.096 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
+2021-05-20 08:59:02.096 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.096 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.097 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.098 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
+2021-05-20 08:59:02.099 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@72dbdce4)]
+2021-05-20 08:59:02.099 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
+2021-05-20 08:59:02.101 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
+2021-05-20 08:59:02.102 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.110 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.111 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.111 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkRegisterPossible$server(String, String)
+2021-05-20 08:59:02.112 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkRegisterPossible$server(String, String): [bingo@bongo.de]
+2021-05-20 08:59:02.112 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 1 argument of checkRegisterPossible$server(String, String): [bingo]
+2021-05-20 08:59:02.114 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkRegisterPossible$server(eq(bingo@bongo.de), eq(bingo)))
+2021-05-20 08:59:02.115 [pool-3-thread-1 @coroutine#10] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkRegisterPossible$server(eq(bingo@bongo.de), eq(bingo))
+2021-05-20 08:59:02.115 [pool-3-thread-1 @coroutine#10] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.116 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.r.states.AnsweringState - Answering true on UserHandler(object UserHandler).checkRegisterPossible$server(bingo@bongo.de, bingo)
+2021-05-20 08:59:02.118 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.r.states.AnsweringState - Answering 1234 on AuthHelper(object AuthHelper).hashPassword(1234)
+2021-05-20 08:59:02.119 [pool-3-thread-1 @coroutine#10] DEBUG i.m.i.r.states.AnsweringState - Answering true on UserHandler(object UserHandler).createUser$server(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))
+2021-05-20 08:59:02.157 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
+2021-05-20 08:59:02.158 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=730c893a
+2021-05-20 08:59:02.159 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
+2021-05-20 08:59:02.161 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
+2021-05-20 08:59:02.161 [pool-3-thread-1 @coroutine#11] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.162 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
+2021-05-20 08:59:02.163 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=6c99c745
+2021-05-20 08:59:02.163 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
+2021-05-20 08:59:02.164 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
+2021-05-20 08:59:02.164 [pool-3-thread-1 @coroutine#11] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.167 [pool-3-thread-1 @coroutine#11] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.168 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.168 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.169 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
+2021-05-20 08:59:02.170 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
+2021-05-20 08:59:02.171 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
+2021-05-20 08:59:02.172 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
+2021-05-20 08:59:02.173 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.173 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.174 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.176 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
+2021-05-20 08:59:02.176 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
+2021-05-20 08:59:02.178 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
+2021-05-20 08:59:02.180 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
+2021-05-20 08:59:02.180 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.180 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.181 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.181 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.182 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.182 [pool-3-thread-1 @coroutine#11] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.184 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.185 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
+2021-05-20 08:59:02.185 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
+2021-05-20 08:59:02.187 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.187 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.188 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#3
+2021-05-20 08:59:02.188 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.188 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.188 [pool-3-thread-1 @coroutine#11] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.190 [pool-3-thread-1 @coroutine#11] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.190 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
+2021-05-20 08:59:02.190 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.194 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.196 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.196 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
+2021-05-20 08:59:02.197 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@72dbdce4)]
+2021-05-20 08:59:02.198 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
+2021-05-20 08:59:02.201 [pool-3-thread-1 @coroutine#11] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
+2021-05-20 08:59:02.202 [pool-3-thread-1 @coroutine#11] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.207 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.r.states.AnsweringState - Answering User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null) on UserRepository(object UserRepository).getUserByMail(bingo@bongo.de)
+2021-05-20 08:59:02.210 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.r.states.AnsweringState - Answering true on UserHandler(object UserHandler).checkMailApproved$server(bingo)
+2021-05-20 08:59:02.211 [pool-3-thread-1 @coroutine#11] DEBUG i.m.i.r.states.AnsweringState - Answering 1234 on AuthHelper(object AuthHelper).hashPassword(1234)
+2021-05-20 08:59:02.225 [pool-3-thread-1 @coroutine#12] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
+2021-05-20 08:59:02.226 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=730c893a
+2021-05-20 08:59:02.226 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
+2021-05-20 08:59:02.227 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
+2021-05-20 08:59:02.228 [pool-3-thread-1 @coroutine#12] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.229 [pool-3-thread-1 @coroutine#12] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
+2021-05-20 08:59:02.231 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=6c99c745
+2021-05-20 08:59:02.231 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
+2021-05-20 08:59:02.231 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
+2021-05-20 08:59:02.234 [pool-3-thread-1 @coroutine#12] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.234 [pool-3-thread-1 @coroutine#12] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.235 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.236 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.236 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
+2021-05-20 08:59:02.236 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
+2021-05-20 08:59:02.240 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
+2021-05-20 08:59:02.241 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
+2021-05-20 08:59:02.241 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.241 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.242 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.242 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
+2021-05-20 08:59:02.243 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
+2021-05-20 08:59:02.243 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
+2021-05-20 08:59:02.244 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
+2021-05-20 08:59:02.244 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.244 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.246 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.246 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.247 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.247 [pool-3-thread-1 @coroutine#12] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.248 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.249 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
+2021-05-20 08:59:02.249 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
+2021-05-20 08:59:02.250 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.252 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.255 [pool-3-thread-1 @coroutine#12] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#4
+2021-05-20 08:59:02.255 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.255 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.256 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.256 [pool-3-thread-1 @coroutine#12] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.256 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
+2021-05-20 08:59:02.259 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.259 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.261 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.261 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
+2021-05-20 08:59:02.261 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@72dbdce4)]
+2021-05-20 08:59:02.262 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
+2021-05-20 08:59:02.264 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
+2021-05-20 08:59:02.265 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.270 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.272 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.272 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.272 [pool-3-thread-1 @coroutine#12] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.273 [pool-3-thread-1 @coroutine#12] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.273 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.274 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
+2021-05-20 08:59:02.274 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
+2021-05-20 08:59:02.274 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.275 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.276 [pool-3-thread-1 @coroutine#12] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
+2021-05-20 08:59:02.276 [pool-3-thread-1 @coroutine#12] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.279 [pool-3-thread-1 @coroutine#12] DEBUG i.m.i.r.states.AnsweringState - Answering null on UserRepository(object UserRepository).getUserByMail(bingo@bongo.de)
+2021-05-20 08:59:02.291 [pool-3-thread-1 @coroutine#13] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for UserHandler
+2021-05-20 08:59:02.292 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for UserHandler hashcode=730c893a
+2021-05-20 08:59:02.293 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.UserHandler itself because it is final.
+2021-05-20 08:59:02.293 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.UserHandler
+2021-05-20 08:59:02.294 [pool-3-thread-1 @coroutine#13] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserHandler(object UserHandler)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.294 [pool-3-thread-1 @coroutine#13] DEBUG i.m.i.i.JvmStaticMockFactory - Creating object mockk for AuthHelper
+2021-05-20 08:59:02.294 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.i.JvmStaticMockFactory - Building object proxy for AuthHelper hashcode=6c99c745
+2021-05-20 08:59:02.294 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.AuthHelper itself because it is final.
+2021-05-20 08:59:02.295 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Attaching to object mock for class net.bmgames.authentication.AuthHelper
+2021-05-20 08:59:02.300 [pool-3-thread-1 @coroutine#13] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [AuthHelper(object AuthHelper)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.300 [pool-3-thread-1 @coroutine#13] DEBUG io.mockk.impl.stub.CommonClearer - Clearing [UserRepository(object UserRepository)] mocks ClearOptions(answers=true, recordedCalls=true, childMocks=true, verificationMarks=true, exclusionRules=true)
+2021-05-20 08:59:02.301 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.302 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.302 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: hashPassword(String)
+2021-05-20 08:59:02.302 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of hashPassword(String): [1234]
+2021-05-20 08:59:02.303 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: AuthHelper(object AuthHelper).hashPassword(eq(1234)))
+2021-05-20 08:59:02.303 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: AuthHelper(object AuthHelper).hashPassword(eq(1234))
+2021-05-20 08:59:02.303 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.304 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.304 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.305 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: checkMailApproved$server(String)
+2021-05-20 08:59:02.306 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of checkMailApproved$server(String): [bingo]
+2021-05-20 08:59:02.306 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo)))
+2021-05-20 08:59:02.307 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).checkMailApproved$server(eq(bingo))
+2021-05-20 08:59:02.307 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.307 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.308 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.308 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.308 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.311 [pool-3-thread-1 @coroutine#13] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.311 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.313 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: getUserByMail(String)
+2021-05-20 08:59:02.314 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of getUserByMail(String): [bingo@bongo.de]
+2021-05-20 08:59:02.314 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.315 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Child search key: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de)))
+2021-05-20 08:59:02.315 [pool-3-thread-1 @coroutine#13] DEBUG i.m.i.i.AbstractMockFactory - Creating mockk for User name=child of object UserRepository#5
+2021-05-20 08:59:02.315 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.i.AbstractMockFactory - Building proxy for User hashcode=5c15f50d
+2021-05-20 08:59:02.316 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Taking instance of class net.bmgames.authentication.User itself because it is final.
+2021-05-20 08:59:02.316 [pool-3-thread-1 @coroutine#13] TRACE io.mockk.proxy.jvm.ProxyMaker - Instantiating proxy for class net.bmgames.authentication.User via instantiator
+2021-05-20 08:59:02.316 [pool-3-thread-1 @coroutine#13] TRACE i.m.proxy.jvm.ObjenesisInstantiator - Creating new empty instance of class net.bmgames.authentication.User
+2021-05-20 08:59:02.317 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserRepository(object UserRepository).getUserByMail(eq(bingo@bongo.de))
+2021-05-20 08:59:02.317 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.317 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.recording.CommonCallRecorder - Starting stubbing
+2021-05-20 08:59:02.318 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Matcher map: {}
+2021-05-20 08:59:02.318 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Processing call #0: createUser$server(User)
+2021-05-20 08:59:02.319 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Signature for 0 argument of createUser$server(User): [Ref(User@72dbdce4)]
+2021-05-20 08:59:02.319 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.SignatureMatcherDetector - Built matcher: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null))))
+2021-05-20 08:59:02.320 [pool-3-thread-1 @coroutine#13] TRACE i.m.impl.recording.PermanentMocker - Mocked permanently: UserHandler(object UserHandler).createUser$server(eq(User(email=bingo@bongo.de, username=bingo, passwordHash=1234, registrationKey=null, id=null)))
+2021-05-20 08:59:02.320 [pool-3-thread-1 @coroutine#13] TRACE i.m.i.r.s.StubbingAwaitingAnswerState - Done stubbing. Still accepting additional answers
+2021-05-20 08:59:02.330 [pool-3-thread-1 @coroutine#13] DEBUG i.m.i.r.states.AnsweringState - Answering pjb3Jf0BrI3cnWYN3+sVXw== on AuthHelper(object AuthHelper).hashPassword(wrong)
 </pre>
 </span>
 </div>
@@ -416,7 +416,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.7</a> at May 19, 2021, 9:01:49 PM</p>
+<a href="http://www.gradle.org">Gradle 6.7</a> at May 20, 2021, 8:59:11 AM</p>
 </div>
 </div>
 </body>
