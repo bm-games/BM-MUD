@@ -30,10 +30,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Client');
   });
 
-  xit('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h2').textContent).toContain('Dashboard');
-  });
 });

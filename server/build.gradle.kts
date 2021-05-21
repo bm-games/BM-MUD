@@ -1,5 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktor_version: String by project
@@ -120,6 +121,14 @@ tasks.withType<Detekt> {
     jvmTarget = "1.8"
 }
 
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets {
+        configureEach {
+            includeNonPublic.set(true)
+            suppressInheritedMembers.set(true)
+        }
+    }
+}
 
 detekt {
     config = files("$rootDir/config/detekt/detekt.yml")

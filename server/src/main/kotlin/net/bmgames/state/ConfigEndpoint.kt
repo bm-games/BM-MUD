@@ -72,6 +72,9 @@ fun Route.installConfigEndpoint() {
     }
 }
 
+/**
+ * DTO for getting a dungeon config
+ * */
 @Location("/get/{name}")
 data class GetConfig(val name: String)
 

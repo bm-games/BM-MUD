@@ -12,11 +12,13 @@ let name: string;
 
 describe('Authentication Login Case', () => {
   let page: AppPage;
-  beforeEach(() => {
+  beforeEach(async () => {
     page = new AppPage();
+
   });
 
-  it('should display BM-MUD: Title', async () => {
+
+  it('should display BM-MUD | Authentication', async () => {
     await page.navigateTo();
     await expect(page.getTitleText()).toContain('BM-MUD | Authentication');
   });
@@ -98,7 +100,7 @@ describe('MUD-Creation Use Case', () => {
     await element(by.xpath("//div[@class='inputAreaBody']/div[2]//div[@class='mat-slider-ticks']")).click();
     await element(by.css("textarea")).sendKeys('Möge die Macht mit dir sein.')
     await element(by.xpath("//button[.='Hinzufügen']")).click();
-    //Twi’lek
+   //Twi’lek
     await element(by.css("[placeholder='Name']")).sendKeys('Twi’lek');
     await element(by.xpath("//div[@class='inputAreaBody']/div[1]//div[@class='mat-slider-ticks']")).click();
     await element(by.xpath("//div[@class='inputAreaBody']/div[2]//div[@class='mat-slider-ticks']")).click();
@@ -186,30 +188,28 @@ describe('MUD-Creation Use Case', () => {
     //Frosch
     await element(by.css("[placeholder='Name']")).sendKeys('Frosch');
     await element(by.css(".mat-select-placeholder")).click();
-    await element(by.xpath("//span[contains(.,'Gesundheit abziehen')]")).click();
+    await element(by.xpath("//span[contains(.,'Schaden zufügen')]")).click();
     await element(by.xpath("//button[.='Hinzufügen']")).click();
+
     //Apfel
     await element(by.css("[placeholder='Name']")).sendKeys('Apfel');
-    await element(by.css(".inputAreaBody > div:nth-of-type(2) .mat-form-field-wrapper")).click();
+    await element(by.css(".item-effect .mat-form-field-infix")).click();
     await element(by.xpath("//span[contains(.,'Heilen')]")).click();
+    await element(by.css(".mat-slider-ticks")).click();
     await element(by.xpath("//button[.='Hinzufügen']")).click();
   });
   it("should switch to NPCs Tab and create some NPCs", async () => {
     await element(by.xpath("//a[.='NPCs']")).click();
     //Count Doku
     await element(by.css("[placeholder='Name']")).sendKeys('Count Doku');
-    await element(by.xpath("//mat-list-option[1]/div[@class='mat-list-item-content mat-list-item-content-reverse']")).click();
-    await element(by.xpath("//mat-list-option[2]/div[@class='mat-list-item-content mat-list-item-content-reverse']")).click();
     await element(by.css("textarea")).sendKeys("Ich mag dich ned!")
     await element(by.xpath("//button[.='Hinzufügen']")).click();
     //Obi Wan
     await element(by.css("[placeholder='Name']")).sendKeys('Obi Wan');
-    await element(by.xpath("//mat-list-option[1]/div[@class='mat-list-item-content mat-list-item-content-reverse']")).click();
-    await element(by.xpath("//mat-list-option[2]/div[@class='mat-list-item-content mat-list-item-content-reverse']")).click();
     await element(by.css("textarea")).sendKeys("Hello There")
     await element(by.xpath("//button[.='Hinzufügen']")).click();
   });
-  it("should switch to NPCs Tab and create some NPCs", async () => {
+  it("should switch to Rooms and Create a Room", async () => {
     await element(by.xpath("//a[.='Räume']")).click();
     //Geonosis
     await element(by.css("[placeholder='Name']")).sendKeys('Geonosis');
@@ -263,14 +263,13 @@ describe('Player Join MUD Case', () => {
 
   it('should Login the User and redirect him to the Dashboard', async () => {
     await page.navigateTo();
-    browser.sleep(50000);
     await element(by.name('email')).sendKeys('support@bm-games.net');
     await element(by.name('password')).sendKeys('zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38zMsD!A@jHXr&PbcSmgF8LFqL6fttx74Rp4EKrY38');
     await element(by.buttonText('Log In')).click();
   });
 
   it('should display the Dashboard', async () => {
-    await expect(page.getTitleText()).toContain('BM-MUD: Dashboard');
+    await expect(page.getTitleText()).toContain('Dashboard');
   });
   it('should search his created game', async () => {
     await element(by.css("[placeholder='Suche nach verfügbaren Spielen']")).click;
@@ -280,7 +279,7 @@ describe('Player Join MUD Case', () => {
     await element(by.xpath("//span[contains(.,'Beitreten')]")).click();
   });
   it('should show the Avatar Page from the Game', async () => {
-    await expect(element(by.xpath("//span[.='Willkommen in "+name+"']")).getText()).toEqual("Willkommen in "+name);
+    await expect(element(by.xpath("//span[.='Wähle deinen Avatar für "+name+"']")).getText()).toEqual("Wähle deinen Avatar für "+name)
   });
   it('should create a Avatar', async () => {
     await element(by.xpath("//button[@class='mat-focus-indicator mat-raised-button mat-button-base mat-primary']")).click();
@@ -303,6 +302,11 @@ describe('Player Join MUD Case', () => {
     await browser.actions().sendKeys('look').sendKeys(protractor.Key.ENTER).perform();
     await browser.sleep(500)
     await expect(element(by.xpath("//span[contains(.,'Du bist in Geonosis: \"Staubig hier!\"')]")).getText()).toEqual('Du bist in Geonosis: "Staubig hier!"');
+  });
+  it('should go back to the Dashboard', async () => {
+    await element(by.xpath("//mat-icon[.='arrow_back']")).click();
+    await element(by.xpath("//mat-icon[.='arrow_back']")).click();
+    await expect(page.getTitleText()).toContain('Dashboard');
   });
 });
 

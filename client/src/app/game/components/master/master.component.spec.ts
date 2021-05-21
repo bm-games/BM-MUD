@@ -6,8 +6,9 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {CONFIG} from "../../../client-config";
 import {LOCAL_CONFIG} from "../../../app.module";
 import {CommandService} from "../../services/command.service";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-describe('GameComponent', () => {
+describe('MasterComponent', () => {
   let component: MasterComponent;
   let fixture: ComponentFixture<MasterComponent>;
 
@@ -16,6 +17,7 @@ describe('GameComponent', () => {
       declarations: [ MasterComponent ],
       imports: [
         RouterTestingModule,
+        HttpClientTestingModule,
         MatDialogModule
       ],
       providers: [

@@ -7,7 +7,7 @@ import {CONFIG} from "../../../client-config";
 import {LOCAL_CONFIG} from "../../../app.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-xdescribe('OverviewComponent', () => {
+describe('OverviewComponent', () => {
   let component: OverviewComponent;
   let fixture: ComponentFixture<OverviewComponent>;
 
@@ -32,7 +32,7 @@ xdescribe('OverviewComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

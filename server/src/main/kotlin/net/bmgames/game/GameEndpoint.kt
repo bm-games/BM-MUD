@@ -269,15 +269,27 @@ fun Route.installGameEndpoint(
     }
 }
 
+/**
+ * DTO for a join request
+ * */
 @Location("/join/{gameName}")
 data class RequestJoin(val gameName: String)
 
+/**
+ * DTO for submitting an avatar
+ * */
 @Location("/create/{gameName}")
 data class CreatePlayer(val gameName: String)
 
+/**
+ * DTO for deleting a game
+ * */
 @Location("/delete/{gameName}")
 data class DeleteGame(val gameName: String)
 
+/**
+ * DTO getting game details
+ * */
 @Location("/detail/{gameName}")
 data class GetDetails(val gameName: String)
 

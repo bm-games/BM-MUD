@@ -73,14 +73,27 @@ fun Route.installAuthEndpoint(authenticator: Authenticator) {
     }
 }
 
+
+/**
+ * DTO for logging in
+ * */
 @Serializable
 private data class Login(val email: String, val password: String)
 
+/**
+ * DTO for registration
+ * */
 @Serializable
 private data class Register(val email: String, val username: String, val password: String)
 
+/**
+ * DTO for resetting a password
+ * */
 @Serializable
 private data class ResetPassword(val email: String)
 
+/**
+ * DTO for changing a password
+ * */
 @Serializable
 private data class ChangePassword(val oldPassword: String, val newPassword: String)

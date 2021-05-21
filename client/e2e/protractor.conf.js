@@ -13,11 +13,16 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    browserName: 'chrome'
+    browserName: 'chrome',
+    chromeOptions: {
+      // args: ['--headless'],
+      // binary: 'C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe'
+    }
   },
   directConnect: true,
   SELENIUM_PROMISE_MANAGER: false,
-  baseUrl: 'http://localhost:4200/ ',
+  // baseUrl: 'http://localhost:4200/ ',
+  baseUrl: 'http://play.bm-games.net/ ',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,

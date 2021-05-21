@@ -5,7 +5,7 @@ import {CONFIG} from "../../../client-config";
 import {LOCAL_CONFIG} from "../../../app.module";
 import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MatDialogModule} from "@angular/material/dialog";
 
 describe('ConfigurationComponent', () => {
   let component: ConfigurationComponent;
