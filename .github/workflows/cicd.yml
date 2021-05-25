@@ -40,6 +40,9 @@ jobs:
     - name: Run Tests
       run: npm run test:prod
           
+    - name: Setup Protractor
+      run: npm run webdriver
+      
     - name: Run E2E Tests
       run: npm run e2e:prod
               
